@@ -1,6 +1,0 @@
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.UnitTest\bin\Debug\MikeSheWrapper.UnitTest.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.UnitTest\bin\Debug\MikeSheWrapper.UnitTest.pdb
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.UnitTest\bin\Debug\nunit.framework.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.UnitTest\obj\Debug\ResolveAssemblyReference.cache
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.UnitTest\obj\Debug\MikeSheWrapper.UnitTest.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.UnitTest\obj\Debug\MikeSheWrapper.UnitTest.pdb
