@@ -1,9 +1,0 @@
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\obj\Debug\ResolveAssemblyReference.cache
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Debug\MikeSheWrapper.Interfaces.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Debug\MikeSheWrapper.Interfaces.pdb
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Debug\MathNet.Iridium.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Debug\MikeSheWrapper.Tools.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Debug\MathNet.Iridium.xml
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Debug\MikeSheWrapper.Tools.pdb
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\obj\Debug\MikeSheWrapper.Interfaces.dll
-F:\Jacob\MikeSheWrapper\MikeSheWrapper.Interfaces\obj\Debug\MikeSheWrapper.Interfaces.pdb
