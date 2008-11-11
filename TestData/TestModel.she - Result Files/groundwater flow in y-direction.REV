@@ -1,0 +1,66 @@
+// Created     : 2008-10-17 10:39:25
+// DLL id      : D:\Programmer\Fælles filer\DHI\MikeZero\pfs2004.dll
+// PFS version : Sep 25 2008 20:27:52
+
+[MIKE_ZERO_RESULT_VIEWER]
+   [FORMAT_VERSION]
+      Verno = 100
+   EndSect  // FORMAT_VERSION
+
+   [DATA_AREA]
+      x0 = 0
+      y0 = 0
+      x1 = 50000
+      y1 = 50000
+      UTMZone = 'NON-UTM'
+   EndSect  // DATA_AREA
+
+   [TIME_DEFINITION]
+      TimeStep = 86400
+      TimeUnit = 1400
+      CurrentTimeStep = 0
+   EndSect  // TIME_DEFINITION
+
+   [RESULT_FILES]
+      DataFileName = 6, |.\TestModel_3DSZflow.dfs3|
+      AxisUnit = 0
+      [PROPERTIES]
+         LayerNo = 0
+         ItemNo = 2
+         ShadingType = 1
+         ColorMergingType = 2
+         TransparencyIntensityVal = 0.5
+         [MIKEZero_Palette_Definition]
+            Palette_Title = 'groundwater flow in y-direction [m^3/s]'
+            Palette_Type = 1
+            Locked = false
+            Topmost_Value = true
+            Nice_Value = true
+            RGB_Delete_Color = 255, 255, 255
+            RGB_Color_Value = 128, 0, 128, -1.70937e-021
+            RGB_Color_Value = 85, 0, 171, -1.50937e-021
+            RGB_Color_Value = 42, 0, 213, -1.30937e-021
+            RGB_Color_Value = 0, 0, 255, -1.10937e-021
+            RGB_Color_Value = 0, 56, 225, -9.09366e-022
+            RGB_Color_Value = 0, 111, 195, -7.09366e-022
+            RGB_Color_Value = 0, 166, 166, -5.09366e-022
+            RGB_Color_Value = 0, 196, 110, -3.09366e-022
+            RGB_Color_Value = 0, 196, 110, -1.09366e-022
+            RGB_Color_Value = 0, 255, 0, 9.06342e-023
+            RGB_Color_Value = 85, 255, 0, 2.90634e-022
+            RGB_Color_Value = 85, 255, 0, 4.90634e-022
+            RGB_Color_Value = 255, 255, 0, 6.90634e-022
+            RGB_Color_Value = 255, 170, 0, 8.90634e-022
+            RGB_Color_Value = 255, 85, 0, 1.09063e-021
+            RGB_Color_Value = 255, 0, 0, 1.29063e-021
+         EndSect  // MIKEZero_Palette_Definition
+
+         VectorDisplay = false
+         VectorDraw = false
+         OverlayDrawingOrder = 0, 2, 1
+      EndSect  // PROPERTIES
+
+   EndSect  // RESULT_FILES
+
+EndSect  // MIKE_ZERO_RESULT_VIEWER
+

@@ -1,0 +1,246 @@
+ ERRORS AND MESSAGES FROM MIKE SHE Pre-processor. Input file : F:\Jacob\GEUS.MikeShe\TestData\TestModel.she
+ ==========================================================================================================
+ 
+Print Log file : F:\Jacob\GEUS.MikeShe\TestData\TestModel.she - Result Files\TestModel_PP_Print.log
+Fif file : F:\Jacob\GEUS.MikeShe\TestData\TestModel.she - Result Files\TestModel.Fif
+ 
+Processing...
+SimSpec and storing
+Opening fif file
+Grid Output
+Catchment Grid
+Frame Data
+Topography
+Precipitation
+potential ET
+Landuse data
+ET/Vegetation
+Irrigation
+Warning: the capacity for well at location 50.00000,50.00000 is set to 0.
+         This source will not be able to deliver water.
+Warning: the capacity for well at location 100.0000,100.0000 is set to 0.
+         This source will not be able to deliver water.
+Warning: the capacity for well at location 150.0000,150.0000 is set to 0.
+         This source will not be able to deliver water.
+Overland Data
+River Data
+MIKE 11 loading...
+Transferring MIKE 11 data...
+Processing MIKE 11 setup...
+Inundation areas
+SZ Data
+Geo Layer 1 : Levels
+Geo Layer 1 : Hydr.data
+Processing boundary data
+Initial potential heads 1
+SZ Drainage
+- processing ...
+- making reference maps ...
+Irrigation
+Warning: the command area code 1 in point (1,2) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,3) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,4) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,5) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,6) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,7) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,8) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,9) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,10) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,11) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,12) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,13) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,14) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,15) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,16) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,17) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,18) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,19) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,20) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,21) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,22) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,23) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,24) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,25) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,26) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,27) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,28) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,29) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,30) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,31) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,32) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,33) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,34) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,35) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,36) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,37) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,38) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,39) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,40) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,41) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,42) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,43) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,44) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,45) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,46) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,47) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,48) is outside the model area and will be ignored
+Warning: the command area code 1 in point (1,49) is outside the model area and will be ignored
+Warning: the command area code 1 in point (2,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (2,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (3,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (3,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (4,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (4,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (5,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (5,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (6,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (6,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (7,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (7,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (8,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (8,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (9,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (9,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (10,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (10,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (11,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (11,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (12,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (12,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (13,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (13,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (14,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (14,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (15,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (15,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (16,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (16,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (17,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (17,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (18,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (18,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (19,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (19,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (20,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (20,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (21,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (21,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (22,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (22,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (23,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (23,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (24,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (24,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (25,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (25,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (26,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (26,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (27,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (27,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (28,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (28,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (29,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (29,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (30,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (30,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (31,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (31,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (32,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (32,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (33,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (33,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (34,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (34,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (35,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (35,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (36,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (36,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (37,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (37,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (38,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (38,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (39,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (39,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (40,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (40,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (41,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (41,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (42,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (42,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (43,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (43,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (44,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (44,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (45,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (45,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (46,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (46,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (47,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (47,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (48,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (48,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (49,1) is outside the model area and will be ignored
+Warning: the command area code 1 in point (49,50) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,2) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,3) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,4) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,5) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,6) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,7) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,8) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,9) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,10) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,11) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,12) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,13) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,14) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,15) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,16) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,17) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,18) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,19) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,20) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,21) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,22) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,23) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,24) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,25) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,26) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,27) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,28) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,29) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,30) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,31) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,32) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,33) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,34) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,35) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,36) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,37) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,38) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,39) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,40) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,41) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,42) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,43) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,44) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,45) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,46) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,47) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,48) is outside the model area and will be ignored
+Warning: the command area code 1 in point (50,49) is outside the model area and will be ignored
+UZ data
+Two-layer UZ data
+Storing
+ 
+Writing fif file...
+ 
+- Writing PreProcessed Data tree to pfs file :
+  F:\Jacob\GEUS.MikeShe\TestData\TestModel.she - Result Files\TestModel_PreProcessed.PFS...
+- DFS output of PreProcessed Data...
+  Done.
+ 
+Termination...
+ 
+ 
+Preprocessing succeeded

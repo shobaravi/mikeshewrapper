@@ -1,0 +1,8 @@
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Debug\MikeSheWrapper.InputFiles.UnitTest.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Debug\MikeSheWrapper.InputFiles.UnitTest.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Debug\MikeSheWrapper.InputFiles.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Debug\nunit.framework.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Debug\MikeSheWrapper.InputFiles.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\obj\Debug\ResolveAssemblyReference.cache
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\obj\Debug\MikeSheWrapper.InputFiles.UnitTest.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\obj\Debug\MikeSheWrapper.InputFiles.UnitTest.pdb

@@ -1,0 +1,115 @@
+ ERRORS AND MESSAGES FROM MIKE SHE Water Movement. Input file : F:\Jacob\GEUS.MikeShe\TestData\TestModel.she
+ ===========================================================================================================
+ 
+ 
+09:33:06 : INITIALIZATION PHASE
+===============================
+
+Opening files...
+Print file : F:\Jacob\GEUS.MikeShe\TestData\TestModel.she - Result Files\TestModel_WM_Print.log
+Fif   file : F:\Jacob\GEUS.MikeShe\TestData\TestModel.she - Result Files\TestModel.fif
+ 
+Group:
+Frame Data
+Size and Specifications
+Checks
+Copying to frf file
+Vegetation module initialisation
+Initializing Met. data...
+Memory allocation
+Initializations and reference systems
+Initializing components...
+ET
+Overland
+River
+MIKE 11 loading...
+Processing...
+SZ
+Two-Layer UZ Module
+SZ fif-output
+Irrigation component
+Storing initial conditions...
+done
+ 
+ 
+ 
+09:33:11 : Start of simulation from 2000/01/01,00:00
+====================================================
+
+- further initializations...
+- Two-Layer UZ
+- SZ
+- Overland
+- River
+09:33:11 => 2000/01/01,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 14, avg: 14.0
+09:33:13 => 2000/01/02,11:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 3, avg: 3.6
+09:33:15 => 2000/01/03,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.8
+09:33:17 => 2000/01/04,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.6
+09:33:19 => 2000/01/05,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.5
+09:33:21 => 2000/01/06,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.5
+09:33:23 => 2000/01/06,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
+09:33:25 => 2000/01/07,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
+09:33:27 => 2000/01/07,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.3
+09:33:29 => 2000/01/08,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.3
+09:33:31 => 2000/01/08,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.2
+09:33:33 => 2000/01/09,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.2
+09:33:35 => 2000/01/09,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.1
+09:33:37 => 2000/01/10,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.1
+09:33:39 => 2000/01/10,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.0
+09:33:41 => 2000/01/11,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.0
+09:33:43 => 2000/01/11,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
+09:33:45 => 2000/01/11,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
+09:33:47 => 2000/01/12,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+09:33:49 => 2000/01/12,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+09:33:51 => 2000/01/13,08:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+09:33:53 => 2000/01/13,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+09:33:55 => 2000/01/14,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+09:33:57 => 2000/01/14,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+09:33:59 => 2000/01/15,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+09:34:01 => 2000/01/15,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+09:34:03 => 2000/01/16,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+09:34:05 => 2000/01/16,14:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+09:34:07 => 2000/01/17,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+09:34:09 => 2000/01/17,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+09:34:11 => 2000/01/18,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+09:34:13 => 2000/01/18,11:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+09:34:15 => 2000/01/18,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:17 => 2000/01/19,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:19 => 2000/01/19,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:21 => 2000/01/20,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:23 => 2000/01/20,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:25 => 2000/01/21,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:27 => 2000/01/21,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:29 => 2000/01/22,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+09:34:31 => 2000/01/22,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:33 => 2000/01/23,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:35 => 2000/01/23,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:37 => 2000/01/23,23:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:39 => 2000/01/24,11:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:41 => 2000/01/24,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:43 => 2000/01/25,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:45 => 2000/01/25,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:47 => 2000/01/26,08:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:49 => 2000/01/26,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:51 => 2000/01/27,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:53 => 2000/01/27,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:55 => 2000/01/28,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+09:34:57 => 2000/01/28,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:34:59 => 2000/01/29,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:01 => 2000/01/29,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:03 => 2000/01/30,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:05 => 2000/01/30,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:07 => 2000/01/31,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:09 => 2000/01/31,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:11 => 2000/01/31,23:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+09:35:11 => 2000/02/01,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+ 
+Termination...
+
+ WARNING: Exchange flows FROM RIVER TO SZ reduced to avoid drying river.
+          No. of time steps:      744
+          Total outflow before reduction:   270.8832     m3
+          Total reduced outflow         :   135.0454     m3 (   49.85374     %)
+
+          See warnings in the print log file.
+09:35:11 : WM Simulation succeeded

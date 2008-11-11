@@ -1,0 +1,10 @@
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\MikeSheWrapper.Tools.UnitTest.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\MikeSheWrapper.Tools.UnitTest.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\MikeSheWrapper.Tools.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\nunit.framework.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\MathNet.Iridium.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\MathNet.Iridium.xml
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\bin\Debug\MikeSheWrapper.Tools.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\obj\Debug\ResolveAssemblyReference.cache
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\obj\Debug\MikeSheWrapper.Tools.UnitTest.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.Tools.UnitTest\obj\Debug\MikeSheWrapper.Tools.UnitTest.pdb
