@@ -1,0 +1,15 @@
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\obj\Debug\ResolveAssemblyReference.cache
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\obj\Debug\MikeSheWrapper.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\obj\Debug\MikeSheWrapper.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MathNet.Iridium.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.DFS.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.Interfaces.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.Tools.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.Interfaces.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.DFS.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.Tools.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MathNet.Iridium.xml
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.InputFiles.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper\bin\Debug\MikeSheWrapper.InputFiles.pdb

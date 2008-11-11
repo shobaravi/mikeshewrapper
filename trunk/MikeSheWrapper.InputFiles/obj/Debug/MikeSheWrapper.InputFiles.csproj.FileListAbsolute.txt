@@ -1,0 +1,5 @@
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles\obj\Debug\ResolveAssemblyReference.cache
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles\bin\Debug\MikeSheWrapper.InputFiles.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles\bin\Debug\MikeSheWrapper.InputFiles.pdb
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles\obj\Debug\MikeSheWrapper.InputFiles.dll
+F:\Jacob\MikeSheWrapper\MikeSheWrapper.InputFiles\obj\Debug\MikeSheWrapper.InputFiles.pdb
