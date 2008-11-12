@@ -1,0 +1,5 @@
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Release\MikeSheWrapper.Interfaces.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Interfaces\bin\Release\MikeSheWrapper.Interfaces.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Interfaces\obj\Release\ResolveAssemblyReference.cache
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Interfaces\obj\Release\MikeSheWrapper.Interfaces.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Interfaces\obj\Release\MikeSheWrapper.Interfaces.pdb
