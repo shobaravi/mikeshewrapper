@@ -1,0 +1,15 @@
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MathNet.Iridium.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.DFS.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.InputFiles.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.Interfaces.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.Tools.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.Interfaces.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.DFS.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.Tools.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MikeSheWrapper.InputFiles.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\bin\Release\MathNet.Iridium.xml
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\obj\Release\ResolveAssemblyReference.cache
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\obj\Release\MikeSheWrapper.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper\obj\Release\MikeSheWrapper.pdb

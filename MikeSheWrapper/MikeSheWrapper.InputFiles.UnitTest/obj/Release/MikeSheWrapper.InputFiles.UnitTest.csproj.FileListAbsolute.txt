@@ -1,0 +1,8 @@
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Release\MikeSheWrapper.InputFiles.UnitTest.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Release\MikeSheWrapper.InputFiles.UnitTest.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Release\MikeSheWrapper.InputFiles.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Release\nunit.framework.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\bin\Release\MikeSheWrapper.InputFiles.pdb
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\obj\Release\ResolveAssemblyReference.cache
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\obj\Release\MikeSheWrapper.InputFiles.UnitTest.dll
+D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.InputFiles.UnitTest\obj\Release\MikeSheWrapper.InputFiles.UnitTest.pdb
