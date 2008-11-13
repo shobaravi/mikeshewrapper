@@ -1,9 +1,7 @@
 ﻿using System;
-using DHI.Generic.LinearAlgebra;
 using System.Collections;
 using System.Data;
 using System.IO;
-using System.Windows.Forms;
 
 using MikeSheWrapper;
 

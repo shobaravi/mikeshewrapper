@@ -11,12 +11,12 @@ namespace MikeSheWrapper.DFS
   {
     private int _currentTimeStep = -1;
     private int _currentItem = -1;
+
     protected float[] dfsdata; //Buffer used to fill data into
-    private int _numberOfTimeSteps;
+    protected int _numberOfTimeSteps;
     protected int _numberOfLayers;
     protected int _numberOfColumns;
     protected int _numberOfRows;
-
     protected double _xOrigin;
     protected double _yOrigin;
 
@@ -65,7 +65,7 @@ namespace MikeSheWrapper.DFS
       _numberOfTimeSteps = TimeSteps.Length;
 
       //Prepares an array of floats to recieve the data
-      dfsdata = new float[base.DynamicItemInfos[0].GetTotalNumberOfPoints()];
+      dfsdata = new float[DynamicItemInfos[0].GetTotalNumberOfPoints()];
     }
 
     /// <summary>
@@ -146,11 +146,5 @@ namespace MikeSheWrapper.DFS
         return _numberOfTimeSteps;
       }
     }
-
-
-
-
-
-
   }
 }

@@ -29,9 +29,9 @@ namespace MikeSheWrapper
       _deleteValue = _dataFile.DeleteValue;
       _gridSize = _dataFile.DynamicItemInfos[0].DX;
 
-      _numberOfRows = _dataFile.DynamicItemInfos[0].YCoords.Length;
-      _numberOfColumns = _dataFile.DynamicItemInfos[0].XCoords.Length;
-      _numberOfLayers = _dataFile.DynamicItemInfos[0].ZCoords.Length;
+      _numberOfRows = _dataFile.NumberOfRows; ;
+      _numberOfColumns = _dataFile.NumberOfColumns;
+      _numberOfLayers = _dataFile.NumberOfLayers;
 
       //For MikeShe the origin is lower left whereas it is center of lower left for DFS
       _xOrigin = _dataFile.Longitude;
