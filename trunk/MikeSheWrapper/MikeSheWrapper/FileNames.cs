@@ -39,6 +39,7 @@ namespace MikeSheWrapper
 		{
 			CheckFiles(MSheFileName);
 			_fileNameWithPath = MSheFileName;
+      _input = new SheFile(MSheFileName);
       Initialize();
 		}
 
