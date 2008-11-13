@@ -9,7 +9,7 @@ namespace MikeSheWrapper.Interfaces
 {
   public interface IXYZTDataSet
   {
-    Matrix3d TimeData(int TimeStep);
-    Matrix3d TimeData(DateTime TimeStep);
+    IMatrix3d TimeData(int TimeStep);
+    IMatrix3d TimeData(DateTime TimeStep);
   }
 }

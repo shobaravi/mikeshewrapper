@@ -9,6 +9,6 @@ namespace MikeSheWrapper.Interfaces
 {
   public interface IXYZDataSet
   {
-    Matrix3d Data { get; }
+    IMatrix3d Data { get; }
   }
 }
