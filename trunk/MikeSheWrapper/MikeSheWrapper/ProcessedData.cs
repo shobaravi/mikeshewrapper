@@ -12,7 +12,7 @@ namespace MikeSheWrapper
 {
   public class ProcessedData
   {
-    private DFS3 _PreProcessed_3DSZ;
+    internal DFS3 _PreProcessed_3DSZ;
     private DFS2 _prePro2D;
     private DataSetsFromDFS3 _initialHeads;
     private DataSetsFromDFS3 _boundaryConditionsForTheSaturatedZone;
@@ -47,48 +47,6 @@ namespace MikeSheWrapper
 
     #endregion
 
-    /// <summary>
-    /// Returns the indeces for a set of coordinates.
-    /// Necessary to sent the output as par
-    /// Returns true if the grid point is within the active domain.
-    /// Note that Column and Row may have positive values and still the point is outside of the active domain
-    /// </summary>
-    /// <param name="X"></param>
-    /// <param name="Y"></param>
-    /// <param name="Column"></param>
-    /// <param name="Row"></param>
-    public bool GetIndex(double X, double Y, out int Column, out int Row)
-    {
-      //For MikeShe the origin is lower left whereas it is center of lower left for DFS
-      Column = _prePro2D.GetColumnIndex(X - _gridSize/2);
-      Row = _prePro2D.GetRowIndex(Y - _gridSize / 2);
-      if (Column < 0 | Row < 0)
-        return false;
-      return 1 == _modelDomainAndGrid.Data[Row, Column];
-    }
-
-    /// <summary>
-    /// Returns the layer number. Lower layer is 0. 
-    /// If -1 is returned Z is above the surface and if -2 is returned Z is below the bottom.
-    /// </summary>
-    /// <param name="Column"></param>
-    /// <param name="Row"></param>
-    /// <param name="Z"></param>
-    /// <returns></returns>
-    public int GetLayer(int Column, int Row, double Z)
-    {
-      if (Z > _surfaceTopography.Data[Row, Column])
-        return -1;
-      else if (Z < _lowerLevelOfComputationalLayers.Data[Row, Column, 0])
-        return -2;
-      else
-      {
-        int i = 0;
-        while (Z < _upperLevelOfComputationalLayers.Data[Row, Column, i])
-          i++;
-        return i - 1;
-      }
-    }
     
     
     private void Initialize(FileNames files)
