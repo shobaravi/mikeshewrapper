@@ -12,6 +12,8 @@ namespace MikeSheWrapper.DFS
     private DFS2 _dataFile;
     private int _itemNumber;
 
+    private Dictionary<int, Matrix> _bufferedData = new Dictionary<int, Matrix>(); 
+
     public DataSetsFromDFS2(DFS2 dfsFile, int ItemNumber)
     {
       _dataFile = dfsFile;
@@ -23,12 +25,12 @@ namespace MikeSheWrapper.DFS
 
     public Matrix Data
     {
-      get { return _dataFile.GetData(0, _itemNumber); }
+      get { return TimeData(0); }
     }
 
     public double GetData(double UTMX, double UTMY)
     {
-      return _dataFile.GetData(UTMX, UTMY, 0, _itemNumber);
+      return TimeData(0)[_dataFile.GetRowIndex(UTMY), _dataFile.GetColumnIndex(UTMX)];
     }
 
     #endregion
@@ -37,7 +39,9 @@ namespace MikeSheWrapper.DFS
 
     public Matrix TimeData(int TimeStep)
     {
-      return _dataFile.GetData(TimeStep, _itemNumber); 
+      if (!_bufferedData.ContainsKey(TimeStep))
+        _bufferedData.Add(TimeStep, _dataFile.GetData(TimeStep, _itemNumber));
+      return _bufferedData[TimeStep];
     }
 
     public Matrix TimeData(DateTime TimeStep)
