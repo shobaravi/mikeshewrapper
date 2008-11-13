@@ -13,19 +13,23 @@ namespace MikeSheWrapper.DFS
     private DFS3 _dataFile;
     private int _itemNumber;
 
+    //Buffer to remember the data that has already been read
+    private Dictionary<int, Matrix3d> _bufferedData = new Dictionary<int,Matrix3d>();
+
     public DataSetsFromDFS3(DFS3 dfsFile, int ItemNumber)
     {
       _dataFile = dfsFile;
       _itemNumber = ItemNumber;
     }
 
-
-
     #region IXYZDataSet Members
 
-    public Matrix3d Data
+    public IMatrix3d Data
     {
-      get { return _dataFile.GetData(0, _itemNumber); }
+      get
+      {
+        return TimeData(0);
+      }
     }
 
     #endregion
@@ -33,12 +37,14 @@ namespace MikeSheWrapper.DFS
 
     #region IXYZTDataSet Members
 
-    public Matrix3d TimeData(int TimeStep)
+    public IMatrix3d TimeData(int TimeStep)
     {
-      return _dataFile.GetData(TimeStep, _itemNumber); 
+      if (!_bufferedData.ContainsKey(TimeStep))
+        _bufferedData.Add(TimeStep, _dataFile.GetData(TimeStep, _itemNumber));
+      return _bufferedData[TimeStep];
     }
 
-    public Matrix3d TimeData(DateTime TimeStep)
+    public IMatrix3d TimeData(DateTime TimeStep)
     {
       throw new NotImplementedException();
     }
