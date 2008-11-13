@@ -7,7 +7,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace MikeSheWrapper.Tools
 {
-  public class Matrix3d
+  public class Matrix3d : MikeSheWrapper.Tools.IMatrix3d
   {
     private Matrix[] _data;
 
