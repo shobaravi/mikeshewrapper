@@ -41,6 +41,15 @@ namespace MikeSheWrapper.DFS
       return _data;
     }
 
+    /// <summary>
+    /// Gets the data at coordinate set.
+    /// Can be faster to use because it does not fill data into the matrix.
+    /// </summary>
+    /// <param name="UTMX"></param>
+    /// <param name="UTMY"></param>
+    /// <param name="TimeStep"></param>
+    /// <param name="Item"></param>
+    /// <returns></returns>
     public double GetData(double UTMX, double UTMY, int TimeStep, int Item)
     {
       readNextItemTimeStep(TimeStep, Item);

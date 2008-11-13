@@ -55,8 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileNames.cs" />
-    <Compile Include="GridInfo.cs" />
+    <Compile Include="MikeSheGridInfo.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="PhreaticPotential.cs" />
+    <Compile Include="PhreaticPotentialData.cs" />
     <Compile Include="ProcessedData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results.cs" />

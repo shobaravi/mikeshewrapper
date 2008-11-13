@@ -31,28 +31,33 @@ namespace MikeSheWrapper
 
     private TopOfCell _upperLevelOfComputationalLayers;
 
-    private double _gridSize;
 
     #region Constructors
 
     public ProcessedData(string SheFileName)
     {
-      Initialize(new FileNames(SheFileName));
+      FileNames files = new FileNames(SheFileName);
+      Initialize(files.PreProcessedSZ3D, files.PreProcessed2D);
+    }
+
+    public ProcessedData(string PreProcessed3dSzFile, string PreProcessed2dSzFile)
+    {
+      Initialize(PreProcessed3dSzFile, PreProcessed2dSzFile);
     }
 
     internal ProcessedData(FileNames files)
     {
-      Initialize(files);
+      Initialize(files.PreProcessedSZ3D, files.PreProcessed2D);
     }
 
     #endregion
 
-    
-    
-    private void Initialize(FileNames files)
+
+
+    private void Initialize(string PreProcessed3dSzFile, string PreProcessed2dSzFile)
     {
       //Open File with 3D data
-      _PreProcessed_3DSZ = new DFS3(files.PreProcessedSZ3D);
+      _PreProcessed_3DSZ = new DFS3(PreProcessed3dSzFile);
 
       //Generate 3D properties
       for (int i = 0; i < _PreProcessed_3DSZ.DynamicItemInfos.Length; i++)
@@ -92,7 +97,7 @@ namespace MikeSheWrapper
       }
 
       //Open File with 2D data
-      _prePro2D = new DFS2(files.PreProcessed2D);
+      _prePro2D = new DFS2(PreProcessed2dSzFile);
 
       //Generate 2D properties by looping the items
       for (int i = 0; i < _prePro2D.DynamicItemInfos.Length; i++)
@@ -115,7 +120,6 @@ namespace MikeSheWrapper
             break;
         }
       }
-      _gridSize = _prePro2D.DynamicItemInfos[0].DX;
     }
 
     public IXYDataSet ModelDomainAndGrid

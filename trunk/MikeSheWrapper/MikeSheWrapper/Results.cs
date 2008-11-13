@@ -20,6 +20,12 @@ namespace MikeSheWrapper
     private DataSetsFromDFS3 _sZDrainageFlow;
     private PhreaticPotential _phreaticHead;
 
+    private double _deleteValue;
+
+    public double DeleteValue
+    {
+      get { return _deleteValue; }
+    }
 
     private ProcessedData _processed;
 
@@ -80,6 +86,7 @@ namespace MikeSheWrapper
     private void Initialize(FileNames fileNames)
     {
       DFS3 SZ3D = new DFS3(fileNames.Get3DSZFileName);
+      _deleteValue = SZ3D.DeleteValue;
       for (int i = 0; i < SZ3D.DynamicItemInfos.Length; i++)
       {
         switch (SZ3D.DynamicItemInfos[i].Name)

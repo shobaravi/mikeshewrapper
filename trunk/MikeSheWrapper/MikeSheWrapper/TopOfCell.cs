@@ -30,7 +30,7 @@ namespace MikeSheWrapper
 
     #region IXYZDataSet Members
 
-    public Matrix3d Data
+    public IMatrix3d Data
     {
       get { return _data; }
     }
