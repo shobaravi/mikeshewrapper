@@ -72,11 +72,11 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="LSFileName"></param>
     public void ReadFromLSText(string LSFileName)
     {
-      using (StreamReader SR = new StreamReader(FileName))
+      using (StreamReader SR = new StreamReader(LSFileName))
       {
         //Reads the HeadLine
         string line = SR.ReadLine();
-
+        string[] s;
         ObservationWell OW;
 
         while ((line = SR.ReadLine()) != null)
@@ -106,11 +106,11 @@ namespace MikeSheWrapper.InputDataPreparation
                 }
               }
               //Now add the observation
-              OW.Observations.Add(new TimeSeriesEntry(DateTime.Parse(s[5], double.Parse(s[4]))));
+              OW.Observations.Add(new TimeSeriesEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
             }
             catch (FormatException e)
             {
-              throw new Exception("Error reading input-file: " + FileName, e);
+              throw new Exception("Error reading input-file: " + LSFileName, e);
             }
           }
         }
