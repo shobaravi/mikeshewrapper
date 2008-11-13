@@ -18,20 +18,33 @@ namespace MikeSheWrapper
     private DataSetsFromDFS3 _groundWaterExtraction;
     private DataSetsFromDFS3 _sZExchangeFlowWithRiver;
     private DataSetsFromDFS3 _sZDrainageFlow;
+    private PhreaticPotential _phreaticHead;
 
-    public Results(FileNames fileNames)
+
+    private ProcessedData _processed;
+
+
+    public Results(FileNames fileNames, ProcessedData Processed)
     {
+      _processed = Processed;
       Initialize(fileNames);
     }
 
     public Results(string SheFileName)
     {
-      Initialize(new FileNames(SheFileName));
+      FileNames fn = new FileNames(SheFileName);
+      _processed = new ProcessedData(fn);
+      Initialize(fn);
     }
 
     public IXYZTDataSet Heads
     {
       get { return _heads; }
+    }
+
+    public IXYZTDataSet PhreaticHead
+    {
+      get { return _phreaticHead; }
     }
 
     public IXYZTDataSet Xflow
@@ -73,6 +86,8 @@ namespace MikeSheWrapper
         {
           case "head elevation in saturated zone":
             _heads = new DataSetsFromDFS3(SZ3D, i + 1);
+            //Also create the phreatic heads;
+            _phreaticHead = new PhreaticPotential(_heads, _processed.LowerLevelOfComputationalLayers, _processed.ThicknessOfComputationalLayers);
             break;
           default:
             break;
