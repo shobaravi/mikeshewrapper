@@ -7,6 +7,8 @@ using System.Text;
 
 using System.Threading;
 
+using MathNet.Numerics.LinearAlgebra;
+
 using MikeSheWrapper.Tools;
 using DHI.TimeSeries;
 
@@ -52,11 +54,33 @@ namespace MikeSheWrapper.InputDataPreparation
      Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
       {
         //Gets the index and sets the column and row
-        if (MikeShe.Processed.GetIndex(W.X, W.Y, out W._column, out W._row))
+        if (MikeShe.GridInfo.GetIndex(W.X, W.Y, out W._column, out W._row))
           _workingList.Add(W);
       });
     }
 
+    public void StatisticsFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
+    {
+      Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
+      {
+        foreach (TimeSeriesEntry TSE in W.Observations)
+        {
+          int _dryCells;
+          int _boundaryCells;
+          Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[W.Layer];
+
+          double _simulatedValueCell = M[W.Row, W.Column];
+          double _simulatedValueInterpolated = GridInfo.Interpolate(W.X, W.Y, M, out _dryCells, out _boundaryCells);
+          if (_simulatedValueInterpolated != MSheResults.DeleteValue)
+          {
+            double _mE = TSE.Value - _simulatedValueInterpolated;
+            double _rMSE = Math.Pow(_mE, 2.0);
+          }
+        }
+      }
+      );
+
+    }
 
 
 
