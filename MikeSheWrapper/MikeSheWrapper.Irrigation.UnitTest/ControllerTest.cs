@@ -31,7 +31,7 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       x.Serialize(new System.IO.FileStream(@"F:\jacob\out.xml", System.IO.FileMode.Create), Cf);
     }
 
-
+    [Ignore]
     [Test]
     public void Test1()
     {

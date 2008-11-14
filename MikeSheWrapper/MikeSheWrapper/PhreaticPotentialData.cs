@@ -20,6 +20,8 @@ namespace MikeSheWrapper
 
     private double _phreaticFactor;
     private double _deletevalue;
+    private static object _lock = new object();
+
 
     internal PhreaticPotentialData(IMatrix3d Potential, IMatrix3d BottomOfCell, IMatrix3d ThicknessOfCell, double PhreaticFactor, double DeleteValue)
     {
@@ -44,11 +46,14 @@ namespace MikeSheWrapper
       get
       {
         Matrix M;
-        if (!_bufferedData.TryGetValue(Layer, out M))
+        lock (_lock)
         {
-          M = new Matrix(_bottomOfCell[0].ColumnCount, _bottomOfCell[0].RowCount);
-          _bufferedData.Add(Layer, M);
-          SetMatrix(Layer, M);
+          if (!_bufferedData.TryGetValue(Layer, out M))
+          {
+            M = new Matrix(_bottomOfCell[0].RowCount,_bottomOfCell[0].ColumnCount);
+            _bufferedData.Add(Layer, M);
+            SetMatrix(Layer, M);
+          }
         }
         return M;
       }

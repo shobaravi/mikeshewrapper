@@ -60,7 +60,7 @@ namespace MikeSheWrapper.Irrigation
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.WellXposSIWS = _wells[i].X;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.WellYposSIWS = _wells[i].Y;
 
-        double Topo = _she.Processed.SurfaceTopography.GetData(_wells[i].X, _wells[i].Y);
+        double Topo = _she.GridInfo.SurfaceTopography.GetData(_wells[i].X, _wells[i].Y);
 
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.ScreenTopDepthSIWS  = Math.Max(2,Topo -_wells[i].ScreenTop);
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.ScreenBottomDepthSIWS = Math.Max(3,Topo - _wells[i].ScreenBottom);

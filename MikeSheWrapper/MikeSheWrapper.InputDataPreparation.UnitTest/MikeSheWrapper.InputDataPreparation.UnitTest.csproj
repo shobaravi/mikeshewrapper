@@ -50,13 +50,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="HeadObservationTest.cs" />
+    <Compile Include="ObservationWellTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikeSheWrapper.InputDataPreparation\MikeSheWrapper.InputDataPreparation.csproj">
       <Project>{5554E7E3-C222-448D-841A-BDE3F4EBAB9D}</Project>
       <Name>MikeSheWrapper.InputDataPreparation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
+      <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>
+      <Name>MikeSheWrapper.Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper\MikeSheWrapper.csproj">
       <Project>{B9915DE9-2BFA-4810-8866-CC6FAECB106A}</Project>
