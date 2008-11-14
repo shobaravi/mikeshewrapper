@@ -16,8 +16,18 @@ namespace MikeSheWrapper.InputDataPreparation
 {
   public class HeadObservations
   {
-    private Dictionary<string, ObservationWell> _wells;
-    List<ObservationWell> _workingList = new List<ObservationWell>();
+    private Dictionary<string, ObservationWell> _wells = new Dictionary<string,ObservationWell>();
+    private List<ObservationWell> _workingList = new List<ObservationWell>();
+
+    public Dictionary<string, ObservationWell> Wells
+    {
+      get { return _wells; }
+    }
+
+    public List<ObservationWell> WorkingList
+    {
+      get { return _workingList; }
+    }
 
     public void WriteStatistics()
     {
@@ -49,12 +59,12 @@ namespace MikeSheWrapper.InputDataPreparation
     /// z - coordinate
     /// </summary>
     /// <param name="MikeShe"></param>
-    public void SelectByMikeSheModelArea(Model MikeShe)
+    public void SelectByMikeSheModelArea(MikeSheGridInfo Grid)
     {
      Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
       {
         //Gets the index and sets the column and row
-        if (MikeShe.GridInfo.GetIndex(W.X, W.Y, out W._column, out W._row))
+        if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
           _workingList.Add(W);
       });
     }
@@ -65,83 +75,23 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         foreach (TimeSeriesEntry TSE in W.Observations)
         {
-          int _dryCells;
-          int _boundaryCells;
           Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[W.Layer];
 
-          double _simulatedValueCell = M[W.Row, W.Column];
-          double _simulatedValueInterpolated = GridInfo.Interpolate(W.X, W.Y, M, out _dryCells, out _boundaryCells);
-          if (_simulatedValueInterpolated != MSheResults.DeleteValue)
+          TSE.SimulatedValueCell = M[W.Row, W.Column];
+          //Interpolates in the matrix
+          TSE.SimulatedValueInterpolated  = GridInfo.Interpolate(W.X, W.Y, M, out TSE.DryCells, out TSE.BoundaryCells);
+          if (TSE.SimulatedValueInterpolated != MSheResults.DeleteValue)
           {
-            double _mE = TSE.Value - _simulatedValueInterpolated;
-            double _rMSE = Math.Pow(_mE, 2.0);
+            TSE.ME = TSE.Value - TSE.SimulatedValueInterpolated;
+            TSE.RMSE = Math.Pow(TSE.ME, 2.0);
           }
         }
       }
       );
-
     }
-
-
-
-
 
 
 #region Population Methods
-
-    /// <summary>
-    /// Reads in head observations from txt file with this format.
-    /// "WellID X Y Z Head  Date  Layer". Separated with tabs. Layer is optional
-    /// </summary>
-    /// <param name="LSFileName"></param>
-    public void ReadFromLSText(string LSFileName)
-    {
-      using (StreamReader SR = new StreamReader(LSFileName))
-      {
-        //Reads the HeadLine
-        string line = SR.ReadLine();
-        string[] s;
-        ObservationWell OW;
-
-        while ((line = SR.ReadLine()) != null)
-        {
-          s = line.Split('\t');
-          if (s.Length > 5)
-          {
-            try
-            {
-              //If the well has not already been read in create a new one
-              if (!_wells.TryGetValue(s[0], out OW))
-              {
-                OW = new ObservationWell(s[0]);
-                _wells.Add(OW.ID, OW);
-                OW.X = double.Parse(s[1]);
-                OW.Y = double.Parse(s[2]);
-
-                //Layer is provided directly. Calculate Z
-                if (s.Length > 7 && s[6] != "")
-                {
-                  OW.Layer = int.Parse(s[6]);
-                }
-                //Use the Z-coordinate
-                else
-                {
-                  OW.Z = double.Parse(s[3]);
-                }
-              }
-              //Now add the observation
-              OW.Observations.Add(new TimeSeriesEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
-            }
-            catch (FormatException e)
-            {
-              throw new Exception("Error reading input-file: " + LSFileName, e);
-            }
-          }
-        }
-      }
-    }
-
-
 
     /// <summary>
     /// Reads in observations from a shape file
@@ -160,8 +110,6 @@ namespace MikeSheWrapper.InputDataPreparation
 
       SR.Columns["tiemofmeas"]._dotNetType = typeof(DateTime);
       SR.Columns["tiemofmeas"]._dbfType = ShapeLib.DBFFieldType.FTDate;
-
-      _wells = new Dictionary<string, ObservationWell>();
 
       ObservationWell CurrentWell = new ObservationWell("");
 
