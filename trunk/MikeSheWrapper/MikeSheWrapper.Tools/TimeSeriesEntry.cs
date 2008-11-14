@@ -10,6 +10,38 @@ namespace MikeSheWrapper.Tools
     private DateTime _time;
     private double _value;
 
+    public int BoundaryCells;
+    public int DryCells;
+
+    private double _simulatedValueCell;
+
+    public double SimulatedValueCell
+    {
+      get { return _simulatedValueCell; }
+      set { _simulatedValueCell = value; }
+    }
+    private double _simulatedValueInterpolated;
+
+    public double SimulatedValueInterpolated
+    {
+      get { return _simulatedValueInterpolated; }
+      set { _simulatedValueInterpolated = value; }
+    }
+    private double _mE;
+
+    public double ME
+    {
+      get { return _mE; }
+      set { _mE = value; }
+    }
+    private double _rMSE;
+
+    public double RMSE
+    {
+      get { return _rMSE; }
+      set { _rMSE = value; }
+    }
+
     public TimeSeriesEntry(DateTime Time, double Value)
     {
       _time = Time;
