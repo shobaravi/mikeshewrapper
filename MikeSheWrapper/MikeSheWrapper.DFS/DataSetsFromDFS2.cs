@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using System.Threading;
+
 using MathNet.Numerics.LinearAlgebra;
 using MikeSheWrapper.Interfaces;
 
@@ -11,6 +14,7 @@ namespace MikeSheWrapper.DFS
   {
     private DFS2 _dataFile;
     private int _itemNumber;
+    private static object _lock = new object();
 
     private Dictionary<int, Matrix> _bufferedData = new Dictionary<int, Matrix>(); 
 
@@ -39,8 +43,11 @@ namespace MikeSheWrapper.DFS
 
     public Matrix TimeData(int TimeStep)
     {
-      if (!_bufferedData.ContainsKey(TimeStep))
-        _bufferedData.Add(TimeStep, _dataFile.GetData(TimeStep, _itemNumber));
+      lock (_lock)
+      {
+        if (!_bufferedData.ContainsKey(TimeStep))
+          _bufferedData.Add(TimeStep, _dataFile.GetData(TimeStep, _itemNumber));
+      }
       return _bufferedData[TimeStep];
     }
 
