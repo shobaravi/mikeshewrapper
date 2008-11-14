@@ -52,7 +52,7 @@ namespace MikeSheWrapper
 
     public IMatrix3d TimeData(DateTime TimeStep)
     {
-      throw new NotImplementedException();
+      return TimeData(10);
     }
 
     #endregion

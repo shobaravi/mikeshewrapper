@@ -52,6 +52,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       return Number;
     }
+    private static object _lock = new object();
 
 
     /// <summary>
@@ -61,16 +62,21 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="MikeShe"></param>
     public void SelectByMikeSheModelArea(MikeSheGridInfo Grid)
     {
+
      Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
       {
         //Gets the index and sets the column and row
         if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
-          _workingList.Add(W);
+          lock (_lock)
+          {
+            _workingList.Add(W);
+          }
       });
     }
 
     public void StatisticsFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
     {
+
       Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
       {
         foreach (TimeSeriesEntry TSE in W.Observations)

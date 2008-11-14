@@ -78,10 +78,10 @@ namespace MikeSheWrapper.LayerStatistics
             }
             else
             {
-              ME[OW.Layer - 1] += TSE.ME;
-              RMSE[OW.Layer - 1] += TSE.RMSE;
-              ObsUsed[OW.Layer - 1]++;
-              ObsTotal[OW.Layer - 1]++;
+              ME[OW.Layer ] += TSE.ME;
+              RMSE[OW.Layer] += TSE.RMSE;
+              ObsUsed[OW.Layer]++;
+              ObsTotal[OW.Layer]++;
             }
           }
         }

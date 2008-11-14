@@ -29,7 +29,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     [Test]
     public void DomainAreaTest()
     {
-      HO.SelectByMikeSheModelArea(new Model(@"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ.SHE"));
+      HO.SelectByMikeSheModelArea(new Model(@"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ.SHE").GridInfo);
       
     }
 
