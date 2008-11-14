@@ -18,13 +18,13 @@ namespace MikeSheWrapper
 
     //Buffer on the timesteps
     Dictionary<int, PhreaticPotentialData> _bufferedData = new Dictionary<int, PhreaticPotentialData>();
+    private static object _lock = new object();
 
-
-    internal PhreaticPotential(IXYZTDataSet Potential, IXYZDataSet BottomOfCell, IXYZDataSet LayerThickness)
+    internal PhreaticPotential(IXYZTDataSet Potential, MikeSheGridInfo Grid)
     {
       _potential = Potential;
-      _bottomOfCell = BottomOfCell;
-      _thicknessOfCell = LayerThickness;
+      _bottomOfCell = Grid.LowerLevelOfComputationalLayers;
+      _thicknessOfCell = Grid.ThicknessOfComputationalLayers;
     }
 
 
@@ -39,10 +39,13 @@ namespace MikeSheWrapper
     public IMatrix3d TimeData(int TimeStep)
     {
       PhreaticPotentialData PC;
-      if (!_bufferedData.TryGetValue(TimeStep, out PC))
+      lock (_lock)
       {
-        PC = new PhreaticPotentialData(_potential.TimeData(TimeStep), _bottomOfCell.Data, _thicknessOfCell.Data, _phreaticFactor, _deleteValue);
-        _bufferedData.Add(TimeStep, PC);
+        if (!_bufferedData.TryGetValue(TimeStep, out PC))
+        {
+          PC = new PhreaticPotentialData(_potential.TimeData(TimeStep), _bottomOfCell.Data, _thicknessOfCell.Data, _phreaticFactor, _deleteValue);
+          _bufferedData.Add(TimeStep, PC);
+        }
       }
       return PC;
     }

@@ -12,24 +12,23 @@ namespace MikeSheWrapper
 {
   public class ProcessedData
   {
-    internal DFS3 _PreProcessed_3DSZ;
-    private DFS2 _prePro2D;
     private DataSetsFromDFS3 _initialHeads;
     private DataSetsFromDFS3 _boundaryConditionsForTheSaturatedZone;
-    private DataSetsFromDFS3 _lowerLevelOfComputationalLayers;
-    private DataSetsFromDFS3 _thicknessOfComputationalLayers;
     private DataSetsFromDFS3 _horizontalConductivity;
     private DataSetsFromDFS3 _verticalConductivity;
     private DataSetsFromDFS3 _transmissivity;
     private DataSetsFromDFS3 _specificYield;
     private DataSetsFromDFS3 _specificStorage;
 
-    private DataSetsFromDFS2 _modelDomainAndGrid;
-    private DataSetsFromDFS2 _surfaceTopography;
+
     private DataSetsFromDFS2 _netRainFallFraction;
     private DataSetsFromDFS2 _infiltrationFraction;
+    private MikeSheGridInfo _grid;
 
-    private TopOfCell _upperLevelOfComputationalLayers;
+    public MikeSheGridInfo Grid
+    {
+      get { return _grid; }
+    }
 
 
     #region Constructors
@@ -57,7 +56,7 @@ namespace MikeSheWrapper
     private void Initialize(string PreProcessed3dSzFile, string PreProcessed2dSzFile)
     {
       //Open File with 3D data
-      _PreProcessed_3DSZ = new DFS3(PreProcessed3dSzFile);
+      DFS3 _PreProcessed_3DSZ = new DFS3(PreProcessed3dSzFile);
 
       //Generate 3D properties
       for (int i = 0; i < _PreProcessed_3DSZ.DynamicItemInfos.Length; i++)
@@ -66,12 +65,6 @@ namespace MikeSheWrapper
         {
           case "Boundary conditions for the saturated zone":
             _boundaryConditionsForTheSaturatedZone = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
-            break;
-          case "Lower level of computational layers in the saturated zone":
-            _lowerLevelOfComputationalLayers = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
-            break;
-          case "Thickness of computational layers in the saturated zone":
-            _thicknessOfComputationalLayers = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
             break;
           case "Horizontal conductivity in the saturated zone":
             _horizontalConductivity = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
@@ -97,19 +90,13 @@ namespace MikeSheWrapper
       }
 
       //Open File with 2D data
-      _prePro2D = new DFS2(PreProcessed2dSzFile);
+      DFS2 _prePro2D = new DFS2(PreProcessed2dSzFile);
 
       //Generate 2D properties by looping the items
       for (int i = 0; i < _prePro2D.DynamicItemInfos.Length; i++)
       {
         switch (_prePro2D.DynamicItemInfos[i].Name)
         {
-          case "Model domain and grid":
-            _modelDomainAndGrid = new DataSetsFromDFS2(_prePro2D, i +1);
-            break;
-          case "Surface topography":
-            _surfaceTopography = new DataSetsFromDFS2(_prePro2D, i +1);
-            break;
           case "Net Rainfall Fraction":
             _netRainFallFraction = new DataSetsFromDFS2(_prePro2D, i +1);
             break;
@@ -120,17 +107,11 @@ namespace MikeSheWrapper
             break;
         }
       }
+
+      //Now construct the grid from the open files
+      _grid = new MikeSheGridInfo(_PreProcessed_3DSZ, _prePro2D);
     }
 
-    public IXYDataSet ModelDomainAndGrid
-    {
-      get { return _modelDomainAndGrid; }
-    }
-
-    public IXYDataSet SurfaceTopography
-    {
-      get { return _surfaceTopography; }
-    }
 
     public IXYDataSet NetRainFallFraction
     {
@@ -173,30 +154,12 @@ namespace MikeSheWrapper
       get { return _horizontalConductivity; }
     }
 
-    public IXYZDataSet LowerLevelOfComputationalLayers
-    {
-      get { return _lowerLevelOfComputationalLayers; }
-    }
-
-    public IXYZDataSet UpperLevelOfComputationalLayers
-    {
-      get
-      {
-        if (_upperLevelOfComputationalLayers == null)
-          _upperLevelOfComputationalLayers = new TopOfCell(LowerLevelOfComputationalLayers, SurfaceTopography);
-        return _upperLevelOfComputationalLayers;
-      }
-    }
 
     public IXYZDataSet BoundaryConditionsForTheSaturatedZone
     {
       get { return _boundaryConditionsForTheSaturatedZone; }
     }
 
-    public IXYZDataSet ThicknessOfComputationalLayers
-    {
-      get { return _thicknessOfComputationalLayers; }
-    }
 
   }
 }

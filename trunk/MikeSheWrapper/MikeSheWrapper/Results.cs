@@ -27,20 +27,28 @@ namespace MikeSheWrapper
       get { return _deleteValue; }
     }
 
-    private ProcessedData _processed;
+    private MikeSheGridInfo _grid;
 
 
-    public Results(FileNames fileNames, ProcessedData Processed)
+    public Results(string SZ3DFileName, MikeSheGridInfo Grid)
     {
-      _processed = Processed;
-      Initialize(fileNames);
+      _grid = Grid;
+      Initialize3DSZ(SZ3DFileName);
+    }
+
+    internal Results(FileNames fileNames, MikeSheGridInfo Grid)
+    {
+      _grid = Grid;
+      Initialize3DSZ(fileNames.Get3DSZFileName);
+      Initialize3DSZFlow(fileNames.get3DSZFlowFileName);
     }
 
     public Results(string SheFileName)
     {
       FileNames fn = new FileNames(SheFileName);
-      _processed = new ProcessedData(fn);
-      Initialize(fn);
+      _grid = new MikeSheGridInfo(fn.PreProcessedSZ3D, fn.PreProcessed2D);
+      Initialize3DSZ(fn.Get3DSZFileName);
+      Initialize3DSZFlow(fn.get3DSZFlowFileName);
     }
 
     public IXYZTDataSet Heads
@@ -83,9 +91,9 @@ namespace MikeSheWrapper
     /// Opens the necessary dfs-files and sets up the references to the properties
     /// </summary>
     /// <param name="fileNames"></param>
-    private void Initialize(FileNames fileNames)
+    private void Initialize3DSZ(string sz3dFile)
     {
-      DFS3 SZ3D = new DFS3(fileNames.Get3DSZFileName);
+      DFS3 SZ3D = new DFS3(sz3dFile);
       _deleteValue = SZ3D.DeleteValue;
       for (int i = 0; i < SZ3D.DynamicItemInfos.Length; i++)
       {
@@ -94,14 +102,16 @@ namespace MikeSheWrapper
           case "head elevation in saturated zone":
             _heads = new DataSetsFromDFS3(SZ3D, i + 1);
             //Also create the phreatic heads;
-            _phreaticHead = new PhreaticPotential(_heads, _processed.LowerLevelOfComputationalLayers, _processed.ThicknessOfComputationalLayers);
+            _phreaticHead = new PhreaticPotential(_heads, _grid);
             break;
           default:
             break;
         }
       }
-
-      DFS3 SZ3DFlow = new DFS3(fileNames.get3DSZFlowFileName);
+    }
+    private void Initialize3DSZFlow(string sz3dFlowFile)
+    {
+      DFS3 SZ3DFlow = new DFS3(sz3dFlowFile);
       for (int i = 0; i < SZ3DFlow.DynamicItemInfos.Length; i++)
       {
         switch (SZ3DFlow.DynamicItemInfos[i].Name)
