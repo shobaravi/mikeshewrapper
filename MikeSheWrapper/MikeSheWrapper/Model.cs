@@ -17,7 +17,7 @@ namespace MikeSheWrapper
 
     public MikeSheGridInfo GridInfo
     {
-      get { return _gridInfo; }
+      get { return _processed.Grid; }
     }
 
     public SheFile Input
@@ -30,7 +30,6 @@ namespace MikeSheWrapper
       _input = new SheFile(SheFileName);
       _files = new FileNames(_input);
       _processed = new ProcessedData(_files);
-      _gridInfo = new MikeSheGridInfo(_processed, Processed._PreProcessed_3DSZ);
       //_results = new Results(_files);
     }
 

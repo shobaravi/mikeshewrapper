@@ -13,7 +13,14 @@ namespace MikeSheWrapper
 {
   public class MikeSheGridInfo
   {
-    private ProcessedData _pd;
+    private DataSetsFromDFS3 _lowerLevelOfComputationalLayers;
+    private DataSetsFromDFS3 _thicknessOfComputationalLayers;
+
+    private DataSetsFromDFS2 _modelDomainAndGrid;
+    private DataSetsFromDFS2 _surfaceTopography;
+    private TopOfCell _upperLevelOfComputationalLayers;
+
+
     private double _gridSize;
     private double _xOrigin;
     private double _yOrigin;
@@ -23,19 +30,69 @@ namespace MikeSheWrapper
     private int _numberOfRows;
     private int _numberOfLayers;
 
-    internal MikeSheGridInfo(ProcessedData PD, DFS3 _dataFile)
+    public int NumberOfLayers
     {
-      _pd = PD;
-      _deleteValue = _dataFile.DeleteValue;
-      _gridSize = _dataFile.DynamicItemInfos[0].DX;
+      get { return _numberOfLayers; }
+    }
 
-      _numberOfRows = _dataFile.NumberOfRows; ;
-      _numberOfColumns = _dataFile.NumberOfColumns;
-      _numberOfLayers = _dataFile.NumberOfLayers;
+    public MikeSheGridInfo(string PreProcessed3DFile, string PreProcessed2DFile)
+    {
+      //Open Files and call initialize
+      Initialize(new DFS3(PreProcessed3DFile), new DFS2(PreProcessed2DFile));
+    }
+    
+
+    internal MikeSheGridInfo(DFS3 PreProcessed3D, DFS2 Preprocessed2D)
+    {
+      Initialize(PreProcessed3D, Preprocessed2D);
+    }
+
+
+    private void Initialize(DFS3 PreProcessed3D, DFS2 Preprocessed2D)
+    {
+      //Generate 3D properties
+      for (int i = 0; i < PreProcessed3D.DynamicItemInfos.Length; i++)
+      {
+        switch (PreProcessed3D.DynamicItemInfos[i].Name)
+        {
+          case "Lower level of computational layers in the saturated zone":
+            _lowerLevelOfComputationalLayers = new DataSetsFromDFS3(PreProcessed3D, i + 1);
+            break;
+          case "Thickness of computational layers in the saturated zone":
+            _thicknessOfComputationalLayers = new DataSetsFromDFS3(PreProcessed3D, i + 1);
+            break;
+          default: //Unknown item
+            break;
+        }
+      }
+
+      //Generate 2D properties by looping the items
+      for (int i = 0; i < Preprocessed2D.DynamicItemInfos.Length; i++)
+      {
+        switch (Preprocessed2D.DynamicItemInfos[i].Name)
+        {
+          case "Model domain and grid":
+            _modelDomainAndGrid = new DataSetsFromDFS2(Preprocessed2D, i + 1);
+            break;
+          case "Surface topography":
+            _surfaceTopography = new DataSetsFromDFS2(Preprocessed2D, i + 1);
+            break;
+          default: //Unknown item
+            break;
+        }
+      }
+
+      _deleteValue = PreProcessed3D.DeleteValue;
+      _gridSize = PreProcessed3D.DynamicItemInfos[0].DX;
+
+      _numberOfRows = PreProcessed3D.NumberOfRows; ;
+      _numberOfColumns = PreProcessed3D.NumberOfColumns;
+      _numberOfLayers = PreProcessed3D.NumberOfLayers;
 
       //For MikeShe the origin is lower left whereas it is center of lower left for DFS
-      _xOrigin = _dataFile.Longitude;
-      _yOrigin = _dataFile.Latitude;
+      _xOrigin = PreProcessed3D.Longitude;
+      _yOrigin = PreProcessed3D.Latitude;
+
     }
 
         /// <summary>
@@ -88,7 +145,7 @@ namespace MikeSheWrapper
       Row = GetRowIndex(Y);
       if (Column < 0 | Row < 0)
         return false;
-      return 1 == _pd.ModelDomainAndGrid.Data[Row, Column];
+      return 1 == _modelDomainAndGrid.Data[Row, Column];
     }
 
     /// <summary>
@@ -101,14 +158,14 @@ namespace MikeSheWrapper
     /// <returns></returns>
     public int GetLayer(int Column, int Row, double Z)
     {
-      if (Z > _pd.SurfaceTopography.Data[Row, Column])
+      if (Z > _surfaceTopography.Data[Row, Column])
         return -1;
-      else if (Z < _pd.LowerLevelOfComputationalLayers.Data[Row, Column, 0])
+      else if (Z < _lowerLevelOfComputationalLayers.Data[Row, Column, 0])
         return -2;
       else
       {
         int i = 0;
-        while (Z < _pd.LowerLevelOfComputationalLayers.Data[Row, Column, i])
+        while (Z < _lowerLevelOfComputationalLayers.Data[Row, Column, i])
           i++;
         return i - 1;
       }
@@ -152,13 +209,24 @@ namespace MikeSheWrapper
     }
 
 
-
+    /// <summary>
+    /// Interpolates the value in Matrix M to the point (UTMX, UTMY) using 4-point bilinear interpolation.
+    /// If one or more of the four points have delete values these points are excluded and instead an inverse distance
+    /// interpolation scheme is used. Boundary cells are also not included. 
+    /// The out parameters count the number of delete values and boundary cells.
+    /// If the cell in which the points is located has a delete value the delete value is returned.
+    /// </summary>
+    /// <param name="X"></param>
+    /// <param name="Y"></param>
+    /// <param name="M"></param>
+    /// <param name="DeleteValues"></param>
+    /// <param name="BoundaryCells"></param>
+    /// <returns></returns>
     public double Interpolate(double X, double Y, Matrix M, out int DeleteValues, out int BoundaryCells)
     {
       BoundaryCells = 0;
       DeleteValues = 0;
-
-
+      
       int column = GetColumnIndex(X);
       int row = GetRowIndex(Y);
 
@@ -186,28 +254,28 @@ namespace MikeSheWrapper
 
       //Get the values of the four points
       double P1 = M[rowLL, columnLL];
-      if (_pd.ModelDomainAndGrid.Data[rowLL, columnLL] == 2)
+      if (_modelDomainAndGrid.Data[rowLL, columnLL] == 2)
       {
         P1 = _deleteValue;
         BoundaryCells++;
       }
 
       double P2 = M[rowLL+1, columnLL];
-      if (_pd.ModelDomainAndGrid.Data[rowLL+1, columnLL] == 2)
+      if (_modelDomainAndGrid.Data[rowLL + 1, columnLL] == 2)
       {
         P2 = _deleteValue;
         BoundaryCells++;
       }
 
       double P3 = M[rowLL + 1, columnLL + 1 ];
-      if (_pd.ModelDomainAndGrid.Data[rowLL + 1, columnLL+1] == 2)
+      if (_modelDomainAndGrid.Data[rowLL + 1, columnLL + 1] == 2)
       {
         P3 = _deleteValue;
         BoundaryCells++;
       }
 
       double P4 = M[rowLL, columnLL + 1];
-      if (_pd.ModelDomainAndGrid.Data[rowLL, columnLL + 1] == 2)
+      if (_modelDomainAndGrid.Data[rowLL, columnLL + 1] == 2)
       {
         P4 = _deleteValue;
         BoundaryCells++;
@@ -254,9 +322,38 @@ namespace MikeSheWrapper
       }
 
       return InterpolatedValue;
-
-
     }
+
+    public IXYDataSet ModelDomainAndGrid
+    {
+      get { return _modelDomainAndGrid; }
+    }
+
+    public IXYDataSet SurfaceTopography
+    {
+      get { return _surfaceTopography; }
+    }
+
+    public IXYZDataSet LowerLevelOfComputationalLayers
+    {
+      get { return _lowerLevelOfComputationalLayers; }
+    }
+
+    public IXYZDataSet ThicknessOfComputationalLayers
+    {
+      get { return _thicknessOfComputationalLayers; }
+    }
+
+    public IXYZDataSet UpperLevelOfComputationalLayers
+    {
+      get
+      {
+        if (_upperLevelOfComputationalLayers == null)
+          _upperLevelOfComputationalLayers = new TopOfCell(LowerLevelOfComputationalLayers, SurfaceTopography);
+        return _upperLevelOfComputationalLayers;
+      }
+    }
+
 
   }
 }
