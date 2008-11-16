@@ -53,7 +53,7 @@ namespace MikeSheWrapper.DFS
 
     public Matrix TimeData(DateTime TimeStep)
     {
-      throw new NotImplementedException();
+      return TimeData(_dataFile.GetTimeStep(TimeStep));
     }
 
     #endregion

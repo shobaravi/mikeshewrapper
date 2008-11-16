@@ -101,6 +101,37 @@ namespace MikeSheWrapper.DFS
     }
 
     /// <summary>
+    /// Returns the TimeStep closest to the TimeStamp. If the timestamp falls exactly between two timestep the smallest is returned
+    /// </summary>
+    /// <param name="TimeStamp"></param>
+    /// <returns></returns>
+    public int GetTimeStep(DateTime TimeStamp)
+    {
+      int TimeStep = 0;
+      if (TimeSteps.Length == 0)
+        throw new Exception("No timesteps read from: " + FileName);
+
+      //If the TimeStamp is later than the simulated period the last timestep is returned
+      if (TimeStamp >= TimeSteps[TimeSteps.Length - 1])
+        TimeStep = TimeSteps.Length - 1;
+      else
+      {
+        //Steps until a bigger timestep is found
+        while (TimeStamp > TimeSteps[TimeStep])
+          TimeStep++;
+      }
+
+      if (TimeStep > 0)
+      {
+        //Checks if the timestep just before is actually closer.
+        if (TimeSteps[TimeStep].Subtract(TimeStamp) >= TimeStamp.Subtract(TimeSteps[TimeStep - 1]))
+          TimeStep--;
+      }
+
+      return TimeStep;
+    }
+
+    /// <summary>
     /// Reads data for the TimeStep and Item if necessary and fills them into the buffer
     /// </summary>
     /// <param name="TimeStep"></param>

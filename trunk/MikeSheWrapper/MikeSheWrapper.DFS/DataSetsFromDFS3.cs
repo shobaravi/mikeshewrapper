@@ -51,7 +51,12 @@ namespace MikeSheWrapper.DFS
 
     public IMatrix3d TimeData(DateTime TimeStep)
     {
-      return TimeData(10);
+      return TimeData(_dataFile.GetTimeStep(TimeStep));
+    }
+
+    public int GetTimeStep(DateTime TimeStep)
+    {
+      return _dataFile.GetTimeStep(TimeStep);
     }
 
     #endregion
