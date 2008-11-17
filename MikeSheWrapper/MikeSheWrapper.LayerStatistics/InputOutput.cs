@@ -66,7 +66,7 @@ namespace MikeSheWrapper.LayerStatistics
                 OW.Y = double.Parse(s[2]);
 
                 //Layer is provided directly. Calculate Z
-                if (s.Length > 7 && s[6] != "")
+                if (s.Length >= 7 && s[6] != "")
                 {
                   OW.Layer = _numberOfLayers - int.Parse(s[6]);
                 }
@@ -107,7 +107,7 @@ namespace MikeSheWrapper.LayerStatistics
             ObsString.Append(OW.Y +"\t");
             ObsString.Append(OW.Z +"\t");
 
-            ObsString.Append(OW.Layer +"\t");
+            ObsString.Append( (_numberOfLayers - OW.Layer) +"\t");
             ObsString.Append(TSE.Value +"\t");
             ObsString.Append(TSE.Time.ToShortDateString() +"\t");
             ObsString.Append(TSE.SimulatedValueInterpolated +"\t");
