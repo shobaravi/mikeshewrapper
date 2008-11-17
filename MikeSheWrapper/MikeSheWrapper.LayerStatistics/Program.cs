@@ -45,7 +45,7 @@ namespace MikeSheWrapper.LayerStatistics
         }
 
         HeadObservations HO = new HeadObservations();
-        InputOutput IO = new InputOutput();
+        InputOutput IO = new InputOutput(_grid.NumberOfLayers);
 
         IO.ReadFromLSText(ObsFileName, HO);
 
