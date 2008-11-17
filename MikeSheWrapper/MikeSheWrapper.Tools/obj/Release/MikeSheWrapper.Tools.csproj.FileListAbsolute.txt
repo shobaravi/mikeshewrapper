@@ -1,5 +1,0 @@
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Tools\bin\Release\MikeSheWrapper.Tools.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Tools\bin\Release\MikeSheWrapper.Tools.pdb
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Tools\obj\Release\ResolveAssemblyReference.cache
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Tools\obj\Release\MikeSheWrapper.Tools.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Tools\obj\Release\MikeSheWrapper.Tools.pdb
