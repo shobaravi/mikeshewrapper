@@ -1,5 +1,0 @@
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation\bin\Release\MikeSheWrapper.Irrigation.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation\bin\Release\MikeSheWrapper.Irrigation.pdb
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation\obj\Release\ResolveAssemblyReference.cache
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation\obj\Release\MikeSheWrapper.Irrigation.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation\obj\Release\MikeSheWrapper.Irrigation.pdb
