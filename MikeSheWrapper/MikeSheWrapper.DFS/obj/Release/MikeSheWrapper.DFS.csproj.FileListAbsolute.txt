@@ -1,5 +1,0 @@
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.DFS\bin\Release\MikeSheWrapper.DFS.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.DFS\bin\Release\MikeSheWrapper.DFS.pdb
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.DFS\obj\Release\ResolveAssemblyReference.cache
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.DFS\obj\Release\MikeSheWrapper.DFS.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.DFS\obj\Release\MikeSheWrapper.DFS.pdb
