@@ -17,7 +17,12 @@ namespace MikeSheWrapper.LayerStatistics
   {
 
     private string _baseOutPutFileName;
+    private int _numberOfLayers;
 
+    public InputOutput(int NumberOfLayers)
+    {
+      _numberOfLayers = NumberOfLayers;
+    }
 
     public string BaseOutPutFileName
     {
@@ -63,7 +68,7 @@ namespace MikeSheWrapper.LayerStatistics
                 //Layer is provided directly. Calculate Z
                 if (s.Length > 7 && s[6] != "")
                 {
-                  OW.Layer = int.Parse(s[6]);
+                  OW.Layer = _numberOfLayers - int.Parse(s[6]);
                 }
                 //Use the Z-coordinate
                 else
@@ -101,6 +106,7 @@ namespace MikeSheWrapper.LayerStatistics
             ObsString.Append(OW.X +"\t");
             ObsString.Append(OW.Y +"\t");
             ObsString.Append(OW.Z +"\t");
+
             ObsString.Append(OW.Layer +"\t");
             ObsString.Append(TSE.Value +"\t");
             ObsString.Append(TSE.Time.ToShortDateString() +"\t");
@@ -110,8 +116,9 @@ namespace MikeSheWrapper.LayerStatistics
             ObsString.Append(TSE.RMSE +"\t");
             ObsString.Append(TSE.DryCells +"\t");		
             ObsString.Append(TSE.BoundaryCells +"\t");
-            ObsString.Append(OW.Column +"\t");
-            ObsString.Append(OW.Row + "\t");
+            //MikeShe numbering is 1-based
+            ObsString.Append((OW.Column + 1) +"\t");
+            ObsString.Append((OW.Row + 1) + "\t");
             sw.WriteLine(ObsString.ToString());
           }
         }
