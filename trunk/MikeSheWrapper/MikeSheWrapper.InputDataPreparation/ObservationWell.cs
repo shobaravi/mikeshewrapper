@@ -19,7 +19,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
     public int _column;
     public int _row;
-    private int _layer;
+    private int _layer =-3;
     private double _depth;
     private double _z;
 
