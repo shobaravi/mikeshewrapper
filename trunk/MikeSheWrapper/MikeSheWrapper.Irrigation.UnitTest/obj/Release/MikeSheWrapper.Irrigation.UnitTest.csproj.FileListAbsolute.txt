@@ -1,8 +1,0 @@
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\bin\Release\MikeSheWrapper.Irrigation.UnitTest.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\bin\Release\MikeSheWrapper.Irrigation.UnitTest.pdb
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\bin\Release\MikeSheWrapper.Irrigation.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\bin\Release\nunit.framework.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\bin\Release\MikeSheWrapper.Irrigation.pdb
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\obj\Release\ResolveAssemblyReference.cache
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\obj\Release\MikeSheWrapper.Irrigation.UnitTest.dll
-D:\Udvikling\MikeSheWrapper\MikeSheWrapper\MikeSheWrapper.Irrigation.UnitTest\obj\Release\MikeSheWrapper.Irrigation.UnitTest.pdb
