@@ -65,6 +65,22 @@ namespace MikeSheWrapper.LayerStatistics
         }
 
         HO.SelectByMikeSheModelArea(_grid);
+
+        foreach (ObservationWell W in HO.WorkingList)
+        {
+          if (W.Layer == -3)
+          {
+            W.Layer = _grid.GetLayer(W.Column, W.Row, W.Z);
+          }
+          else
+          {
+            W.Z = _grid.LowerLevelOfComputationalLayers.Data[W.Row, W.Column, W.Layer] + 0.5 * _grid.ThicknessOfComputationalLayers.Data[W.Row, W.Column, W.Layer];
+          }
+
+        }
+
+
+
         HO.StatisticsFromGridOutput(_res, _grid);
       
         //Samler resultaterne for hver lag
