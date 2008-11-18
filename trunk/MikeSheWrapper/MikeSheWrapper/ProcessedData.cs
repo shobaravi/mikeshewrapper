@@ -13,7 +13,6 @@ namespace MikeSheWrapper
   public class ProcessedData
   {
     private DataSetsFromDFS3 _initialHeads;
-    private DataSetsFromDFS3 _boundaryConditionsForTheSaturatedZone;
     private DataSetsFromDFS3 _horizontalConductivity;
     private DataSetsFromDFS3 _verticalConductivity;
     private DataSetsFromDFS3 _transmissivity;
@@ -63,9 +62,6 @@ namespace MikeSheWrapper
       {
         switch (_PreProcessed_3DSZ.DynamicItemInfos[i].Name)
         {
-          case "Boundary conditions for the saturated zone":
-            _boundaryConditionsForTheSaturatedZone = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
-            break;
           case "Horizontal conductivity in the saturated zone":
             _horizontalConductivity = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
             break;
@@ -155,10 +151,6 @@ namespace MikeSheWrapper
     }
 
 
-    public IXYZDataSet BoundaryConditionsForTheSaturatedZone
-    {
-      get { return _boundaryConditionsForTheSaturatedZone; }
-    }
 
 
   }
