@@ -63,7 +63,8 @@ namespace MikeSheWrapper.InputDataPreparation
     public void SelectByMikeSheModelArea(MikeSheGridInfo Grid)
     {
 
-     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
+//     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
+  foreach(ObservationWell W in _wells.Values)
       {
         //Gets the index and sets the column and row
         if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
@@ -71,14 +72,15 @@ namespace MikeSheWrapper.InputDataPreparation
           {
             _workingList.Add(W);
           }
-      });
+      }
+//      );
     }
 
 
     public void StatisticsFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
     {
-
-      Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
+      //Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
+      foreach(ObservationWell W in _workingList)
       {
         foreach (TimeSeriesEntry TSE in W.Observations)
         {
@@ -86,7 +88,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
           TSE.SimulatedValueCell = M[W.Row, W.Column];
           //Interpolates in the matrix
-          TSE.SimulatedValueInterpolated  = GridInfo.Interpolate(W.X, W.Y, M, out TSE.DryCells, out TSE.BoundaryCells);
+          TSE.SimulatedValueInterpolated  = GridInfo.Interpolate(W.X, W.Y, W.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
           if (TSE.SimulatedValueInterpolated != MSheResults.DeleteValue)
           {
             TSE.ME = TSE.Value - TSE.SimulatedValueInterpolated;
@@ -94,7 +96,7 @@ namespace MikeSheWrapper.InputDataPreparation
           }
         }
       }
-      );
+      //);
     }
 
 

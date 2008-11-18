@@ -21,5 +21,15 @@ namespace MikeSheWrapper.DFS.UnitTest
         M[5, 5] = 55;
     }
 
+    [Test]
+    public void ConstructFromFloatTest()
+    {
+
+      float[] _arr = new float[200];
+
+      for (int i = 0; i < 200; i++)
+        _arr[i] = i;
+
+    }
   }
 }

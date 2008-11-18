@@ -22,6 +22,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       cf.PreProcessedDFS2 = @"F:\Jacob\MikeSheWrapper\TestData\LayerStatistics\Novomr1_26mar08_PreProcessed.DFS2";
       cf.PreProcessedDFS3 = @"F:\Jacob\MikeSheWrapper\TestData\LayerStatistics\Novomr1_26mar08_PreProcessed_3DSZ.DFS3";
       cf.ResultFile = @"F:\Jacob\MikeSheWrapper\TestData\LayerStatistics\Novomr1_26mar08_3DSZ.dfs3";
+      cf.SimulationStart = new DateTime(2005, 1, 1);
 
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
       x.Serialize(new FileStream(@"F:\Jacob\MikeSheWrapper\TestData\LayerStatistics\conf.xml", FileMode.Create), cf);

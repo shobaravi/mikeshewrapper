@@ -22,11 +22,13 @@ namespace MikeSheWrapper.LayerStatistics
 		[STAThread]
 		static void Main(string[] args)
 		{
+      DateTime Start = DateTime.Now;
       try
       {
         MikeSheGridInfo _grid;
         Results _res;
         string ObsFileName;
+        DateTime SimulationStart= DateTime.MaxValue;
 
         if (args.Length == 2)
         {
@@ -38,16 +40,21 @@ namespace MikeSheWrapper.LayerStatistics
         else
         {
           XmlSerializer x = new XmlSerializer(typeof (Configuration));
-          Configuration cf = (Configuration) x.Deserialize(new FileStream(args[0], FileMode.Open));
+//          Configuration cf = (Configuration) x.Deserialize(new FileStream(args[0], FileMode.Open));
+          Configuration cf = (Configuration)x.Deserialize(new FileStream(@"F:\Jacob\MikeSheWrapper\TestData\LayerStatistics\conf.xml", FileMode.Open));
           _grid = new MikeSheGridInfo(cf.PreProcessedDFS3, cf.PreProcessedDFS2);
           _res = new Results(cf.ResultFile, _grid);
           ObsFileName = cf.ObservationFile;
+          SimulationStart = cf.SimulationStart;
         }
 
         HeadObservations HO = new HeadObservations();
         InputOutput IO = new InputOutput(_grid.NumberOfLayers);
 
         IO.ReadFromLSText(ObsFileName, HO);
+
+        TimeSpan ReadInput = Start.Subtract(DateTime.Now);
+        Start = DateTime.Now;
 
         int NLay = _grid.NumberOfLayers;
         double [] ME = new double[NLay];
@@ -76,9 +83,7 @@ namespace MikeSheWrapper.LayerStatistics
           {
             W.Z = _grid.LowerLevelOfComputationalLayers.Data[W.Row, W.Column, W.Layer] + 0.5 * _grid.ThicknessOfComputationalLayers.Data[W.Row, W.Column, W.Layer];
           }
-
         }
-
 
 
         HO.StatisticsFromGridOutput(_res, _grid);
@@ -107,10 +112,21 @@ namespace MikeSheWrapper.LayerStatistics
           ME[i]   = ME[i]/ObsUsed[i];
           RMSE[i] = Math.Pow(RMSE[i]/ObsUsed[i], 0.5);
         }
+        TimeSpan Calculation = Start.Subtract(DateTime.Now);
+        Start = DateTime.Now;
 
 
-        IO.WriteObservations(HO);
+
+        IO.WriteObservations(HO, SimulationStart);
         IO.WriteLayers(ME,RMSE,ObsUsed,ObsTotal);
+
+        TimeSpan WriteOutput = Start.Subtract(DateTime.Now);
+
+        Console.WriteLine("Reading of input:" + ReadInput.TotalSeconds + " s");
+        Console.WriteLine("Calculation:" + Calculation.TotalSeconds + " s");
+        Console.WriteLine("Writing of output:" + WriteOutput.TotalSeconds + " s");
+        Console.ReadLine();
+
       }
       catch (Exception e)
       {
