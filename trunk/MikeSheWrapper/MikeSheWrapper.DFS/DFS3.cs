@@ -8,18 +8,16 @@ namespace MikeSheWrapper.DFS
 {
   public class DFS3:DFS
   {
-    private Matrix3d _data;
-
-
     public DFS3(string DFSFileName):base(DFSFileName)
     {
-      _data = new Matrix3d(_numberOfRows, _numberOfColumns, _numberOfLayers);
     }
 
 
     public Matrix3d GetData(int TimeStep, int Item)
     {
       readNextItemTimeStep(TimeStep, Item);
+
+      Matrix3d _data = new Matrix3d(_numberOfRows, _numberOfColumns, _numberOfLayers);
       int m = 0;
       for (int k = 0; k < _numberOfLayers; k++)
         for (int i = 0; i < _numberOfRows; i++)
