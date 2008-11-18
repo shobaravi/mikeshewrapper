@@ -10,7 +10,6 @@ namespace MikeSheWrapper.DFS
 {
   public class DFS2 : DFS
   {
-    private Matrix _data;
 
     public DFS2(string DFSFileName)
       : base(DFSFileName)
@@ -30,7 +29,7 @@ namespace MikeSheWrapper.DFS
     public Matrix GetData(int TimeStep, int Item)
     {
       readNextItemTimeStep(TimeStep, Item);
-      _data = new Matrix(_numberOfRows, _numberOfColumns);
+      Matrix _data = new Matrix(_numberOfRows, _numberOfColumns);
       int m = 0;
       for (int i = 0; i < _numberOfRows; i++)
         for (int j = 0; j < _numberOfColumns; j++)
