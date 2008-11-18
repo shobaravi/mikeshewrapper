@@ -92,38 +92,58 @@ namespace MikeSheWrapper.LayerStatistics
     /// Skriver en fil med alle observationsdata
     /// </summary>
     /// <param name="Observations"></param>
-		public void WriteObservations(HeadObservations Obs)
-		{
-      using (StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt"))
-			{
-				sw.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
-        foreach (ObservationWell OW in Obs.WorkingList)
-        {
-          foreach (TimeSeriesEntry TSE in OW.Observations)
-          {
-            StringBuilder ObsString=new StringBuilder();
-            ObsString.Append(OW.ID +"\t");
-            ObsString.Append(OW.X +"\t");
-            ObsString.Append(OW.Y +"\t");
-            ObsString.Append(OW.Z +"\t");
+    public void WriteObservations(HeadObservations Obs, DateTime SimulationPeriod)
+    {
+      StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt");
+      StreamWriter swell = new StreamWriter(_baseOutPutFileName + "_wells.txt");
 
-            ObsString.Append( (_numberOfLayers - OW.Layer) +"\t");
-            ObsString.Append(TSE.Value +"\t");
-            ObsString.Append(TSE.Time.ToShortDateString() +"\t");
-            ObsString.Append(TSE.SimulatedValueInterpolated +"\t");
-            ObsString.Append(TSE.SimulatedValueCell +"\t");
-            ObsString.Append(TSE.ME +"\t");
-            ObsString.Append(TSE.RMSE +"\t");
-            ObsString.Append(TSE.DryCells +"\t");		
-            ObsString.Append(TSE.BoundaryCells +"\t");
-            //MikeShe numbering is 1-based
-            ObsString.Append((OW.Column + 1) +"\t");
-            ObsString.Append((OW.Row + 1) + "\t");
-            sw.WriteLine(ObsString.ToString());
-          }
+      sw.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
+      swell.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tME\tME^2\tNo_ObservationsP1\tNo_ObservationsP2");
+
+      foreach (ObservationWell OW in Obs.WorkingList)
+      {
+        //Write for each observation
+        foreach (TimeSeriesEntry TSE in OW.Observations)
+        {
+          StringBuilder ObsString = new StringBuilder();
+          ObsString.Append(OW.ID + "\t");
+          ObsString.Append(OW.X + "\t");
+          ObsString.Append(OW.Y + "\t");
+          ObsString.Append(OW.Z + "\t");
+
+          ObsString.Append((_numberOfLayers - OW.Layer) + "\t");
+          ObsString.Append(TSE.Value + "\t");
+          ObsString.Append(TSE.Time.ToShortDateString() + "\t");
+          ObsString.Append(TSE.SimulatedValueInterpolated + "\t");
+          ObsString.Append(TSE.SimulatedValueCell + "\t");
+          ObsString.Append(TSE.ME + "\t");
+          ObsString.Append(TSE.RMSE + "\t");
+          ObsString.Append(TSE.DryCells + "\t");
+          ObsString.Append(TSE.BoundaryCells + "\t");
+          ObsString.Append(OW.Column + "\t");
+          ObsString.Append(OW.Row + "\t");
+          sw.WriteLine(ObsString.ToString());
         }
-			}
-		}
+
+        //Write for each well
+        StringBuilder WellString = new StringBuilder();
+        WellString.Append(OW.ID + "\t");
+        WellString.Append(OW.X + "\t");
+        WellString.Append(OW.Y + "\t");
+        WellString.Append(OW.Z + "\t");
+        WellString.Append((_numberOfLayers - OW.Layer) + "\t");
+        WellString.Append(OW.Observations.Average(num => num.ME).ToString() + "\t");
+        WellString.Append(OW.Observations.Average(num => num.RMSE).ToString() + "\t");
+        int before = OW.Observations.Count(num => num.Time < SimulationPeriod);
+        WellString.Append(before + "\t");
+        WellString.Append(OW.Observations.Count - before + "\t");
+        swell.WriteLine(WellString.ToString());
+      }
+      sw.Flush();
+      sw.Dispose();
+
+      swell.Dispose();
+    }
     /// <summary>
     /// Skriver 3 filer med beregnede værdier for hvert lag
     /// </summary>
@@ -136,18 +156,20 @@ namespace MikeSheWrapper.LayerStatistics
       //Writes a file with ME
       using (StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_ME.txt"))
       {
-        foreach (double me in ME)
+        //Write backwards because of MSHE Layering
+        for (int i = ME.Length -1 ; i >= 0;i--) 
         {
-          sw.WriteLine(me.ToString());
+          sw.WriteLine(ME[i].ToString());
         }
       }
 
       //Writes a file with RMSE
       using (StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_RMSE.txt"))
       {
-        foreach (double rmse in RMSE)
+        //Write backwards because of MSHE Layering
+        for (int i = RMSE.Length - 1; i >= 0; i--)
         {
-          sw.WriteLine(rmse.ToString());
+          sw.WriteLine(RMSE[i].ToString());
         }
       }
 
@@ -156,10 +178,11 @@ namespace MikeSheWrapper.LayerStatistics
       {
         //Writes the headline
         sw.WriteLine("Layer\tRMSE\tME\t#obs used\tobs total");
-        for (int i = 0; i < ME.Length; i++)
+        //Write backwards because of MSHE Layering
+        for (int i = ME.Length - 1; i >= 0; i--)
         {
           StringBuilder str = new StringBuilder();
-          str.Append((i + 1) + "\t");
+          str.Append((ME.Length - i) + "\t"); //MSHE -layering
           str.Append(RMSE[i] + "\t");
           str.Append(ME[i] + "\t");
           str.Append(ObsUsed[i] + "\t");

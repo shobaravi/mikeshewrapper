@@ -20,6 +20,37 @@ namespace MikeSheWrapper.Tools
     }
 
     /// <summary>
+    /// Values in DFS style!
+    /// </summary>
+    /// <param name="NumberOfRows"></param>
+    /// <param name="NumberOfColumns"></param>
+    /// <param name="NumberOfLayers"></param>
+    /// <param name="values"></param>
+    public Matrix3d(int NumberOfRows, int NumberOfColumns, int NumberOfLayers, float[] values)
+    {
+      _data = new Matrix[NumberOfLayers];
+
+      int m = 0;
+      for (int k = 0; k < NumberOfLayers; k++)
+      {
+        double[][] _jagged = new double[NumberOfRows][];
+        for (int i = 0; i < NumberOfRows; i++)
+        {
+          _jagged[i] = new double[NumberOfColumns];
+        }
+
+        for (int i = 0; i < NumberOfRows; i++)
+          for (int j = 0; j < NumberOfColumns; j++)
+          {
+            _jagged[i][j] = values[m];
+            m++;
+          }
+
+        _data[k] = new Matrix(_jagged);
+      }
+    }
+
+    /// <summary>
     /// Gets the number of layers
     /// </summary>
     public int LayerCount

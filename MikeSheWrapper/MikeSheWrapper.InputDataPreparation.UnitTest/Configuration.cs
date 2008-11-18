@@ -12,5 +12,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     public string PreProcessedDFS3;
     public string ObservationFile;
     public string ResultFile;
+    public DateTime SimulationStart;
+
   }
 }
