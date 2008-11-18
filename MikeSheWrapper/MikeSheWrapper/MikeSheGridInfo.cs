@@ -15,6 +15,8 @@ namespace MikeSheWrapper
   {
     private DataSetsFromDFS3 _lowerLevelOfComputationalLayers;
     private DataSetsFromDFS3 _thicknessOfComputationalLayers;
+    private DataSetsFromDFS3 _boundaryConditionsForTheSaturatedZone;
+
 
     private DataSetsFromDFS2 _modelDomainAndGrid;
     private DataSetsFromDFS2 _surfaceTopography;
@@ -55,6 +57,9 @@ namespace MikeSheWrapper
       {
         switch (PreProcessed3D.DynamicItemInfos[i].Name)
         {
+          case "Boundary conditions for the saturated zone":
+            _boundaryConditionsForTheSaturatedZone = new DataSetsFromDFS3(PreProcessed3D, i + 1);
+            break;
           case "Lower level of computational layers in the saturated zone":
             _lowerLevelOfComputationalLayers = new DataSetsFromDFS3(PreProcessed3D, i + 1);
             break;
@@ -222,7 +227,7 @@ namespace MikeSheWrapper
     /// <param name="DeleteValues"></param>
     /// <param name="BoundaryCells"></param>
     /// <returns></returns>
-    public double Interpolate(double X, double Y, Matrix M, out int DeleteValues, out int BoundaryCells)
+    public double Interpolate(double X, double Y, int Layer, Matrix M, out int DeleteValues, out int BoundaryCells)
     {
       BoundaryCells = 0;
       DeleteValues = 0;
@@ -241,7 +246,7 @@ namespace MikeSheWrapper
       {
         columnLL -= 1;
       }
-      if (X < GetYCenter(row))
+      if (Y < GetYCenter(row))
       {
         rowLL -= 1;
       }
@@ -253,33 +258,10 @@ namespace MikeSheWrapper
       double dy3 = GetYCenter(rowLL + 1) - Y;
 
       //Get the values of the four points
-      double P1 = M[rowLL, columnLL];
-      if (_modelDomainAndGrid.Data[rowLL, columnLL] == 2)
-      {
-        P1 = _deleteValue;
-        BoundaryCells++;
-      }
-
-      double P2 = M[rowLL+1, columnLL];
-      if (_modelDomainAndGrid.Data[rowLL + 1, columnLL] == 2)
-      {
-        P2 = _deleteValue;
-        BoundaryCells++;
-      }
-
-      double P3 = M[rowLL + 1, columnLL + 1 ];
-      if (_modelDomainAndGrid.Data[rowLL + 1, columnLL + 1] == 2)
-      {
-        P3 = _deleteValue;
-        BoundaryCells++;
-      }
-
-      double P4 = M[rowLL, columnLL + 1];
-      if (_modelDomainAndGrid.Data[rowLL, columnLL + 1] == 2)
-      {
-        P4 = _deleteValue;
-        BoundaryCells++;
-      }
+      double P1 = ValueCheck(M,columnLL,rowLL, Layer, ref DeleteValues, ref BoundaryCells);
+      double P2 = ValueCheck(M, columnLL, rowLL + 1, Layer, ref DeleteValues, ref BoundaryCells);
+      double P3 = ValueCheck(M, columnLL + 1, rowLL + 1, Layer, ref DeleteValues, ref BoundaryCells);
+      double P4 = ValueCheck(M, columnLL + 1, rowLL, Layer, ref DeleteValues, ref BoundaryCells);
 
       //Inverse distance
       if (P1 == _deleteValue | P2 == _deleteValue | P3 == _deleteValue | P4 == _deleteValue)
@@ -324,6 +306,20 @@ namespace MikeSheWrapper
       return InterpolatedValue;
     }
 
+    private double ValueCheck(Matrix M, int column, int row, int Layer, ref int DeleteValue, ref int BoundaryValue)
+    {
+      double val = M[row, column];
+      if (val == _deleteValue)
+        DeleteValue++;
+      if (_boundaryConditionsForTheSaturatedZone.Data[row, column, Layer] != 1)
+      {
+        BoundaryValue++;
+        return _deleteValue;
+      }
+      return val;
+    }
+
+
     public IXYDataSet ModelDomainAndGrid
     {
       get { return _modelDomainAndGrid; }
@@ -342,6 +338,11 @@ namespace MikeSheWrapper
     public IXYZDataSet ThicknessOfComputationalLayers
     {
       get { return _thicknessOfComputationalLayers; }
+    }
+
+    public IXYZDataSet BoundaryConditionsForTheSaturatedZone
+    {
+      get { return _boundaryConditionsForTheSaturatedZone; }
     }
 
     public IXYZDataSet UpperLevelOfComputationalLayers
