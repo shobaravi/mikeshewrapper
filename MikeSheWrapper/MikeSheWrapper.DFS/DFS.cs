@@ -116,6 +116,7 @@ namespace MikeSheWrapper.DFS
         TimeStep = TimeSteps.Length - 1;
       else
       {
+        //Note in case of equidistant times this could be made more efficient
         //Steps until a bigger timestep is found
         while (TimeStamp > TimeSteps[TimeStep])
           TimeStep++;
