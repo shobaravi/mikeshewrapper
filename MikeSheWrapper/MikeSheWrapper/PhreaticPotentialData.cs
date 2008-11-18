@@ -50,7 +50,7 @@ namespace MikeSheWrapper
         {
           if (!_bufferedData.TryGetValue(Layer, out M))
           {
-            M = new Matrix(_bottomOfCell[0].RowCount,_bottomOfCell[0].ColumnCount);
+            M = _potential[Layer].Clone();
             _bufferedData.Add(Layer, M);
             SetMatrix(Layer, M);
           }
@@ -106,19 +106,21 @@ namespace MikeSheWrapper
           //In the bottom layer the phreatic potential is always equal to the potential
           if (Layer != 0)
           {
-            double HeadAboveBottom = _potential[Row, Column, Layer] - _bottomOfCell[Row, Column, Layer];
-            //Criteria 1: The distance from the bottom of the cell to the potential shall be lower 
-            //than the distance from the bottom of the cell to the potential in the cell below 
-            if (HeadAboveBottom < _bottomOfCell[Row, Column, Layer] - _potential[Row, Column, Layer - 1])
-              // Criteria 2: The potential shall be below the middle of the cell. _phreaticFactor = 0.5
-              if (HeadAboveBottom < _thicknessOfCell[Row, Column, Layer] * _phreaticFactor)
-              {
-                M[Row, Column] = _deletevalue;
-                break;
-              }
+            if (_potential[Row, Column, Layer] != _deletevalue)
+            {
+              double p = _potential[Row, Column, Layer];
+              double b = _bottomOfCell[Row, Column, Layer];
+              double HeadAboveBottom = _potential[Row, Column, Layer] - _bottomOfCell[Row, Column, Layer];
+              //Criteria 1: The distance from the bottom of the cell to the potential shall be lower 
+              //than the distance from the bottom of the cell to the potential in the cell below 
+              if (HeadAboveBottom < _bottomOfCell[Row, Column, Layer] - _potential[Row, Column, Layer - 1])
+                // Criteria 2: The potential shall be below the middle of the cell. _phreaticFactor = 0.5
+                if (HeadAboveBottom < _thicknessOfCell[Row, Column, Layer] * _phreaticFactor)
+                {
+                  M[Row, Column] = _deletevalue;
+                }
+            }
           }
-          //The phreatic potential is equal to the potential 
-          M[Row, Column] = _potential[Row, Column, Layer];
         }
       }
     }
