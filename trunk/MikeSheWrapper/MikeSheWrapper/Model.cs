@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,8 @@ namespace MikeSheWrapper
       _input = new SheFile(SheFileName);
       _files = new FileNames(_input);
       _processed = new ProcessedData(_files);
-      //_results = new Results(_files);
+      if(File.Exists(_files.Get3DSZFileName))
+        _results = new Results(_files, GridInfo);
     }
 
     public Results Results
