@@ -14,14 +14,15 @@ namespace MikeSheWrapper
     IXYZDataSet _bottomOfCell;
     IXYZDataSet _thicknessOfCell;
     private double _phreaticFactor = 0.5;
-    private double _deleteValue = 1e-35;
+    private double _deleteValue;
 
     //Buffer on the timesteps
     Dictionary<int, PhreaticPotentialData> _bufferedData = new Dictionary<int, PhreaticPotentialData>();
     private static object _lock = new object();
 
-    internal PhreaticPotential(IXYZTDataSet Potential, MikeSheGridInfo Grid)
+    internal PhreaticPotential(IXYZTDataSet Potential, MikeSheGridInfo Grid, double DeleteValue)
     {
+      _deleteValue = DeleteValue;
       _potential = Potential;
       _bottomOfCell = Grid.LowerLevelOfComputationalLayers;
       _thicknessOfCell = Grid.ThicknessOfComputationalLayers;
