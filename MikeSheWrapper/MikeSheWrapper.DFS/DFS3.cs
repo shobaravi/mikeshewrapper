@@ -17,15 +17,15 @@ namespace MikeSheWrapper.DFS
     {
       readNextItemTimeStep(TimeStep, Item);
 
-      Matrix3d _data = new Matrix3d(_numberOfRows, _numberOfColumns, _numberOfLayers);
-      int m = 0;
-      for (int k = 0; k < _numberOfLayers; k++)
-        for (int i = 0; i < _numberOfRows; i++)
-          for (int j = 0; j < _numberOfColumns; j++)
-          {
-            _data[i, j, k] = (double) dfsdata[m];
-            m++;
-          }
+      Matrix3d _data = new Matrix3d(_numberOfRows, _numberOfColumns, _numberOfLayers, dfsdata);
+      //int m = 0;
+      //for (int k = 0; k < _numberOfLayers; k++)
+      //  for (int i = 0; i < _numberOfRows; i++)
+      //    for (int j = 0; j < _numberOfColumns; j++)
+      //    {
+      //      _data[i, j, k] = dfsdata[m];
+      //      m++;
+      //    }
       return _data;
     }
 
