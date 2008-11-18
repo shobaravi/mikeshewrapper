@@ -102,7 +102,7 @@ namespace MikeSheWrapper
           case "head elevation in saturated zone":
             _heads = new DataSetsFromDFS3(SZ3D, i + 1);
             //Also create the phreatic heads;
-            _phreaticHead = new PhreaticPotential(_heads, _grid);
+            _phreaticHead = new PhreaticPotential(_heads, _grid, SZ3D.DeleteValue);
             break;
           default:
             break;
