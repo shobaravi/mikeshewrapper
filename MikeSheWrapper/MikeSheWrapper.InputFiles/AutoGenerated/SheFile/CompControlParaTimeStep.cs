@@ -136,11 +136,11 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public double PrecThresholdRate
+    public int PrecThresholdRate
     {
       get
       {
-        return _pfsHandle.GetKeyword("PrecThresholdRate", 1).GetParameter(1).ToDouble();
+        return _pfsHandle.GetKeyword("PrecThresholdRate", 1).GetParameter(1).ToInt();
       }
       set
       {

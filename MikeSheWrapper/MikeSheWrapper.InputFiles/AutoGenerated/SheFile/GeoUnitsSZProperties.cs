@@ -11,19 +11,7 @@ namespace MikeSheWrapper.InputFiles
   public partial class GeoUnitsSZProperties: PFSMapper
   {
 
-    private GeoUnit_1 _geoUnit_1;
-    private GeoUnit_1 _geoUnit_2;
-    private GeoUnit_1 _geoUnit_3;
-    private GeoUnit_1 _geoUnit_4;
-    private GeoUnit_1 _geoUnit_5;
-    private GeoUnit_1 _geoUnit_6;
-    private GeoUnit_1 _geoUnit_7;
-    private GeoUnit_1 _geoUnit_8;
-    private GeoUnit_1 _geoUnit_9;
-    private GeoUnit_1 _geoUnit_10;
-    private GeoUnit_1 _geoUnit_11;
-    private GeoUnit_1 _geoUnit_12;
-    private GeoUnit_1 _geoUnit_13;
+    private List<GeoUnit_1> _geoUnit_1s = new List<GeoUnit_1>();
 
     internal GeoUnitsSZProperties(PFSSection Section)
     {
@@ -34,115 +22,21 @@ namespace MikeSheWrapper.InputFiles
         PFSSection sub = Section.GetSection(i);
         switch (sub.Name)
         {
-        case "GeoUnit_1":
-          _geoUnit_1 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_2":
-          _geoUnit_2 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_3":
-          _geoUnit_3 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_4":
-          _geoUnit_4 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_5":
-          _geoUnit_5 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_6":
-          _geoUnit_6 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_7":
-          _geoUnit_7 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_8":
-          _geoUnit_8 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_9":
-          _geoUnit_9 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_10":
-          _geoUnit_10 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_11":
-          _geoUnit_11 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_12":
-          _geoUnit_12 = new GeoUnit_1(sub);
-          break;
-        case "GeoUnit_13":
-          _geoUnit_13 = new GeoUnit_1(sub);
-          break;
           default:
+            if (sub.Name.Substring(0,6).Equals("GeoUni"))
+            {
+              _geoUnit_1s.Add(new GeoUnit_1(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
       }
     }
 
-    public GeoUnit_1 GeoUnit_1
-    {
-     get { return _geoUnit_1; }
-    }
-
-    public GeoUnit_1 GeoUnit_2
-    {
-     get { return _geoUnit_2; }
-    }
-
-    public GeoUnit_1 GeoUnit_3
-    {
-     get { return _geoUnit_3; }
-    }
-
-    public GeoUnit_1 GeoUnit_4
-    {
-     get { return _geoUnit_4; }
-    }
-
-    public GeoUnit_1 GeoUnit_5
-    {
-     get { return _geoUnit_5; }
-    }
-
-    public GeoUnit_1 GeoUnit_6
-    {
-     get { return _geoUnit_6; }
-    }
-
-    public GeoUnit_1 GeoUnit_7
-    {
-     get { return _geoUnit_7; }
-    }
-
-    public GeoUnit_1 GeoUnit_8
-    {
-     get { return _geoUnit_8; }
-    }
-
-    public GeoUnit_1 GeoUnit_9
-    {
-     get { return _geoUnit_9; }
-    }
-
-    public GeoUnit_1 GeoUnit_10
-    {
-     get { return _geoUnit_10; }
-    }
-
-    public GeoUnit_1 GeoUnit_11
-    {
-     get { return _geoUnit_11; }
-    }
-
-    public GeoUnit_1 GeoUnit_12
-    {
-     get { return _geoUnit_12; }
-    }
-
-    public GeoUnit_1 GeoUnit_13
-    {
-     get { return _geoUnit_13; }
+    public List<GeoUnit_1> GeoUnit_1s
+   {
+     get { return _geoUnit_1s; }
     }
 
     public int Touched

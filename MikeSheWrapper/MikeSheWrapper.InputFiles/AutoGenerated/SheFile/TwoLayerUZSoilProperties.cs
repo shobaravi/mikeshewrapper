@@ -13,7 +13,7 @@ namespace MikeSheWrapper.InputFiles
 
     private DFS_2D_DATA_FILE _dFS_2D_DATA_FILE;
     private SHAPE_FILE _sHAPE_FILE;
-    private UZSoilProp _uZSoilProp;
+    private List<UZSoilProp> _uZSoilProps = new List<UZSoilProp>();
 
     internal TwoLayerUZSoilProperties(PFSSection Section)
     {
@@ -30,10 +30,12 @@ namespace MikeSheWrapper.InputFiles
         case "SHAPE_FILE":
           _sHAPE_FILE = new SHAPE_FILE(sub);
           break;
-        case "UZSoilProp":
-          _uZSoilProp = new UZSoilProp(sub);
-          break;
           default:
+            if (sub.Name.Substring(0,6).Equals("UZSoil"))
+            {
+              _uZSoilProps.Add(new UZSoilProp(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
@@ -50,9 +52,9 @@ namespace MikeSheWrapper.InputFiles
      get { return _sHAPE_FILE; }
     }
 
-    public UZSoilProp UZSoilProp
-    {
-     get { return _uZSoilProp; }
+    public List<UZSoilProp> UZSoilProps
+   {
+     get { return _uZSoilProps; }
     }
 
     public int Touched

@@ -11,14 +11,7 @@ namespace MikeSheWrapper.InputFiles
   public partial class PackagesOutput: PFSMapper
   {
 
-    private PackageOutput_1 _packageOutput_1;
-    private PackageOutput_1 _packageOutput_2;
-    private PackageOutput_1 _packageOutput_3;
-    private PackageOutput_1 _packageOutput_4;
-    private PackageOutput_1 _packageOutput_5;
-    private PackageOutput_1 _packageOutput_6;
-    private PackageOutput_1 _packageOutput_7;
-    private PackageOutput_1 _packageOutput_8;
+    private List<PackageOutput_1> _packageOutput_1s = new List<PackageOutput_1>();
 
     internal PackagesOutput(PFSSection Section)
     {
@@ -29,75 +22,21 @@ namespace MikeSheWrapper.InputFiles
         PFSSection sub = Section.GetSection(i);
         switch (sub.Name)
         {
-        case "PackageOutput_1":
-          _packageOutput_1 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_2":
-          _packageOutput_2 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_3":
-          _packageOutput_3 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_4":
-          _packageOutput_4 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_5":
-          _packageOutput_5 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_6":
-          _packageOutput_6 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_7":
-          _packageOutput_7 = new PackageOutput_1(sub);
-          break;
-        case "PackageOutput_8":
-          _packageOutput_8 = new PackageOutput_1(sub);
-          break;
           default:
+            if (sub.Name.Substring(0,6).Equals("Packag"))
+            {
+              _packageOutput_1s.Add(new PackageOutput_1(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
       }
     }
 
-    public PackageOutput_1 PackageOutput_1
-    {
-     get { return _packageOutput_1; }
-    }
-
-    public PackageOutput_1 PackageOutput_2
-    {
-     get { return _packageOutput_2; }
-    }
-
-    public PackageOutput_1 PackageOutput_3
-    {
-     get { return _packageOutput_3; }
-    }
-
-    public PackageOutput_1 PackageOutput_4
-    {
-     get { return _packageOutput_4; }
-    }
-
-    public PackageOutput_1 PackageOutput_5
-    {
-     get { return _packageOutput_5; }
-    }
-
-    public PackageOutput_1 PackageOutput_6
-    {
-     get { return _packageOutput_6; }
-    }
-
-    public PackageOutput_1 PackageOutput_7
-    {
-     get { return _packageOutput_7; }
-    }
-
-    public PackageOutput_1 PackageOutput_8
-    {
-     get { return _packageOutput_8; }
+    public List<PackageOutput_1> PackageOutput_1s
+   {
+     get { return _packageOutput_1s; }
     }
 
     public int Touched

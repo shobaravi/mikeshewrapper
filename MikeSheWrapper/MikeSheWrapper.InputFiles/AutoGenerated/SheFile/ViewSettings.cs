@@ -76,11 +76,11 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public double DefaultZoomDataArea_X0
+    public int DefaultZoomDataArea_X0
     {
       get
       {
-        return _pfsHandle.GetKeyword("DefaultZoomDataArea_X0", 1).GetParameter(1).ToDouble();
+        return _pfsHandle.GetKeyword("DefaultZoomDataArea_X0", 1).GetParameter(1).ToInt();
       }
       set
       {
@@ -88,11 +88,11 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public double DefaultZoomDataArea_Y0
+    public int DefaultZoomDataArea_Y0
     {
       get
       {
-        return _pfsHandle.GetKeyword("DefaultZoomDataArea_Y0", 1).GetParameter(1).ToDouble();
+        return _pfsHandle.GetKeyword("DefaultZoomDataArea_Y0", 1).GetParameter(1).ToInt();
       }
       set
       {
@@ -100,11 +100,11 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public double DefaultZoomDataArea_X1
+    public int DefaultZoomDataArea_X1
     {
       get
       {
-        return _pfsHandle.GetKeyword("DefaultZoomDataArea_X1", 1).GetParameter(1).ToDouble();
+        return _pfsHandle.GetKeyword("DefaultZoomDataArea_X1", 1).GetParameter(1).ToInt();
       }
       set
       {
@@ -112,11 +112,11 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public double DefaultZoomDataArea_Y1
+    public int DefaultZoomDataArea_Y1
     {
       get
       {
-        return _pfsHandle.GetKeyword("DefaultZoomDataArea_Y1", 1).GetParameter(1).ToDouble();
+        return _pfsHandle.GetKeyword("DefaultZoomDataArea_Y1", 1).GetParameter(1).ToInt();
       }
       set
       {

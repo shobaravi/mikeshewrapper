@@ -11,10 +11,7 @@ namespace MikeSheWrapper.InputFiles
   public partial class ExtraParams: PFSMapper
   {
 
-    private ExtraParam_1 _extraParam_1;
-    private ExtraParam_1 _extraParam_2;
-    private ExtraParam_1 _extraParam_3;
-    private ExtraParam_1 _extraParam_4;
+    private List<ExtraParam_1> _extraParam_1s = new List<ExtraParam_1>();
 
     internal ExtraParams(PFSSection Section)
     {
@@ -25,43 +22,21 @@ namespace MikeSheWrapper.InputFiles
         PFSSection sub = Section.GetSection(i);
         switch (sub.Name)
         {
-        case "ExtraParam_1":
-          _extraParam_1 = new ExtraParam_1(sub);
-          break;
-        case "ExtraParam_2":
-          _extraParam_2 = new ExtraParam_1(sub);
-          break;
-        case "ExtraParam_3":
-          _extraParam_3 = new ExtraParam_1(sub);
-          break;
-        case "ExtraParam_4":
-          _extraParam_4 = new ExtraParam_1(sub);
-          break;
           default:
+            if (sub.Name.Substring(0,6).Equals("ExtraP"))
+            {
+              _extraParam_1s.Add(new ExtraParam_1(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
       }
     }
 
-    public ExtraParam_1 ExtraParam_1
-    {
-     get { return _extraParam_1; }
-    }
-
-    public ExtraParam_1 ExtraParam_2
-    {
-     get { return _extraParam_2; }
-    }
-
-    public ExtraParam_1 ExtraParam_3
-    {
-     get { return _extraParam_3; }
-    }
-
-    public ExtraParam_1 ExtraParam_4
-    {
-     get { return _extraParam_4; }
+    public List<ExtraParam_1> ExtraParam_1s
+   {
+     get { return _extraParam_1s; }
     }
 
     public int Touched

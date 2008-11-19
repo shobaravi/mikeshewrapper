@@ -11,11 +11,7 @@ namespace MikeSheWrapper.InputFiles
   public partial class Demand: PFSMapper
   {
 
-    private DFS_2D_DATA_FILE _tIME_SERIES_FILE_1;
-    private DFS_2D_DATA_FILE _tIME_SERIES_FILE_2;
-    private DFS_2D_DATA_FILE _tIME_SERIES_FILE_3;
-    private DFS_2D_DATA_FILE _tIME_SERIES_FILE_4;
-    private DFS_2D_DATA_FILE _tIME_SERIES_FILE_5;
+    private List<DFS_2D_DATA_FILE> _tIME_SERIES_FILE_1s = new List<DFS_2D_DATA_FILE>();
 
     internal Demand(PFSSection Section)
     {
@@ -26,51 +22,21 @@ namespace MikeSheWrapper.InputFiles
         PFSSection sub = Section.GetSection(i);
         switch (sub.Name)
         {
-        case "TIME_SERIES_FILE_1":
-          _tIME_SERIES_FILE_1 = new DFS_2D_DATA_FILE(sub);
-          break;
-        case "TIME_SERIES_FILE_2":
-          _tIME_SERIES_FILE_2 = new DFS_2D_DATA_FILE(sub);
-          break;
-        case "TIME_SERIES_FILE_3":
-          _tIME_SERIES_FILE_3 = new DFS_2D_DATA_FILE(sub);
-          break;
-        case "TIME_SERIES_FILE_4":
-          _tIME_SERIES_FILE_4 = new DFS_2D_DATA_FILE(sub);
-          break;
-        case "TIME_SERIES_FILE_5":
-          _tIME_SERIES_FILE_5 = new DFS_2D_DATA_FILE(sub);
-          break;
           default:
+            if (sub.Name.Substring(0,6).Equals("TIME_S"))
+            {
+              _tIME_SERIES_FILE_1s.Add(new DFS_2D_DATA_FILE(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
       }
     }
 
-    public DFS_2D_DATA_FILE TIME_SERIES_FILE_1
-    {
-     get { return _tIME_SERIES_FILE_1; }
-    }
-
-    public DFS_2D_DATA_FILE TIME_SERIES_FILE_2
-    {
-     get { return _tIME_SERIES_FILE_2; }
-    }
-
-    public DFS_2D_DATA_FILE TIME_SERIES_FILE_3
-    {
-     get { return _tIME_SERIES_FILE_3; }
-    }
-
-    public DFS_2D_DATA_FILE TIME_SERIES_FILE_4
-    {
-     get { return _tIME_SERIES_FILE_4; }
-    }
-
-    public DFS_2D_DATA_FILE TIME_SERIES_FILE_5
-    {
-     get { return _tIME_SERIES_FILE_5; }
+    public List<DFS_2D_DATA_FILE> TIME_SERIES_FILE_1s
+   {
+     get { return _tIME_SERIES_FILE_1s; }
     }
 
     public int Touched
