@@ -12,34 +12,34 @@ namespace MikeSheWrapper.Tools
 
     public int BoundaryCells;
     public int DryCells;
-
     private double _simulatedValueCell;
+    private double _simulatedValue;
+
+
 
     public double SimulatedValueCell
     {
       get { return _simulatedValueCell; }
       set { _simulatedValueCell = value; }
     }
-    private double _simulatedValueInterpolated;
 
-    public double SimulatedValueInterpolated
+    public double SimulatedValue
     {
-      get { return _simulatedValueInterpolated; }
-      set { _simulatedValueInterpolated = value; }
+      get { return _simulatedValue; }
+      set { _simulatedValue = value; }
     }
-    private double _mE;
 
     public double ME
     {
-      get { return _mE; }
-      set { _mE = value; }
+      get
+      {
+        return _value - _simulatedValue;
+      }
     }
-    private double _rMSE;
 
     public double RMSE
     {
-      get { return _rMSE; }
-      set { _rMSE = value; }
+      get { return Math.Pow(ME, 2.0);  }
     }
 
     public TimeSeriesEntry(DateTime Time, double Value)
