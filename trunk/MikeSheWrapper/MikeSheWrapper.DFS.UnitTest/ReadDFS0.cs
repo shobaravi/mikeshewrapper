@@ -23,5 +23,12 @@ namespace MikeSheWrapper.DFS.UnitTest
       int eumUnit = tso.Item(1).EumUnit;
 
     }
+
+    [Test]
+    public void ReadItems()
+    {
+      DFS0 _data = new DFS0(@"F:\Jacob\MikeSheWrapper\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
+
+    }
   }
 }

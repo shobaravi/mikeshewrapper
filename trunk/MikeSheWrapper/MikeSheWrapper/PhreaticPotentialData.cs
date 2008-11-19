@@ -10,6 +10,11 @@ using MikeSheWrapper.Interfaces;
 
 namespace MikeSheWrapper
 {
+  /// <summary>
+  /// This class returns the potential data where all values that MikeShe would call dry cells have been replaced with delete values.
+  /// It would be possible to optimize the speed by implementing IMAtrix to return just the element asked for instead
+  /// of constructing the entire matrix. However, the value of this improvement will depend on the use of the class.
+  /// </summary>
   internal class PhreaticPotentialData:IMatrix3d 
   {
     //Buffer on the layers
@@ -20,6 +25,8 @@ namespace MikeSheWrapper
 
     private double _phreaticFactor;
     private double _deletevalue;
+
+    //Used for locking which is necessary for thread-safety
     private static object _lock = new object();
 
 
@@ -35,6 +42,7 @@ namespace MikeSheWrapper
 
 
     #region IMatrix3d Members
+
 
     public int LayerCount
     {
@@ -92,7 +100,7 @@ namespace MikeSheWrapper
     }
 
     /// <summary>
-    /// Sets the potential in a point
+    /// Sets the potential to deletevalues where required.
     /// </summary>
     /// <param name="Row"></param>
     /// <param name="Column"></param>

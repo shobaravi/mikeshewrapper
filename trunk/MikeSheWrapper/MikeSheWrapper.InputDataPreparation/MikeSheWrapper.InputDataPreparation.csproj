@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DHI.Generic.MikeZero.DFS, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c513450b5d0bf0bf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Programmer\Fælles filer\DHI\MIKEZero\DHI.Generic.MikeZero.DFS.dll</HintPath>
+    </Reference>
     <Reference Include="DHI.TimeSeries, Version=1.1.0.0, Culture=neutral, PublicKeyToken=c513450b5d0bf0bf, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Programmer\Fælles filer\DHI\MIKEZero\DHI.TimeSeries.dll</HintPath>
@@ -59,6 +63,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MikeSheWrapper.DFS\MikeSheWrapper.DFS.csproj">
+      <Project>{BE1E49B9-9B44-4480-8B16-81D66E367670}</Project>
+      <Name>MikeSheWrapper.DFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.InputFiles\MikeSheWrapper.InputFiles.csproj">
+      <Project>{C87E8568-D743-49A7-9AA2-E830F7708C35}</Project>
+      <Name>MikeSheWrapper.InputFiles</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper.Interfaces\MikeSheWrapper.Interfaces.csproj">
       <Project>{1040884D-8EAF-4412-A236-4414BC488474}</Project>
       <Name>MikeSheWrapper.Interfaces</Name>
