@@ -111,7 +111,7 @@ namespace MikeSheWrapper
       //Calculate as a double to prevent overflow errors when casting 
       double ColumnD = Math.Max(-1, Math.Floor((UTMX - _xOrigin) / _gridSize));
 
-      if (ColumnD > _numberOfColumns)
+      if (ColumnD > _numberOfColumns-1)
         return -2;
       return (int) ColumnD;
     }
@@ -127,7 +127,7 @@ namespace MikeSheWrapper
       //Calculate as a double to prevent overflow errors when casting 
       double RowD = Math.Max(-1, Math.Floor((UTMY - _yOrigin) / _gridSize));
 
-      if (RowD > _numberOfRows)
+      if (RowD > _numberOfRows-1)
         return -2;
       return (int)RowD;
     }

@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="DataSetsFromDFS2.cs" />
     <Compile Include="DataSetsFromDFS3.cs" />
     <Compile Include="DFS.cs" />

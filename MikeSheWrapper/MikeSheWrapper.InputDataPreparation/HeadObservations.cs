@@ -10,7 +10,10 @@ using System.Threading;
 using MathNet.Numerics.LinearAlgebra;
 
 using MikeSheWrapper.Tools;
+using MikeSheWrapper.DFS;
+
 using DHI.TimeSeries;
+using DHI.Generic.MikeZero.DFS;
 
 namespace MikeSheWrapper.InputDataPreparation
 {
@@ -19,21 +22,12 @@ namespace MikeSheWrapper.InputDataPreparation
     private Dictionary<string, ObservationWell> _wells = new Dictionary<string,ObservationWell>();
     private List<ObservationWell> _workingList = new List<ObservationWell>();
 
-    public Dictionary<string, ObservationWell> Wells
-    {
-      get { return _wells; }
-    }
+    private static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
+    
+    public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.Observations.Count(num => InBetween(num, Start, End));
 
-    public List<ObservationWell> WorkingList
-    {
-      get { return _workingList; }
-    }
+    private static object _lock = new object();
 
-    public void WriteStatistics()
-    {
-
-
-    }
 
     /// <summary>
     /// Gets the number of wells that have more observations than Count with in the 
@@ -52,7 +46,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       return Number;
     }
-    private static object _lock = new object();
+
 
 
     /// <summary>
@@ -63,8 +57,8 @@ namespace MikeSheWrapper.InputDataPreparation
     public void SelectByMikeSheModelArea(MikeSheGridInfo Grid)
     {
 
-//     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
-  foreach(ObservationWell W in _wells.Values)
+      //     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
+      foreach (ObservationWell W in _wells.Values)
       {
         //Gets the index and sets the column and row
         if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
@@ -73,10 +67,62 @@ namespace MikeSheWrapper.InputDataPreparation
             _workingList.Add(W);
           }
       }
-//      );
+      //      );
+    }
+
+    /// <summary>
+    /// Writes a textfile that can be used for importing detailed timeseries output
+    /// </summary>
+    /// <param name="TxtFileName"></param>
+    public void WriteToMikeSheModel(string TxtFileName)
+    {
+      using (StreamWriter SW = new StreamWriter(TxtFileName, false, Encoding.Default))
+      {
+        foreach (ObservationWell W in _workingList)
+        {
+          SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+        }
+      }
     }
 
 
+    public void WriteToMikeSheModel(Model Mshe)
+    {
+      Mshe.Input.MIKESHE_FLOWMODEL.StoringOfResults.DetailedTimeseriesOutput.Item_1s.Clear();
+
+      
+    }
+    
+    /// <summary>
+    /// Calculate Mean error and RMSE for all observations based on the detailed ts-output.
+    /// Finds a well based on the ID
+    /// </summary>
+    /// <param name="DFS0FileName"></param>
+    public void StatisticsFromDetailedTSOutput(string DFS0FileName)
+    {
+      DFS0 _data = new DFS0(DFS0FileName);
+
+      ObservationWell OW;
+      int item=0;
+
+      foreach (DfsFileItemInfo DI in _data.DynamicItemInfos)
+      {
+        if (_wells.TryGetValue(DI.Name, out OW))
+        {
+          _workingList.Add(OW);
+          foreach (TimeSeriesEntry TSE in OW.Observations)
+            TSE.SimulatedValue = _data.GetData(TSE.Time, item+1);
+        }
+      }
+    }
+
+
+    /// <summary>
+    /// Calculate Mean error and RMSE for all observations based on the Grid output.
+    /// 4-point bilinear interpolation is used to get the value in a point. 
+    /// </summary>
+    /// <param name="MSheResults"></param>
+    /// <param name="GridInfo"></param>
     public void StatisticsFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
     {
       //Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
@@ -88,12 +134,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
           TSE.SimulatedValueCell = M[W.Row, W.Column];
           //Interpolates in the matrix
-          TSE.SimulatedValueInterpolated  = GridInfo.Interpolate(W.X, W.Y, W.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
-          if (TSE.SimulatedValueInterpolated != MSheResults.DeleteValue)
-          {
-            TSE.ME = TSE.Value - TSE.SimulatedValueInterpolated;
-            TSE.RMSE = Math.Pow(TSE.ME, 2.0);
-          }
+          TSE.SimulatedValue  = GridInfo.Interpolate(W.X, W.Y, W.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
         }
       }
       //);
@@ -114,6 +155,12 @@ namespace MikeSheWrapper.InputDataPreparation
       DT.Columns.Add("NOVANAID", typeof(string));
       DT.Columns.Add("XUTM", typeof (double));
       DT.Columns.Add("YUTM", typeof (double));
+      DT.Columns.Add("INTAKETOP", typeof(double));
+      DT.Columns.Add("INTAKEBOT", typeof(double));
+      DT.Columns.Add("DTMKOTE", typeof(double));
+      DT.Columns.Add("MIDTJUST", typeof(double));
+      DT.Columns.Add("DRILLDEPTH", typeof(double));
+
       DT.Columns.Add("tiemofmeas", typeof(DateTime));
       DT.Columns.Add("WATERLEVEL", typeof(double));
 
@@ -134,6 +181,14 @@ namespace MikeSheWrapper.InputDataPreparation
         {
           //Add a new well if it was not found
           CurrentWell = new ObservationWell((string)DR["NOVANAID"], (double)DR["XUTM"], (double)DR["YUTM"]);
+          if ((int)(double)DR["MIDTJUST"] == -999)
+            if ((int)(double)DR["INTAKETOP"] == -999)
+              CurrentWell.Depth = (double)DR["DRILLDEPTH"];
+            else
+              CurrentWell.Depth = 0.5 * ((double)DR["INTAKETOP"] + (double)DR["INTAKEBOT"]);
+          else
+              CurrentWell.Depth = (double)DR["DTMKOTE"] - (double)DR["MIDTJUST"];
+
           _wells.Add((string) DR["NOVANAID"],CurrentWell);
         }
         CurrentWell.Observations.Add(new TimeSeriesEntry ((DateTime) DR["tiemofmeas"], (double)DR["WATERLEVEL"]));
@@ -162,6 +217,17 @@ namespace MikeSheWrapper.InputDataPreparation
           W.WriteToDfs0(OutputPath);
       });
     }
+
+    public Dictionary<string, ObservationWell> Wells
+    {
+      get { return _wells; }
+    }
+
+    public List<ObservationWell> WorkingList
+    {
+      get { return _workingList; }
+    }
+
 
 
   }

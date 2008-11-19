@@ -45,6 +45,7 @@ namespace MikeSheWrapper.LayerStatistics
       //Now read the input
       using (StreamReader SR = new StreamReader(LSFileName))
       {
+        
         //Reads the HeadLine
         string line = SR.ReadLine();
         string[] s;
@@ -114,7 +115,7 @@ namespace MikeSheWrapper.LayerStatistics
           ObsString.Append((_numberOfLayers - OW.Layer) + "\t");
           ObsString.Append(TSE.Value + "\t");
           ObsString.Append(TSE.Time.ToShortDateString() + "\t");
-          ObsString.Append(TSE.SimulatedValueInterpolated + "\t");
+          ObsString.Append(TSE.SimulatedValue + "\t");
           ObsString.Append(TSE.SimulatedValueCell + "\t");
           ObsString.Append(TSE.ME + "\t");
           ObsString.Append(TSE.RMSE + "\t");
