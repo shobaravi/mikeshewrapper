@@ -60,6 +60,10 @@ namespace MikeSheWrapper.Tools
       set { _value = value; }
     }
 
+    public override string ToString()
+    {
+      return "T= " + _time.ToShortDateString() + ", V = " + _value;
+    }
 
     #region IComparable<TimeSeriesEntry> Members
 
