@@ -73,39 +73,63 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public int DataType
+    public int HydrComp
     {
       get
       {
-        return _pfsHandle.GetKeyword("DataType", 1).GetParameter(1).ToInt();
+        return _pfsHandle.GetKeyword("HydrComp", 1).GetParameter(1).ToInt();
       }
       set
       {
-        _pfsHandle.GetKeyword("DataType", 1).GetParameter(1).Value = value;
+        _pfsHandle.GetKeyword("HydrComp", 1).GetParameter(1).Value = value;
       }
     }
 
-    public string BranchName
+    public int Group
     {
       get
       {
-        return _pfsHandle.GetKeyword("BranchName", 1).GetParameter(1).ToString();
+        return _pfsHandle.GetKeyword("Group", 1).GetParameter(1).ToInt();
       }
       set
       {
-        _pfsHandle.GetKeyword("BranchName", 1).GetParameter(1).Value = value;
+        _pfsHandle.GetKeyword("Group", 1).GetParameter(1).Value = value;
       }
     }
 
-    public int Chainage
+    public int X
     {
       get
       {
-        return _pfsHandle.GetKeyword("Chainage", 1).GetParameter(1).ToInt();
+        return _pfsHandle.GetKeyword("X", 1).GetParameter(1).ToInt();
       }
       set
       {
-        _pfsHandle.GetKeyword("Chainage", 1).GetParameter(1).Value = value;
+        _pfsHandle.GetKeyword("X", 1).GetParameter(1).Value = value;
+      }
+    }
+
+    public int Y
+    {
+      get
+      {
+        return _pfsHandle.GetKeyword("Y", 1).GetParameter(1).ToInt();
+      }
+      set
+      {
+        _pfsHandle.GetKeyword("Y", 1).GetParameter(1).Value = value;
+      }
+    }
+
+    public double Z
+    {
+      get
+      {
+        return _pfsHandle.GetKeyword("Z", 1).GetParameter(1).ToDouble();
+      }
+      set
+      {
+        _pfsHandle.GetKeyword("Z", 1).GetParameter(1).Value = value;
       }
     }
 

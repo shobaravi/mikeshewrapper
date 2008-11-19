@@ -14,6 +14,11 @@ namespace MikeSheWrapper.InputFiles
     private GLOBAL1 _gLOBAL;
     private STATION_BASED _sTATION_BASED;
     private FULLY_DISTRIBUTED1 _fULLY_DISTRIBUTED;
+    private TIME_SERIES_1 _tIME_SERIES_1;
+    private TIME_SERIES_2 _tIME_SERIES_2;
+    private TIME_SERIES_3 _tIME_SERIES_3;
+    private TIME_SERIES_4 _tIME_SERIES_4;
+    private TIME_SERIES_5 _tIME_SERIES_5;
 
     internal VEGETATION(PFSSection Section)
     {
@@ -32,6 +37,21 @@ namespace MikeSheWrapper.InputFiles
           break;
         case "FULLY_DISTRIBUTED":
           _fULLY_DISTRIBUTED = new FULLY_DISTRIBUTED1(sub);
+          break;
+        case "TIME_SERIES_1":
+          _tIME_SERIES_1 = new TIME_SERIES_1(sub);
+          break;
+        case "TIME_SERIES_2":
+          _tIME_SERIES_2 = new TIME_SERIES_2(sub);
+          break;
+        case "TIME_SERIES_3":
+          _tIME_SERIES_3 = new TIME_SERIES_3(sub);
+          break;
+        case "TIME_SERIES_4":
+          _tIME_SERIES_4 = new TIME_SERIES_4(sub);
+          break;
+        case "TIME_SERIES_5":
+          _tIME_SERIES_5 = new TIME_SERIES_5(sub);
           break;
           default:
             _unMappedSections.Add(sub.Name);
@@ -53,6 +73,31 @@ namespace MikeSheWrapper.InputFiles
     public FULLY_DISTRIBUTED1 FULLY_DISTRIBUTED
     {
      get { return _fULLY_DISTRIBUTED; }
+    }
+
+    public TIME_SERIES_1 TIME_SERIES_1
+    {
+     get { return _tIME_SERIES_1; }
+    }
+
+    public TIME_SERIES_2 TIME_SERIES_2
+    {
+     get { return _tIME_SERIES_2; }
+    }
+
+    public TIME_SERIES_3 TIME_SERIES_3
+    {
+     get { return _tIME_SERIES_3; }
+    }
+
+    public TIME_SERIES_4 TIME_SERIES_4
+    {
+     get { return _tIME_SERIES_4; }
+    }
+
+    public TIME_SERIES_5 TIME_SERIES_5
+    {
+     get { return _tIME_SERIES_5; }
     }
 
     public int Touched

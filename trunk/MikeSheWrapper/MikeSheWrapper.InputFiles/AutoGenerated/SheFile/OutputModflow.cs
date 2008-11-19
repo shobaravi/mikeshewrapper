@@ -11,8 +11,8 @@ namespace MikeSheWrapper.InputFiles
   public partial class OutputModflow: PFSMapper
   {
 
-    private DetailedTimeseriesOutput _outputDates;
-    private DetailedTimeseriesOutput _outputTimesteps;
+    private OutputDates _outputDates;
+    private OutputDates _outputTimesteps;
     private PackagesOutput _packagesOutput;
 
     internal OutputModflow(PFSSection Section)
@@ -25,10 +25,10 @@ namespace MikeSheWrapper.InputFiles
         switch (sub.Name)
         {
         case "OutputDates":
-          _outputDates = new DetailedTimeseriesOutput(sub);
+          _outputDates = new OutputDates(sub);
           break;
         case "OutputTimesteps":
-          _outputTimesteps = new DetailedTimeseriesOutput(sub);
+          _outputTimesteps = new OutputDates(sub);
           break;
         case "PackagesOutput":
           _packagesOutput = new PackagesOutput(sub);
@@ -40,12 +40,12 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
-    public DetailedTimeseriesOutput OutputDates
+    public OutputDates OutputDates
     {
      get { return _outputDates; }
     }
 
-    public DetailedTimeseriesOutput OutputTimesteps
+    public OutputDates OutputTimesteps
     {
      get { return _outputTimesteps; }
     }

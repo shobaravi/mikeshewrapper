@@ -17,9 +17,8 @@ namespace MikeSheWrapper.InputFiles
     private Topography _leakageCoeff;
     private Topography _separatedFlowAreas;
     private InitialMass _initialMass;
-    private Topography _dispersionCoeff_X;
-    private Topography _dispersionCoeff_Y;
     private InitialMass _decay_Processes;
+    private List<Topography> _dispersionCoeff_Xs = new List<Topography>();
 
     internal Overland(PFSSection Section)
     {
@@ -48,16 +47,15 @@ namespace MikeSheWrapper.InputFiles
         case "InitialMass":
           _initialMass = new InitialMass(sub);
           break;
-        case "DispersionCoeff_X":
-          _dispersionCoeff_X = new Topography(sub);
-          break;
-        case "DispersionCoeff_Y":
-          _dispersionCoeff_Y = new Topography(sub);
-          break;
         case "Decay_Processes":
           _decay_Processes = new InitialMass(sub);
           break;
           default:
+            if (sub.Name.Substring(0,6).Equals("Disper"))
+            {
+              _dispersionCoeff_Xs.Add(new Topography(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
@@ -94,19 +92,14 @@ namespace MikeSheWrapper.InputFiles
      get { return _initialMass; }
     }
 
-    public Topography DispersionCoeff_X
-    {
-     get { return _dispersionCoeff_X; }
-    }
-
-    public Topography DispersionCoeff_Y
-    {
-     get { return _dispersionCoeff_Y; }
-    }
-
     public InitialMass Decay_Processes
     {
      get { return _decay_Processes; }
+    }
+
+    public List<Topography> DispersionCoeff_Xs
+   {
+     get { return _dispersionCoeff_Xs; }
     }
 
     public int Touched

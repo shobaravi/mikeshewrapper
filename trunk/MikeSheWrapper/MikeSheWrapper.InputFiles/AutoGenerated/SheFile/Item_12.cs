@@ -11,6 +11,7 @@ namespace MikeSheWrapper.InputFiles
   public partial class Item_12: PFSMapper
   {
 
+    private DFS_2D_DATA_FILE _tIME_SERIES_FILE;
 
     internal Item_12(PFSSection Section)
     {
@@ -21,11 +22,19 @@ namespace MikeSheWrapper.InputFiles
         PFSSection sub = Section.GetSection(i);
         switch (sub.Name)
         {
+        case "TIME_SERIES_FILE":
+          _tIME_SERIES_FILE = new DFS_2D_DATA_FILE(sub);
+          break;
           default:
             _unMappedSections.Add(sub.Name);
           break;
         }
       }
+    }
+
+    public DFS_2D_DATA_FILE TIME_SERIES_FILE
+    {
+     get { return _tIME_SERIES_FILE; }
     }
 
     public int Touched
@@ -52,6 +61,18 @@ namespace MikeSheWrapper.InputFiles
       }
     }
 
+    public string Name
+    {
+      get
+      {
+        return _pfsHandle.GetKeyword("Name", 1).GetParameter(1).ToString();
+      }
+      set
+      {
+        _pfsHandle.GetKeyword("Name", 1).GetParameter(1).Value = value;
+      }
+    }
+
     public int DataType
     {
       get
@@ -61,6 +82,42 @@ namespace MikeSheWrapper.InputFiles
       set
       {
         _pfsHandle.GetKeyword("DataType", 1).GetParameter(1).Value = value;
+      }
+    }
+
+    public string BranchName
+    {
+      get
+      {
+        return _pfsHandle.GetKeyword("BranchName", 1).GetParameter(1).ToString();
+      }
+      set
+      {
+        _pfsHandle.GetKeyword("BranchName", 1).GetParameter(1).Value = value;
+      }
+    }
+
+    public int Chainage
+    {
+      get
+      {
+        return _pfsHandle.GetKeyword("Chainage", 1).GetParameter(1).ToInt();
+      }
+      set
+      {
+        _pfsHandle.GetKeyword("Chainage", 1).GetParameter(1).Value = value;
+      }
+    }
+
+    public int InclObserved
+    {
+      get
+      {
+        return _pfsHandle.GetKeyword("InclObserved", 1).GetParameter(1).ToInt();
+      }
+      set
+      {
+        _pfsHandle.GetKeyword("InclObserved", 1).GetParameter(1).Value = value;
       }
     }
 

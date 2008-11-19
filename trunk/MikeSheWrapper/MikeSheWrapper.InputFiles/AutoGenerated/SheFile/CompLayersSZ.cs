@@ -12,15 +12,7 @@ namespace MikeSheWrapper.InputFiles
   {
 
     private Layer_11 _layer_1;
-    private Layer_2 _layer_2;
-    private Layer_2 _layer_3;
-    private Layer_2 _layer_4;
-    private Layer_2 _layer_5;
-    private Layer_2 _layer_6;
-    private Layer_2 _layer_7;
-    private Layer_2 _layer_8;
-    private Layer_2 _layer_9;
-    private Layer_2 _layer_10;
+    private List<Layer_2> _layer_2s = new List<Layer_2>();
 
     internal CompLayersSZ(PFSSection Section)
     {
@@ -34,34 +26,12 @@ namespace MikeSheWrapper.InputFiles
         case "Layer_1":
           _layer_1 = new Layer_11(sub);
           break;
-        case "Layer_2":
-          _layer_2 = new Layer_2(sub);
-          break;
-        case "Layer_3":
-          _layer_3 = new Layer_2(sub);
-          break;
-        case "Layer_4":
-          _layer_4 = new Layer_2(sub);
-          break;
-        case "Layer_5":
-          _layer_5 = new Layer_2(sub);
-          break;
-        case "Layer_6":
-          _layer_6 = new Layer_2(sub);
-          break;
-        case "Layer_7":
-          _layer_7 = new Layer_2(sub);
-          break;
-        case "Layer_8":
-          _layer_8 = new Layer_2(sub);
-          break;
-        case "Layer_9":
-          _layer_9 = new Layer_2(sub);
-          break;
-        case "Layer_10":
-          _layer_10 = new Layer_2(sub);
-          break;
           default:
+            if (sub.Name.Substring(0,6).Equals("Layer_"))
+            {
+              _layer_2s.Add(new Layer_2(sub));
+              break;
+            }
             _unMappedSections.Add(sub.Name);
           break;
         }
@@ -73,49 +43,9 @@ namespace MikeSheWrapper.InputFiles
      get { return _layer_1; }
     }
 
-    public Layer_2 Layer_2
-    {
-     get { return _layer_2; }
-    }
-
-    public Layer_2 Layer_3
-    {
-     get { return _layer_3; }
-    }
-
-    public Layer_2 Layer_4
-    {
-     get { return _layer_4; }
-    }
-
-    public Layer_2 Layer_5
-    {
-     get { return _layer_5; }
-    }
-
-    public Layer_2 Layer_6
-    {
-     get { return _layer_6; }
-    }
-
-    public Layer_2 Layer_7
-    {
-     get { return _layer_7; }
-    }
-
-    public Layer_2 Layer_8
-    {
-     get { return _layer_8; }
-    }
-
-    public Layer_2 Layer_9
-    {
-     get { return _layer_9; }
-    }
-
-    public Layer_2 Layer_10
-    {
-     get { return _layer_10; }
+    public List<Layer_2> Layer_2s
+   {
+     get { return _layer_2s; }
     }
 
     public int Touched
