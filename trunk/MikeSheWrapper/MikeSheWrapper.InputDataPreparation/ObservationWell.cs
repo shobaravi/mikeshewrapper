@@ -124,10 +124,27 @@ namespace MikeSheWrapper.InputDataPreparation
       _tso.Connection.Save();
     }
 
+    /// <summary>
+    /// Reads in observations from a dfs0-file
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <param name="item"></param>
+    public void ReadDfs0(string filename, int item)
+    {
+      _tso = new TSObjectClass();
+      _tso.Connection.FilePath = filename;
+      _tso.Connection.Open();
+
+      for (int i = 1; i <= _tso.Time.NrTimeSteps; i++)
+      {
+        _observations.Add(new TimeSeriesEntry((DateTime)_tso.Time.GetTimeForTimeStepNr(i), (float)_tso.Item(item).GetDataForTimeStepNr(i)));
+      }
+    }
+
 
     public override string ToString()
     {
-      return base.ToString();
+      return base.ToString() + "NoObs: " + _observations.Count;
     }
 
     public string LogString()
@@ -166,12 +183,64 @@ namespace MikeSheWrapper.InputDataPreparation
       }
     }
 
+
+
+#region Statistics
+
+    public double RMS
+    {
+      get
+      {
+        return Math.Pow(_observations.Average(new Func<TimeSeriesEntry, double>(num => num.RMSE)), 0.5);
+      }
+    }
+
+    public double ME
+    {
+      get
+      {
+        return _observations.Average(new Func<TimeSeriesEntry, double>(num => num.ME));
+      }
+    }
+
+    public double MAE
+    {
+      get
+      {
+        return _observations.Average(new Func<TimeSeriesEntry, double>(num => Math.Abs(num.ME)));
+      }
+    }
+
+
+    public double RMST
+    {
+      get 
+      {
+        double simmean = _observations.Average(new Func<TimeSeriesEntry, double>(num => num.SimulatedValue));
+        double obsmean = _observations.Average(new Func<TimeSeriesEntry, double>(num => num.Value)); 
+
+        double val = _observations.Sum(new Func<TimeSeriesEntry,double>(num => Math.Pow(num.Value - obsmean-(num.SimulatedValue - simmean),2)));
+        return  Math.Pow(val/_observations.Count, 0.5);
+      }
+    }
+
+
+#endregion
+
     /// <summary>
     /// Gets the observations. Also used to add data
     /// </summary>
     public List<TimeSeriesEntry> Observations
     {
       get { return _observations; }
+    }
+
+    public List<TimeSeriesEntry> UniqueObservations
+    {
+      get
+      {
+        return _observations.Distinct().ToList();
+      }
     }
 
     public int Column

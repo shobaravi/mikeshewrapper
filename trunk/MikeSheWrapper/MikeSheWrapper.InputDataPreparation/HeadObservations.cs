@@ -1,4 +1,7 @@
 ﻿using System;
+      using System.Data.OleDb;
+using System.Data;
+
 using System.IO;
 using System.Data;
 using System.Collections.Generic;
@@ -22,9 +25,18 @@ namespace MikeSheWrapper.InputDataPreparation
     private Dictionary<string, ObservationWell> _wells = new Dictionary<string,ObservationWell>();
     private List<ObservationWell> _workingList = new List<ObservationWell>();
 
-    private static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
-    
-    public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.Observations.Count(num => InBetween(num, Start, End));
+    /// <summary>
+    /// Function that returns true if a time series entry is between the two dates
+    /// </summary>
+    public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
+
+
+    /// <summary>
+    /// Function that returns true if a well has more than Count observations in the period between Start and End
+    /// </summary>
+    public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.UniqueObservations.Count(num => InBetween(num, Start, End));
+
+
 
     private static object _lock = new object();
 
@@ -114,6 +126,10 @@ namespace MikeSheWrapper.InputDataPreparation
             TSE.SimulatedValue = _data.GetData(TSE.Time, item+1);
         }
       }
+
+      foreach (ObservationWell OWW in _wells.Values)
+      {
+      }
     }
 
 
@@ -142,6 +158,101 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
 #region Population Methods
+    /// <summary>
+    /// Reads in all wells from a Jupiter database. Only reads X and Y
+    /// </summary>
+    /// <param name="DataBaseFile"></param>
+    public void ReadWellsFromJupiter(string DataBaseFile)
+    {
+      OleDbConnection dbconnection;
+      String databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
+      dbconnection = new OleDbConnection(databaseConnection);
+      dbconnection.Open();
+      string select = "SELECT borehole.boreholeno, intakeno, xutm, yutm FROM borehole, intake WHERE borehole.boreholeno= intake.boreholeno and xutm IS NOT NULL AND yutm IS NOT NULL";
+
+      OleDbDataAdapter da = new OleDbDataAdapter(select, databaseConnection);
+      DataSet ds = new DataSet();
+      da.Fill(ds, "watlevel");
+
+      foreach (DataRow Dr in ds.Tables["watlevel"].Rows)
+      {
+        string wellname = ((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"];
+
+        ObservationWell CurrentWell = new ObservationWell(wellname);
+        CurrentWell.X = (double) Dr["xutm"];
+        CurrentWell.Y = (double) Dr["yutm"];
+        _wells.Add(wellname, CurrentWell);
+      }
+    }
+
+    /// <summary>
+    /// Reads in the wells defined in detailed timeseries input section
+    /// </summary>
+    /// <param name="Mshe"></param>
+    public void ReadInDetailedTimeSeries(Model Mshe)
+    {
+      ObservationWell CurrentWell;
+
+      foreach (MikeSheWrapper.InputFiles.Item_11 dt in Mshe.Input.MIKESHE_FLOWMODEL.StoringOfResults.DetailedTimeseriesOutput.Item_1s)
+      {
+        if (!_wells.TryGetValue(dt.Name, out CurrentWell))
+        {
+          CurrentWell = new ObservationWell(dt.Name);
+          CurrentWell.X = dt.X;
+          CurrentWell.Y = dt.Y;
+          CurrentWell.Depth = dt.Y;
+          _wells.Add(dt.Name, CurrentWell);
+        }
+        if (dt.InclObserved == 1)
+        {
+          CurrentWell.ReadDfs0(dt.TIME_SERIES_FILE.FILE_NAME, dt.TIME_SERIES_FILE.ITEM_NUMBERS);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Read in water levels from a Jupiter access database. 
+    /// If CreateWells is true a new well is created if it does not exist in the list.
+    /// Entries with blank dates of waterlevels are skipped.
+    /// </summary>
+    /// <param name="DataBaseFile"></param>
+    /// <param name="CreateWells"></param>
+    public void ReadWaterlevelsFromJupiterAccess(string DataBaseFile, bool CreateWells)
+    {
+
+      OleDbConnection dbconnection;
+      String databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
+      dbconnection = new OleDbConnection(databaseConnection);
+      dbconnection.Open();
+      OleDbDataAdapter da = new OleDbDataAdapter("SELECT boreholeno, intakeno, timeofmeas, waterlevel FROM watlevel WHERE timeofmeas IS NOT NULL AND waterlevel IS NOT NULL", databaseConnection);
+      DataSet ds = new DataSet();
+      da.Fill(ds, "watlevel");
+
+      int nrow = ds.Tables[0].Rows.Count;
+      foreach (DataRow Dr in ds.Tables["watlevel"].Rows)
+      {
+        ObservationWell CurrentWell;
+
+        string well = (((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"]).Trim();
+        //Find the well in the dictionary
+        if (!_wells.TryGetValue(well, out CurrentWell))
+        {
+          if (CreateWells)
+          {
+            CurrentWell = new ObservationWell(well);
+            _wells.Add(well, CurrentWell);
+          }
+        }
+        if (CurrentWell!=null)
+        CurrentWell.Observations.Add(new TimeSeriesEntry((DateTime)Dr["timeofmeas"], (double)Dr["waterlevel"]));
+
+      }
+    }
+
+
+
+    
+
 
     /// <summary>
     /// Reads in observations from a shape file

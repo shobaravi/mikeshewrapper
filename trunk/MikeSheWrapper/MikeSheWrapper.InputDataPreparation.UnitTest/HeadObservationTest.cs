@@ -14,13 +14,22 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
   public class HeadObservationTest
   {
     HeadObservations HO = new HeadObservations();
-    
 
 
+    [Test]
+    public void ReadFromJupiter()
+    {
+      HO.ReadWellsFromJupiter(@"F:\Jacob\Pejlinger\herning.mdb");
+      HO.ReadWaterlevelsFromJupiterAccess(@"F:\Jacob\Pejlinger\herning.mdb", false);
+      int NumberOfWells = HO.Wells.Values.Count(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
+
+    }
+
+    [Ignore]
     [SetUp]
     public void ConstructTest()
     {
-      HO.ReadFromShape(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
+     // HO.ReadFromShape(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
     }
 
     [Test]
@@ -39,13 +48,27 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     [Test]
     public void SelectByFunction()
     {
+      int NumberOfWells = HO.Wells.Values.Count(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
+
+      foreach (ObservationWell W in HO.Wells.Values)
+      {
+        if (W.UniqueObservations.Count > 1)
+          Console.WriteLine(W);
+      }
 
       var query = HO.Wells.Values.Where(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
 
 
-
     }
 
+    [Test]
+    public void ReadInFromMsheModel()
+    {
+      Model M = new Model(@"..\..\..\TestData\TestModel.she");
+      HO.ReadInDetailedTimeSeries(M);
+      HO.StatisticsFromDetailedTSOutput(@"..\..\..\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
+
+    }
 
     [Test]
     public void StatisticsFromDFS0Test()
