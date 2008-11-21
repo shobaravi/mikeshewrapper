@@ -22,6 +22,13 @@ namespace MikeSheWrapper.InputFiles.UnitTest
 
 
     [Test]
+    public void ReadDetailedTSTest()
+    {
+      Assert.AreEqual(2, _she.MIKESHE_FLOWMODEL.StoringOfResults.DetailedTimeseriesOutput.Item_1s.Count);
+    }
+
+
+    [Test]
     public void ReadTest()
     {
       Assert.AreEqual(1, _she.MIKESHE_FLOWMODEL.SimSpec.ModelComp.WM);
