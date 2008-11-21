@@ -173,11 +173,11 @@ ELAPSED TIME USAGE
 Function                                Elapsed seconds
 -------------------------------------------------------
  Initialization phase                       2.000000    
- Simulation phase (includes others below)   118.0000    
- SZ                                         8.000000    
- UZ                                         3.000000    
- ET                                         4.000000    
- Overland                                   100.0000    
+ Simulation phase (includes others below)   121.0000    
+ SZ                                         7.000000    
+ UZ                                         2.000000    
+ ET                                         0.000000    
+ Overland                                   110.0000    
  River                                      0.000000    
  Irrigation                                 1.000000    
  Met. input                                 0.000000    
