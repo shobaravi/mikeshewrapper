@@ -68,7 +68,6 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="MikeShe"></param>
     public void SelectByMikeSheModelArea(MikeSheGridInfo Grid)
     {
-
       //     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
       foreach (ObservationWell W in _wells.Values)
       {
@@ -102,7 +101,6 @@ namespace MikeSheWrapper.InputDataPreparation
     {
       Mshe.Input.MIKESHE_FLOWMODEL.StoringOfResults.DetailedTimeseriesOutput.Item_1s.Clear();
 
-      
     }
     
     /// <summary>
@@ -110,50 +108,45 @@ namespace MikeSheWrapper.InputDataPreparation
     /// Finds a well based on the ID
     /// </summary>
     /// <param name="DFS0FileName"></param>
-    public void StatisticsFromDetailedTSOutput(string DFS0FileName)
+    public void GetSimulatedValuesFromDetailedTSOutput(string DFS0FileName)
     {
       DFS0 _data = new DFS0(DFS0FileName);
 
       ObservationWell OW;
-      int item=0;
+      int item=1;
 
+      //Loop all Items
       foreach (DfsFileItemInfo DI in _data.DynamicItemInfos)
       {
         if (_wells.TryGetValue(DI.Name, out OW))
         {
           _workingList.Add(OW);
+          //Loop the observations
           foreach (TimeSeriesEntry TSE in OW.Observations)
-            TSE.SimulatedValue = _data.GetData(TSE.Time, item+1);
+            TSE.SimulatedValue = _data.GetData(TSE.Time, item);
         }
-      }
-
-      foreach (ObservationWell OWW in _wells.Values)
-      {
+        item++;
       }
     }
 
 
     /// <summary>
-    /// Calculate Mean error and RMSE for all observations based on the Grid output.
     /// 4-point bilinear interpolation is used to get the value in a point. 
     /// </summary>
     /// <param name="MSheResults"></param>
     /// <param name="GridInfo"></param>
-    public void StatisticsFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
+    public void GetSimulatedValuesFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
     {
-      //Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
       foreach(ObservationWell W in _workingList)
       {
         foreach (TimeSeriesEntry TSE in W.Observations)
         {
           Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[W.Layer];
-
           TSE.SimulatedValueCell = M[W.Row, W.Column];
           //Interpolates in the matrix
           TSE.SimulatedValue  = GridInfo.Interpolate(W.X, W.Y, W.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
         }
       }
-      //);
     }
 
 
