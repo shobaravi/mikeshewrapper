@@ -66,14 +66,14 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     {
       Model M = new Model(@"..\..\..\TestData\TestModel.she");
       HO.ReadInDetailedTimeSeries(M);
-      HO.StatisticsFromDetailedTSOutput(@"..\..\..\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
+      HO.GetSimulatedValuesFromDetailedTSOutput(@"..\..\..\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
 
     }
 
     [Test]
     public void StatisticsFromDFS0Test()
     {
-      HO.StatisticsFromDetailedTSOutput(@"F:\Novana\Novomr4\Result\omr4_jag_UZ_ts.SHE - Result Files\omr4_jag_UZ_tsDetailedTS_SZ.dfs0");
+      HO.GetSimulatedValuesFromDetailedTSOutput(@"F:\Novana\Novomr4\Result\omr4_jag_UZ_ts.SHE - Result Files\omr4_jag_UZ_tsDetailedTS_SZ.dfs0");
 
     }
 

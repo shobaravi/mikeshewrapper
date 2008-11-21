@@ -86,7 +86,7 @@ namespace MikeSheWrapper.LayerStatistics
         }
 
 
-        HO.StatisticsFromGridOutput(_res, _grid);
+        HO.GetSimulatedValuesFromGridOutput(_res, _grid);
       
         //Samler resultaterne for hver lag
         foreach (ObservationWell OW in HO.WorkingList)

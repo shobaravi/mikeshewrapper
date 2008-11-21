@@ -65,12 +65,24 @@ namespace MikeSheWrapper.Tools
       return "T= " + _time.ToShortDateString() + ", V = " + _value;
     }
 
+    public override bool Equals(object obj)
+    {
+      return ((TimeSeriesEntry)obj).Time.Equals(_time);
+    }
+
+    public override int GetHashCode()
+    {
+      return _time.GetHashCode();
+    }
+
     #region IComparable<TimeSeriesEntry> Members
 
     public int CompareTo(TimeSeriesEntry other)
     {
       return _time.CompareTo(other._time);
     }
+
+
 
     #endregion
   }
