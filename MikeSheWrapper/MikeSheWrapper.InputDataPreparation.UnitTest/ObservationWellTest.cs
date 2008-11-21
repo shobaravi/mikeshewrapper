@@ -12,6 +12,49 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
   [TestFixture]
   public class ObservationWellTest
   {
+    private static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
+
+    [Test]
+    public void GroupByTest()
+    {
+      ObservationWell OW = new ObservationWell("test");
+
+      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 10));
+      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 5));
+      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 15));
+      OW.Observations.Add(new TimeSeriesEntry(new DateTime(2000, 1, 1), 10));
+
+      OW.Observations.Sort();
+
+      Assert.IsTrue(OW.Observations[1].Equals(OW.Observations[2]));
+
+      int kk = OW.Observations.Distinct().Count(W => InBetween(W, DateTime.MinValue, DateTime.MaxValue)); ;
+                 //   group obs by obs.Time into g 
+
+      Assert.AreEqual(kk, OW.UniqueObservations.Count);
+
+      //foreach (var W in grouped)
+      //{
+      //  foreach (TimeSeriesEntry TSE in W)
+      //    Console.WriteLine(TSE.ToString());
+      //}
+
+      foreach (var W in OW.Observations.Where(v => InBetween(v, new DateTime(1998,2,2), DateTime.MaxValue)).GroupBy(o => o.Time))
+      {
+        Console.WriteLine("newline");
+        int k = 0;
+        foreach (TimeSeriesEntry TSE in W)
+        {
+          if(k==0)
+          Console.WriteLine(TSE.ToString());
+          k++;
+        }
+      }
+
+    }
+
+
+
     [Test]
     public void SortTest()
     {
