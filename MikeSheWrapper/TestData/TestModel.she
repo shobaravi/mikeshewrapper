@@ -1,4 +1,4 @@
-// Created     : 2008-11-13 17:9:57
+// Created     : 2008-11-21 13:23:6
 // DLL id      : D:\Programmer\Fælles filer\DHI\MikeZero\pfs2004.dll
 // PFS version : Sep 25 2008 20:27:52
 
@@ -4005,10 +4005,50 @@
       WQ_TimeSeriesFrequency = 24
       WQ_SummaryFrequency = 24
       [DetailedTimeseriesOutput]
-         Touched = 0
+         Touched = 1
          IsDataUsedInSetup = 1
-         MzSEPfsListItemCount = 0
-         NumberOfItems = 0
+         MzSEPfsListItemCount = 2
+         NumberOfItems = 2
+         [Item_1]
+            Touched = 1
+            IsDataUsedInSetup = 1
+            Name = 'Well1'
+            HydrComp = 101
+            Group = 1
+            X = 98.93048128342247
+            Y = 339.572192513369
+            Z = 5
+            InclObserved = 1
+            [TIME_SERIES_FILE]
+               Touched = 1
+               IsDataUsedInSetup = 1
+               FILE_NAME = |.\Detailed timeseries output.dfs0|
+               ITEM_COUNT = 1
+               ITEM_NUMBERS = 2
+            EndSect  // TIME_SERIES_FILE
+
+         EndSect  // Item_1
+
+         [Item_2]
+            Touched = 1
+            IsDataUsedInSetup = 1
+            Name = 'Well2'
+            HydrComp = 101
+            Group = 1
+            X = 302.1390374331551
+            Y = 136.3636363636364
+            Z = 5
+            InclObserved = 1
+            [TIME_SERIES_FILE]
+               Touched = 1
+               IsDataUsedInSetup = 1
+               FILE_NAME = |.\Detailed timeseries output.dfs0|
+               ITEM_COUNT = 1
+               ITEM_NUMBERS = 1
+            EndSect  // TIME_SERIES_FILE
+
+         EndSect  // Item_2
+
       EndSect  // DetailedTimeseriesOutput
 
       [DetailedM11TimeseriesOutput]
