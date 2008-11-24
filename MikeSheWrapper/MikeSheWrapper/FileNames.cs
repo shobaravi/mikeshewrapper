@@ -173,6 +173,14 @@ namespace MikeSheWrapper
       }
     }
 
+    public string DetailedTimeSeriesSZ
+    {
+      get
+      {
+        return getFile("DetailedTS_SZ.dfs0");
+      }
+    }
+
     /// <summary>
     /// Gets and sets a string with the name and path of the .she-file
     /// </summary>

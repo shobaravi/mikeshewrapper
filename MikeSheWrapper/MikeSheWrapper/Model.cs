@@ -13,8 +13,12 @@ namespace MikeSheWrapper
     private ProcessedData _processed;
     private Results _results;
     private FileNames _files;
+
+    public FileNames Files
+    {
+      get { return _files; }
+    }
     private SheFile _input;
-    private MikeSheGridInfo _gridInfo;
 
     public MikeSheGridInfo GridInfo
     {

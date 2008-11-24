@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShapeReaderTest.cs" />
-    <Compile Include="ObservationWellTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikeSheWrapper.InputDataPreparation\MikeSheWrapper.InputDataPreparation.csproj">

@@ -24,43 +24,42 @@ namespace MikeSheWrapper.InputDataPreparation
   {
     private Dictionary<string, ObservationWell> _wells = new Dictionary<string,ObservationWell>();
     private List<ObservationWell> _workingList = new List<ObservationWell>();
+    //Object used for thread safety. What happens if two instances are running in the same process?
+    private static object _lock = new object();
 
     /// <summary>
     /// Function that returns true if a time series entry is between the two dates
     /// </summary>
     public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
-
-
+    
     /// <summary>
     /// Function that returns true if a well has more than Count observations in the period between Start and End
     /// </summary>
     public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.UniqueObservations.Count(num => InBetween(num, Start, End));
 
 
+    public HeadObservations()
+    { }
 
-    private static object _lock = new object();
-
-
-    /// <summary>
-    /// Gets the number of wells that have more observations than Count with in the 
-    /// given period of time
-    /// </summary>
-    /// <param name="Start"></param>
-    /// <param name="End"></param>
-    /// <param name="Count"></param>
-    /// <returns></returns>
-    public int GetNumberOfWells(DateTime Start, DateTime End, int Count)
+    public HeadObservations(string FileName)
     {
-      int Number = 0;
-      foreach(ObservationWell W in _workingList)
-        if (W.GetNumberOfObservations(Start, End)>= Count)
-          Number++;
+      switch (Path.GetExtension(FileName))
+      {
+        case ".she":
+          ReadInDetailedTimeSeries(new Model(FileName));
+          break;
+        case ".mdb":
+          ReadWellsFromJupiter(FileName);
+          break;
+        case ".shp":
+          ReadFromShape(FileName);
+          break;
+        default:
+          break;
+      }
 
-      return Number;
     }
-
-
-
+ 
     /// <summary>
     /// Select the wells that are inside the model area. Does not look at the 
     /// z - coordinate
@@ -104,8 +103,8 @@ namespace MikeSheWrapper.InputDataPreparation
     }
     
     /// <summary>
-    /// Calculate Mean error and RMSE for all observations based on the detailed ts-output.
-    /// Finds a well based on the ID
+    /// Finds a well based on the ID in the detailed SZ output dfs0. When a well is found it is added to the workinglist
+    /// The working list should be cleared before entering this method
     /// </summary>
     /// <param name="DFS0FileName"></param>
     public void GetSimulatedValuesFromDetailedTSOutput(string DFS0FileName)
@@ -131,7 +130,8 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
     /// <summary>
-    /// 4-point bilinear interpolation is used to get the value in a point. 
+    /// 4-point bilinear interpolation is used to get the value in a point.
+    /// Uses the working list.
     /// </summary>
     /// <param name="MSheResults"></param>
     /// <param name="GridInfo"></param>
@@ -152,29 +152,71 @@ namespace MikeSheWrapper.InputDataPreparation
 
 #region Population Methods
     /// <summary>
-    /// Reads in all wells from a Jupiter database. Only reads X and Y
+    /// Reads in all wells from a Jupiter database. For now only reads X and Y
     /// </summary>
     /// <param name="DataBaseFile"></param>
     public void ReadWellsFromJupiter(string DataBaseFile)
     {
-      OleDbConnection dbconnection;
-      String databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
-      dbconnection = new OleDbConnection(databaseConnection);
+      string databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
+
+      OleDbConnection dbconnection = new OleDbConnection(databaseConnection);
       dbconnection.Open();
       string select = "SELECT borehole.boreholeno, intakeno, xutm, yutm FROM borehole, intake WHERE borehole.boreholeno= intake.boreholeno and xutm IS NOT NULL AND yutm IS NOT NULL";
 
       OleDbDataAdapter da = new OleDbDataAdapter(select, databaseConnection);
-      DataSet ds = new DataSet();
-      da.Fill(ds, "watlevel");
+      DataTable ds = new DataTable();
+      da.Fill(ds);
 
-      foreach (DataRow Dr in ds.Tables["watlevel"].Rows)
+      foreach (DataRow Dr in ds.Rows)
       {
+        //Remove spaces and add the intake number to create a unique well ID
         string wellname = ((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"];
 
         ObservationWell CurrentWell = new ObservationWell(wellname);
         CurrentWell.X = (double) Dr["xutm"];
         CurrentWell.Y = (double) Dr["yutm"];
         _wells.Add(wellname, CurrentWell);
+      }
+    }
+
+
+    /// <summary>
+    /// Read in water levels from a Jupiter access database. 
+    /// If CreateWells is true a new well is created if it does not exist in the list.
+    /// Entries with blank dates of waterlevels are skipped.
+    /// </summary>
+    /// <param name="DataBaseFile"></param>
+    /// <param name="CreateWells"></param>
+    public void ReadWaterlevelsFromJupiterAccess(string DataBaseFile, bool CreateWells)
+    {
+      string databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
+      OleDbConnection dbconnection = new OleDbConnection(databaseConnection);
+      dbconnection.Open();
+      OleDbDataAdapter da = new OleDbDataAdapter("SELECT boreholeno, intakeno, timeofmeas, waterlevel FROM watlevel WHERE timeofmeas IS NOT NULL AND waterlevel IS NOT NULL", databaseConnection);
+      DataTable ds = new DataTable();
+      da.Fill(ds);
+
+      foreach (DataRow Dr in ds.Rows)
+      {
+        ObservationWell CurrentWell;
+
+        //Builds the unique well ID
+        string well = (((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"]).Trim();
+        
+        //Find the well in the dictionary
+        if (!_wells.TryGetValue(well, out CurrentWell))
+        {
+          //Creat the well if not found
+          if (CreateWells)
+          {
+            CurrentWell = new ObservationWell(well);
+            _wells.Add(well, CurrentWell);
+          }
+        }
+        //If the well has been found or is created fill in the observations
+        if (CurrentWell!=null)
+          CurrentWell.Observations.Add(new TimeSeriesEntry((DateTime)Dr["timeofmeas"], (double)Dr["waterlevel"]));
+
       }
     }
 
@@ -196,52 +238,13 @@ namespace MikeSheWrapper.InputDataPreparation
           CurrentWell.Depth = dt.Y;
           _wells.Add(dt.Name, CurrentWell);
         }
+        //Read in observations if they are included
         if (dt.InclObserved == 1)
         {
           CurrentWell.ReadDfs0(dt.TIME_SERIES_FILE.FILE_NAME, dt.TIME_SERIES_FILE.ITEM_NUMBERS);
         }
       }
     }
-
-    /// <summary>
-    /// Read in water levels from a Jupiter access database. 
-    /// If CreateWells is true a new well is created if it does not exist in the list.
-    /// Entries with blank dates of waterlevels are skipped.
-    /// </summary>
-    /// <param name="DataBaseFile"></param>
-    /// <param name="CreateWells"></param>
-    public void ReadWaterlevelsFromJupiterAccess(string DataBaseFile, bool CreateWells)
-    {
-
-      OleDbConnection dbconnection;
-      String databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
-      dbconnection = new OleDbConnection(databaseConnection);
-      dbconnection.Open();
-      OleDbDataAdapter da = new OleDbDataAdapter("SELECT boreholeno, intakeno, timeofmeas, waterlevel FROM watlevel WHERE timeofmeas IS NOT NULL AND waterlevel IS NOT NULL", databaseConnection);
-      DataSet ds = new DataSet();
-      da.Fill(ds, "watlevel");
-
-      int nrow = ds.Tables[0].Rows.Count;
-      foreach (DataRow Dr in ds.Tables["watlevel"].Rows)
-      {
-        ObservationWell CurrentWell;
-
-        string well = (((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"]).Trim();
-        //Find the well in the dictionary
-        if (!_wells.TryGetValue(well, out CurrentWell))
-        {
-          if (CreateWells)
-          {
-            CurrentWell = new ObservationWell(well);
-            _wells.Add(well, CurrentWell);
-          }
-        }
-        if (CurrentWell!=null)
-        CurrentWell.Observations.Add(new TimeSeriesEntry((DateTime)Dr["timeofmeas"], (double)Dr["waterlevel"]));
-
-      }
-    }
-
 
 
     

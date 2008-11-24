@@ -8,21 +8,10 @@ using System.Runtime.InteropServices;
 
 namespace MikeSheWrapper.Tools
 {
-  public class ShapeReader
+  public class ShapeReader:Shape
   {
 
-    private IntPtr _shapePointer;
-    private IntPtr _dbfPointer;
-    private DataTable _data;
-    private int _recordPointer = 0;
-    private int _noOfEntries;
 
-    private Dictionary<string, DBFEntry> _columns;
-
-    public Dictionary<string, DBFEntry> Columns
-    {
-      get { return _columns; }
-    }
 
     public ShapeReader(string FileName)
     {
@@ -99,6 +88,8 @@ namespace MikeSheWrapper.Tools
       }
       return _data;
     }
+
+
 
     /// <summary>
     /// Reads the next row of data columns corresponding to the format in the datarow
