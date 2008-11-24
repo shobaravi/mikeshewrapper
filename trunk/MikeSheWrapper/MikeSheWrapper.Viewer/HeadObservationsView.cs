@@ -60,7 +60,25 @@ namespace MikeSheWrapper.Viewer
       int Min = int.Parse(MinNumber.Text);
       int k = HO.Wells.Values.Count(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min));
       textBox4.Text = k.ToString();
+      propertyGrid1.SelectedObject = HO;
 
+    }
+
+    private void button4_Click(object sender, EventArgs e)
+    {
+      if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+      {
+        HO.WriteToDfs0(folderBrowserDialog1.SelectedPath);
+        HO.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"));
+      }
+    }
+
+    private void button5_Click(object sender, EventArgs e)
+    {
+      if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+
+      }
     }
   }
 }

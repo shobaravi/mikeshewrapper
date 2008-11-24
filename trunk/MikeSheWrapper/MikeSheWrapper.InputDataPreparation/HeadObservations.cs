@@ -1,9 +1,7 @@
 ﻿using System;
-      using System.Data.OleDb;
-using System.Data;
-
 using System.IO;
 using System.Data;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -313,14 +311,12 @@ namespace MikeSheWrapper.InputDataPreparation
       //Prepare the time series if there is more than one observation
       Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
       {
-        if (W.Observations.Count > 1)
           W.InitializeToWriteDFS0();
       });
 
       //Write the dfs0s
       Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
       {
-        if (W.DHITimeSeriesDataCount > 1)
           W.WriteToDfs0(OutputPath);
       });
     }
