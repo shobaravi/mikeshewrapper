@@ -51,17 +51,6 @@ namespace MikeSheWrapper.InputDataPreparation
 
     #endregion
 
-    /// <summary>
-    /// Gets the number of observations within the timespan. 
-    /// Start and End included.
-    /// </summary>
-    /// <param name="Start"></param>
-    /// <param name="End"></param>
-    public int GetNumberOfObservations(DateTime Start, DateTime End)
-    {
-      Func<TimeSeriesEntry, bool> InBetween = a => a.Time >= Start & a.Time <= End;
-      return _observations.Count(a => InBetween(a));
-    }
 
 
     /// <summary>

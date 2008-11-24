@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.InputDataPre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.LayerStatistics", "MikeSheWrapper.LayerStatistics\MikeSheWrapper.LayerStatistics.csproj", "{8604F11A-0647-4F89-97F5-304E28567369}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.Viewer", "MikeSheWrapper.Viewer\MikeSheWrapper.Viewer.csproj", "{C83B70C2-F74F-497D-8933-6E1549DA2853}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -95,6 +97,10 @@ Global
 		{8604F11A-0647-4F89-97F5-304E28567369}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8604F11A-0647-4F89-97F5-304E28567369}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8604F11A-0647-4F89-97F5-304E28567369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
