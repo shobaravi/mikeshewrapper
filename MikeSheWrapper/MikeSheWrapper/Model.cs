@@ -13,41 +13,55 @@ namespace MikeSheWrapper
     private ProcessedData _processed;
     private Results _results;
     private FileNames _files;
+    private SheFile _input;
+
+    private string _shefilename;
+
+
+    public Model(string SheFileName)
+    {
+      _shefilename = SheFileName;
+    }
 
     public FileNames Files
     {
-      get { return _files; }
+      get { 
+        if (_files == null)
+          _files = new FileNames(Input);
+
+        return _files; }
     }
-    private SheFile _input;
 
     public MikeSheGridInfo GridInfo
     {
-      get { return _processed.Grid; }
+      get { return Processed.Grid; }
     }
 
     public SheFile Input
     {
-      get { return _input; }
-    }
-
-    public Model(string SheFileName)
-    {
-      _input = new SheFile(SheFileName);
-      _files = new FileNames(_input);
-      _processed = new ProcessedData(_files);
-      if(File.Exists(_files.Get3DSZFileName))
-        _results = new Results(_files, GridInfo);
+      get {
+        if (_input == null)
+          _input = new SheFile(_shefilename);
+        return _input;
+      }
     }
 
     public Results Results
     {
-      get { return _results; }
+      get { 
+        if (_results == null)
+          if (File.Exists(Files.Get3DSZFileName))
+            _results = new Results(Files, GridInfo);
+
+        return _results; }
     }
 
     public ProcessedData Processed
     {
       get
       {
+        _processed = new ProcessedData(Files);
+
         return _processed;
       }
     }
