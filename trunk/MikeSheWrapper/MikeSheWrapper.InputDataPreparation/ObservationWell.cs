@@ -31,7 +31,6 @@ namespace MikeSheWrapper.InputDataPreparation
 
     private List<TimeSeriesEntry> _observations = new List<TimeSeriesEntry>();
 
-    private string _toLog;
 
     //TSObject members
     private TSObject _tso;
@@ -133,78 +132,83 @@ namespace MikeSheWrapper.InputDataPreparation
 
     public override string ToString()
     {
-      return base.ToString() + "NoObs: " + _observations.Count;
+      return base.ToString();
     }
 
-    public string LogString()
-    {
-      return _toLog;
-    }
 
     #region Properties
-    /// <summary>
-    /// Gets the observation data. 
-    /// Contains methods to retrieve max, min, average etc.
-    /// </summary>
-    public TSItemData DHITimeSeriesData
-    {
-      get
-      {
-        if (_item == null)
-          InitializeToWriteDFS0();
+    ///// <summary>
+    ///// Gets the observation data. 
+    ///// Contains methods to retrieve max, min, average etc.
+    ///// </summary>
+    //public TSItemData DHITimeSeriesData
+    //{
+    //  get
+    //  {
+    //    if (_item == null)
+    //      InitializeToWriteDFS0();
 
-        return _item.Data;
-      }
-    }
+    //    return _item.Data;
+    //  }
+    //}
 
-    /// <summary>
-    /// Gets the number of time steps in the DHI time series.
-    /// Can be different from the actual number of time steps depending on how multiple time steps with the same
-    /// date are handled.
-    /// </summary>
-    public int DHITimeSeriesDataCount
-    {
-      get
-      {
-        if (_tso == null)
-          InitializeToWriteDFS0();
-        return _tso.Time.NrTimeSteps;
-      }
-    }
+    ///// <summary>
+    ///// Gets the number of time steps in the DHI time series.
+    ///// Can be different from the actual number of time steps depending on how multiple time steps with the same
+    ///// date are handled.
+    ///// </summary>
+    //public int DHITimeSeriesDataCount
+    //{
+    //  get
+    //  {
+    //    if (_tso == null)
+    //      InitializeToWriteDFS0();
+    //    return _tso.Time.NrTimeSteps;
+    //  }
+    //}
 
 
 
 #region Statistics
 
-    public double RMS
+    public double? RMS
     {
       get
       {
+        if (_observations.Count == 0)
+          return null;
+
         return Math.Pow(_observations.Average(new Func<TimeSeriesEntry, double>(num => num.RMSE)), 0.5);
       }
     }
 
-    public double ME
+    public double? ME
     {
       get
       {
+        if (_observations.Count == 0)
+          return null;
         return _observations.Average(new Func<TimeSeriesEntry, double>(num => num.ME));
       }
     }
 
-    public double MAE
+    public double? MAE
     {
       get
       {
+        if (_observations.Count == 0)
+          return null;
         return _observations.Average(new Func<TimeSeriesEntry, double>(num => Math.Abs(num.ME)));
       }
     }
 
 
-    public double RMST
+    public double? RMST
     {
       get 
       {
+        if (_observations.Count == 0)
+          return null;
         double simmean = _observations.Average(new Func<TimeSeriesEntry, double>(num => num.SimulatedValue));
         double obsmean = _observations.Average(new Func<TimeSeriesEntry, double>(num => num.Value)); 
 

@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.LayerStatist
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.Viewer", "MikeSheWrapper.Viewer\MikeSheWrapper.Viewer.csproj", "{C83B70C2-F74F-497D-8933-6E1549DA2853}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MikeSheWrapper.Setup", "MikeSheWrapper.Setup\MikeSheWrapper.Setup.vdproj", "{AEE8A9C9-8388-4F59-BC72-0CD5982D1254}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -101,6 +103,8 @@ Global
 		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83B70C2-F74F-497D-8933-6E1549DA2853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE8A9C9-8388-4F59-BC72-0CD5982D1254}.Debug|Any CPU.ActiveCfg = Debug
+		{AEE8A9C9-8388-4F59-BC72-0CD5982D1254}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
