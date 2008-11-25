@@ -93,13 +93,13 @@ namespace MikeSheWrapper.LayerStatistics
     /// Skriver en fil med alle observationsdata
     /// </summary>
     /// <param name="Observations"></param>
-    public void WriteObservations(HeadObservations Obs, DateTime SimulationPeriod)
+    public void WriteObservations(HeadObservations Obs)
     {
       StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt");
       StreamWriter swell = new StreamWriter(_baseOutPutFileName + "_wells.txt");
 
       sw.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
-      swell.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tME\tME^2\tNo_ObservationsP1\tNo_ObservationsP2");
+      swell.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tME\tME^2");
 
       foreach (ObservationWell OW in Obs.WorkingList)
       {
@@ -135,9 +135,6 @@ namespace MikeSheWrapper.LayerStatistics
         WellString.Append((_numberOfLayers - OW.Layer) + "\t");
         WellString.Append(OW.Observations.Average(num => num.ME).ToString() + "\t");
         WellString.Append(OW.Observations.Average(num => num.RMSE).ToString() + "\t");
-        int before = OW.Observations.Count(num => num.Time < SimulationPeriod);
-        WellString.Append(before + "\t");
-        WellString.Append(OW.Observations.Count - before + "\t");
         swell.WriteLine(WellString.ToString());
       }
       sw.Flush();
