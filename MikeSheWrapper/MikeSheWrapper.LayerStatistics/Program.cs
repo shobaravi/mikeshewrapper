@@ -3,7 +3,6 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
-using System.Xml.Serialization;
 
 using MikeSheWrapper;
 using MikeSheWrapper.Tools;
@@ -39,13 +38,11 @@ namespace MikeSheWrapper.LayerStatistics
         }
         else
         {
-          XmlSerializer x = new XmlSerializer(typeof (Configuration));
-//          Configuration cf = (Configuration) x.Deserialize(new FileStream(args[0], FileMode.Open));
-          Configuration cf = (Configuration)x.Deserialize(new FileStream(@"F:\Jacob\MikeSheWrapper\TestData\LayerStatistics\conf.xml", FileMode.Open));
+          Configuration cf = Configuration.ConfigurationFactory(args[0]);
+          
           _grid = new MikeSheGridInfo(cf.PreProcessedDFS3, cf.PreProcessedDFS2);
           _res = new Results(cf.ResultFile, _grid);
           ObsFileName = cf.ObservationFile;
-          SimulationStart = cf.SimulationStart;
         }
 
         HeadObservations HO = new HeadObservations();
@@ -115,22 +112,20 @@ namespace MikeSheWrapper.LayerStatistics
         TimeSpan Calculation = Start.Subtract(DateTime.Now);
         Start = DateTime.Now;
 
-
-
-        IO.WriteObservations(HO, SimulationStart);
+        IO.WriteObservations(HO);
         IO.WriteLayers(ME,RMSE,ObsUsed,ObsTotal);
 
         TimeSpan WriteOutput = Start.Subtract(DateTime.Now);
 
-        Console.WriteLine("Reading of input:" + ReadInput.TotalSeconds + " s");
-        Console.WriteLine("Calculation:" + Calculation.TotalSeconds + " s");
-        Console.WriteLine("Writing of output:" + WriteOutput.TotalSeconds + " s");
-        Console.ReadLine();
+        //Console.WriteLine("Reading of input:" + ReadInput.TotalSeconds + " s");
+        //Console.WriteLine("Calculation:" + Calculation.TotalSeconds + " s");
+        //Console.WriteLine("Writing of output:" + WriteOutput.TotalSeconds + " s");
+        //Console.ReadLine();
 
       }
       catch (Exception e)
       {
-        MessageBox.Show("Der er opst�et en fejl af typen: " + e.Message);
+        MessageBox.Show("Der er opstået en fejl af typen: " + e.Message);
       } 
 		}
 	}
