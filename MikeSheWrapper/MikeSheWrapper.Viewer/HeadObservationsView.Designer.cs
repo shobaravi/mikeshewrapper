@@ -28,18 +28,19 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-      this.button1 = new System.Windows.Forms.Button();
+      this.ButtonReadWells = new System.Windows.Forms.Button();
       this.textBox1 = new System.Windows.Forms.TextBox();
       this.textBox2 = new System.Windows.Forms.TextBox();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
-      this.textBox3 = new System.Windows.Forms.TextBox();
-      this.button2 = new System.Windows.Forms.Button();
+      this.textBoxObsFile = new System.Windows.Forms.TextBox();
+      this.buttonReadObs = new System.Windows.Forms.Button();
       this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
       this.textBox4 = new System.Windows.Forms.TextBox();
       this.MinNumber = new System.Windows.Forms.TextBox();
-      this.button3 = new System.Windows.Forms.Button();
+      this.RefreshButton = new System.Windows.Forms.Button();
       this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
       this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
       this.label3 = new System.Windows.Forms.Label();
@@ -48,18 +49,18 @@
       this.label6 = new System.Windows.Forms.Label();
       this.button4 = new System.Windows.Forms.Button();
       this.textBox5 = new System.Windows.Forms.TextBox();
-      this.button6 = new System.Windows.Forms.Button();
+      this.buttonSelectMShe = new System.Windows.Forms.Button();
       this.label7 = new System.Windows.Forms.Label();
       this.label8 = new System.Windows.Forms.Label();
       this.textBox6 = new System.Windows.Forms.TextBox();
-      this.label9 = new System.Windows.Forms.Label();
-      this.textBox7 = new System.Windows.Forms.TextBox();
       this.label10 = new System.Windows.Forms.Label();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.button5 = new System.Windows.Forms.Button();
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBox1 = new System.Windows.Forms.ListBox();
+      this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
+      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
       // openFileDialog1
@@ -68,19 +69,19 @@
       this.openFileDialog1.ShowReadOnly = true;
       this.openFileDialog1.Title = "Select file with data for wells";
       // 
-      // button1
+      // ButtonReadWells
       // 
-      this.button1.Location = new System.Drawing.Point(421, 28);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(26, 23);
-      this.button1.TabIndex = 0;
-      this.button1.Text = "...";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.button1_Click);
+      this.ButtonReadWells.Location = new System.Drawing.Point(421, 28);
+      this.ButtonReadWells.Name = "ButtonReadWells";
+      this.ButtonReadWells.Size = new System.Drawing.Size(26, 23);
+      this.ButtonReadWells.TabIndex = 0;
+      this.ButtonReadWells.Text = "...";
+      this.ButtonReadWells.UseVisualStyleBackColor = true;
+      this.ButtonReadWells.Click += new System.EventHandler(this.button1_Click);
       // 
       // textBox1
       // 
-      this.textBox1.Location = new System.Drawing.Point(497, 31);
+      this.textBox1.Location = new System.Drawing.Point(540, 31);
       this.textBox1.Name = "textBox1";
       this.textBox1.Size = new System.Drawing.Size(79, 20);
       this.textBox1.TabIndex = 1;
@@ -110,22 +111,22 @@
       this.label2.TabIndex = 4;
       this.label2.Text = "Read in observations";
       // 
-      // textBox3
+      // textBoxObsFile
       // 
-      this.textBox3.Location = new System.Drawing.Point(120, 83);
-      this.textBox3.Name = "textBox3";
-      this.textBox3.Size = new System.Drawing.Size(295, 20);
-      this.textBox3.TabIndex = 6;
+      this.textBoxObsFile.Location = new System.Drawing.Point(120, 83);
+      this.textBoxObsFile.Name = "textBoxObsFile";
+      this.textBoxObsFile.Size = new System.Drawing.Size(295, 20);
+      this.textBoxObsFile.TabIndex = 6;
       // 
-      // button2
+      // buttonReadObs
       // 
-      this.button2.Location = new System.Drawing.Point(421, 81);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(26, 23);
-      this.button2.TabIndex = 5;
-      this.button2.Text = "...";
-      this.button2.UseVisualStyleBackColor = true;
-      this.button2.Click += new System.EventHandler(this.button2_Click);
+      this.buttonReadObs.Location = new System.Drawing.Point(421, 81);
+      this.buttonReadObs.Name = "buttonReadObs";
+      this.buttonReadObs.Size = new System.Drawing.Size(26, 23);
+      this.buttonReadObs.TabIndex = 5;
+      this.buttonReadObs.Text = "...";
+      this.buttonReadObs.UseVisualStyleBackColor = true;
+      this.buttonReadObs.Click += new System.EventHandler(this.button2_Click);
       // 
       // openFileDialog2
       // 
@@ -133,7 +134,7 @@
       // 
       // textBox4
       // 
-      this.textBox4.Location = new System.Drawing.Point(497, 217);
+      this.textBox4.Location = new System.Drawing.Point(368, 294);
       this.textBox4.Name = "textBox4";
       this.textBox4.Size = new System.Drawing.Size(79, 20);
       this.textBox4.TabIndex = 9;
@@ -144,23 +145,22 @@
       this.MinNumber.Name = "MinNumber";
       this.MinNumber.Size = new System.Drawing.Size(79, 20);
       this.MinNumber.TabIndex = 10;
-      this.MinNumber.TextChanged += new System.EventHandler(this.MinNumber_TextChanged);
       // 
-      // button3
+      // RefreshButton
       // 
-      this.button3.Location = new System.Drawing.Point(607, 217);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(75, 23);
-      this.button3.TabIndex = 11;
-      this.button3.Text = "Refresh";
-      this.button3.UseVisualStyleBackColor = true;
-      this.button3.Click += new System.EventHandler(this.button3_Click);
+      this.RefreshButton.Location = new System.Drawing.Point(544, 216);
+      this.RefreshButton.Name = "RefreshButton";
+      this.RefreshButton.Size = new System.Drawing.Size(75, 23);
+      this.RefreshButton.TabIndex = 11;
+      this.RefreshButton.Text = "Refresh";
+      this.RefreshButton.UseVisualStyleBackColor = true;
+      this.RefreshButton.Click += new System.EventHandler(this.button3_Click);
       // 
       // dateTimePicker1
       // 
       this.dateTimePicker1.Location = new System.Drawing.Point(15, 218);
       this.dateTimePicker1.Name = "dateTimePicker1";
-      this.dateTimePicker1.Size = new System.Drawing.Size(147, 20);
+      this.dateTimePicker1.Size = new System.Drawing.Size(141, 20);
       this.dateTimePicker1.TabIndex = 12;
       this.dateTimePicker1.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
       // 
@@ -201,7 +201,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(494, 9);
+      this.label6.Location = new System.Drawing.Point(537, 9);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(62, 13);
       this.label6.TabIndex = 17;
@@ -224,14 +224,14 @@
       this.textBox5.Size = new System.Drawing.Size(295, 20);
       this.textBox5.TabIndex = 21;
       // 
-      // button6
+      // buttonSelectMShe
       // 
-      this.button6.Location = new System.Drawing.Point(421, 138);
-      this.button6.Name = "button6";
-      this.button6.Size = new System.Drawing.Size(26, 23);
-      this.button6.TabIndex = 20;
-      this.button6.Text = "...";
-      this.button6.UseVisualStyleBackColor = true;
+      this.buttonSelectMShe.Location = new System.Drawing.Point(421, 138);
+      this.buttonSelectMShe.Name = "buttonSelectMShe";
+      this.buttonSelectMShe.Size = new System.Drawing.Size(26, 23);
+      this.buttonSelectMShe.TabIndex = 20;
+      this.buttonSelectMShe.Text = "...";
+      this.buttonSelectMShe.UseVisualStyleBackColor = true;
       // 
       // label7
       // 
@@ -245,7 +245,7 @@
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(494, 61);
+      this.label8.Location = new System.Drawing.Point(537, 61);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(56, 13);
       this.label8.TabIndex = 24;
@@ -253,31 +253,15 @@
       // 
       // textBox6
       // 
-      this.textBox6.Location = new System.Drawing.Point(497, 83);
+      this.textBox6.Location = new System.Drawing.Point(540, 83);
       this.textBox6.Name = "textBox6";
       this.textBox6.Size = new System.Drawing.Size(79, 20);
       this.textBox6.TabIndex = 23;
       // 
-      // label9
-      // 
-      this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(494, 118);
-      this.label9.Name = "label9";
-      this.label9.Size = new System.Drawing.Size(62, 13);
-      this.label9.TabIndex = 26;
-      this.label9.Text = "No. of wells";
-      // 
-      // textBox7
-      // 
-      this.textBox7.Location = new System.Drawing.Point(497, 140);
-      this.textBox7.Name = "textBox7";
-      this.textBox7.Size = new System.Drawing.Size(79, 20);
-      this.textBox7.TabIndex = 25;
-      // 
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(494, 199);
+      this.label10.Location = new System.Drawing.Point(264, 297);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(62, 13);
       this.label10.TabIndex = 27;
@@ -297,7 +281,7 @@
       // 
       this.propertyGrid1.Location = new System.Drawing.Point(465, 288);
       this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new System.Drawing.Size(217, 205);
+      this.propertyGrid1.Size = new System.Drawing.Size(217, 296);
       this.propertyGrid1.TabIndex = 29;
       // 
       // listBox1
@@ -305,25 +289,28 @@
       this.listBox1.FormattingEnabled = true;
       this.listBox1.Location = new System.Drawing.Point(267, 320);
       this.listBox1.Name = "listBox1";
-      this.listBox1.Size = new System.Drawing.Size(180, 173);
+      this.listBox1.Size = new System.Drawing.Size(180, 264);
       this.listBox1.TabIndex = 30;
+      this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+      // 
+      // observationWellBindingSource
+      // 
+      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
       // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(733, 505);
+      this.ClientSize = new System.Drawing.Size(806, 617);
       this.Controls.Add(this.listBox1);
       this.Controls.Add(this.propertyGrid1);
       this.Controls.Add(this.button5);
       this.Controls.Add(this.label10);
-      this.Controls.Add(this.label9);
-      this.Controls.Add(this.textBox7);
       this.Controls.Add(this.label8);
       this.Controls.Add(this.textBox6);
       this.Controls.Add(this.label7);
       this.Controls.Add(this.textBox5);
-      this.Controls.Add(this.button6);
+      this.Controls.Add(this.buttonSelectMShe);
       this.Controls.Add(this.button4);
       this.Controls.Add(this.label6);
       this.Controls.Add(this.label5);
@@ -331,18 +318,19 @@
       this.Controls.Add(this.label3);
       this.Controls.Add(this.dateTimePicker2);
       this.Controls.Add(this.dateTimePicker1);
-      this.Controls.Add(this.button3);
+      this.Controls.Add(this.RefreshButton);
       this.Controls.Add(this.MinNumber);
       this.Controls.Add(this.textBox4);
-      this.Controls.Add(this.textBox3);
-      this.Controls.Add(this.button2);
+      this.Controls.Add(this.textBoxObsFile);
+      this.Controls.Add(this.buttonReadObs);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.textBox2);
       this.Controls.Add(this.textBox1);
-      this.Controls.Add(this.button1);
+      this.Controls.Add(this.ButtonReadWells);
       this.Name = "HeadObservationsView";
       this.Text = "Form1";
+      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -351,17 +339,17 @@
     #endregion
 
     private System.Windows.Forms.OpenFileDialog openFileDialog1;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button ButtonReadWells;
     private System.Windows.Forms.TextBox textBox1;
     private System.Windows.Forms.TextBox textBox2;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.TextBox textBox3;
-    private System.Windows.Forms.Button button2;
+    private System.Windows.Forms.TextBox textBoxObsFile;
+    private System.Windows.Forms.Button buttonReadObs;
     private System.Windows.Forms.OpenFileDialog openFileDialog2;
     private System.Windows.Forms.TextBox textBox4;
     private System.Windows.Forms.TextBox MinNumber;
-    private System.Windows.Forms.Button button3;
+    private System.Windows.Forms.Button RefreshButton;
     private System.Windows.Forms.DateTimePicker dateTimePicker1;
     private System.Windows.Forms.DateTimePicker dateTimePicker2;
     private System.Windows.Forms.Label label3;
@@ -370,18 +358,17 @@
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Button button4;
     private System.Windows.Forms.TextBox textBox5;
-    private System.Windows.Forms.Button button6;
+    private System.Windows.Forms.Button buttonSelectMShe;
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.Label label8;
     private System.Windows.Forms.TextBox textBox6;
-    private System.Windows.Forms.Label label9;
-    private System.Windows.Forms.TextBox textBox7;
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     private System.Windows.Forms.Button button5;
     private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     private System.Windows.Forms.PropertyGrid propertyGrid1;
     private System.Windows.Forms.ListBox listBox1;
+    private System.Windows.Forms.BindingSource observationWellBindingSource;
   }
 }
 

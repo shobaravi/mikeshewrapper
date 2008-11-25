@@ -28,40 +28,28 @@ namespace MikeSheWrapper.Viewer
         textBox2.Text = openFileDialog1.FileName;
         HO = new HeadObservations(openFileDialog1.FileName);
         textBox1.Text = HO.Wells.Count.ToString();
-      }
-      
+        listBox1.Items.AddRange(HO.WorkingList.ToArray());
+        textBox4.Text = listBox1.Items.Count.ToString();
+
+      }      
     }
 
     private void button2_Click(object sender, EventArgs e)
     {
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
-        
         HO.ReadWaterlevelsFromJupiterAccess(openFileDialog2.FileName, false);
+        textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }
 
-    private void monthCalendar2_DateChanged(object sender, DateRangeEventArgs e)
-    {
-    }
-
-    private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
-    {
-    }
-
-
-    private void MinNumber_TextChanged(object sender, EventArgs e)
-    {
-
-    }
 
     private void button3_Click(object sender, EventArgs e)
     {
       int Min = int.Parse(MinNumber.Text);
-      int k = HO.Wells.Values.Count(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min));
-      textBox4.Text = k.ToString();
-      propertyGrid1.SelectedObject = HO;
-
+      listBox1.Items.Clear();
+      listBox1.Items.AddRange(HO.WorkingList.Where(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+      textBox4.Text = listBox1.Items.Count.ToString();
     }
 
     private void button4_Click(object sender, EventArgs e)
@@ -80,5 +68,11 @@ namespace MikeSheWrapper.Viewer
 
       }
     }
+
+    private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      propertyGrid1.SelectedObject = listBox1.SelectedItem;
+    }
+
   }
 }
