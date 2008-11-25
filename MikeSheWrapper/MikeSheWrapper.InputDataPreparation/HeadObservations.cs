@@ -55,7 +55,6 @@ namespace MikeSheWrapper.InputDataPreparation
         default:
           break;
       }
-
     }
  
     /// <summary>
@@ -69,10 +68,10 @@ namespace MikeSheWrapper.InputDataPreparation
       foreach (ObservationWell W in _wells.Values)
       {
         //Gets the index and sets the column and row
-        if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
+        if (!Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
           lock (_lock)
           {
-            _workingList.Add(W);
+            _workingList.Remove(W);
           }
       }
       //      );
@@ -175,6 +174,8 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentWell.Y = (double) Dr["yutm"];
         _wells.Add(wellname, CurrentWell);
       }
+      _workingList = _wells.Values.ToList();
+
     }
 
 
@@ -242,11 +243,9 @@ namespace MikeSheWrapper.InputDataPreparation
           CurrentWell.ReadDfs0(dt.TIME_SERIES_FILE.FILE_NAME, dt.TIME_SERIES_FILE.ITEM_NUMBERS);
         }
       }
+      _workingList = _wells.Values.ToList();
+
     }
-
-
-    
-
 
     /// <summary>
     /// Reads in observations from a shape file
@@ -298,6 +297,7 @@ namespace MikeSheWrapper.InputDataPreparation
         }
         CurrentWell.Observations.Add(new TimeSeriesEntry ((DateTime) DR["tiemofmeas"], (double)DR["WATERLEVEL"]));
       }
+      _workingList = _wells.Values.ToList();
     }
 
 #endregion
