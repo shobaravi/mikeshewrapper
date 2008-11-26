@@ -253,7 +253,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="ShapeFileName"></param>
     public void ReadFromShape(string ShapeFileName)
     {
-      ShapeReader SR = new ShapeReader(ShapeFileName);
+      PointShapeReader SR = new PointShapeReader(ShapeFileName);
 
       DataTable DT = new DataTable();
       DT.Columns.Add("NOVANAID", typeof(string));
