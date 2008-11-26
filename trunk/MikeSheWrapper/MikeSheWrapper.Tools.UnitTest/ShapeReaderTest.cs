@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace MikeSheWrapper.Tools.UnitTest
     [Test]
     public void TestSingleRead()
     {
-      ShapeReader SP = new ShapeReader(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
+      PointShapeReader SP = new PointShapeReader(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
+
 
       double d = SP.ReadDouble(600000, "YUTM");
 

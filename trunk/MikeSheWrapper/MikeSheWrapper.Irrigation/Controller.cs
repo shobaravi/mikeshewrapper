@@ -26,7 +26,7 @@ namespace MikeSheWrapper.Irrigation
 
     public void InsertIrrigationWells()
     {
-      ShapeReader SR = new ShapeReader(_config.WellShapeFile);
+      PointShapeReader SR = new PointShapeReader(_config.WellShapeFile);
       _wellData = SR.Read();
       SR.Dispose();
 
