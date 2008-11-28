@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 
 namespace MikeSheWrapper.Tools
 {
@@ -46,7 +48,7 @@ namespace MikeSheWrapper.Tools
         {
           for (int i = 0; i < _data.Rows.Count; i++)
           {
-            ShapeLib.DBFWriteDoubleAttribute(_dbfPointer, i, j - 2, (double)_data.Rows[i][j]);
+            ShapeLib.DBFWriteDoubleAttribute(_dbfPointer, i, j , (double)_data.Rows[i][j]);
           }
         }
         // int data
@@ -54,7 +56,7 @@ namespace MikeSheWrapper.Tools
         {
           for (int i = 0; i < _data.Rows.Count; i++)
           {
-            ShapeLib.DBFWriteIntegerAttribute(_dbfPointer, i, j - 2, (int)_data.Rows[i][j]);
+            ShapeLib.DBFWriteIntegerAttribute(_dbfPointer, i, j, (int)_data.Rows[i][j]);
           }
         }
         //string data
@@ -62,7 +64,7 @@ namespace MikeSheWrapper.Tools
         {
           for (int i = 0; i < _data.Rows.Count; i++)
           {
-            ShapeLib.DBFWriteStringAttribute(_dbfPointer, i, j - 2, _data.Rows[i][j].ToString());
+            ShapeLib.DBFWriteStringAttribute(_dbfPointer, i, j, _data.Rows[i][j].ToString());
           }
         }
       }
@@ -72,10 +74,10 @@ namespace MikeSheWrapper.Tools
     /// <summary>
     /// Flushes and disposes.
     /// </summary>
-    public void Dispose()
+    public override void Dispose()
     {
       Flush();
-      ShapeLib.DBFClose(_dbfPointer);
+      base.Dispose();
     }
 
     /// <summary>

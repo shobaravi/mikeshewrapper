@@ -10,22 +10,43 @@ namespace MikeSheWrapper.Tools
 {
   public class PointShapeReader:Shape
   {
+    private DBFReader _data;
+
+    public DBFReader Data
+    {
+      get { return _data; }
+    }
 
 
 
     public PointShapeReader(string FileName)
     {
+      _fileName = FileName;
+      _data = new DBFReader(FileName);
+
       // Open shapefile
       _shapePointer = ShapeLib.SHPOpen(FileName, "rb");
 
-      if (dr.Table.Columns[j].ColumnName.Equals("ShapeID"))
+//      if (dr.Table.Columns[j].ColumnName.Equals("ShapeID"))
       {
-        IntPtr pShape = ShapeLib.SHPReadObject(_shapePointer, _recordPointer);
-        ShapeLib.SHPObject shpObject = new ShapeLib.SHPObject();
-        Marshal.PtrToStructure(pShape, shpObject);
-        dr[j] = shpObject.nShapeId;
-        ShapeLib.SHPDestroyObject(pShape);
       }
+    }
+
+    public void ReadNext(out double X, out double Y)
+    {
+      IntPtr pShape = ShapeLib.SHPReadObject(_shapePointer, _recordPointer);
+      ShapeLib.SHPObject shpObject = new ShapeLib.SHPObject();
+      Marshal.PtrToStructure(pShape, shpObject);
+      double[] x = new double[shpObject.nVertices];
+      Marshal.Copy(shpObject.padfX, x, 0, x.Length);
+      double[] y = new double[shpObject.nVertices];
+      Marshal.Copy(shpObject.padfX, y, 0, y.Length);
+
+      X= x[0];
+      ShapeLib.SHPDestroyObject(pShape);
+      Y = y[0];
+      _recordPointer++;
+
     }
 
 
@@ -33,10 +54,10 @@ namespace MikeSheWrapper.Tools
     /// <summary>
     /// Disposes the shapefile
     /// </summary>
-    public void Dispose()
+    public override void  Dispose()
     {
-      ShapeLib.SHPClose(_shapePointer);
-      ShapeLib.DBFClose(_dbfPointer);
+      _data.Dispose();
+      base.Dispose();
     }
   }
 }
