@@ -11,11 +11,14 @@ namespace MikeSheWrapper.Tools
     protected IntPtr _shapePointer;
     protected int _recordPointer = 0;
     protected int _noOfEntries;
+    protected string _fileName;
 
 
-    public void Dispose()
+    public virtual void Dispose()
     {
+ 
       ShapeLib.SHPClose(_shapePointer);
+
     }
   }
 }
