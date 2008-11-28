@@ -244,7 +244,24 @@ namespace MikeSheWrapper.InputDataPreparation
         }
       }
       _workingList = _wells.Values.ToList();
+    }
 
+    List<Filter> _filters = new List<Filter>();
+
+    private bool PassesFilter(DataRow dr)
+    {
+      foreach (Filter F in _filters)
+      {
+        if (dr[F.ColumnName] != F.value)
+          return false;
+      }
+      return true;
+    }
+
+    public struct Filter
+    {
+      public string ColumnName;
+      public object value;
     }
 
     /// <summary>
@@ -268,17 +285,17 @@ namespace MikeSheWrapper.InputDataPreparation
       DT.Columns.Add("tiemofmeas", typeof(DateTime));
       DT.Columns.Add("WATERLEVEL", typeof(double));
 
-      SR.Columns["tiemofmeas"]._dotNetType = typeof(DateTime);
-      SR.Columns["tiemofmeas"]._dbfType = ShapeLib.DBFFieldType.FTDate;
+      SR.Data.Columns["tiemofmeas"]._dotNetType = typeof(DateTime);
+      SR.Data.Columns["tiemofmeas"]._dbfType = ShapeLib.DBFFieldType.FTDate;
 
       ObservationWell CurrentWell = new ObservationWell("");
 
       //Loop the data
-      while(!SR.EndOfData)
+      while (!SR.Data.EndOfData)
       {
-        DataRow DR = DT.NewRow(); 
+        DataRow DR = DT.NewRow();
 
-        SR.ReadNext(DR);
+        SR.Data.ReadNext(DR);
 
         //Find the well in the dictionary
         if (!_wells.TryGetValue((string) DR["NOVANAID"], out CurrentWell))

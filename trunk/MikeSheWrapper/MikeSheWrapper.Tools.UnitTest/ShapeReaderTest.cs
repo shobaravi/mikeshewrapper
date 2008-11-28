@@ -18,10 +18,10 @@ namespace MikeSheWrapper.Tools.UnitTest
       PointShapeReader SP = new PointShapeReader(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
 
 
-      double d = SP.ReadDouble(600000, "YUTM");
+      double d = SP.Data.ReadDouble(600000, "YUTM");
 
-      DateTime dd = SP.ReadDate(1, "tiemofmeas");
-      int di = SP.ReadInt(1, "tiemofmeas");
+      DateTime dd = SP.Data.ReadDate(1, "tiemofmeas");
+      int di = SP.Data.ReadInt(1, "tiemofmeas");
     }
 
 

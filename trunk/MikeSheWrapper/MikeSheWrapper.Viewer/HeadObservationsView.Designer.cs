@@ -60,6 +60,7 @@
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBox1 = new System.Windows.Forms.ListBox();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
+      this.OpenSheFileForSelection = new System.Windows.Forms.OpenFileDialog();
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
@@ -232,6 +233,7 @@
       this.buttonSelectMShe.TabIndex = 20;
       this.buttonSelectMShe.Text = "...";
       this.buttonSelectMShe.UseVisualStyleBackColor = true;
+      this.buttonSelectMShe.Click += new System.EventHandler(this.buttonSelectMShe_Click);
       // 
       // label7
       // 
@@ -296,6 +298,10 @@
       // observationWellBindingSource
       // 
       this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
+      // 
+      // OpenSheFileForSelection
+      // 
+      this.OpenSheFileForSelection.Filter = "MikeShe imput file(*.she)|*.she";
       // 
       // HeadObservationsView
       // 
@@ -369,6 +375,7 @@
     private System.Windows.Forms.PropertyGrid propertyGrid1;
     private System.Windows.Forms.ListBox listBox1;
     private System.Windows.Forms.BindingSource observationWellBindingSource;
+    private System.Windows.Forms.OpenFileDialog OpenSheFileForSelection;
   }
 }
 
