@@ -74,5 +74,11 @@ namespace MikeSheWrapper.Viewer
       propertyGrid1.SelectedObject = listBox1.SelectedItem;
     }
 
+    private void buttonSelectMShe_Click(object sender, EventArgs e)
+    {
+      if (OpenSheFileForSelection.ShowDialog() == DialogResult.OK)
+        HO.SelectByMikeSheModelArea(new Model(OpenSheFileForSelection.FileName).GridInfo);
+    }
+
   }
 }

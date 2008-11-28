@@ -27,7 +27,7 @@ namespace MikeSheWrapper.Irrigation
     public void InsertIrrigationWells()
     {
       PointShapeReader SR = new PointShapeReader(_config.WellShapeFile);
-      _wellData = SR.Read();
+      _wellData = SR.Data.Read();
       SR.Dispose();
 
       foreach (DataRow dr in _wellData.Rows)
