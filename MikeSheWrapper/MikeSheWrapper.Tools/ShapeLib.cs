@@ -531,6 +531,9 @@ namespace MikeSheWrapper.Tools
     {
       string sDate = DBFReadDateAttribute(hDBF, iShape, iField).ToString();
 
+      if (sDate =="0")
+        return new DateTime(0);
+
       try
       {
         DateTime d = new DateTime(int.Parse(sDate.Substring(0, 4)), int.Parse(sDate.Substring(4, 2)),

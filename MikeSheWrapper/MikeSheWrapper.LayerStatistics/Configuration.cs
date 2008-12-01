@@ -20,12 +20,35 @@ namespace MikeSheWrapper.LayerStatistics
     /// <returns></returns>
     public static Configuration ConfigurationFactory(string XmlFileName)
     {
-      if (!File.Exists(XmlFileName))
-        throw new Exception("Cannot find file: " + XmlFileName);
+      FileCheckAndError(XmlFileName);
+
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
       Configuration cf = (Configuration)x.Deserialize(new FileStream(XmlFileName, FileMode.Open));
-      cf._path = Path.GetDirectoryName(XmlFileName);
+      cf._path = Path.GetDirectoryName(Path.GetFullPath(XmlFileName));
+      Console.WriteLine("Setting path to: " + cf._path);
+      string path = Directory.GetCurrentDirectory();
+      Directory.SetCurrentDirectory(cf._path);
+
+      cf.PreProcessedDFS2 = Path.GetFullPath(cf.PreProcessedDFS2);
+      cf.PreProcessedDFS3 = Path.GetFullPath(cf.PreProcessedDFS3);
+      cf.ResultFile = Path.GetFullPath(cf.ResultFile);
+      cf.ObservationFile = Path.GetFullPath(cf.ObservationFile);
+      Directory.SetCurrentDirectory(path);
+
+      Console.WriteLine("Resetting path to: " + path);
+
+      FileCheckAndError(cf.PreProcessedDFS2);
+      FileCheckAndError(cf.PreProcessedDFS3);
+      FileCheckAndError(cf.ResultFile);
+      FileCheckAndError(cf.ObservationFile);
+      
       return cf;
+    }
+
+    private static void FileCheckAndError(string path)
+    {
+      if (!File.Exists(path))
+        throw new Exception("Cannot find file: " + path);
     }
 
     [NonSerialized]
@@ -37,25 +60,25 @@ namespace MikeSheWrapper.LayerStatistics
 
     public string PreProcessedDFS3
     {
-      get { return Path.Combine(_path, _preProcessedDFS3); }
+      get { return _preProcessedDFS3; }
       set { _preProcessedDFS3 = value; }
     }
 
     public string ObservationFile
     {
-      get { return Path.Combine(_path, _observationFile); }
+      get { return _observationFile; }
       set { _observationFile = value; }
     }
 
     public string ResultFile
     {
-      get { return Path.Combine(_path, _resultFile); }
+      get { return _resultFile; }
       set { _resultFile = value; }
     }
 
     public string PreProcessedDFS2
     {
-      get { return Path.Combine(_path,_preProcessedDFS2); }
+      get { return _preProcessedDFS2; }
       set { _preProcessedDFS2 = value; }
     }
   }

@@ -21,7 +21,9 @@ namespace MikeSheWrapper.InputDataPreparation
   public class HeadObservations
   {
     private Dictionary<string, ObservationWell> _wells = new Dictionary<string,ObservationWell>();
-    private List<ObservationWell> _workingList = new List<ObservationWell>();
+    
+    private List<ObservationWell> _workingList;
+
     //Object used for thread safety. What happens if two instances are running in the same process?
     private static object _lock = new object();
 
@@ -50,7 +52,7 @@ namespace MikeSheWrapper.InputDataPreparation
           ReadWellsFromJupiter(FileName);
           break;
         case ".shp":
-          ReadFromShape(FileName);
+          ReadFromShape(FileName,"");
           break;
         default:
           break;
@@ -71,7 +73,7 @@ namespace MikeSheWrapper.InputDataPreparation
         if (!Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
           lock (_lock)
           {
-            _workingList.Remove(W);
+            WorkingList.Remove(W);
           }
       }
       //      );
@@ -85,7 +87,7 @@ namespace MikeSheWrapper.InputDataPreparation
     {
       using (StreamWriter SW = new StreamWriter(TxtFileName, false, Encoding.Default))
       {
-        foreach (ObservationWell W in _workingList)
+        foreach (ObservationWell W in WorkingList)
         {
           SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
         }
@@ -116,7 +118,7 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         if (_wells.TryGetValue(DI.Name, out OW))
         {
-          _workingList.Add(OW);
+          WorkingList.Add(OW);
           //Loop the observations
           foreach (TimeSeriesEntry TSE in OW.Observations)
             TSE.SimulatedValue = _data.GetData(TSE.Time, item);
@@ -134,7 +136,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="GridInfo"></param>
     public void GetSimulatedValuesFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
     {
-      foreach(ObservationWell W in _workingList)
+      foreach(ObservationWell W in WorkingList)
       {
         foreach (TimeSeriesEntry TSE in W.Observations)
         {
@@ -174,8 +176,6 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentWell.Y = (double) Dr["yutm"];
         _wells.Add(wellname, CurrentWell);
       }
-      _workingList = _wells.Values.ToList();
-
     }
 
 
@@ -243,62 +243,16 @@ namespace MikeSheWrapper.InputDataPreparation
           CurrentWell.ReadDfs0(dt.TIME_SERIES_FILE.FILE_NAME, dt.TIME_SERIES_FILE.ITEM_NUMBERS);
         }
       }
-      _workingList = _wells.Values.ToList();
     }
 
-    List<Filter> _filters = new List<Filter>();
 
-    private bool PassesFilter(DataRow dr)
+    private void FillInFromNovanaShape(DataRow[] DS)
     {
-      foreach (Filter F in _filters)
+      ObservationWell CurrentWell;
+      foreach (DataRow DR in DS)
       {
-        if (dr[F.ColumnName] != F.value)
-          return false;
-      }
-      return true;
-    }
-
-    public struct Filter
-    {
-      public string ColumnName;
-      public object value;
-    }
-
-    /// <summary>
-    /// Reads in observations from a shape file
-    /// </summary>
-    /// <param name="ShapeFileName"></param>
-    public void ReadFromShape(string ShapeFileName)
-    {
-      PointShapeReader SR = new PointShapeReader(ShapeFileName);
-
-      DataTable DT = new DataTable();
-      DT.Columns.Add("NOVANAID", typeof(string));
-      DT.Columns.Add("XUTM", typeof (double));
-      DT.Columns.Add("YUTM", typeof (double));
-      DT.Columns.Add("INTAKETOP", typeof(double));
-      DT.Columns.Add("INTAKEBOT", typeof(double));
-      DT.Columns.Add("DTMKOTE", typeof(double));
-      DT.Columns.Add("MIDTJUST", typeof(double));
-      DT.Columns.Add("DRILLDEPTH", typeof(double));
-
-      DT.Columns.Add("tiemofmeas", typeof(DateTime));
-      DT.Columns.Add("WATERLEVEL", typeof(double));
-
-      SR.Data.Columns["tiemofmeas"]._dotNetType = typeof(DateTime);
-      SR.Data.Columns["tiemofmeas"]._dbfType = ShapeLib.DBFFieldType.FTDate;
-
-      ObservationWell CurrentWell = new ObservationWell("");
-
-      //Loop the data
-      while (!SR.Data.EndOfData)
-      {
-        DataRow DR = DT.NewRow();
-
-        SR.Data.ReadNext(DR);
-
         //Find the well in the dictionary
-        if (!_wells.TryGetValue((string) DR["NOVANAID"], out CurrentWell))
+        if (!_wells.TryGetValue((string)DR["NOVANAID"], out CurrentWell))
         {
           //Add a new well if it was not found
           CurrentWell = new ObservationWell((string)DR["NOVANAID"], (double)DR["XUTM"], (double)DR["YUTM"]);
@@ -308,13 +262,26 @@ namespace MikeSheWrapper.InputDataPreparation
             else
               CurrentWell.Depth = 0.5 * ((double)DR["INTAKETOP"] + (double)DR["INTAKEBOT"]);
           else
-              CurrentWell.Depth = (double)DR["DTMKOTE"] - (double)DR["MIDTJUST"];
+            CurrentWell.Depth = (double)DR["DTMKOTE"] - (double)DR["MIDTJUST"];
 
-          _wells.Add((string) DR["NOVANAID"],CurrentWell);
+          _wells.Add((string)DR["NOVANAID"], CurrentWell);
         }
-        CurrentWell.Observations.Add(new TimeSeriesEntry ((DateTime) DR["tiemofmeas"], (double)DR["WATERLEVEL"]));
       }
-      _workingList = _wells.Values.ToList();
+    }
+
+
+    /// <summary>
+    /// Reads in observations from a shape file
+    /// </summary>
+    /// <param name="ShapeFileName"></param>
+    public void ReadFromShape(string ShapeFileName, string SelectString)
+    {
+
+      PointShapeReader SR = new PointShapeReader(ShapeFileName);
+
+      DataTable DT = SR.Data.Read();
+
+      FillInFromNovanaShape(DT.Select(SelectString));
     }
 
 #endregion
@@ -326,13 +293,13 @@ namespace MikeSheWrapper.InputDataPreparation
     public void WriteToDfs0(string OutputPath)
     {
       //Prepare the time series if there is more than one observation
-      Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
+      Parallel.ForEach<ObservationWell>(WorkingList, delegate(ObservationWell W)
       {
           W.InitializeToWriteDFS0();
       });
 
       //Write the dfs0s
-      Parallel.ForEach<ObservationWell>(_workingList, delegate(ObservationWell W)
+      Parallel.ForEach<ObservationWell>(WorkingList, delegate(ObservationWell W)
       {
           W.WriteToDfs0(OutputPath);
       });
@@ -345,7 +312,10 @@ namespace MikeSheWrapper.InputDataPreparation
 
     public List<ObservationWell> WorkingList
     {
-      get { return _workingList; }
+      get {
+        if (_workingList ==null)
+          _workingList = _wells.Values.ToList();
+        return _workingList; }
     }
 
 

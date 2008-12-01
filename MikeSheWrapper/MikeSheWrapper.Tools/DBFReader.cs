@@ -20,6 +20,8 @@ namespace MikeSheWrapper.Tools
     {
       _dbfPointer = ShapeLib.DBFOpen(_filename, "rb");
 
+      _data = new DataTable();
+
       _columns = new Dictionary<string, DBFEntry>();
 
       int NoOfColumns = ShapeLib.DBFGetFieldCount(_dbfPointer);
@@ -33,7 +35,6 @@ namespace MikeSheWrapper.Tools
         E._dbfType = ShapeLib.DBFGetFieldInfo(_dbfPointer, i, Name, ref E._width, ref E._decimals);
         E.name = Name.ToString();
         E._index = i;
-
 
         //Find the corresponding .NET Type
         switch (E._dbfType)
@@ -60,23 +61,12 @@ namespace MikeSheWrapper.Tools
         }
 
         _columns.Add(E.name, E);
-      }
-    }
-
-    private void InitializeDataTable()
-    {
-      _data = new DataTable();
-
-      foreach (DBFEntry E in _columns.Values)
         _data.Columns.Add(E.name, E._dotNetType);
-
+      }
     }
 
     public DataTable Read()
     {
-      if (_data == null)
-        InitializeDataTable();
-
       _recordPointer = 0;
       _data.Clear();
 

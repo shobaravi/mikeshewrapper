@@ -26,10 +26,6 @@ namespace MikeSheWrapper.Viewer
       if (openFileDialog1.ShowDialog() == DialogResult.OK)
       {
         textBox2.Text = openFileDialog1.FileName;
-        HO = new HeadObservations(openFileDialog1.FileName);
-        textBox1.Text = HO.Wells.Count.ToString();
-        listBox1.Items.AddRange(HO.WorkingList.ToArray());
-        textBox4.Text = listBox1.Items.Count.ToString();
 
       }      
     }
@@ -80,5 +76,13 @@ namespace MikeSheWrapper.Viewer
         HO.SelectByMikeSheModelArea(new Model(OpenSheFileForSelection.FileName).GridInfo);
     }
 
+    private void LoadButton_Click(object sender, EventArgs e)
+    {
+      HO = new HeadObservations(textBox2.Text);
+      
+      textBox1.Text = HO.Wells.Count.ToString();
+      listBox1.Items.AddRange(HO.WorkingList.ToArray());
+      textBox4.Text = listBox1.Items.Count.ToString();
+    }
   }
 }
