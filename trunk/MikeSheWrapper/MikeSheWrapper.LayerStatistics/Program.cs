@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Windows.Forms;
 using System.Data;
@@ -21,11 +22,12 @@ namespace MikeSheWrapper.LayerStatistics
 		[STAThread]
 		static void Main(string[] args)
 		{
+      
       DateTime Start = DateTime.Now;
-      try
+//      try
       {
-        MikeSheGridInfo _grid;
-        Results _res;
+        MikeSheGridInfo _grid = null;
+        Results _res = null;
         string ObsFileName;
         DateTime SimulationStart= DateTime.MaxValue;
 
@@ -123,10 +125,10 @@ namespace MikeSheWrapper.LayerStatistics
         //Console.ReadLine();
 
       }
-      catch (Exception e)
-      {
-        MessageBox.Show("Der er opstået en fejl af typen: " + e.Message);
-      } 
+      //catch (Exception e)
+      //{
+      //  MessageBox.Show("Der er opstået en fejl af typen: " + e.Message);
+      //} 
 		}
 	}
 }

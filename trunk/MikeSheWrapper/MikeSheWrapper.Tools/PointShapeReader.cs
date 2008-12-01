@@ -12,13 +12,6 @@ namespace MikeSheWrapper.Tools
   {
     private DBFReader _data;
 
-    public DBFReader Data
-    {
-      get { return _data; }
-    }
-
-
-
     public PointShapeReader(string FileName)
     {
       _fileName = FileName;
@@ -59,5 +52,11 @@ namespace MikeSheWrapper.Tools
       _data.Dispose();
       base.Dispose();
     }
+
+    public DBFReader Data
+    {
+      get { return _data; }
+    }
+
   }
 }

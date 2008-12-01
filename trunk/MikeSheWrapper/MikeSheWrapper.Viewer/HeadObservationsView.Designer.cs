@@ -59,8 +59,9 @@
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBox1 = new System.Windows.Forms.ListBox();
-      this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.OpenSheFileForSelection = new System.Windows.Forms.OpenFileDialog();
+      this.LoadButton = new System.Windows.Forms.Button();
+      this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
@@ -295,19 +296,30 @@
       this.listBox1.TabIndex = 30;
       this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
       // 
-      // observationWellBindingSource
-      // 
-      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
-      // 
       // OpenSheFileForSelection
       // 
       this.OpenSheFileForSelection.Filter = "MikeShe imput file(*.she)|*.she";
+      // 
+      // LoadButton
+      // 
+      this.LoadButton.Location = new System.Drawing.Point(453, 27);
+      this.LoadButton.Name = "LoadButton";
+      this.LoadButton.Size = new System.Drawing.Size(75, 23);
+      this.LoadButton.TabIndex = 31;
+      this.LoadButton.Text = "Load";
+      this.LoadButton.UseVisualStyleBackColor = true;
+      this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
+      // 
+      // observationWellBindingSource
+      // 
+      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
       // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(806, 617);
+      this.Controls.Add(this.LoadButton);
       this.Controls.Add(this.listBox1);
       this.Controls.Add(this.propertyGrid1);
       this.Controls.Add(this.button5);
@@ -376,6 +388,7 @@
     private System.Windows.Forms.ListBox listBox1;
     private System.Windows.Forms.BindingSource observationWellBindingSource;
     private System.Windows.Forms.OpenFileDialog OpenSheFileForSelection;
+    private System.Windows.Forms.Button LoadButton;
   }
 }
 
