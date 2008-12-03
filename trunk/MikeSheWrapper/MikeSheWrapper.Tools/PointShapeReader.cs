@@ -19,12 +19,13 @@ namespace MikeSheWrapper.Tools
 
       // Open shapefile
       _shapePointer = ShapeLib.SHPOpen(FileName, "rb");
-
-//      if (dr.Table.Columns[j].ColumnName.Equals("ShapeID"))
-      {
-      }
     }
 
+    /// <summary>
+    /// Reads next shape and increments counter
+    /// </summary>
+    /// <param name="X"></param>
+    /// <param name="Y"></param>
     public void ReadNext(out double X, out double Y)
     {
       IntPtr pShape = ShapeLib.SHPReadObject(_shapePointer, _recordPointer);
@@ -41,7 +42,6 @@ namespace MikeSheWrapper.Tools
       _recordPointer++;
 
     }
-
 
 
     /// <summary>

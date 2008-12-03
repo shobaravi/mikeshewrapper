@@ -51,8 +51,6 @@
       this.textBox5 = new System.Windows.Forms.TextBox();
       this.buttonSelectMShe = new System.Windows.Forms.Button();
       this.label7 = new System.Windows.Forms.Label();
-      this.label8 = new System.Windows.Forms.Label();
-      this.textBox6 = new System.Windows.Forms.TextBox();
       this.label10 = new System.Windows.Forms.Label();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.button5 = new System.Windows.Forms.Button();
@@ -60,7 +58,6 @@
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBox1 = new System.Windows.Forms.ListBox();
       this.OpenSheFileForSelection = new System.Windows.Forms.OpenFileDialog();
-      this.LoadButton = new System.Windows.Forms.Button();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
@@ -245,22 +242,6 @@
       this.label7.TabIndex = 22;
       this.label7.Text = "Select by MikeShe";
       // 
-      // label8
-      // 
-      this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(537, 61);
-      this.label8.Name = "label8";
-      this.label8.Size = new System.Drawing.Size(56, 13);
-      this.label8.TabIndex = 24;
-      this.label8.Text = "No. of obs";
-      // 
-      // textBox6
-      // 
-      this.textBox6.Location = new System.Drawing.Point(540, 83);
-      this.textBox6.Name = "textBox6";
-      this.textBox6.Size = new System.Drawing.Size(79, 20);
-      this.textBox6.TabIndex = 23;
-      // 
       // label10
       // 
       this.label10.AutoSize = true;
@@ -300,16 +281,6 @@
       // 
       this.OpenSheFileForSelection.Filter = "MikeShe imput file(*.she)|*.she";
       // 
-      // LoadButton
-      // 
-      this.LoadButton.Location = new System.Drawing.Point(453, 27);
-      this.LoadButton.Name = "LoadButton";
-      this.LoadButton.Size = new System.Drawing.Size(75, 23);
-      this.LoadButton.TabIndex = 31;
-      this.LoadButton.Text = "Load";
-      this.LoadButton.UseVisualStyleBackColor = true;
-      this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
-      // 
       // observationWellBindingSource
       // 
       this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
@@ -319,13 +290,10 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(806, 617);
-      this.Controls.Add(this.LoadButton);
       this.Controls.Add(this.listBox1);
       this.Controls.Add(this.propertyGrid1);
       this.Controls.Add(this.button5);
       this.Controls.Add(this.label10);
-      this.Controls.Add(this.label8);
-      this.Controls.Add(this.textBox6);
       this.Controls.Add(this.label7);
       this.Controls.Add(this.textBox5);
       this.Controls.Add(this.buttonSelectMShe);
@@ -378,8 +346,6 @@
     private System.Windows.Forms.TextBox textBox5;
     private System.Windows.Forms.Button buttonSelectMShe;
     private System.Windows.Forms.Label label7;
-    private System.Windows.Forms.Label label8;
-    private System.Windows.Forms.TextBox textBox6;
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     private System.Windows.Forms.Button button5;
@@ -388,7 +354,6 @@
     private System.Windows.Forms.ListBox listBox1;
     private System.Windows.Forms.BindingSource observationWellBindingSource;
     private System.Windows.Forms.OpenFileDialog OpenSheFileForSelection;
-    private System.Windows.Forms.Button LoadButton;
   }
 }
 

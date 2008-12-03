@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using MikeSheWrapper.InputDataPreparation;
+using MikeSheWrapper.Tools;
 
 namespace MikeSheWrapper.Viewer
 {
@@ -26,7 +27,33 @@ namespace MikeSheWrapper.Viewer
       if (openFileDialog1.ShowDialog() == DialogResult.OK)
       {
         textBox2.Text = openFileDialog1.FileName;
+        if (Path.GetExtension(textBox2.Text).Equals(".shp", StringComparison.OrdinalIgnoreCase))
+        {
+          PointShapeReader SR = new PointShapeReader(textBox2.Text);
 
+          DataSelector DS = new DataSelector();
+
+          DS.Dt = SR.Data.Read();
+
+          if (DS.ShowDialog() == DialogResult.OK)
+          {
+            HO = new HeadObservations();
+            HO.FillInFromNovanaShape(DS.Dt.Select(DS.SelectString));
+          }
+          else
+          {
+            textBox2.Text = "";
+            return;
+          }
+        }
+        else
+        {
+          HO = new HeadObservations(textBox2.Text);
+        }
+
+        textBox1.Text = HO.Wells.Count.ToString();
+        listBox1.Items.AddRange(HO.WorkingList.ToArray());
+        textBox4.Text = listBox1.Items.Count.ToString();
       }      
     }
 
@@ -61,7 +88,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-
+        HO.WriteNovanaShape(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>());
       }
     }
 
@@ -78,11 +105,7 @@ namespace MikeSheWrapper.Viewer
 
     private void LoadButton_Click(object sender, EventArgs e)
     {
-      HO = new HeadObservations(textBox2.Text);
-      
-      textBox1.Text = HO.Wells.Count.ToString();
-      listBox1.Items.AddRange(HO.WorkingList.ToArray());
-      textBox4.Text = listBox1.Items.Count.ToString();
+
     }
   }
 }
