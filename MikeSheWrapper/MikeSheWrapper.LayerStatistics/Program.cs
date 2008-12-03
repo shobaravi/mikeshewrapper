@@ -43,7 +43,14 @@ namespace MikeSheWrapper.LayerStatistics
           Configuration cf = Configuration.ConfigurationFactory(args[0]);
           
           _grid = new MikeSheGridInfo(cf.PreProcessedDFS3, cf.PreProcessedDFS2);
+
+          Results.HeadElevationString = cf.HeadItemText;
+
           _res = new Results(cf.ResultFile, _grid);
+
+          if (_res.Heads==null)
+            throw new Exception("Heads could not be found. Check that item: \"" + cf.HeadItemText + "\" exists in + " + cf.ResultFile);
+
           ObsFileName = cf.ObservationFile;
         }
 

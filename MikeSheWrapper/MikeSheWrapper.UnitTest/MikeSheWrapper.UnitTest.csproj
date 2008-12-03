@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSelectorTest.cs" />
     <Compile Include="GridInfoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultTest.cs" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
       <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>
       <Name>MikeSheWrapper.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Viewer\MikeSheWrapper.Viewer.csproj">
+      <Project>{C83B70C2-F74F-497D-8933-6E1549DA2853}</Project>
+      <Name>MikeSheWrapper.Viewer</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper\MikeSheWrapper.csproj">
       <Project>{B9915DE9-2BFA-4810-8866-CC6FAECB106A}</Project>

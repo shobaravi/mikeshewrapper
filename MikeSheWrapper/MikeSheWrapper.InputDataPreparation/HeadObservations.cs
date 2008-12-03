@@ -160,21 +160,33 @@ namespace MikeSheWrapper.InputDataPreparation
 
       OleDbConnection dbconnection = new OleDbConnection(databaseConnection);
       dbconnection.Open();
-      string select = "SELECT borehole.boreholeno, intakeno, xutm, yutm FROM borehole, intake WHERE borehole.boreholeno= intake.boreholeno and xutm IS NOT NULL AND yutm IS NOT NULL";
+      string select = "SELECT borehole.boreholeno, intake.intakeno, xutm, yutm, elevation, location, top, bottom FROM borehole, intake, screen WHERE borehole.boreholeno= intake.boreholeno and intake.boreholeno= screen.boreholeno and screen.intakeno = intake.intakeno  and xutm IS NOT NULL AND yutm IS NOT NULL";
 
       OleDbDataAdapter da = new OleDbDataAdapter(select, databaseConnection);
       DataTable ds = new DataTable();
       da.Fill(ds);
-
+      ObservationWell CurrentWell;
       foreach (DataRow Dr in ds.Rows)
       {
         //Remove spaces and add the intake number to create a unique well ID
         string wellname = ((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"];
 
-        ObservationWell CurrentWell = new ObservationWell(wellname);
+        if (!_wells.TryGetValue(wellname, out CurrentWell))
+        {
+          CurrentWell = new ObservationWell(wellname);
+          _wells.Add(wellname, CurrentWell);
+        }
+
         CurrentWell.X = (double) Dr["xutm"];
         CurrentWell.Y = (double) Dr["yutm"];
-        _wells.Add(wellname, CurrentWell);
+
+        CurrentWell.Description =(string) Dr["location"];
+        if (Dr["elevation"]!=DBNull.Value)
+          CurrentWell.Terrain = (double)Dr["elevation"];
+        if (Dr["top"] != DBNull.Value)
+          CurrentWell.ScreenTop.Add( (double)Dr["top"]);
+        if (Dr["bottom"] != DBNull.Value)
+          CurrentWell.ScreenBottom.Add((double)Dr["bottom"]);
       }
     }
 
@@ -246,7 +258,7 @@ namespace MikeSheWrapper.InputDataPreparation
     }
 
 
-    private void FillInFromNovanaShape(DataRow[] DS)
+    public void FillInFromNovanaShape(DataRow[] DS)
     {
       ObservationWell CurrentWell;
       foreach (DataRow DR in DS)
@@ -304,6 +316,38 @@ namespace MikeSheWrapper.InputDataPreparation
           W.WriteToDfs0(OutputPath);
       });
     }
+
+
+    public void WriteNovanaShape(string FileName, IEnumerable<ObservationWell> Wells)
+    {
+      PointShapeWriter PSW = new PointShapeWriter(FileName);
+
+      DataTable DT = new DataTable();
+      DT.Columns.Add("NOVANAID", typeof(string));
+      DT.Columns.Add("XUTM", typeof(double));
+      DT.Columns.Add("YUTM", typeof(double));
+      DT.Columns.Add("JUPKOTE", typeof(double));
+      DT.Columns.Add("LOCATION", typeof(string));
+
+      DT.Columns.Add("NUMBEROFOBS", typeof(int));
+
+
+      foreach (ObservationWell W in Wells)
+      {
+        PSW.WritePointShape(W.X, W.Y);
+        DataRow DR = DT.NewRow();
+        DR["NOVANAID"] = W.ID;
+        DR["LOCATION"] = W.Description;
+        DR["XUTM"] = W.X;
+        DR["YUTM"] = W.Y;
+        DR["JUPKOTE"] = W.Terrain;
+        DR["NUMBEROFOBS"] = W.Observations.Count();
+        DT.Rows.Add(DR);
+      }
+      PSW.Data.WriteDate(DT);
+      PSW.Dispose();
+    }
+
 
     public Dictionary<string, ObservationWell> Wells
     {
