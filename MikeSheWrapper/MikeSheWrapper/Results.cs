@@ -11,6 +11,8 @@ namespace MikeSheWrapper
   public class Results
   {
 
+    public static string HeadElevationString = "head elevation in saturated zone";
+
     private DataSetsFromDFS3 _heads;
     private DataSetsFromDFS3 _xflow;
     private DataSetsFromDFS3 _yflow;
@@ -97,15 +99,11 @@ namespace MikeSheWrapper
       _deleteValue = SZ3D.DeleteValue;
       for (int i = 0; i < SZ3D.DynamicItemInfos.Length; i++)
       {
-        switch (SZ3D.DynamicItemInfos[i].Name)
+        if (SZ3D.DynamicItemInfos[i].Name.Equals(HeadElevationString, StringComparison.OrdinalIgnoreCase))
         {
-          case "head elevation in saturated zone":
             _heads = new DataSetsFromDFS3(SZ3D, i + 1);
             //Also create the phreatic heads;
             _phreaticHead = new PhreaticPotential(_heads, _grid, SZ3D.DeleteValue);
-            break;
-          default:
-            break;
         }
       }
     }
