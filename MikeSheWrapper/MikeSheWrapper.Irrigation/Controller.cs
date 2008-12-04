@@ -46,15 +46,14 @@ namespace MikeSheWrapper.Irrigation
 
 
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
+ 
 
-      
-
-
+      //Note. It is assumed that the wells are ordered in the same way as the shapes
       for (int i = 0; i < _wells.Count; i++) 
       {
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.AddNewCommandArea();
 
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaCode = _wells[i].GridCode;
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaCode = i+1;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaCodeID = _wells[i].ID;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaName  = _wells[i].ID;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.WellXposSIWS = _wells[i].X;

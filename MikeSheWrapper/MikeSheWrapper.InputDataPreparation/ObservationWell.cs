@@ -51,11 +51,19 @@ namespace MikeSheWrapper.InputDataPreparation
     #endregion
 
 
-
     /// <summary>
-    /// Create the timeseries and move data
+    /// Create the timeseries including all entries
     /// </summary>
     public void InitializeToWriteDFS0()
+    {
+      InitializeToWriteDFS0(DateTime.MinValue, DateTime.MaxValue);
+    }
+
+
+    /// <summary>
+    /// Create the timeseries including entries in the period between start and end
+    /// </summary>
+    public void InitializeToWriteDFS0(DateTime Start, DateTime End)
     {
       _tso = new TSObjectClass();
       _item = new TSItemClass();
@@ -68,17 +76,19 @@ namespace MikeSheWrapper.InputDataPreparation
 
       DateTime _previousTimeStep = DateTime.MinValue;
 
-      _observations.Sort();
+      List<TimeSeriesEntry> SelectedObs = _observations.Where(TSE => HeadObservations.InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
 
-      for (int i = 0; i < _observations.Count; i++)
+      SelectedObs.Sort();
+
+      for (int i = 0; i < SelectedObs.Count; i++)
       {
         //Only add the first measurement of the day
-        if (_observations[i].Time != _previousTimeStep)
+        if (SelectedObs[i].Time != _previousTimeStep)
         {
 
           _tso.Time.AddTimeSteps(1);
-          _tso.Time.SetTimeForTimeStepNr(i + 1, _observations[i].Time);
-          _item.SetDataForTimeStepNr(i + 1, (float)_observations[i].Value);
+          _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
+          _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
         }
 
 

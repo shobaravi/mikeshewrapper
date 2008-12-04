@@ -48,7 +48,8 @@ namespace MikeSheWrapper.Tools
         {
           for (int i = 0; i < _data.Rows.Count; i++)
           {
-            ShapeLib.DBFWriteDoubleAttribute(_dbfPointer, i, j , (double)_data.Rows[i][j]);
+            if (_data.Rows[i][j]!=DBNull.Value)
+              ShapeLib.DBFWriteDoubleAttribute(_dbfPointer, i, j , (double)_data.Rows[i][j]);
           }
         }
         // int data
@@ -139,9 +140,13 @@ namespace MikeSheWrapper.Tools
           //Loop to find precision
           for (int i = 0; i < _data.Rows.Count; i++)
           {
-            Precision = GetPrecision((float)(double)_data.Rows[i][j]);
-            DigitsBeforePoint = Math.Max(Precision[0], DigitsBeforePoint);
-            DigitsAfterPoint = Math.Max(Precision[1], DigitsAfterPoint);
+            //Don't try if no data
+            if (_data.Rows[i][j] != DBNull.Value)
+            {
+              Precision = GetPrecision((float)(double)_data.Rows[i][j]);
+              DigitsBeforePoint = Math.Max(Precision[0], DigitsBeforePoint);
+              DigitsAfterPoint = Math.Max(Precision[1], DigitsAfterPoint);
+            }
           }
           ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTDouble, DigitsBeforePoint + DigitsAfterPoint + 1, DigitsAfterPoint);
         }

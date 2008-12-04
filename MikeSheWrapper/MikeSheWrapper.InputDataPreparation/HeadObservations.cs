@@ -31,7 +31,9 @@ namespace MikeSheWrapper.InputDataPreparation
     /// Function that returns true if a time series entry is between the two dates
     /// </summary>
     public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
-    
+
+
+
     /// <summary>
     /// Function that returns true if a well has more than Count observations in the period between Start and End
     /// </summary>
@@ -203,7 +205,7 @@ namespace MikeSheWrapper.InputDataPreparation
       string databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
       OleDbConnection dbconnection = new OleDbConnection(databaseConnection);
       dbconnection.Open();
-      OleDbDataAdapter da = new OleDbDataAdapter("SELECT boreholeno, intakeno, timeofmeas, waterlevel FROM watlevel WHERE timeofmeas IS NOT NULL AND waterlevel IS NOT NULL", databaseConnection);
+      OleDbDataAdapter da = new OleDbDataAdapter("SELECT boreholeno, intakeno, timeofmeas, watlevmsl FROM watlevel WHERE timeofmeas IS NOT NULL AND watlevmsl IS NOT NULL", databaseConnection);
       DataTable ds = new DataTable();
       da.Fill(ds);
 
@@ -226,7 +228,7 @@ namespace MikeSheWrapper.InputDataPreparation
         }
         //If the well has been found or is created fill in the observations
         if (CurrentWell!=null)
-          CurrentWell.Observations.Add(new TimeSeriesEntry((DateTime)Dr["timeofmeas"], (double)Dr["waterlevel"]));
+          CurrentWell.Observations.Add(new TimeSeriesEntry((DateTime)Dr["timeofmeas"], (double)Dr["watlevmsl"]));
 
       }
     }
@@ -298,27 +300,82 @@ namespace MikeSheWrapper.InputDataPreparation
 
 #endregion
 
+
+    public void WriteToLSInput(string FileName, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End, bool AllObs)
+    {
+      using (StreamWriter SW = new StreamWriter(FileName, false, Encoding.Default))
+      {
+        if (AllObs)
+          SW.WriteLine("NOVANAID\tXUTM\tYUTM\tMIDTK_FNL\tPEJL\tDATO\tBERELAG");
+        else
+          SW.WriteLine("NOVANAID\tXUTM\tYUTM\tMIDTK_FNL\tMEANPEJ\tMAXDATO\tBERELAG");
+
+        foreach (ObservationWell OW in SelectedWells)
+        {
+          List<TimeSeriesEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+
+          StringBuilder S = new StringBuilder();
+          S.Append(OW.ID + "\t" + OW.X + "\t" + OW.Y + "\t" + OW.Depth + "\t");
+
+          if (AllObs)
+            foreach (TimeSeriesEntry TSE in SelectedObs)
+            {
+              StringBuilder ObsString = new StringBuilder(S.ToString());
+              ObsString.Append(TSE.Value + "\t" + TSE.Time.ToShortDateString());
+              if (OW.Layer > 0)
+                ObsString.Append("\t" + OW.Layer);
+              SW.WriteLine(ObsString.ToString());
+            }
+          else
+          {
+            S.Append(SelectedObs.Average(num => num.Value).ToString() + "\t");
+            S.Append(SelectedObs.Max(num => num.Time).ToShortDateString());
+            if (OW.Layer > 0)
+              S.Append("\t" + OW.Layer);
+            SW.WriteLine(S.ToString());
+          }
+        }
+      }
+    }
+
     /// <summary>
-    /// Writes dfs0 files for all wells with more than one observation
+    /// Writes dfs0-files for all wells in the workinglist included all data
     /// </summary>
     /// <param name="OutputPath"></param>
     public void WriteToDfs0(string OutputPath)
     {
+      WriteToDfs0(OutputPath, WorkingList, DateTime.MinValue, DateTime.MaxValue);
+    }
+
+    /// <summary>
+    /// Writes dfs0 files for the SelectedWells wells
+    /// Only includes data within the period bounded by Start and End
+    /// </summary>
+    /// <param name="OutputPath"></param>
+    public void WriteToDfs0(string OutputPath, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End)
+    {
       //Prepare the time series if there is more than one observation
-      Parallel.ForEach<ObservationWell>(WorkingList, delegate(ObservationWell W)
+      Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
       {
-          W.InitializeToWriteDFS0();
+          W.InitializeToWriteDFS0(Start, End);
       });
 
       //Write the dfs0s
-      Parallel.ForEach<ObservationWell>(WorkingList, delegate(ObservationWell W)
+      Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
       {
           W.WriteToDfs0(OutputPath);
       });
     }
 
-
-    public void WriteNovanaShape(string FileName, IEnumerable<ObservationWell> Wells)
+    /// <summary>
+    /// Writes the wells to a point shape
+    /// Calculates statistics on the observations within the period from start to end
+    /// </summary>
+    /// <param name="FileName"></param>
+    /// <param name="Wells"></param>
+    /// <param name="Start"></param>
+    /// <param name="End"></param>
+    public void WriteNovanaShape(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)
     {
       PointShapeWriter PSW = new PointShapeWriter(FileName);
 
@@ -328,12 +385,16 @@ namespace MikeSheWrapper.InputDataPreparation
       DT.Columns.Add("YUTM", typeof(double));
       DT.Columns.Add("JUPKOTE", typeof(double));
       DT.Columns.Add("LOCATION", typeof(string));
-
       DT.Columns.Add("NUMBEROFOBS", typeof(int));
+      DT.Columns.Add("MEANOBS", typeof(double));
+      DT.Columns.Add("MAXOBS", typeof(double));
+      DT.Columns.Add("MINOBS", typeof(double));
 
 
       foreach (ObservationWell W in Wells)
       {
+        List<TimeSeriesEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+
         PSW.WritePointShape(W.X, W.Y);
         DataRow DR = DT.NewRow();
         DR["NOVANAID"] = W.ID;
@@ -341,7 +402,13 @@ namespace MikeSheWrapper.InputDataPreparation
         DR["XUTM"] = W.X;
         DR["YUTM"] = W.Y;
         DR["JUPKOTE"] = W.Terrain;
-        DR["NUMBEROFOBS"] = W.Observations.Count();
+        DR["NUMBEROFOBS"] = SelectedObs.Count;
+        if (SelectedObs.Count > 0)
+        {
+          DR["MAXOBS"] = SelectedObs.Max(num => num.Value);
+          DR["MINOBS"] = SelectedObs.Min(num => num.Value);
+          DR["MEANOBS"] = SelectedObs.Average(num => num.Value);
+        }
         DT.Rows.Add(DR);
       }
       PSW.Data.WriteDate(DT);

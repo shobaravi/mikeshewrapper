@@ -23,7 +23,6 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       Cf.XHeader = "UTMX";
       Cf.YHeader = "UTMY";
       Cf.IdHeader = "NOVANA_ID";
-      Cf.IdNumberHeader = "ShapeID";
       Cf.SheFile = @"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ_irr.SHE";
       Cf.WellShapeFile = @"F:\DHI\Data\Novana\Novomr4\Time\thiesn1_SpatialJoin.shp";
 
@@ -42,7 +41,6 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       Cf.XHeader = "UTMX";
       Cf.YHeader = "UTMY";
       Cf.IdHeader = "NOVANA_ID";
-      Cf.IdNumberHeader = "ShapeID";
       Cf.SheFile = @"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ_irr.SHE";
       Cf.WellShapeFile = @"F:\DHI\Data\Novana\Novomr4\Time\thiesn1_SpatialJoin.shp";
 

@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="DataSelectorTest.cs" />
     <Compile Include="GridInfoTest.cs" />
+    <Compile Include="MsheLauncherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultTest.cs" />
   </ItemGroup>

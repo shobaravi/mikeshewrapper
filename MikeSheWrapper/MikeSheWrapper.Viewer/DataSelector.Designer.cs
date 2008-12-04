@@ -34,7 +34,7 @@
       this.richTextBoxSelectString = new System.Windows.Forms.RichTextBox();
       this.button1 = new System.Windows.Forms.Button();
       this.OkButton = new System.Windows.Forms.Button();
-      this.CancelButton = new System.Windows.Forms.Button();
+      this.ButtonCancel = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
       this.button3 = new System.Windows.Forms.Button();
       this.button4 = new System.Windows.Forms.Button();
@@ -107,13 +107,13 @@
       // 
       // CancelButton
       // 
-      this.CancelButton.Location = new System.Drawing.Point(301, 451);
-      this.CancelButton.Name = "CancelButton";
-      this.CancelButton.Size = new System.Drawing.Size(75, 23);
-      this.CancelButton.TabIndex = 7;
-      this.CancelButton.Text = "Cancel";
-      this.CancelButton.UseVisualStyleBackColor = true;
-      this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+      this.ButtonCancel.Location = new System.Drawing.Point(301, 451);
+      this.ButtonCancel.Name = "CancelButton";
+      this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
+      this.ButtonCancel.TabIndex = 7;
+      this.ButtonCancel.Text = "Cancel";
+      this.ButtonCancel.UseVisualStyleBackColor = true;
+      this.ButtonCancel.Click += new System.EventHandler(this.CancelButton_Click);
       // 
       // button2
       // 
@@ -251,7 +251,7 @@
       this.Controls.Add(this.button6);
       this.Controls.Add(this.button3);
       this.Controls.Add(this.button2);
-      this.Controls.Add(this.CancelButton);
+      this.Controls.Add(this.ButtonCancel);
       this.Controls.Add(this.OkButton);
       this.Controls.Add(this.button1);
       this.Controls.Add(this.richTextBoxSelectString);
@@ -272,7 +272,7 @@
     private System.Windows.Forms.RichTextBox richTextBoxSelectString;
     private System.Windows.Forms.Button button1;
     private System.Windows.Forms.Button OkButton;
-    private System.Windows.Forms.Button CancelButton;
+    private System.Windows.Forms.Button ButtonCancel;
     private System.Windows.Forms.Button button2;
     private System.Windows.Forms.Button button3;
     private System.Windows.Forms.Button button4;

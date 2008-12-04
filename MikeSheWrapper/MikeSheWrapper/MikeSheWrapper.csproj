@@ -57,6 +57,7 @@
     <Compile Include="FileNames.cs" />
     <Compile Include="MikeSheGridInfo.cs" />
     <Compile Include="Model.cs" />
+    <Compile Include="MSheLauncher.cs" />
     <Compile Include="PhreaticPotential.cs" />
     <Compile Include="PhreaticPotentialData.cs" />
     <Compile Include="ProcessedData.cs" />
