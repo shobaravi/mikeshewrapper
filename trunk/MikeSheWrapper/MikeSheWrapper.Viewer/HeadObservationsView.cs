@@ -17,6 +17,7 @@ namespace MikeSheWrapper.Viewer
   {
     private HeadObservations HO;
 
+
     public HeadObservationsView()
     {
       InitializeComponent();
@@ -71,7 +72,11 @@ namespace MikeSheWrapper.Viewer
     {
       int Min = int.Parse(MinNumber.Text);
       listBox1.Items.Clear();
-      listBox1.Items.AddRange(HO.WorkingList.Where(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+      if (radioButtonMin.Checked)
+        listBox1.Items.AddRange(HO.WorkingList.Where(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+      else
+        listBox1.Items.AddRange(HO.WorkingList.Where(w => !HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+  
       textBox4.Text = listBox1.Items.Count.ToString();
     }
 
@@ -79,7 +84,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
       {
-        HO.WriteToDfs0(folderBrowserDialog1.SelectedPath);
+        HO.WriteToDfs0(folderBrowserDialog1.SelectedPath, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value);
         HO.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"));
       }
     }
@@ -88,7 +93,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        HO.WriteNovanaShape(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>());
+        HO.WriteNovanaShape(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value);
       }
     }
 
@@ -100,12 +105,19 @@ namespace MikeSheWrapper.Viewer
     private void buttonSelectMShe_Click(object sender, EventArgs e)
     {
       if (OpenSheFileForSelection.ShowDialog() == DialogResult.OK)
+      {
         HO.SelectByMikeSheModelArea(new Model(OpenSheFileForSelection.FileName).GridInfo);
+        textBoxMikeSHe.Text = OpenSheFileForSelection.FileName;
+      }
     }
 
-    private void LoadButton_Click(object sender, EventArgs e)
+    private void buttonLSFile_Click(object sender, EventArgs e)
     {
-
+      if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        bool WriteAll = (DialogResult.Yes==MessageBox.Show("Write all value for individual time series?", "Averageor all?", MessageBoxButtons.YesNo));
+        HO.WriteToLSInput(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
+      }
     }
   }
 }

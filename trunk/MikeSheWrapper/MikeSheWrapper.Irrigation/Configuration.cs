@@ -15,7 +15,6 @@ namespace MikeSheWrapper.Irrigation
     private string _yHeader;
     private string _topHeader;
     private string _bottomHeader;
-    private string _idNumberHeader;
     private string _idHeader;
     private string _maxDepthHeader;
     private string _maxRateHeader;
@@ -75,10 +74,5 @@ namespace MikeSheWrapper.Irrigation
       set { _idHeader = value; }
     }
 
-    public string IdNumberHeader
-    {
-      get { return _idNumberHeader; }
-      set { _idNumberHeader = value; }
-    }
   }
 }

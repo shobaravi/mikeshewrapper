@@ -48,7 +48,7 @@
       this.label5 = new System.Windows.Forms.Label();
       this.label6 = new System.Windows.Forms.Label();
       this.button4 = new System.Windows.Forms.Button();
-      this.textBox5 = new System.Windows.Forms.TextBox();
+      this.textBoxMikeSHe = new System.Windows.Forms.TextBox();
       this.buttonSelectMShe = new System.Windows.Forms.Button();
       this.label7 = new System.Windows.Forms.Label();
       this.label10 = new System.Windows.Forms.Label();
@@ -58,7 +58,10 @@
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBox1 = new System.Windows.Forms.ListBox();
       this.OpenSheFileForSelection = new System.Windows.Forms.OpenFileDialog();
+      this.buttonLSFile = new System.Windows.Forms.Button();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
+      this.radioButtonMax = new System.Windows.Forms.RadioButton();
+      this.radioButtonMin = new System.Windows.Forms.RadioButton();
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
@@ -80,7 +83,7 @@
       // 
       // textBox1
       // 
-      this.textBox1.Location = new System.Drawing.Point(540, 31);
+      this.textBox1.Location = new System.Drawing.Point(132, 256);
       this.textBox1.Name = "textBox1";
       this.textBox1.Size = new System.Drawing.Size(79, 20);
       this.textBox1.TabIndex = 1;
@@ -133,21 +136,21 @@
       // 
       // textBox4
       // 
-      this.textBox4.Location = new System.Drawing.Point(368, 294);
+      this.textBox4.Location = new System.Drawing.Point(132, 282);
       this.textBox4.Name = "textBox4";
       this.textBox4.Size = new System.Drawing.Size(79, 20);
       this.textBox4.TabIndex = 9;
       // 
       // MinNumber
       // 
-      this.MinNumber.Location = new System.Drawing.Point(368, 218);
+      this.MinNumber.Location = new System.Drawing.Point(273, 218);
       this.MinNumber.Name = "MinNumber";
-      this.MinNumber.Size = new System.Drawing.Size(79, 20);
+      this.MinNumber.Size = new System.Drawing.Size(93, 20);
       this.MinNumber.TabIndex = 10;
       // 
       // RefreshButton
       // 
-      this.RefreshButton.Location = new System.Drawing.Point(544, 216);
+      this.RefreshButton.Location = new System.Drawing.Point(372, 216);
       this.RefreshButton.Name = "RefreshButton";
       this.RefreshButton.Size = new System.Drawing.Size(75, 23);
       this.RefreshButton.TabIndex = 11;
@@ -159,15 +162,15 @@
       // 
       this.dateTimePicker1.Location = new System.Drawing.Point(15, 218);
       this.dateTimePicker1.Name = "dateTimePicker1";
-      this.dateTimePicker1.Size = new System.Drawing.Size(141, 20);
+      this.dateTimePicker1.Size = new System.Drawing.Size(122, 20);
       this.dateTimePicker1.TabIndex = 12;
       this.dateTimePicker1.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
       // 
       // dateTimePicker2
       // 
-      this.dateTimePicker2.Location = new System.Drawing.Point(190, 218);
+      this.dateTimePicker2.Location = new System.Drawing.Point(145, 218);
       this.dateTimePicker2.Name = "dateTimePicker2";
-      this.dateTimePicker2.Size = new System.Drawing.Size(133, 20);
+      this.dateTimePicker2.Size = new System.Drawing.Size(122, 20);
       this.dateTimePicker2.TabIndex = 13;
       // 
       // label3
@@ -182,7 +185,7 @@
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(187, 199);
+      this.label4.Location = new System.Drawing.Point(142, 199);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(50, 13);
       this.label4.TabIndex = 15;
@@ -191,24 +194,24 @@
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(365, 199);
+      this.label5.Location = new System.Drawing.Point(270, 183);
       this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(82, 13);
+      this.label5.Size = new System.Drawing.Size(114, 13);
       this.label5.TabIndex = 16;
-      this.label5.Text = "Min. No. of obs.";
+      this.label5.Text = "Min or Max No. of obs.";
       // 
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(537, 9);
+      this.label6.Location = new System.Drawing.Point(12, 259);
       this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(62, 13);
+      this.label6.Size = new System.Drawing.Size(89, 13);
       this.label6.TabIndex = 17;
-      this.label6.Text = "No. of wells";
+      this.label6.Text = "Total No. of wells";
       // 
       // button4
       // 
-      this.button4.Location = new System.Drawing.Point(15, 347);
+      this.button4.Location = new System.Drawing.Point(18, 597);
       this.button4.Name = "button4";
       this.button4.Size = new System.Drawing.Size(104, 23);
       this.button4.TabIndex = 18;
@@ -216,12 +219,12 @@
       this.button4.UseVisualStyleBackColor = true;
       this.button4.Click += new System.EventHandler(this.button4_Click);
       // 
-      // textBox5
+      // textBoxMikeSHe
       // 
-      this.textBox5.Location = new System.Drawing.Point(120, 140);
-      this.textBox5.Name = "textBox5";
-      this.textBox5.Size = new System.Drawing.Size(295, 20);
-      this.textBox5.TabIndex = 21;
+      this.textBoxMikeSHe.Location = new System.Drawing.Point(120, 140);
+      this.textBoxMikeSHe.Name = "textBoxMikeSHe";
+      this.textBoxMikeSHe.Size = new System.Drawing.Size(295, 20);
+      this.textBoxMikeSHe.TabIndex = 21;
       // 
       // buttonSelectMShe
       // 
@@ -245,15 +248,15 @@
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(264, 297);
+      this.label10.Location = new System.Drawing.Point(12, 285);
       this.label10.Name = "label10";
-      this.label10.Size = new System.Drawing.Size(62, 13);
+      this.label10.Size = new System.Drawing.Size(107, 13);
       this.label10.TabIndex = 27;
-      this.label10.Text = "No. of wells";
+      this.label10.Text = "Selected No. of wells";
       // 
       // button5
       // 
-      this.button5.Location = new System.Drawing.Point(143, 347);
+      this.button5.Location = new System.Drawing.Point(176, 597);
       this.button5.Name = "button5";
       this.button5.Size = new System.Drawing.Size(104, 23);
       this.button5.TabIndex = 28;
@@ -263,7 +266,7 @@
       // 
       // propertyGrid1
       // 
-      this.propertyGrid1.Location = new System.Drawing.Point(465, 288);
+      this.propertyGrid1.Location = new System.Drawing.Point(230, 276);
       this.propertyGrid1.Name = "propertyGrid1";
       this.propertyGrid1.Size = new System.Drawing.Size(217, 296);
       this.propertyGrid1.TabIndex = 29;
@@ -271,9 +274,9 @@
       // listBox1
       // 
       this.listBox1.FormattingEnabled = true;
-      this.listBox1.Location = new System.Drawing.Point(267, 320);
+      this.listBox1.Location = new System.Drawing.Point(15, 308);
       this.listBox1.Name = "listBox1";
-      this.listBox1.Size = new System.Drawing.Size(180, 264);
+      this.listBox1.Size = new System.Drawing.Size(196, 264);
       this.listBox1.TabIndex = 30;
       this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
       // 
@@ -281,21 +284,56 @@
       // 
       this.OpenSheFileForSelection.Filter = "MikeShe imput file(*.she)|*.she";
       // 
+      // buttonLSFile
+      // 
+      this.buttonLSFile.Location = new System.Drawing.Point(343, 597);
+      this.buttonLSFile.Name = "buttonLSFile";
+      this.buttonLSFile.Size = new System.Drawing.Size(104, 23);
+      this.buttonLSFile.TabIndex = 31;
+      this.buttonLSFile.Text = "Create ls file";
+      this.buttonLSFile.UseVisualStyleBackColor = true;
+      this.buttonLSFile.Click += new System.EventHandler(this.buttonLSFile_Click);
+      // 
       // observationWellBindingSource
       // 
       this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
+      // 
+      // radioButtonMax
+      // 
+      this.radioButtonMax.AutoSize = true;
+      this.radioButtonMax.Location = new System.Drawing.Point(273, 199);
+      this.radioButtonMax.Name = "radioButtonMax";
+      this.radioButtonMax.Size = new System.Drawing.Size(45, 17);
+      this.radioButtonMax.TabIndex = 32;
+      this.radioButtonMax.Text = "Max";
+      this.radioButtonMax.UseVisualStyleBackColor = true;
+      // 
+      // radioButtonMin
+      // 
+      this.radioButtonMin.AutoSize = true;
+      this.radioButtonMin.Checked = true;
+      this.radioButtonMin.Location = new System.Drawing.Point(324, 199);
+      this.radioButtonMin.Name = "radioButtonMin";
+      this.radioButtonMin.Size = new System.Drawing.Size(42, 17);
+      this.radioButtonMin.TabIndex = 33;
+      this.radioButtonMin.TabStop = true;
+      this.radioButtonMin.Text = "Min";
+      this.radioButtonMin.UseVisualStyleBackColor = true;
       // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(806, 617);
+      this.ClientSize = new System.Drawing.Size(466, 651);
+      this.Controls.Add(this.radioButtonMin);
+      this.Controls.Add(this.radioButtonMax);
+      this.Controls.Add(this.buttonLSFile);
       this.Controls.Add(this.listBox1);
       this.Controls.Add(this.propertyGrid1);
       this.Controls.Add(this.button5);
       this.Controls.Add(this.label10);
       this.Controls.Add(this.label7);
-      this.Controls.Add(this.textBox5);
+      this.Controls.Add(this.textBoxMikeSHe);
       this.Controls.Add(this.buttonSelectMShe);
       this.Controls.Add(this.button4);
       this.Controls.Add(this.label6);
@@ -315,7 +353,7 @@
       this.Controls.Add(this.textBox1);
       this.Controls.Add(this.ButtonReadWells);
       this.Name = "HeadObservationsView";
-      this.Text = "Form1";
+      this.Text = "Wells and observations";
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -343,7 +381,7 @@
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Button button4;
-    private System.Windows.Forms.TextBox textBox5;
+    private System.Windows.Forms.TextBox textBoxMikeSHe;
     private System.Windows.Forms.Button buttonSelectMShe;
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.Label label10;
@@ -354,6 +392,9 @@
     private System.Windows.Forms.ListBox listBox1;
     private System.Windows.Forms.BindingSource observationWellBindingSource;
     private System.Windows.Forms.OpenFileDialog OpenSheFileForSelection;
+    private System.Windows.Forms.Button buttonLSFile;
+    private System.Windows.Forms.RadioButton radioButtonMax;
+    private System.Windows.Forms.RadioButton radioButtonMin;
   }
 }
 
