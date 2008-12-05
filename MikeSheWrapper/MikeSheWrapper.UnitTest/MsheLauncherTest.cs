@@ -14,7 +14,9 @@ namespace MikeSheWrapper.UnitTest
     [Test]
     public void PreProcessTest()
     {
-      MSheLauncher.PreprocessAndRun(@"F:\Jacob\MikeSheWrapper\TestData\TestModel.she");
+     
+      MSheLauncher.PreprocessAndRun(@"F:\Jacob\MikeSheWrapper\TestData\TestModel.she",false);
+      Console.WriteLine("simulation finished");
     }
   }
 }

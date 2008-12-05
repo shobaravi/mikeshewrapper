@@ -9,17 +9,29 @@ namespace MikeSheWrapper
 {
   public class MSheLauncher
   {
-    public static void PreprocessAndRun(string MsheFileName)
+    public static void PreprocessAndRun(string MsheFileName, bool UseMZLauncher)
     {
+
       Process Runner = new Process();
 
-      Runner.StartInfo.FileName = "Mshe_preprocessor.exe";
-      Runner.StartInfo.Arguments = MsheFileName;
-      Runner.Start();
-      Runner.WaitForExit();
-      Runner.StartInfo.FileName = "Mshe_watermovement.exe";
-      Runner.Start();
+      if (UseMZLauncher)
+      {
 
+      }
+
+      else
+      {
+        //This should actually check the path using DHI.Fl, which will be changed in 2009
+
+        Runner.StartInfo.FileName = "Mshe_preprocessor.exe";
+        Runner.StartInfo.Arguments = MsheFileName;
+        Runner.Start();
+        Runner.WaitForExit();
+        Runner.StartInfo.FileName = "Mshe_watermovement.exe";
+        Runner.Start();
+        Runner.WaitForExit();
+        Runner.Close();
+      }
     }
 
   }

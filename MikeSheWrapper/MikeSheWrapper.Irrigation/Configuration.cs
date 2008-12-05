@@ -19,6 +19,9 @@ namespace MikeSheWrapper.Irrigation
     private string _maxDepthHeader;
     private string _maxRateHeader;
 
+    //public Configuration(
+
+
     public string SheFile
     {
       get { return _sheFile; }

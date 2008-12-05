@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using MikeSheWrapper;
 using MikeSheWrapper.Tools;
 using MikeSheWrapper.InputFiles;
 
@@ -22,6 +23,25 @@ namespace MikeSheWrapper.Irrigation
     {
       _config = Config;
       _she = new Model(_config.SheFile);
+
+    }
+
+    public void Run()
+    {
+      InsertIrrigationWells();
+      SaveAs(_config.SheFile);
+      MSheLauncher.PreprocessAndRun(_config.SheFile, false);
+      _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
+      SaveAs(_config.SheFile);
+    }
+
+    public bool IrrigationEnabled
+    {
+      get
+      {
+        return true;
+      }
+
     }
 
     public void InsertIrrigationWells()
@@ -35,8 +55,7 @@ namespace MikeSheWrapper.Irrigation
         IrrigationWell IW = new IrrigationWell();
         IW.X = (double) dr[_config.XHeader];
         IW.Y = (double) dr[_config.YHeader];
-        IW.ID = (string) dr[_config.IdHeader];
-        IW.GridCode = (int) dr[_config.IdNumberHeader];
+        IW.ID = dr[_config.IdHeader].ToString();
         //IW.MaxDepth = (double) dr[_config.MaxDepthHeader];
         //IW.MaxRate = (double) dr[_config.MaxRateHeader];
         IW.ScreenBottom.Add( (double)dr[_config.BottomHeader]);
@@ -53,7 +72,12 @@ namespace MikeSheWrapper.Irrigation
       {
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.AddNewCommandArea();
 
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaCode = i+1;
+        int AreaCode;
+        if (int.TryParse(_wells[i].ID, out AreaCode))
+          _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].AreaCode = AreaCode;
+        else
+          _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].AreaCode = 0;
+
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaCodeID = _wells[i].ID;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].AreaName  = _wells[i].ID;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.WellXposSIWS = _wells[i].X;
@@ -66,7 +90,7 @@ namespace MikeSheWrapper.Irrigation
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ThresholdDepthSIWS = Math.Max(3, Topo - _wells[i].ScreenBottom[0]);
 
       }
-
+      _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.Type = 2;
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.SHAPE_FILE.FILE_NAME = _config.WellShapeFile;
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.SHAPE_FILE.ITEM_NUMBERS = _config.IdHeader;
 
