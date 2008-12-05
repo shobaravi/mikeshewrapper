@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SheFile>F:\Jacob\MikeSheWrapper\TestData\TestModel.she</SheFile>
+  <WellShapeFile>F:\Jacob\MikeSheWrapper\TestData\commandareas.shp</WellShapeFile>
+  <XHeader>XUTM</XHeader>
+  <YHeader>YUTM</YHeader>
+  <TopHeader>TOP</TopHeader>
+  <BottomHeader>BOTTOM</BottomHeader>
+  <IdHeader>ID</IdHeader>
+</Configuration>
