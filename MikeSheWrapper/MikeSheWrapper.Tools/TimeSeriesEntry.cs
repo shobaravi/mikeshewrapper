@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MikeSheWrapper.Tools
 {
-  public class TimeSeriesEntry:IComparable<TimeSeriesEntry>
+  public class TimeSeriesEntry:IComparable<TimeSeriesEntry>,IEquatable<TimeSeriesEntry>
   {
     private DateTime _time;
     private double _value;
@@ -65,10 +65,6 @@ namespace MikeSheWrapper.Tools
       return "T= " + _time.ToShortDateString() + ", V = " + _value;
     }
 
-    public override bool Equals(object obj)
-    {
-      return ((TimeSeriesEntry)obj).Time.Equals(_time);
-    }
 
     public override int GetHashCode()
     {
@@ -83,6 +79,15 @@ namespace MikeSheWrapper.Tools
     }
 
 
+
+    #endregion
+
+    #region IEquatable<TimeSeriesEntry> Members
+
+    public bool Equals(TimeSeriesEntry other)
+    {
+      return other.Time.Equals(_time);
+    }
 
     #endregion
   }
