@@ -19,10 +19,10 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     {
       ObservationWell OW = new ObservationWell("test");
 
+      OW.Observations.Add(new TimeSeriesEntry(new DateTime(2000, 1, 1), 10));
       OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 10));
       OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 5));
       OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 15));
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(2000, 1, 1), 10));
 
       OW.Observations.Sort();
 
@@ -31,7 +31,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       int kk = OW.Observations.Distinct().Count(W => InBetween(W, DateTime.MinValue, DateTime.MaxValue)); ;
                  //   group obs by obs.Time into g 
 
-      Assert.AreEqual(kk, OW.UniqueObservations.Count);
+      Assert.AreEqual(2, OW.UniqueObservations.Count);
 
       //foreach (var W in grouped)
       //{
