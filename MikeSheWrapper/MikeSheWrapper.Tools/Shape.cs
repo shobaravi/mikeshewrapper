@@ -15,8 +15,7 @@ namespace MikeSheWrapper.Tools
 
 
     public virtual void Dispose()
-    {
- 
+    {     
       ShapeLib.SHPClose(_shapePointer);
 
     }

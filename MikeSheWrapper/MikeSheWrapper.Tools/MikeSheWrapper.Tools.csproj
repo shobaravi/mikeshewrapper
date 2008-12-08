@@ -59,14 +59,46 @@
     <Compile Include="DBFReader.cs" />
     <Compile Include="DBFWriter.cs" />
     <Compile Include="IMatrix3d.cs" />
+    <Compile Include="JupiterXL.cs">
+      <DependentUpon>JupiterXL.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="JupiterXL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JupiterXL.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Matrix3d.cs" />
     <Compile Include="PointShapeWriter.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Shape.cs" />
     <Compile Include="ShapeLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PointShapeReader.cs" />
     <Compile Include="DBF.cs" />
     <Compile Include="TimeSeriesEntry.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="JupiterXL.xsc">
+      <DependentUpon>JupiterXL.xsd</DependentUpon>
+    </None>
+    <None Include="JupiterXL.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>JupiterXL.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="JupiterXL.xss">
+      <DependentUpon>JupiterXL.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
