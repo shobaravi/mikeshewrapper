@@ -19,6 +19,8 @@ namespace MikeSheWrapper.Tools
 
     public double SimulatedValueCell
     {
+      
+
       get { return _simulatedValueCell; }
       set { _simulatedValueCell = value; }
     }
