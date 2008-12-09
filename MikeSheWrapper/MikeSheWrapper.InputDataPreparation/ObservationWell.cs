@@ -22,15 +22,7 @@ namespace MikeSheWrapper.InputDataPreparation
     private int _layer =-3;
     private double _depth;
     private double _z;
-
-    public double Z
-    {
-      get { return _z; }
-      set { _z = value; }
-    }
-
     private List<TimeSeriesEntry> _observations = new List<TimeSeriesEntry>();
-
 
     //TSObject members
     private TSObject _tso;
@@ -147,40 +139,13 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
     #region Properties
-    ///// <summary>
-    ///// Gets the observation data. 
-    ///// Contains methods to retrieve max, min, average etc.
-    ///// </summary>
-    //public TSItemData DHITimeSeriesData
-    //{
-    //  get
-    //  {
-    //    if (_item == null)
-    //      InitializeToWriteDFS0();
-
-    //    return _item.Data;
-    //  }
-    //}
-
-    ///// <summary>
-    ///// Gets the number of time steps in the DHI time series.
-    ///// Can be different from the actual number of time steps depending on how multiple time steps with the same
-    ///// date are handled.
-    ///// </summary>
-    //public int DHITimeSeriesDataCount
-    //{
-    //  get
-    //  {
-    //    if (_tso == null)
-    //      InitializeToWriteDFS0();
-    //    return _tso.Time.NrTimeSteps;
-    //  }
-    //}
-
 
 
 #region Statistics
 
+    /// <summary>
+    /// Returns the Root mean square error for the observations
+    /// </summary>
     public double? RMS
     {
       get
@@ -264,6 +229,18 @@ namespace MikeSheWrapper.InputDataPreparation
       set { _layer = value; }
     }
 
+    /// <summary>
+    /// Gets and sets the z-coordinate for the observation in meters above mean sea level
+    /// </summary>
+    public double Z
+    {
+      get { return _z; }
+      set { _z = value; }
+    }
+
+    /// <summary>
+    /// Gets and sets the depth of the observation in meters below surface
+    /// </summary>
     public double Depth
     {
       get { return _depth; }

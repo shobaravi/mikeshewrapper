@@ -15,12 +15,8 @@ namespace MikeSheWrapper.Tools
     private double _simulatedValueCell;
     private double _simulatedValue;
 
-
-
     public double SimulatedValueCell
     {
-      
-
       get { return _simulatedValueCell; }
       set { _simulatedValueCell = value; }
     }
@@ -79,8 +75,6 @@ namespace MikeSheWrapper.Tools
     {
       return _time.CompareTo(other._time);
     }
-
-
 
     #endregion
 

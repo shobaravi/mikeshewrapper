@@ -21,7 +21,11 @@ namespace MikeSheWrapper.Tools
       JupiterXLTableAdapters.BOREHOLETableAdapter ts = new MikeSheWrapper.Tools.JupiterXLTableAdapters.BOREHOLETableAdapter();
       DateTime start = DateTime.Now;
 
-      //ts.Fill(jxl.BOREHOLE);
+      ts.FillByNovana(jxl.BOREHOLE);
+
+
+      foreach (var m in jxl.BOREHOLE)
+        Console.WriteLine(m.BOREHOLENO);
 
       TimeSpan l1 = start.Subtract(DateTime.Now);
 
