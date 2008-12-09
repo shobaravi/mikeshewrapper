@@ -61,7 +61,6 @@
     <Compile Include="IMatrix3d.cs" />
     <Compile Include="JupiterXL.cs">
       <DependentUpon>JupiterXL.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="JupiterXL.Designer.cs">
       <AutoGen>True</AutoGen>
