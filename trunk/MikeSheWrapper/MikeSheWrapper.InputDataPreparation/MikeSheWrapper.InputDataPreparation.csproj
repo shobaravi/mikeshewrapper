@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5554E7E3-C222-448D-841A-BDE3F4EBAB9D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -59,6 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeadObservations.cs" />
+    <Compile Include="NovanaTables.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NovanaTables.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ObservationWell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,6 +91,19 @@
       <Name>MikeSheWrapper</Name>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NovanaTables.xsc">
+      <DependentUpon>NovanaTables.xsd</DependentUpon>
+    </None>
+    <None Include="NovanaTables.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>NovanaTables.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="NovanaTables.xss">
+      <DependentUpon>NovanaTables.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
