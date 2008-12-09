@@ -153,43 +153,49 @@ namespace MikeSheWrapper.InputDataPreparation
 
 #region Population Methods
     /// <summary>
-    /// Reads in all wells from a Jupiter database. For now only reads X and Y
+    /// Reads in all wells from a Jupiter database. 
     /// </summary>
     /// <param name="DataBaseFile"></param>
     public void ReadWellsFromJupiter(string DataBaseFile)
     {
-      string databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
 
-      OleDbConnection dbconnection = new OleDbConnection(databaseConnection);
-      dbconnection.Open();
-      string select = "SELECT borehole.boreholeno, intake.intakeno, xutm, yutm, elevation, location, top, bottom FROM borehole, intake, screen WHERE borehole.boreholeno= intake.boreholeno and intake.boreholeno= screen.boreholeno and screen.intakeno = intake.intakeno  and xutm IS NOT NULL AND yutm IS NOT NULL";
+      //Construct the data set
+      JupiterXL JXL = new JupiterXL();
+      JXL.ReadInNovanaWells(DataBaseFile);
 
-      OleDbDataAdapter da = new OleDbDataAdapter(select, databaseConnection);
-      DataTable ds = new DataTable();
-      da.Fill(ds);
+
       ObservationWell CurrentWell;
-      foreach (DataRow Dr in ds.Rows)
+      foreach (var Boring in JXL.BOREHOLE)
       {
-        //Remove spaces and add the intake number to create a unique well ID
-        string wellname = ((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"];
-
-        if (!_wells.TryGetValue(wellname, out CurrentWell))
+        foreach (var Intake in Boring.GetINTAKERows())
         {
-          CurrentWell = new ObservationWell(wellname);
-          _wells.Add(wellname, CurrentWell);
-        }
+          //Remove spaces and add the intake number to create a unique well ID
+          string wellname = Boring.BOREHOLENO.Replace(" ", "") + "_" + Intake.INTAKENO;
 
-        CurrentWell.X = (double) Dr["xutm"];
-        CurrentWell.Y = (double) Dr["yutm"];
+          if (!_wells.TryGetValue(wellname, out CurrentWell))
+          {
+            CurrentWell = new ObservationWell(wellname);
+            _wells.Add(wellname, CurrentWell);
+          }
 
-        CurrentWell.Description =(string) Dr["location"];
-        if (Dr["elevation"]!=DBNull.Value)
-          CurrentWell.Terrain = (double)Dr["elevation"];
-        if (Dr["top"] != DBNull.Value)
-          CurrentWell.ScreenTop.Add( (double)Dr["top"]);
-        if (Dr["bottom"] != DBNull.Value)
-          CurrentWell.ScreenBottom.Add((double)Dr["bottom"]);
-      }
+          if (!Boring.IsXUTMNull())
+            CurrentWell.X = Boring.XUTM;
+          if (!Boring.IsYUTMNull())
+            CurrentWell.Y = Boring.YUTM;
+
+          CurrentWell.Description = Boring.LOCATION;
+          if (!Boring.IsELEVATIONNull())
+            CurrentWell.Terrain = Boring.ELEVATION;
+
+          foreach (var Screen in Intake.GetSCREENRows())
+          {
+            if (!Screen.IsTOPNull())
+              CurrentWell.ScreenTop.Add(Screen.TOP);
+            if (!Screen.IsBOTTOMNull())
+              CurrentWell.ScreenBottom.Add(Screen.BOTTOM);
+          }//Screen loop
+        }//Intake loop
+      }//Bore loop
     }
 
 
@@ -202,24 +208,21 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="CreateWells"></param>
     public void ReadWaterlevelsFromJupiterAccess(string DataBaseFile, bool CreateWells)
     {
-      string databaseConnection = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFile + ";Persist Security Info=False";
-      OleDbConnection dbconnection = new OleDbConnection(databaseConnection);
-      dbconnection.Open();
-      OleDbDataAdapter da = new OleDbDataAdapter("SELECT boreholeno, intakeno, timeofmeas, watlevmsl FROM watlevel WHERE timeofmeas IS NOT NULL AND watlevmsl IS NOT NULL", databaseConnection);
-      DataTable ds = new DataTable();
-      da.Fill(ds);
+      JupiterXL JXL = new JupiterXL();
 
-      foreach (DataRow Dr in ds.Rows)
+      JXL.ReadWaterLevels(DataBaseFile);
+
+      foreach (var WatLev in JXL.WATLEVEL)
       {
         ObservationWell CurrentWell;
 
         //Builds the unique well ID
-        string well = (((string)Dr["boreholeno"]).Replace(" ", "") + "_" + (int)Dr["intakeno"]).Trim();
+        string well = WatLev.BOREHOLENO.Replace(" ", "") + "_" + WatLev.INTAKENO;
         
         //Find the well in the dictionary
         if (!_wells.TryGetValue(well, out CurrentWell))
         {
-          //Creat the well if not found
+          //Create the well if not found
           if (CreateWells)
           {
             CurrentWell = new ObservationWell(well);
@@ -228,7 +231,9 @@ namespace MikeSheWrapper.InputDataPreparation
         }
         //If the well has been found or is created fill in the observations
         if (CurrentWell!=null)
-          CurrentWell.Observations.Add(new TimeSeriesEntry((DateTime)Dr["timeofmeas"], (double)Dr["watlevmsl"]));
+          if (!WatLev.IsTIMEOFMEASNull())
+            if (!WatLev.IsWATLEVMSLNull())
+              CurrentWell.Observations.Add(new TimeSeriesEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
 
       }
     }
@@ -379,39 +384,37 @@ namespace MikeSheWrapper.InputDataPreparation
     {
       PointShapeWriter PSW = new PointShapeWriter(FileName);
 
-      DataTable DT = new DataTable();
-      DT.Columns.Add("NOVANAID", typeof(string));
-      DT.Columns.Add("XUTM", typeof(double));
-      DT.Columns.Add("YUTM", typeof(double));
-      DT.Columns.Add("JUPKOTE", typeof(double));
-      DT.Columns.Add("LOCATION", typeof(string));
-      DT.Columns.Add("NUMBEROFOBS", typeof(int));
-      DT.Columns.Add("MEANOBS", typeof(double));
-      DT.Columns.Add("MAXOBS", typeof(double));
-      DT.Columns.Add("MINOBS", typeof(double));
-
-
+      NovanaTables NT = new NovanaTables();
+      NovanaTables.PejlingerOutputDataTable PDT = new NovanaTables.PejlingerOutputDataTable();
+      
       foreach (ObservationWell W in Wells)
       {
         List<TimeSeriesEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
 
         PSW.WritePointShape(W.X, W.Y);
-        DataRow DR = DT.NewRow();
-        DR["NOVANAID"] = W.ID;
-        DR["LOCATION"] = W.Description;
-        DR["XUTM"] = W.X;
-        DR["YUTM"] = W.Y;
-        DR["JUPKOTE"] = W.Terrain;
-        DR["NUMBEROFOBS"] = SelectedObs.Count;
+
+        NovanaTables.PejlingerOutputRow PR = PDT.NewPejlingerOutputRow();
+
+        PR.NOVANAID = W.ID;
+        PR.LOCATION = W.Description;
+        PR.XUTM = W.X;
+        PR.YUTM = W.Y;
+        PR.JUPKOTE = W.Terrain;
+        PR.INTAKETOP = W.ScreenTop.Min();
+        PR.INTAKEBOT = W.ScreenBottom.Min();
+
+        PR.NUMBEROFOB = SelectedObs.Count;
         if (SelectedObs.Count > 0)
         {
-          DR["MAXOBS"] = SelectedObs.Max(num => num.Value);
-          DR["MINOBS"] = SelectedObs.Min(num => num.Value);
-          DR["MEANOBS"] = SelectedObs.Average(num => num.Value);
+          PR.MINDATO = SelectedObs.Min(x => x.Time);
+          PR.MAXDATO = SelectedObs.Max(x => x.Time);
+          PR.MAXOBS = SelectedObs.Max(num => num.Value);
+          PR.MINOBS = SelectedObs.Min(num => num.Value);
+          PR.MEANOBS = SelectedObs.Average(num => num.Value);
         }
-        DT.Rows.Add(DR);
+        PDT.Rows.Add(PR);
       }
-      PSW.Data.WriteDate(DT);
+      PSW.Data.WriteDate(PDT);
       PSW.Dispose();
     }
 
