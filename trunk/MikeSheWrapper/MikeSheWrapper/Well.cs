@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MikeSheWrapper.Tools
 {
+  /// <summary>
+  /// A small class holding typical data to describe a well
+  /// </summary>
   public class Well
   {
     protected string _id;
@@ -15,7 +18,7 @@ namespace MikeSheWrapper.Tools
     protected List<double> _screenBottom = new List<double>();
     protected double _terrain;
 
-
+    #region Constructors
     public Well()
     {
     }
@@ -30,11 +33,14 @@ namespace MikeSheWrapper.Tools
       _x = X;
       _y = Y;
     }
+    #endregion
 
     public override string ToString()
     {
       return _id;
     }
+
+    #region Properties
 
     /// <summary>
     /// Gets and sets the x-coodinate
@@ -64,7 +70,7 @@ namespace MikeSheWrapper.Tools
     }
 
     /// <summary>
-    /// Gets and sets the bottom of the screen in meters above sealevel
+    /// Gets and sets the bottom of the screen in meters above mean sea level
     /// </summary>
     public List<double> ScreenBottom
     {
@@ -81,17 +87,24 @@ namespace MikeSheWrapper.Tools
       set { _id = value; }
     }
 
+    /// <summary>
+    /// Gets and sets a description
+    /// </summary>
     public string Description
     {
       get { return _description; }
       set { _description = value; }
     }
 
+    /// <summary>
+    /// Gets and sets the terrain in meters above mean sea level
+    /// </summary>
     public double Terrain
     {
       get { return _terrain; }
       set { _terrain = value; }
     }
 
+    #endregion
   }
 }
