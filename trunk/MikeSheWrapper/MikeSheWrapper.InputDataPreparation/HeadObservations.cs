@@ -163,7 +163,6 @@ namespace MikeSheWrapper.InputDataPreparation
       JupiterXL JXL = new JupiterXL();
       JXL.ReadInNovanaWells(DataBaseFile);
 
-
       ObservationWell CurrentWell;
       foreach (var Boring in JXL.BOREHOLE)
       {
@@ -406,8 +405,8 @@ namespace MikeSheWrapper.InputDataPreparation
         PR.NUMBEROFOB = SelectedObs.Count;
         if (SelectedObs.Count > 0)
         {
-          PR.MINDATO = SelectedObs.Min(x => x.Time);
-          PR.MAXDATO = SelectedObs.Max(x => x.Time);
+          PR.STARTDATO = SelectedObs.Min(x => x.Time);
+          PR.ENDDATO = SelectedObs.Max(x => x.Time);
           PR.MAXOBS = SelectedObs.Max(num => num.Value);
           PR.MINOBS = SelectedObs.Min(num => num.Value);
           PR.MEANOBS = SelectedObs.Average(num => num.Value);

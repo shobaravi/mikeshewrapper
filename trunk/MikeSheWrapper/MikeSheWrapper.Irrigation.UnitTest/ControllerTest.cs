@@ -38,8 +38,6 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       
       XDocument xd = XDocument.Load(@"..\..\..\TestData\IrrigationConfiguration.xml");
 
-      DataSet1 ds = new DataSet1();
-
       
       
 
