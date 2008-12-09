@@ -65,9 +65,25 @@ namespace MikeSheWrapper.Tools
         {
           for (int i = 0; i < _data.Rows.Count; i++)
           {
-            ShapeLib.DBFWriteStringAttribute(_dbfPointer, i, j, _data.Rows[i][j].ToString());
+            int ok =ShapeLib.DBFWriteStringAttribute(_dbfPointer, i, j, _data.Rows[i][j].ToString());
           }
         }
+        //DateTime data
+        else if (_data.Columns[j].DataType == typeof(DateTime))
+        {
+          for (int i = 0; i < _data.Rows.Count; i++)
+          {
+            ShapeLib.DBFWriteDateAttribute(_dbfPointer, i, j,(DateTime) _data.Rows[i][j]);
+          }
+        }
+        else if(_data.Columns[j].DataType == typeof(bool))
+        {
+          for (int i = 0; i < _data.Rows.Count; i++)
+          {
+            ShapeLib.DBFWriteLogicalAttribute(_dbfPointer, i, j, (bool)_data.Rows[i][j]);
+          }
+        }
+
       }
       _data.Clear();
     }
@@ -177,11 +193,11 @@ namespace MikeSheWrapper.Tools
         }
         else if (_data.Columns[j].DataType == typeof(bool))
         {
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTLogical, 16, 0);
+          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTLogical, 1, 0);
         }
         else if (_data.Columns[j].DataType == typeof(DateTime))
         {
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTDate, 16, 0);
+          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTDate, 8, 0);
         }
       }
     }
