@@ -152,20 +152,22 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
 #region Population Methods
+
     /// <summary>
     /// Reads in all wells from a Jupiter database. 
     /// </summary>
     /// <param name="DataBaseFile"></param>
     public void ReadWellsFromJupiter(string DataBaseFile)
     {
-
       //Construct the data set
       JupiterXL JXL = new JupiterXL();
       JXL.ReadInNovanaWells(DataBaseFile);
 
       ObservationWell CurrentWell;
+      //Loop the wells
       foreach (var Boring in JXL.BOREHOLE)
       {
+        //Loop the intakes
         foreach (var Intake in Boring.GetINTAKERows())
         {
           //Remove spaces and add the intake number to create a unique well ID
@@ -186,6 +188,7 @@ namespace MikeSheWrapper.InputDataPreparation
           if (!Boring.IsELEVATIONNull())
             CurrentWell.Terrain = Boring.ELEVATION;
 
+          //Loop the screens. One intake can in special cases have multiple screens
           foreach (var Screen in Intake.GetSCREENRows())
           {
             if (!Screen.IsTOPNull())
