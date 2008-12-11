@@ -15,7 +15,7 @@ namespace MikeSheWrapper.UnitTest
     [Test]
     public void GetIndexTest()
     {
-      Model mshe = new Model(@"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ.SHE");
+      Model mshe = new Model(@"F:\Novana\Novomr4\Result\omr4_jag_UZ.SHE");
 
       int Column;
       int Row;
