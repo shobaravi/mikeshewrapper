@@ -24,7 +24,7 @@ namespace MikeSheWrapper.DFS
       : base()
     {
       base.Read(DFSFileName);
-
+      
       //Read in dimensionality
       if (DynamicItemInfos[0].XCoords != null)
       {
@@ -62,11 +62,42 @@ namespace MikeSheWrapper.DFS
         _numberOfLayers = 1; //Dfs2-file
       }
 
-      _numberOfTimeSteps = TimeSteps.Length;
+      NumberOfTimeSteps = TimeSteps.Length;
 
       //Prepares an array of floats to recieve the data
       dfsdata = new float[DynamicItemInfos[0].GetTotalNumberOfPoints()];
     }
+
+   /// <summary>
+   /// Override of the Dispose method in DFSFileInfo which probably does not account for finalization
+   /// </summary>
+   public override void Dispose() 
+   {
+     Dispose(true);
+      GC.SuppressFinalize(this); 
+   }
+
+   protected virtual void Dispose(bool disposing) 
+   {
+      if (disposing) 
+      {
+        dfsdata = null;
+      }
+     base.Dispose();
+
+   }
+
+    /// <summary>
+    /// Destructor called when the object is garbage collected.
+    /// </summary>
+   ~DFS()
+   {
+     // Simply call Dispose(false).
+     Dispose(false);
+   }
+
+
+
 
     /// <summary>
     /// Gets the Column index for this coordinate. Lower left is (0,0). 
@@ -137,7 +168,7 @@ namespace MikeSheWrapper.DFS
     /// </summary>
     /// <param name="TimeStep"></param>
     /// <param name="Item"></param>
-    protected void readNextItemTimeStep(int TimeStep, int Item)
+    protected void ReadItemTimeStep(int TimeStep, int Item)
     {
       if (TimeStep != _currentTimeStep || Item != _currentItem)
       {
@@ -171,12 +202,6 @@ namespace MikeSheWrapper.DFS
     /// <summary>
     /// Gets the number of timesteps
     /// </summary>
-    public int NumberOfTimeSteps
-    {
-      get
-      {
-        return _numberOfTimeSteps;
-      }
-    }
+    public int NumberOfTimeSteps{get; private set;}
   }
 }

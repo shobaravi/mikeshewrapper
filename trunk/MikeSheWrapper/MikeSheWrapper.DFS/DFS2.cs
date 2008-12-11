@@ -8,13 +8,16 @@ using DHI.Generic.MikeZero.DFS;
 
 namespace MikeSheWrapper.DFS
 {
+  /// <summary>
+  /// Provides read access to a .dfs2-file
+  /// </summary>
   public class DFS2 : DFS
   {
 
     public DFS2(string DFSFileName)
       : base(DFSFileName)
     {
-
+      
     }
 
     /// <summary>
@@ -28,7 +31,7 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public Matrix GetData(int TimeStep, int Item)
     {
-      readNextItemTimeStep(TimeStep, Item);
+      ReadItemTimeStep(TimeStep, Item);
       Matrix _data = new Matrix(_numberOfRows, _numberOfColumns);
       int m = 0;
       for (int i = 0; i < _numberOfRows; i++)
@@ -51,7 +54,7 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public double GetData(double UTMX, double UTMY, int TimeStep, int Item)
     {
-      readNextItemTimeStep(TimeStep, Item);
+      ReadItemTimeStep(TimeStep, Item);
       return dfsdata[GetRowIndex(UTMY) * _numberOfColumns + GetColumnIndex(UTMX)];
     }
 
