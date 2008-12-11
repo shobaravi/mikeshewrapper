@@ -14,13 +14,13 @@ namespace MikeSheWrapper.LayerStatistics
 	/// <summary>
 	/// Summary description for Class1.
 	/// </summary>
-	class Program
+	public class Program
 	{
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
       
       DateTime Start = DateTime.Now;
@@ -125,6 +125,9 @@ namespace MikeSheWrapper.LayerStatistics
         IO.WriteLayers(ME,RMSE,ObsUsed,ObsTotal);
 
         TimeSpan WriteOutput = Start.Subtract(DateTime.Now);
+
+        _grid.Dispose();
+        _res.Dispose();
 
         //Console.WriteLine("Reading of input:" + ReadInput.TotalSeconds + " s");
         //Console.WriteLine("Calculation:" + Calculation.TotalSeconds + " s");
