@@ -23,7 +23,12 @@ namespace MikeSheWrapper.LayerStatistics
       FileCheckAndError(XmlFileName);
 
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
-      Configuration cf = (Configuration)x.Deserialize(new FileStream(XmlFileName, FileMode.Open));
+      Configuration cf;
+      using (FileStream fs = new FileStream(XmlFileName, FileMode.Open))
+      {
+        cf = (Configuration)x.Deserialize(fs);
+      }
+
       cf._path = Path.GetDirectoryName(Path.GetFullPath(XmlFileName));
       string path = Directory.GetCurrentDirectory();
       Directory.SetCurrentDirectory(cf._path);
@@ -38,6 +43,8 @@ namespace MikeSheWrapper.LayerStatistics
       FileCheckAndError(cf.PreProcessedDFS3);
       FileCheckAndError(cf.ResultFile);
       FileCheckAndError(cf.ObservationFile);
+
+      
       
       return cf;
     }
