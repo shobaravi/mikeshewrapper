@@ -20,7 +20,8 @@ namespace MikeSheWrapper.Tools
     }
 
     /// <summary>
-    /// Values in DFS style!
+    /// Values in DFS style! 
+    /// Do not use this constructor unless you are absolutely sure that values are ordering as in DFS
     /// </summary>
     /// <param name="NumberOfRows"></param>
     /// <param name="NumberOfColumns"></param>
