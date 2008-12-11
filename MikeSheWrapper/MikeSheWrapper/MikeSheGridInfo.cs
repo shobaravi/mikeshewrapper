@@ -11,8 +11,11 @@ using MikeSheWrapper.DFS;
 
 namespace MikeSheWrapper
 {
-  public class MikeSheGridInfo
+  public class MikeSheGridInfo:IDisposable 
   {
+    private DFS3 _preproDFS3;
+    private DFS2 _preproDFS2;
+
     private DataSetsFromDFS3 _lowerLevelOfComputationalLayers;
     private DataSetsFromDFS3 _thicknessOfComputationalLayers;
     private DataSetsFromDFS3 _boundaryConditionsForTheSaturatedZone;
@@ -22,25 +25,18 @@ namespace MikeSheWrapper
     private DataSetsFromDFS2 _surfaceTopography;
     private TopOfCell _upperLevelOfComputationalLayers;
 
-
     private double _gridSize;
     private double _xOrigin;
     private double _yOrigin;
     private double _deleteValue;
 
-    private int _numberOfColumns;
-    private int _numberOfRows;
-    private int _numberOfLayers;
-
-    public int NumberOfLayers
-    {
-      get { return _numberOfLayers; }
-    }
-
     public MikeSheGridInfo(string PreProcessed3DFile, string PreProcessed2DFile)
     {
+      _preproDFS3 = new DFS3(PreProcessed3DFile);
+      _preproDFS2 =new DFS2(PreProcessed2DFile); 
+ 
       //Open Files and call initialize
-      Initialize(new DFS3(PreProcessed3DFile), new DFS2(PreProcessed2DFile));
+      Initialize(_preproDFS3, _preproDFS2);
     }
     
 
@@ -90,15 +86,32 @@ namespace MikeSheWrapper
       _deleteValue = PreProcessed3D.DeleteValue;
       _gridSize = PreProcessed3D.DynamicItemInfos[0].DX;
 
-      _numberOfRows = PreProcessed3D.NumberOfRows; ;
-      _numberOfColumns = PreProcessed3D.NumberOfColumns;
-      _numberOfLayers = PreProcessed3D.NumberOfLayers;
+      NumberOfRows = PreProcessed3D.NumberOfRows; ;
+      NumberOfColumns = PreProcessed3D.NumberOfColumns;
+      NumberOfLayers = PreProcessed3D.NumberOfLayers;
 
       //For MikeShe the origin is lower left whereas it is center of lower left for DFS
       _xOrigin = PreProcessed3D.Longitude;
       _yOrigin = PreProcessed3D.Latitude;
 
     }
+
+    /// <summary>
+    /// Gets the Number of layers in the grid
+    /// </summary>
+    public int NumberOfLayers{get; private set;}
+
+    /// <summary>
+    /// Gets the Number of columns in the grid
+    /// </summary>
+    public int NumberOfColumns {get; private set;}
+    
+    /// <summary>
+    /// Gets the Number of Rows in the grid
+    /// </summary>
+    public int NumberOfRows {get; private set;}
+    
+
 
         /// <summary>
     /// Gets the Column index for this coordinate. Lower left is (0,0). 
@@ -111,7 +124,7 @@ namespace MikeSheWrapper
       //Calculate as a double to prevent overflow errors when casting 
       double ColumnD = Math.Max(-1, Math.Floor((UTMX - _xOrigin) / _gridSize));
 
-      if (ColumnD > _numberOfColumns-1)
+      if (ColumnD > NumberOfColumns-1)
         return -2;
       return (int) ColumnD;
     }
@@ -127,7 +140,7 @@ namespace MikeSheWrapper
       //Calculate as a double to prevent overflow errors when casting 
       double RowD = Math.Max(-1, Math.Floor((UTMY - _yOrigin) / _gridSize));
 
-      if (RowD > _numberOfRows-1)
+      if (RowD > NumberOfRows-1)
         return -2;
       return (int)RowD;
     }
@@ -170,7 +183,7 @@ namespace MikeSheWrapper
       else
       {
         int i = 0;
-        while (Z < _lowerLevelOfComputationalLayers.Data[Row, Column, i])
+        while ( i < NumberOfLayers && Z > _lowerLevelOfComputationalLayers.Data[Row, Column, i])
           i++;
         return i - 1;
       }
@@ -356,5 +369,22 @@ namespace MikeSheWrapper
     }
 
 
+
+    #region IDisposable Members
+
+    /// <summary>
+    /// Disposes the underlying dfs-files if the object has been constructed directly from files
+    /// </summary>
+    public void Dispose()
+    {
+      //If the object has been constructed from files it is the owner of the dfs objects and
+      //has to dispose them
+      if (_preproDFS2 != null)
+        _preproDFS2.Dispose();
+      if (_preproDFS3 != null)
+        _preproDFS3.Dispose();
+    }
+
+    #endregion
   }
 }

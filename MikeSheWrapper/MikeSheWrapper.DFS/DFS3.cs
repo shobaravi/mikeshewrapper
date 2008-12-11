@@ -8,25 +8,26 @@ namespace MikeSheWrapper.DFS
 {
   public class DFS3:DFS
   {
+    /// <summary>
+    /// Provides read access to a .DFS3 file.
+    /// </summary>
+    /// <param name="DFSFileName"></param>
     public DFS3(string DFSFileName):base(DFSFileName)
     {
     }
 
-
+    /// <summary>
+    /// Returns a Matrix3D with the data for the TimeStep, Item
+    /// TimeStep counts from 0, Item from 1.
+    /// </summary>
+    /// <param name="TimeStep"></param>
+    /// <param name="Item"></param>
+    /// <returns></returns>
     public Matrix3d GetData(int TimeStep, int Item)
     {
-      readNextItemTimeStep(TimeStep, Item);
+      ReadItemTimeStep(TimeStep, Item);
 
-      Matrix3d _data = new Matrix3d(_numberOfRows, _numberOfColumns, _numberOfLayers, dfsdata);
-      //int m = 0;
-      //for (int k = 0; k < _numberOfLayers; k++)
-      //  for (int i = 0; i < _numberOfRows; i++)
-      //    for (int j = 0; j < _numberOfColumns; j++)
-      //    {
-      //      _data[i, j, k] = dfsdata[m];
-      //      m++;
-      //    }
-      return _data;
+      return new Matrix3d(_numberOfRows, _numberOfColumns, _numberOfLayers, dfsdata);
     }
 
     /// <summary>

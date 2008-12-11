@@ -21,7 +21,7 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public double GetData(int TimeStep, int Item)
     {
-      readNextItemTimeStep(TimeStep, Item);
+      ReadItemTimeStep(TimeStep, Item);
       return dfsdata[0];
     }
 

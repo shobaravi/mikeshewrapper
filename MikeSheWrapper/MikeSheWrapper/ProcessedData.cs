@@ -10,8 +10,11 @@ using MikeSheWrapper.DFS;
 
 namespace MikeSheWrapper
 {
-  public class ProcessedData
+  public class ProcessedData:IDisposable 
   {
+    private DFS3 _PreProcessed_3DSZ;
+    private DFS2 _prePro2D;
+
     private DataSetsFromDFS3 _initialHeads;
     private DataSetsFromDFS3 _horizontalConductivity;
     private DataSetsFromDFS3 _verticalConductivity;
@@ -23,12 +26,6 @@ namespace MikeSheWrapper
     private DataSetsFromDFS2 _netRainFallFraction;
     private DataSetsFromDFS2 _infiltrationFraction;
     private MikeSheGridInfo _grid;
-
-    public MikeSheGridInfo Grid
-    {
-      get { return _grid; }
-    }
-
 
     #region Constructors
 
@@ -55,7 +52,7 @@ namespace MikeSheWrapper
     private void Initialize(string PreProcessed3dSzFile, string PreProcessed2dSzFile)
     {
       //Open File with 3D data
-      DFS3 _PreProcessed_3DSZ = new DFS3(PreProcessed3dSzFile);
+      _PreProcessed_3DSZ = new DFS3(PreProcessed3dSzFile);
 
       //Generate 3D properties
       for (int i = 0; i < _PreProcessed_3DSZ.DynamicItemInfos.Length; i++)
@@ -86,7 +83,7 @@ namespace MikeSheWrapper
       }
 
       //Open File with 2D data
-      DFS2 _prePro2D = new DFS2(PreProcessed2dSzFile);
+      _prePro2D = new DFS2(PreProcessed2dSzFile);
 
       //Generate 2D properties by looping the items
       for (int i = 0; i < _prePro2D.DynamicItemInfos.Length; i++)
@@ -106,6 +103,12 @@ namespace MikeSheWrapper
 
       //Now construct the grid from the open files
       _grid = new MikeSheGridInfo(_PreProcessed_3DSZ, _prePro2D);
+    }
+
+
+    public MikeSheGridInfo Grid
+    {
+      get { return _grid; }
     }
 
 
@@ -139,7 +142,6 @@ namespace MikeSheWrapper
       get { return _transmissivity; }
     }
 
-
     public IXYZDataSet VerticalConductivity
     {
       get { return _verticalConductivity; }
@@ -150,8 +152,19 @@ namespace MikeSheWrapper
       get { return _horizontalConductivity; }
     }
 
+    #region IDisposable Members
 
+    /// <summary>
+    /// Disposes the underlying dfs files
+    /// </summary>
+    public void Dispose()
+    {
+      if (_prePro2D != null)
+        _prePro2D.Dispose();
+      if (_PreProcessed_3DSZ != null)
+        _PreProcessed_3DSZ.Dispose();
+    }
 
-
+    #endregion
   }
 }

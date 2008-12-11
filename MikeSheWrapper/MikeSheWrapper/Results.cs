@@ -8,9 +8,9 @@ using MikeSheWrapper.DFS;
 
 namespace MikeSheWrapper
 {
-  public class Results
+  public class Results:IDisposable 
   {
-
+    private DFS3 SZ3D;
     public static string HeadElevationString = "head elevation in saturated zone";
 
     private DataSetsFromDFS3 _heads;
@@ -95,7 +95,7 @@ namespace MikeSheWrapper
     /// <param name="fileNames"></param>
     private void Initialize3DSZ(string sz3dFile)
     {
-      DFS3 SZ3D = new DFS3(sz3dFile);
+      SZ3D = new DFS3(sz3dFile);
       _deleteValue = SZ3D.DeleteValue;
       for (int i = 0; i < SZ3D.DynamicItemInfos.Length; i++)
       {
@@ -137,5 +137,15 @@ namespace MikeSheWrapper
         }
       }
     }
+
+    #region IDisposable Members
+
+    public void Dispose()
+    {
+      if (SZ3D != null)
+        SZ3D.Dispose();
+    }
+
+    #endregion
   }
 }

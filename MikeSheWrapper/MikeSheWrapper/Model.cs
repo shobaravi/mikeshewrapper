@@ -8,7 +8,11 @@ using MikeSheWrapper.InputFiles;
 
 namespace MikeSheWrapper
 {
-  public class Model
+  /// <summary>
+  /// This class provides access to setup data, processed data and results.
+  /// Access to processed data and results requires that the model is preprocessed and run, respectively. 
+  /// </summary>
+  public class Model:IDisposable
   {
     private ProcessedData _processed;
     private Results _results;
@@ -39,6 +43,10 @@ namespace MikeSheWrapper
       get { return Processed.Grid; }
     }
 
+    /// <summary>
+    /// Gets read and write access to the input in the .she-file.
+    /// Remember to save changes.
+    /// </summary>
     public SheFile Input
     {
       get {
@@ -48,6 +56,9 @@ namespace MikeSheWrapper
       }
     }
 
+    /// <summary>
+    /// Gets read access to the results
+    /// </summary>
     public Results Results
     {
       get { 
@@ -58,15 +69,31 @@ namespace MikeSheWrapper
         return _results; }
     }
 
+    /// <summary>
+    /// Gets read access to the processed data
+    /// </summary>
     public ProcessedData Processed
     {
       get
       {
-        _processed = new ProcessedData(Files);
+        if (_processed == null)
+          _processed = new ProcessedData(Files);
 
         return _processed;
       }
     }
 
+
+    #region IDisposable Members
+
+    public void Dispose()
+    {
+      if (_processed != null)
+        _processed.Dispose();
+      if (_results != null)
+        _results.Dispose();
+    }
+
+    #endregion
   }
 }
