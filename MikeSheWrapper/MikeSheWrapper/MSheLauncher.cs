@@ -16,6 +16,8 @@ namespace MikeSheWrapper
 
       if (UseMZLauncher)
       {
+        Runner.StartInfo.FileName = "Mzlaunch.exe";
+        Runner.StartInfo.Arguments = MsheFileName;
 
       }
 
