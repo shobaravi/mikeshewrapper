@@ -11,7 +11,7 @@ using MikeSheWrapper.DFS;
 
 namespace MikeSheWrapper
 {
-  public class MikeSheGridInfo:IDisposable 
+  public class MikeSheGridInfo:IDisposable,IEquatable<MikeSheGridInfo> 
   {
     private DFS3 _preproDFS3;
     private DFS2 _preproDFS2;
@@ -19,7 +19,6 @@ namespace MikeSheWrapper
     private DataSetsFromDFS3 _lowerLevelOfComputationalLayers;
     private DataSetsFromDFS3 _thicknessOfComputationalLayers;
     private DataSetsFromDFS3 _boundaryConditionsForTheSaturatedZone;
-
 
     private DataSetsFromDFS2 _modelDomainAndGrid;
     private DataSetsFromDFS2 _surfaceTopography;
@@ -151,7 +150,7 @@ namespace MikeSheWrapper
     /// Necessary to sent the output as par
     /// Returns true if the grid point is within the active domain.
     /// Note that Column and Row may have positive values and still the point is outside of the active domain
-    /// Note this will may return a different value than the DFS-file!!!
+    /// Note this may return a different value than the DFS-file!!!
     /// </summary>
     /// <param name="X"></param>
     /// <param name="Y"></param>
@@ -383,6 +382,20 @@ namespace MikeSheWrapper
         _preproDFS2.Dispose();
       if (_preproDFS3 != null)
         _preproDFS3.Dispose();
+    }
+
+    #endregion
+
+    #region IEquatable<MikeSheGridInfo> Members
+
+    public bool Equals(MikeSheGridInfo other)
+    {
+      return NumberOfColumns == other.NumberOfColumns &&
+        NumberOfRows == other.NumberOfRows &&
+        NumberOfLayers == other.NumberOfLayers &&
+        _xOrigin == other._xOrigin &&
+        _yOrigin == other._yOrigin &&
+        _gridSize == other._gridSize;
     }
 
     #endregion
