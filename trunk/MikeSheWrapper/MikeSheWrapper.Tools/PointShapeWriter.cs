@@ -47,7 +47,7 @@ namespace MikeSheWrapper.Tools
     /// <param name="YHeader">Name of the column containing the y-coordinate</param>
     public void WritePointShape(DataTable Data, string XHeader, string YHeader)
     {
-      foreach (DataRow Dr in Data)
+      foreach (DataRow Dr in Data.Rows)
       {
         WritePointShape((double)Dr[XHeader], (double)Dr[YHeader]);
         _dbf.WriteData(Dr);
