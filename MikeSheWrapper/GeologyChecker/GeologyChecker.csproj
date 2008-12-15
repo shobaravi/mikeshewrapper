@@ -51,6 +51,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RockSymbol.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RockSymbol.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikeSheWrapper.DFS\MikeSheWrapper.DFS.csproj">
@@ -69,6 +74,19 @@
       <Project>{B9915DE9-2BFA-4810-8866-CC6FAECB106A}</Project>
       <Name>MikeSheWrapper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RockSymbol.xsc">
+      <DependentUpon>RockSymbol.xsd</DependentUpon>
+    </None>
+    <None Include="RockSymbol.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RockSymbol.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="RockSymbol.xss">
+      <DependentUpon>RockSymbol.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

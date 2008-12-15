@@ -119,5 +119,12 @@ namespace MikeSheWrapper.Viewer
         HO.WriteToLSInput(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
       }
     }
+
+    private void button1_Click_1(object sender, EventArgs e)
+    {
+      Preview pr = new Preview();
+      
+      pr.Show();
+    }
   }
 }

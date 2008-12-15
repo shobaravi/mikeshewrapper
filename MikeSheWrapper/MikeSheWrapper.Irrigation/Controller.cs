@@ -28,9 +28,10 @@ namespace MikeSheWrapper.Irrigation
 
     public void Run()
     {
+      ReadWellsFromShape();
       InsertIrrigationWells();
       SaveAs(_config.SheFile);
-      MSheLauncher.PreprocessAndRun(_config.SheFile, false);
+      MSheLauncher.PreprocessAndRun(_config.SheFile, true);
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
       SaveAs(_config.SheFile);
     }
@@ -44,7 +45,7 @@ namespace MikeSheWrapper.Irrigation
 
     }
 
-    public void InsertIrrigationWells()
+    public void ReadWellsFromShape()
     {
       PointShapeReader SR = new PointShapeReader(_config.WellShapeFile);
       _wellData = SR.Data.Read();
@@ -62,8 +63,10 @@ namespace MikeSheWrapper.Irrigation
         IW.ScreenTop.Add( (double) dr[_config.TopHeader]);
         _wells.Add(IW);
       }
+    }
 
-
+    public void InsertIrrigationWells()
+    {
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
  
 

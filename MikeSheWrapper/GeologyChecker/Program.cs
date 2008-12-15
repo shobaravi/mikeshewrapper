@@ -66,20 +66,20 @@ namespace GeologyChecker
       for (int lay = 0; lay < m.GridInfo.NumberOfLayers; lay++)
         for (int row = 0; row < m.GridInfo.NumberOfRows; row++)
           for (int col = 0; col < m.GridInfo.NumberOfColumns; col++)
-            if (m.GridInfo.ModelDomainAndGrid.Data[row,col]==1)
-              all.Add(Math.Log10(m.Processed.HorizontalConductivity.Data[row,col,lay]));
+            if (m.GridInfo.ModelDomainAndGrid.Data[row, col] == 1)
+              all.Add(Math.Log10(m.Processed.HorizontalConductivity.Data[row, col, lay]));
 
-      vals.Add("All",all);
-      
-      
-            using (StreamWriter sw = new StreamWriter(@"F:\temp\out.txt", false, Encoding.Default))
-            {
-              sw.WriteLine("Rocksymbol\tNoOfEntries\tMean\tVariance\tStandard Deviation");
-              foreach (KeyValuePair<string, Accumulator> KVP in vals.OrderByDescending((acc)=>acc.Value.Count))
-              {
-                sw.WriteLine(KVP.Key + "\t" + KVP.Value.Count + "\t" + KVP.Value.Mean + "\t" + KVP.Value.Variance + "\t" + KVP.Value.Sigma);
-              }
-            }
+      vals.Add("All", all);
+
+
+      using (StreamWriter sw = new StreamWriter(@"F:\temp\out.txt", false, Encoding.Default))
+      {
+        sw.WriteLine("Rocksymbol\tNoOfEntries\tMean\tVariance\tStandard Deviation");
+        foreach (KeyValuePair<string, Accumulator> KVP in vals.OrderByDescending((acc) => acc.Value.Count))
+        {
+          sw.WriteLine(KVP.Key + "\t" + KVP.Value.Count + "\t" + KVP.Value.Mean + "\t" + KVP.Value.Variance + "\t" + KVP.Value.Sigma);
+        }
+      }
       JXL.Dispose();
     }
   }

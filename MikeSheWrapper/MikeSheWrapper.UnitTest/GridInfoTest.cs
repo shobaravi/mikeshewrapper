@@ -26,5 +26,17 @@ namespace MikeSheWrapper.UnitTest
 
     }
 
+    [Test]
+    public void EqualsTest()
+    {
+
+      MikeSheGridInfo M1 = new MikeSheGridInfo(@"..\..\..\TestData\TestModel.she - Result Files\TestModel_PreProcessed_3DSZ.DFS3", @"..\..\..\TestData\TestModel.she - Result Files\TestModel_PreProcessed.DFS2");
+      MikeSheGridInfo M2 = new MikeSheGridInfo(@"..\..\..\TestData\TestModel.she - Result Files\TestModel_PreProcessed_3DSZ.DFS3", @"..\..\..\TestData\TestModel.she - Result Files\TestModel_PreProcessed.DFS2");
+
+      Assert.IsTrue(M1.Equals(M2));
+      M1.Dispose();
+      M2.Dispose();
+    }
+
   }
 }
