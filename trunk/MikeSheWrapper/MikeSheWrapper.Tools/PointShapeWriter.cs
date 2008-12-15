@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,21 @@ namespace MikeSheWrapper.Tools
       ShapeLib.SHPWriteObject(_shapePointer, -1, obj);
       ShapeLib.SHPDestroyObject(obj);
       _recordPointer++;
+    }
+
+    /// <summary>
+    /// Writes a point shape from a data table where x and y coordinates are included.
+    /// </summary>
+    /// <param name="Data"></param>
+    /// <param name="XHeader">Name of the column containing the x-coordinate</param>
+    /// <param name="YHeader">Name of the column containing the y-coordinate</param>
+    public void WritePointShape(DataTable Data, string XHeader, string YHeader)
+    {
+      foreach (DataRow Dr in Data)
+      {
+        WritePointShape((double)Dr[XHeader], (double)Dr[YHeader]);
+        _dbf.WriteData(Dr);
+      }
     }
 
     /// <summary>

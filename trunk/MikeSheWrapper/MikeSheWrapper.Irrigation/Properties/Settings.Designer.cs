@@ -22,15 +22,5 @@ namespace MikeSheWrapper.Irrigation.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=F:\\Jacob\\Pejlinger\\herning.mdb")]
-        public string herningConnectionString {
-            get {
-                return ((string)(this["herningConnectionString"]));
-            }
-        }
     }
 }

@@ -17,8 +17,8 @@ namespace MikeSheWrapper
       if (UseMZLauncher)
       {
         Runner.StartInfo.FileName = "Mzlaunch.exe";
-        Runner.StartInfo.Arguments = MsheFileName;
-
+        Runner.StartInfo.Arguments = MsheFileName + " -exit";
+        
       }
 
       else
@@ -30,10 +30,11 @@ namespace MikeSheWrapper
         Runner.Start();
         Runner.WaitForExit();
         Runner.StartInfo.FileName = "Mshe_watermovement.exe";
-        Runner.Start();
-        Runner.WaitForExit();
-        Runner.Close();
       }
+      Runner.Start();
+      Runner.WaitForExit();
+      Runner.Close();
+
     }
 
   }
