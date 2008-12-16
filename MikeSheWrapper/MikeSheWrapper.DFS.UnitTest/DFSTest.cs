@@ -22,6 +22,7 @@ namespace MikeSheWrapper.DFS.UnitTest
     {
       _simpleDfs = new DFS2(@"..\..\..\TestData\simpelmatrix.dfs2");
       _dfs = new DFS3(@"..\..\..\TestData\omr4_jag_3DSZ.dfs3");
+
     }
 
 

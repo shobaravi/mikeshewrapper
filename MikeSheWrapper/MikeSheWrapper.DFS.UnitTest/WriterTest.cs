@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 
 using MikeSheWrapper.DFS;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MikeSheWrapper.DFS.UnitTest
 {
@@ -16,16 +17,15 @@ namespace MikeSheWrapper.DFS.UnitTest
     public void FirstTest()
     {
 
-      DFSWriter outdata = new DFSWriter(@"..\..\..\TestData\simpelmatrixKopi.dfs2");
+      DFS2 outdata = new DFS2(@"..\..\..\TestData\simpelmatrixKopi.dfs2");
 
-      float[] data = new float[21];
+      Matrix M = outdata.GetData(0, 1);
 
-      for (int i = 0; i < data.Length; i++)
-        data[i] = 10;
+      M[2, 2] = 2000;
 
-      outdata.WriteItemTimeStep(0, 1, data);
+      for (int i=0;i<10;i++)
+        outdata.SetData(i+8, 2, M);
       outdata.Dispose();
-
 
     }
   }
