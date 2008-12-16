@@ -9,7 +9,7 @@ using DHI.Generic.MikeZero.DFS;
 namespace MikeSheWrapper.DFS
 {
   /// <summary>
-  /// Provides read access to a .dfs2-file
+  /// Provides read and write access to a .dfs2-file
   /// </summary>
   public class DFS2 : DFS
   {
@@ -18,6 +18,25 @@ namespace MikeSheWrapper.DFS
       : base(DFSFileName)
     {
       
+    }
+
+    /// <summary>
+    /// Sets the data for the timestep and item
+    /// </summary>
+    /// <param name="TimeStep"></param>
+    /// <param name="Item"></param>
+    /// <param name="Data"></param>
+    public void SetData(int TimeStep, int Item, Matrix Data)
+    {
+      float[] fdata = new float[Data.ColumnCount * Data.RowCount]; 
+      int m = 0;
+      for (int i = 0; i < Data.RowCount; i++)
+        for (int j = 0; j < Data.ColumnCount; j++)
+        {
+          fdata[m] = (float) Data[i, j];
+          m++;
+        }
+      WriteItemTimeStep(TimeStep, Item, fdata);
     }
 
     /// <summary>
