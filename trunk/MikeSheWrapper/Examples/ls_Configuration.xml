@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PreProcessedDFS2>Novomr1_inv_PreProcessed.DFS2</PreProcessedDFS2>
+  <PreProcessedDFS3>Novomr1_inv_PreProcessed_3DSZ.DFS3</PreProcessedDFS3>
+  <ObservationFile>novomr1_pejl90-05_mean_sort1.txt</ObservationFile>
+  <ResultFile>Novomr1_inv_mean_3DSZ.dfs3</ResultFile>
+  <HeadItemText>Mean values from: head elevation in sa</HeadItemText>
+</Configuration>
