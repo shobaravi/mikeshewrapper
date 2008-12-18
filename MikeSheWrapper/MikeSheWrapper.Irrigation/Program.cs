@@ -15,13 +15,14 @@ namespace MikeSheWrapper.Irrigation
     [STAThread]
     public static void Main(string[] args)
     {
-      string cong = args.Aggregate<string>( (a,b)=>a+b);
+      
 
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
 
-      Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(args[0], System.IO.FileMode.Open));
+      Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(args.Aggregate<string>((a, b) => a + b), System.IO.FileMode.Open));
       Controller C = new Controller(Cf);
 
+      
       C.Run();
 
 

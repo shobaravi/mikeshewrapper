@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 using MikeSheWrapper.Tools;
 using MikeSheWrapper.InputDataPreparation;
@@ -54,7 +55,9 @@ namespace MikeSheWrapper.LayerStatistics
         while ((line = SR.ReadLine()) != null)
         {
           s = line.Split('\t');
-          if (s.Length > 5)
+
+          //Check that s has correct lengt and does not consist of empty entries
+          if (s.Length > 5 & s.Aggregate<string>((a,b)=>a+b)!="")
           {
             try
             {
@@ -82,7 +85,7 @@ namespace MikeSheWrapper.LayerStatistics
             }
             catch (FormatException e)
             {
-              throw new Exception("Error reading input-file: " + LSFileName, e);
+              MessageBox.Show("Error reading this line:\n\n" + line +"\n\nFrom file: "+ LSFileName + "\n\nLine skipped!", "Format error!");
             }
           }
         }
