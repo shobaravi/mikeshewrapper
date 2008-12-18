@@ -16,10 +16,15 @@ namespace MikeSheWrapper.DFS
     protected int _numberOfLayers;
     protected int _numberOfColumns;
     protected int _numberOfRows;
+    private DateTime _firstTimeStep;
+    private TimeSpan _timeStep;
+
     private DfsFileInfo _fileInfo;
 
     private IntPtr _fileWriter = IntPtr.Zero;
     private IntPtr _headerWriter = IntPtr.Zero;
+    private bool _initializedForWriting = false;
+    
     private string _filename;
 
 
@@ -27,8 +32,8 @@ namespace MikeSheWrapper.DFS
     {
       _filename = DFSFileName;
       _fileInfo = new DfsFileInfo();
-      _fileInfo.Read(_filename);   
-      
+      _fileInfo.Read(_filename);
+
       //Read in dimensionality
       if (DynamicItemInfos[0].XCoords != null)
       {
@@ -66,7 +71,15 @@ namespace MikeSheWrapper.DFS
         _numberOfLayers = 1; //Dfs2-file
       }
 
+
       NumberOfTimeSteps = _fileInfo.TimeSteps.Length;
+
+      if (_fileInfo.TimeSteps.Length == 0)
+        throw new Exception("No timesteps read from: " + _fileInfo.FileName);
+
+      _firstTimeStep = _fileInfo.TimeSteps[0];
+      if (NumberOfTimeSteps > 1)
+        _timeStep = _fileInfo.TimeSteps[1].Subtract(_firstTimeStep);
 
       //Prepares an array of floats to recieve the data
       dfsdata = new float[DynamicItemInfos[0].GetTotalNumberOfPoints()];
@@ -88,10 +101,8 @@ namespace MikeSheWrapper.DFS
         dfsdata = null;
       }
       _fileInfo.Dispose();
-     if (_fileWriter!= IntPtr.Zero)
+     if (_initializedForWriting)
        DFSWrapper.dfsFileClose(_headerWriter, ref _fileWriter);
-
-
    }
 
     /// <summary>
@@ -103,17 +114,18 @@ namespace MikeSheWrapper.DFS
      Dispose(false);
    }
 
+    /// <summary>
+    /// Opens the file for writing. The file is now open twice!
+    /// </summary>
    private void InitializeForWriting()
    {
      int ok = DFSWrapper.dfsFileEdit(_filename, ref _headerWriter, ref _fileWriter);
      if (ok != 0)
        throw new Exception("Error in initializing file : " + _filename + " for writing");
-
+     _initializedForWriting = true;
    }
 
-
-
-
+    
     /// <summary>
     /// Gets the Column index for this coordinate. Lower left is (0,0). 
     /// Returns -1 if UTMY is left of the grid and -2 if it is right.
@@ -153,9 +165,17 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public int GetTimeStep(DateTime TimeStamp)
     {
-      int TimeStep = 0;
-      if (_fileInfo.TimeSteps.Length == 0)
-        throw new Exception("No timesteps read from: " + _fileInfo.FileName);
+      if (TimeStamp < _firstTimeStep)
+        return 0;
+      int TimeStep=0;
+
+      //For equidistant time axis
+      if (_fileInfo.TimeAxisType == TimeAxisType.F_CAL_EQ_AXIS || _fileInfo.TimeAxisType == TimeAxisType.F_TM_EQ_AXIS)
+      {
+        TimeStep = (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
+
+        return Math.Min(NumberOfTimeSteps, TimeStep);
+      }
 
       //If the TimeStamp is later than the simulated period the last timestep is returned
       if (TimeStamp >= _fileInfo.TimeSteps[_fileInfo.TimeSteps.Length - 1])
@@ -224,8 +244,45 @@ namespace MikeSheWrapper.DFS
       ok = DFSWrapper.dfsWriteItemTimeStep(_headerWriter, _fileWriter, time, data);
       if (ok != 0)
         throw new Exception("Error writing timestep number: " + _currentTimeStep);
-
     }
+
+    /// <summary>
+    /// Gets and sets the date and time of the first time step.
+    /// </summary>
+    public DateTime TimeOfFirstTimestep
+    {
+      get
+      {
+        return _firstTimeStep;
+      }
+      set
+      {
+        if (!_initializedForWriting)
+          InitializeForWriting();
+        _firstTimeStep = value;
+        DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToShortDateString(), _firstTimeStep.ToShortTimeString(), 1400, 0, _timeStep.TotalSeconds, 0);
+      }
+    }
+
+    /// <summary>
+    /// Gets and sets the size of a time step
+    /// </summary>
+    public TimeSpan TimeStep
+    {
+      get
+      {
+        return _timeStep;
+      }
+      set
+      {
+        if (!_initializedForWriting)
+          InitializeForWriting();
+        _timeStep = value;
+        DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToShortDateString(), _firstTimeStep.ToShortTimeString(), 1400, 0, _timeStep.TotalSeconds, 0);
+      }
+    }
+
+    
 
 
     /// <summary>
@@ -239,6 +296,9 @@ namespace MikeSheWrapper.DFS
       }
     }
 
+    /// <summary>
+    /// Gets information about the Items
+    /// </summary>
     public DfsFileItemInfo[] DynamicItemInfos
     {
       get { return _fileInfo.DynamicItemInfos; }
