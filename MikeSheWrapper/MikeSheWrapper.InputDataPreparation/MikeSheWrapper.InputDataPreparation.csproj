@@ -59,13 +59,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeadObservations.cs" />
+    <Compile Include="M11.cs" />
     <Compile Include="NovanaTables.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NovanaTables.xsd</DependentUpon>
     </Compile>
     <Compile Include="ObservationWell.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Program2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QStation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikeSheWrapper.DFS\MikeSheWrapper.DFS.csproj">
