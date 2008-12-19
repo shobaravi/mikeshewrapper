@@ -16,11 +16,13 @@ potential ET
 Landuse data
 ET/Vegetation
 Irrigation
-Warning: the capacity for well at location 50.00000,50.00000 is set to 0.
+Warning: the capacity for well at location 313.0000,156.0000 is set to 0.
          This source will not be able to deliver water.
-Warning: the capacity for well at location 100.0000,100.0000 is set to 0.
+Warning: the capacity for well at location 400.0000,400.0000 is set to 0.
          This source will not be able to deliver water.
-Warning: the capacity for well at location 150.0000,150.0000 is set to 0.
+Warning: the capacity for well at location 96.00000,140.0000 is set to 0.
+         This source will not be able to deliver water.
+Warning: the capacity for well at location 140.0000,370.0000 is set to 0.
          This source will not be able to deliver water.
 Overland Data
 River Data
@@ -37,198 +39,6 @@ SZ Drainage
 - processing ...
 - making reference maps ...
 Irrigation
-Warning: the command area code 1 in point (1,2) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,3) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,4) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,5) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,6) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,7) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,8) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,9) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,10) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,11) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,12) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,13) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,14) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,15) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,16) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,17) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,18) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,19) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,20) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,21) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,22) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,23) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,24) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,25) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,26) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,27) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,28) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,29) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,30) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,31) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,32) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,33) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,34) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,35) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,36) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,37) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,38) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,39) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,40) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,41) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,42) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,43) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,44) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,45) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,46) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,47) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,48) is outside the model area and will be ignored
-Warning: the command area code 1 in point (1,49) is outside the model area and will be ignored
-Warning: the command area code 1 in point (2,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (2,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (3,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (3,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (4,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (4,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (5,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (5,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (6,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (6,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (7,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (7,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (8,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (8,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (9,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (9,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (10,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (10,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (11,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (11,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (12,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (12,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (13,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (13,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (14,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (14,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (15,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (15,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (16,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (16,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (17,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (17,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (18,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (18,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (19,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (19,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (20,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (20,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (21,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (21,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (22,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (22,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (23,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (23,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (24,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (24,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (25,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (25,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (26,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (26,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (27,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (27,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (28,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (28,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (29,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (29,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (30,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (30,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (31,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (31,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (32,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (32,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (33,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (33,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (34,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (34,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (35,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (35,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (36,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (36,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (37,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (37,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (38,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (38,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (39,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (39,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (40,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (40,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (41,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (41,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (42,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (42,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (43,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (43,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (44,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (44,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (45,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (45,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (46,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (46,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (47,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (47,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (48,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (48,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (49,1) is outside the model area and will be ignored
-Warning: the command area code 1 in point (49,50) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,2) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,3) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,4) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,5) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,6) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,7) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,8) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,9) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,10) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,11) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,12) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,13) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,14) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,15) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,16) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,17) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,18) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,19) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,20) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,21) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,22) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,23) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,24) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,25) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,26) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,27) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,28) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,29) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,30) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,31) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,32) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,33) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,34) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,35) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,36) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,37) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,38) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,39) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,40) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,41) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,42) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,43) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,44) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,45) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,46) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,47) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,48) is outside the model area and will be ignored
-Warning: the command area code 1 in point (50,49) is outside the model area and will be ignored
 UZ data
 Two-layer UZ data
 Storing
@@ -248,7 +58,7 @@ Preprocessing succeeded
  =============================================================================================================
  
  
-13:23:15 : INITIALIZATION PHASE
+12:02:25 : INITIALIZATION PHASE
 ===============================
 
 Opening files...
@@ -279,7 +89,7 @@ done
  
  
  
-13:23:20 : Start of simulation from 2000/01/01,00:00
+12:02:29 : Start of simulation from 2000/01/01,00:00
 ====================================================
 
 - further initializations...
@@ -287,68 +97,66 @@ done
 - SZ
 - Overland
 - River
-13:23:20 => 2000/01/01,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 14, avg: 14.0
-13:23:22 => 2000/01/02,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 4, avg: 4.2
-13:23:24 => 2000/01/03,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.9
-13:23:26 => 2000/01/04,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.6
-13:23:28 => 2000/01/05,10:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.5
-13:23:30 => 2000/01/06,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.5
-13:23:32 => 2000/01/06,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
-13:23:34 => 2000/01/07,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
-13:23:36 => 2000/01/07,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
-13:23:38 => 2000/01/08,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.3
-13:23:40 => 2000/01/08,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.3
-13:23:42 => 2000/01/09,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.2
-13:23:44 => 2000/01/09,14:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.1
-13:23:46 => 2000/01/10,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.1
-13:23:48 => 2000/01/10,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.0
-13:23:50 => 2000/01/10,23:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.0
-13:23:52 => 2000/01/11,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
-13:23:54 => 2000/01/11,21:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
-13:23:56 => 2000/01/12,08:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
-13:23:58 => 2000/01/12,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
-13:24:00 => 2000/01/13,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
-13:24:02 => 2000/01/13,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
-13:24:04 => 2000/01/14,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
-13:24:06 => 2000/01/14,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
-13:24:08 => 2000/01/15,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
-13:24:10 => 2000/01/15,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
-13:24:12 => 2000/01/16,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
-13:24:14 => 2000/01/16,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
-13:24:16 => 2000/01/17,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
-13:24:18 => 2000/01/17,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
-13:24:20 => 2000/01/17,23:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
-13:24:22 => 2000/01/18,10:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
-13:24:24 => 2000/01/18,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:26 => 2000/01/19,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:28 => 2000/01/19,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:30 => 2000/01/20,07:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:32 => 2000/01/20,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:34 => 2000/01/21,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:36 => 2000/01/21,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:38 => 2000/01/22,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
-13:24:40 => 2000/01/22,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:42 => 2000/01/23,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:44 => 2000/01/23,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:46 => 2000/01/24,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:48 => 2000/01/24,11:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:50 => 2000/01/24,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:52 => 2000/01/25,08:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:54 => 2000/01/25,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:56 => 2000/01/26,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:24:58 => 2000/01/26,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:25:00 => 2000/01/27,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:25:02 => 2000/01/27,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:25:04 => 2000/01/28,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
-13:25:06 => 2000/01/28,14:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:08 => 2000/01/29,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:10 => 2000/01/29,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:12 => 2000/01/29,23:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:14 => 2000/01/30,10:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:16 => 2000/01/30,21:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:18 => 2000/01/31,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:20 => 2000/01/31,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
-13:25:20 => 2000/02/01,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:02:29 => 2000/01/01,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 14, avg: 14.0
+12:02:31 => 2000/01/02,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 4, avg: 4.2
+12:02:33 => 2000/01/03,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.8
+12:02:35 => 2000/01/04,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.6
+12:02:37 => 2000/01/05,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.5
+12:02:39 => 2000/01/06,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.5
+12:02:41 => 2000/01/06,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
+12:02:43 => 2000/01/07,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.4
+12:02:45 => 2000/01/07,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.3
+12:02:47 => 2000/01/08,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 2, avg: 2.3
+12:02:49 => 2000/01/08,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.2
+12:02:51 => 2000/01/09,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.2
+12:02:53 => 2000/01/09,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.1
+12:02:55 => 2000/01/10,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.0
+12:02:57 => 2000/01/10,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 2.0
+12:02:59 => 2000/01/11,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
+12:03:01 => 2000/01/11,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
+12:03:03 => 2000/01/12,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.9
+12:03:05 => 2000/01/12,14:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+12:03:07 => 2000/01/13,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+12:03:09 => 2000/01/13,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.8
+12:03:11 => 2000/01/14,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+12:03:13 => 2000/01/14,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+12:03:15 => 2000/01/15,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+12:03:17 => 2000/01/15,11:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.7
+12:03:19 => 2000/01/15,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+12:03:21 => 2000/01/16,10:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+12:03:23 => 2000/01/16,21:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+12:03:25 => 2000/01/17,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+12:03:27 => 2000/01/17,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+12:03:29 => 2000/01/18,07:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.6
+12:03:31 => 2000/01/18,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:33 => 2000/01/19,06:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:35 => 2000/01/19,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:37 => 2000/01/20,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:39 => 2000/01/20,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:41 => 2000/01/21,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:43 => 2000/01/21,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:45 => 2000/01/22,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.5
+12:03:47 => 2000/01/22,14:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:03:49 => 2000/01/23,02:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:03:51 => 2000/01/23,13:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:03:53 => 2000/01/24,01:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:03:55 => 2000/01/24,12:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:03:57 => 2000/01/25,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:03:59 => 2000/01/25,11:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:01 => 2000/01/25,22:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:03 => 2000/01/26,09:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:05 => 2000/01/26,20:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:07 => 2000/01/27,08:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:09 => 2000/01/27,19:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:11 => 2000/01/28,07:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.4
+12:04:13 => 2000/01/28,18:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:15 => 2000/01/29,05:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:17 => 2000/01/29,17:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:19 => 2000/01/30,04:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:21 => 2000/01/30,16:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:23 => 2000/01/31,03:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:25 => 2000/01/31,15:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
+12:04:26 => 2000/02/01,00:00 : Time step: 1.00 hrs, avg: 1.00 hrs; SZ Iter/step: 1, avg: 1.3
  
 Termination...
 
@@ -358,4 +166,4 @@ Termination...
           Total reduced outflow         :   135.0454     m3 (   49.85374     %)
 
           See warnings in the print log file.
-13:25:21 : WM Simulation succeeded
+12:04:27 : WM Simulation succeeded

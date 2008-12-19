@@ -1,4 +1,4 @@
-// Created     : 2008-11-19 14:19:13
+// Created     : 2008-12-11 15:26:10
 // DLL id      : D:\Programmer\Fælles filer\DHI\MikeZero\pfs2004.dll
 // PFS version : Sep 25 2008 20:27:52
 
@@ -1351,9 +1351,9 @@
          Touched = 1
          IsDataUsedInSetup = 1
          DistributionType = 1
-         Type = 1
+         Type = 2
          ShapeAxisUnit = 1000
-         NO_AREAS = 3
+         NO_AREAS = 1
          [DFS_2D_DATA_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
@@ -1365,15 +1365,15 @@
          [SHAPE_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = ||
+            FILE_NAME = |commandareas.shp|
             ITEM_COUNT = 1
-            ITEM_NUMBERS = ''
+            ITEM_NUMBERS = 'ID'
          EndSect  // SHAPE_FILE
 
          [CommandArea]
             Touched = 1
             IsDataUsedInSetup = 1
-            AreaName = 'Grid code = 1'
+            AreaName = '1'
             AreaCodeID = '1'
             AreaCode = 1
             [INDIRECT_APPLICATION_AREA]
@@ -1432,194 +1432,12 @@
                   UseThresholdStageRS = 0
                   ThresholdStageStopRS = 0
                   ThresholdStageRestartRS = 0
-                  WellXposSIWS = 50
-                  WellYposSIWS = 50
-                  ScreenTopDepthSIWS = 0
+                  WellXposSIWS = 313
+                  WellYposSIWS = 156
+                  ScreenTopDepthSIWS = 5
                   CapacitySIWS = 0
-                  ThresholdDepthSIWS = 0
-                  ScreenBottomDepthSIWS = 10
-                  ScreenTopDepthSWS = 0
-                  ThresholdDepthSWS = 0
-                  CapacitySWS = 0
-                  ScreenBottomDepthSWS = 0
-                  CapacityES = 0
-                  RS_6 = 0
-                  RS_7 = 0
-                  IrrigationLicenseIncluded = 0
-                  TYPE = 2
-                  [TIME_SERIES_FILE]
-                     Touched = 1
-                     IsDataUsedInSetup = 1
-                     FILE_NAME = ||
-                     ITEM_COUNT = 1
-                     ITEM_NUMBERS = 1
-                  EndSect  // TIME_SERIES_FILE
-
-               EndSect  // Source1
-
-            EndSect  // Sources
-
-         EndSect  // CommandArea
-
-         [CommandArea]
-            Touched = 1
-            IsDataUsedInSetup = 1
-            AreaName = 'Grid code = 2'
-            AreaCodeID = '2'
-            AreaCode = 2
-            [INDIRECT_APPLICATION_AREA]
-               Touched = 1
-               IsDataUsedInSetup = 0
-               Type = 0
-               FixedValue = 0
-               InterpMethod = 2
-               SearchRadius = 1000
-               ShowGridData = 1
-               ShowShapeData = 1
-               ShapeAxisUnit = 1000
-               ShapeItemUnit = 99013
-               [DFS_2D_DATA_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-                  ITEM_COUNT = 1
-                  ITEM_NUMBERS = 1
-               EndSect  // DFS_2D_DATA_FILE
-
-               [SHAPE_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-                  ITEM_COUNT = 1
-                  ITEM_NUMBERS = ''
-               EndSect  // SHAPE_FILE
-
-               [XYZ_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-               EndSect  // XYZ_FILE
-
-            EndSect  // INDIRECT_APPLICATION_AREA
-
-            [Sources]
-               Touched = 1
-               IsDataUsedInSetup = 1
-               MzSEPfsListItemCount = 1
-               NumberOfSources = 1
-               [Source1]
-                  Touched = 1
-                  IsDataUsedInSetup = 1
-                  SourceTypeCode = 2
-                  WaterApplication = 1
-                  DirectApplication = 1
-                  RiverNameRS = ''
-                  UpstreamChainageRS = 0
-                  DownstreamChainageRS = 0
-                  CapacityRS = 0
-                  UseThresholdDischargeRateRS = 1
-                  ThresholdDischargeRateStopRS = 0
-                  ThresholdDischargeRateRestartRS = 0
-                  UseThresholdStageRS = 0
-                  ThresholdStageStopRS = 0
-                  ThresholdStageRestartRS = 0
-                  WellXposSIWS = 100
-                  WellYposSIWS = 100
-                  ScreenTopDepthSIWS = 0
-                  CapacitySIWS = 0
-                  ThresholdDepthSIWS = 0
-                  ScreenBottomDepthSIWS = 10
-                  ScreenTopDepthSWS = 0
-                  ThresholdDepthSWS = 0
-                  CapacitySWS = 0
-                  ScreenBottomDepthSWS = 0
-                  CapacityES = 0
-                  RS_6 = 0
-                  RS_7 = 0
-                  IrrigationLicenseIncluded = 0
-                  TYPE = 2
-                  [TIME_SERIES_FILE]
-                     Touched = 1
-                     IsDataUsedInSetup = 1
-                     FILE_NAME = ||
-                     ITEM_COUNT = 1
-                     ITEM_NUMBERS = 1
-                  EndSect  // TIME_SERIES_FILE
-
-               EndSect  // Source1
-
-            EndSect  // Sources
-
-         EndSect  // CommandArea
-
-         [CommandArea]
-            Touched = 1
-            IsDataUsedInSetup = 1
-            AreaName = 'Grid code = 4'
-            AreaCodeID = '4'
-            AreaCode = 4
-            [INDIRECT_APPLICATION_AREA]
-               Touched = 1
-               IsDataUsedInSetup = 0
-               Type = 0
-               FixedValue = 0
-               InterpMethod = 2
-               SearchRadius = 1000
-               ShowGridData = 1
-               ShowShapeData = 1
-               ShapeAxisUnit = 1000
-               ShapeItemUnit = 99013
-               [DFS_2D_DATA_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-                  ITEM_COUNT = 1
-                  ITEM_NUMBERS = 1
-               EndSect  // DFS_2D_DATA_FILE
-
-               [SHAPE_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-                  ITEM_COUNT = 1
-                  ITEM_NUMBERS = ''
-               EndSect  // SHAPE_FILE
-
-               [XYZ_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-               EndSect  // XYZ_FILE
-
-            EndSect  // INDIRECT_APPLICATION_AREA
-
-            [Sources]
-               Touched = 1
-               IsDataUsedInSetup = 1
-               MzSEPfsListItemCount = 1
-               NumberOfSources = 1
-               [Source1]
-                  Touched = 1
-                  IsDataUsedInSetup = 1
-                  SourceTypeCode = 2
-                  WaterApplication = 1
-                  DirectApplication = 1
-                  RiverNameRS = ''
-                  UpstreamChainageRS = 0
-                  DownstreamChainageRS = 0
-                  CapacityRS = 0
-                  UseThresholdDischargeRateRS = 1
-                  ThresholdDischargeRateStopRS = 0
-                  ThresholdDischargeRateRestartRS = 0
-                  UseThresholdStageRS = 0
-                  ThresholdStageStopRS = 0
-                  ThresholdStageRestartRS = 0
-                  WellXposSIWS = 150
-                  WellYposSIWS = 150
-                  ScreenTopDepthSIWS = 0
-                  CapacitySIWS = 0
-                  ThresholdDepthSIWS = 0
-                  ScreenBottomDepthSIWS = 10
+                  ThresholdDepthSIWS = 8
+                  ScreenBottomDepthSIWS = 8
                   ScreenTopDepthSWS = 0
                   ThresholdDepthSWS = 0
                   CapacitySWS = 0
@@ -4018,13 +3836,13 @@
             X = 98.93048128342247
             Y = 339.572192513369
             Z = 5
-            InclObserved = 0
+            InclObserved = 1
             [TIME_SERIES_FILE]
                Touched = 1
                IsDataUsedInSetup = 1
-               FILE_NAME = ||
+               FILE_NAME = |Detailed timeseries output.dfs0|
                ITEM_COUNT = 1
-               ITEM_NUMBERS = 1
+               ITEM_NUMBERS = 2
             EndSect  // TIME_SERIES_FILE
 
          EndSect  // Item_1
@@ -4038,11 +3856,11 @@
             X = 302.1390374331551
             Y = 136.3636363636364
             Z = 5
-            InclObserved = 0
+            InclObserved = 1
             [TIME_SERIES_FILE]
                Touched = 1
                IsDataUsedInSetup = 1
-               FILE_NAME = ||
+               FILE_NAME = |Detailed timeseries output.dfs0|
                ITEM_COUNT = 1
                ITEM_NUMBERS = 1
             EndSect  // TIME_SERIES_FILE
