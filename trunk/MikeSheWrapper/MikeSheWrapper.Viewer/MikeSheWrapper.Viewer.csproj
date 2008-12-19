@@ -55,6 +55,12 @@
       <DependentUpon>DataSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSetHelper.cs" />
+    <Compile Include="GridView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GridView.designer.cs">
+      <DependentUpon>GridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="HeadObservationsView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DataSelector.resx">
       <DependentUpon>DataSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GridView.resx">
+      <DependentUpon>GridView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HeadObservationsView.resx">
@@ -104,6 +114,10 @@
     <ProjectReference Include="..\MikeSheWrapper.InputDataPreparation\MikeSheWrapper.InputDataPreparation.csproj">
       <Project>{5554E7E3-C222-448D-841A-BDE3F4EBAB9D}</Project>
       <Name>MikeSheWrapper.InputDataPreparation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Interfaces\MikeSheWrapper.Interfaces.csproj">
+      <Project>{1040884D-8EAF-4412-A236-4414BC488474}</Project>
+      <Name>MikeSheWrapper.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
       <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>
