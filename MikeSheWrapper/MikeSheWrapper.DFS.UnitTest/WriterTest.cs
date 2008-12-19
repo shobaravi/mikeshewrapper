@@ -13,6 +13,8 @@ namespace MikeSheWrapper.DFS.UnitTest
   [TestFixture]
   public class WriterTest
   {
+    
+
     [Test]
     public void FirstTest()
     {
@@ -25,6 +27,13 @@ namespace MikeSheWrapper.DFS.UnitTest
 
       for (int i=0;i<10;i++)
         outdata.SetData(i+8, 2, M);
+
+      DateTime d = new DateTime(1950, 1, 1);
+
+      string dd = d.ToShortDateString();
+      outdata.TimeOfFirstTimestep = new DateTime(1950, 1, 1);
+      outdata.TimeStep = new TimeSpan(20, 0, 0, 0);
+      
       outdata.Dispose();
 
     }

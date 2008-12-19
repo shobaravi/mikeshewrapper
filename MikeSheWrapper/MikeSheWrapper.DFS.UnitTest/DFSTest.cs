@@ -25,12 +25,20 @@ namespace MikeSheWrapper.DFS.UnitTest
 
     }
 
+    [TearDown]
+    public void Destruct()
+    {
+      _dfs.Dispose();
+      _simpleDfs.Dispose();
+    }
+
 
     [Test]
     public void DFS0Test()
     {
       DFS0 _dfs0 = new DFS0(@"..\..\..\TestData\novomr4_indv_dfs0_ud1.dfs0");
       Assert.AreEqual(33316.7, _dfs0.GetData(0, 1), 1e-1);
+      _dfs0.Dispose();
     }
 
     [Test]
@@ -71,6 +79,13 @@ namespace MikeSheWrapper.DFS.UnitTest
 
     }
 
+    [Test]
+    public void GetTimeTest()
+    {
+      Assert.AreEqual(new DateTime(1990, 1, 2, 12, 0, 0), _dfs.TimeOfFirstTimestep);
+      Assert.AreEqual(new TimeSpan(0, 0, 864000), _dfs.TimeStep);
+    }
+
 
 
     [Test]
@@ -78,9 +93,6 @@ namespace MikeSheWrapper.DFS.UnitTest
     {
       Matrix3d M = _dfs.GetData(0, 1);
       Assert.AreEqual(6.733541, M[151, 86, 17], 1e-5);
-
-
-
     }
   }
 }

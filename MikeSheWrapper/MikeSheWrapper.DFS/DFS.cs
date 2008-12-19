@@ -78,6 +78,7 @@ namespace MikeSheWrapper.DFS
         throw new Exception("No timesteps read from: " + _fileInfo.FileName);
 
       _firstTimeStep = _fileInfo.TimeSteps[0];
+
       if (NumberOfTimeSteps > 1)
         _timeStep = _fileInfo.TimeSteps[1].Subtract(_firstTimeStep);
 
@@ -124,6 +125,18 @@ namespace MikeSheWrapper.DFS
        throw new Exception("Error in initializing file : " + _filename + " for writing");
      _initializedForWriting = true;
    }
+
+   /// <summary>
+   /// Writes timestep and starttime
+   /// Because it is called twice
+   /// </summary>
+   private void WriteTime()
+   {
+     if (!_initializedForWriting)
+       InitializeForWriting();
+     int ok = DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToString("yyyy-MM-dd"), _firstTimeStep.ToString("hh:mm:ss"), 1400, 0, _timeStep.TotalSeconds, 0);
+   }
+
 
     
     /// <summary>
@@ -257,10 +270,8 @@ namespace MikeSheWrapper.DFS
       }
       set
       {
-        if (!_initializedForWriting)
-          InitializeForWriting();
         _firstTimeStep = value;
-        DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToShortDateString(), _firstTimeStep.ToShortTimeString(), 1400, 0, _timeStep.TotalSeconds, 0);
+        WriteTime();
       }
     }
 
@@ -275,13 +286,10 @@ namespace MikeSheWrapper.DFS
       }
       set
       {
-        if (!_initializedForWriting)
-          InitializeForWriting();
         _timeStep = value;
-        DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToShortDateString(), _firstTimeStep.ToShortTimeString(), 1400, 0, _timeStep.TotalSeconds, 0);
+        WriteTime();
       }
     }
-
     
 
 
