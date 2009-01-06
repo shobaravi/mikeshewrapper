@@ -115,7 +115,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        bool WriteAll = (DialogResult.Yes==MessageBox.Show("Write all value for individual time series?", "Averageor all?", MessageBoxButtons.YesNo));
+        bool WriteAll = (DialogResult.Yes==MessageBox.Show("Write all values for individual time series?", "Average or all?", MessageBoxButtons.YesNo));
         HO.WriteToLSInput(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
       }
     }
