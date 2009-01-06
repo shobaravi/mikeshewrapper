@@ -33,7 +33,6 @@ namespace MikeSheWrapper.InputDataPreparation
     public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
 
 
-
     /// <summary>
     /// Function that returns true if a well has more than Count observations in the period between Start and End
     /// </summary>
@@ -42,6 +41,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
     public HeadObservations()
     { }
+
 
     public HeadObservations(string FileName)
     {
@@ -402,8 +402,11 @@ namespace MikeSheWrapper.InputDataPreparation
         PR.XUTM = W.X;
         PR.YUTM = W.Y;
         PR.JUPKOTE = W.Terrain;
-        PR.INTAKETOP = W.ScreenTop.Min();
-        PR.INTAKEBOT = W.ScreenBottom.Min();
+
+        if (W.ScreenTop.Count>0)
+          PR.INTAKETOP = W.ScreenTop.Min();
+        if (W.ScreenBottom.Count>0)  
+          PR.INTAKEBOT = W.ScreenBottom.Min();
 
         PR.NUMBEROFOB = SelectedObs.Count;
         if (SelectedObs.Count > 0)
