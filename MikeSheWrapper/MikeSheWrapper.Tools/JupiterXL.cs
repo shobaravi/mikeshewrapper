@@ -29,6 +29,32 @@ namespace MikeSheWrapper.Tools {
         STA.FillByNovana(SCREEN);
       }
 
+      public void ReadInTotalWellsForNovana(string DataBaseFileName)
+      {
+        string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
+
+        //Read in boreholes through table adapter
+        BOREHOLETableAdapter BTA = new BOREHOLETableAdapter();
+        BTA.Connection.ConnectionString = ConnectionString;
+        BTA.Fill(BOREHOLE);
+
+        //Read in Intakes through table adapter
+        INTAKETableAdapter ITA = new INTAKETableAdapter();
+        ITA.Connection.ConnectionString = ConnectionString;
+        ITA.Fill(INTAKE);
+
+        //Read in Screens throug the table adapter
+        SCREENTableAdapter STA = new SCREENTableAdapter();
+        STA.Connection.ConnectionString = ConnectionString;
+        STA.Fill(SCREEN);
+
+        //Read in Casings through the table adapter
+        CASINGTableAdapter CTA = new CASINGTableAdapter();
+        CTA.Connection.ConnectionString = ConnectionString;
+        CTA.Fill(CASING);
+
+      }
+
       /// <summary>
       /// Reads in the waterlevels from the database using the FillByNovana method. 
       /// Only necessary fields are read.
