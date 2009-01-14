@@ -15,7 +15,7 @@ namespace MikeSheWrapper.Viewer
     {
       InitializeComponent();
       dataGridView1.DataSource = null;
-      dataGridView1.DataSource = new MikeSheWrapper.InputDataPreparation.NovanaTables.PejlingerOutputDataTable();
+      dataGridView1.DataSource = new MikeSheWrapper.InputDataPreparation.NovanaTables.PejlingerTotalDataTable();
     
     }
   }

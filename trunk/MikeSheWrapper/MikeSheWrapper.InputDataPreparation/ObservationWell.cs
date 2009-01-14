@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,12 @@ namespace MikeSheWrapper.InputDataPreparation
     public int _column;
     public int _row;
     private int _layer =-3;
-    private double _depth;
+
+    /// <summary>
+    /// Gets and sets the depth of the observation in meters below surface
+    /// </summary>
+    public double Depth {get; set;}
+    
     private double _z;
     private List<TimeSeriesEntry> _observations = new List<TimeSeriesEntry>();
 
@@ -29,6 +35,7 @@ namespace MikeSheWrapper.InputDataPreparation
     private TSItem _item;
     private TimeSpan _minTimeStep = new TimeSpan(0, 0, 10);
 
+    public DataRow Data { get; set; }
 
     #region Constructors
     public ObservationWell(string ID)
@@ -238,14 +245,6 @@ namespace MikeSheWrapper.InputDataPreparation
       set { _z = value; }
     }
 
-    /// <summary>
-    /// Gets and sets the depth of the observation in meters below surface
-    /// </summary>
-    public double Depth
-    {
-      get { return _depth; }
-      set { _depth = value; }
-    }
 
 
     #endregion

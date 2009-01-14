@@ -153,6 +153,114 @@ namespace MikeSheWrapper.InputDataPreparation
 
 #region Population Methods
 
+
+    public void ReadWellsForNovanaFromJupiter(string DataBaseFile)
+    {
+      //Construct the data set
+      JupiterXL JXL = new JupiterXL();
+      JXL.ReadInTotalWellsForNovana(DataBaseFile);
+
+      NovanaTables.PejlingerTotalDataTable DT = new NovanaTables.PejlingerTotalDataTable();
+
+      ObservationWell CurrentWell;
+      NovanaTables.PejlingerTotalRow CurrentRow;
+
+      //Loop the wells
+      foreach (var Boring in JXL.BOREHOLE)
+      {
+        //Loop the intakes
+        foreach (var Intake in Boring.GetINTAKERows())
+        {
+          //Remove spaces and add the intake number to create a unique well ID
+          string wellname = Boring.BOREHOLENO.Replace(" ", "") + "_" + Intake.INTAKENO;
+
+          if (!_wells.TryGetValue(wellname, out CurrentWell))
+          {
+            CurrentWell = new ObservationWell(wellname);
+            CurrentWell.Data = DT.NewPejlingerTotalRow(); 
+            _wells.Add(wellname, CurrentWell);
+          }
+
+          CurrentRow = (NovanaTables.PejlingerTotalRow)CurrentWell.Data;
+
+          if (!Boring.IsXUTMNull())
+            CurrentWell.X = Boring.XUTM;
+          if (!Boring.IsYUTMNull())
+            CurrentWell.Y = Boring.YUTM;
+
+          CurrentWell.Description = Boring.LOCATION;
+          if (!Boring.IsELEVATIONNull())
+            CurrentWell.Terrain = Boring.ELEVATION;
+
+          CurrentRow.COUNT = 1;
+          CurrentRow.NOVANAID = wellname;
+//          CurrentRow.BORID = 
+          CurrentRow.XUTM = Boring.XUTM;
+          CurrentRow.YUTM = Boring.YUTM;
+//          CurrentRow.KOORTYPE =
+          CurrentRow.JUPKOTE = Boring.ELEVATION;
+          CurrentRow.BOREHOLENO = Boring.BOREHOLENO;
+          CurrentRow.INTAKENO = Intake.INTAKENO;
+//          CurrentRow.WATLEVELNO =
+          CurrentRow.LOCATION = Boring.LOCATION;
+//          CurrentRow.BOTROCK 
+          CurrentRow.DRILENDATE = Boring.DRILENDATE;
+          CurrentRow.ABANDONDAT = Boring.ABANDONDAT;
+          CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
+          CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
+
+          //Assumes that the string no from the intake identifies the correct Casing
+          foreach (var Casing in Boring.GetCASINGRows())
+          {
+            if (Intake.STRINGNO == Casing.STRINGNO)
+              CurrentRow.CASIBOT = Casing.BOTTOM;
+          }
+
+          CurrentRow.PURPOSE = Boring.PURPOSE;
+          CurrentRow.USE = Boring.USE;
+
+          //Loop the screens. One intake can in special cases have multiple screens
+          foreach (var Screen in Intake.GetSCREENRows())
+          {
+            if (!Screen.IsTOPNull())
+              CurrentWell.ScreenTop.Add(Screen.TOP);
+            if (!Screen.IsBOTTOMNull())
+              CurrentWell.ScreenBottom.Add(Screen.BOTTOM);
+          }//Screen loop
+
+        if (CurrentWell.ScreenTop.Count>0)
+          CurrentRow.INTAKETOP = CurrentWell.ScreenTop.Min();
+        if (CurrentWell.ScreenBottom.Count>0)  
+          CurrentRow.INTAKEBOT = CurrentWell.ScreenBottom.Max();
+
+          CurrentRow.INTSTDATE2 = Intake.GetSCREENRows().Min(x=>x.STARTDATE);
+          CurrentRow.INTENDATE2 = Intake.GetSCREENRows().Max(x=>x.ENDDATE);
+
+//          CurrentRow.RESROCK=
+//Fra WatLevel          CurrentRow.REFPOINT = 
+          CurrentRow.ANTINT_B = Boring.GetINTAKERows().Count();
+
+        }//Intake loop
+      }//Bore loop
+
+
+      ReadWaterlevelsFromJupiterAccess(DataBaseFile, false);
+
+
+      foreach (ObservationWell OW in _wells.Values)
+      {
+        CurrentRow = (NovanaTables.PejlingerTotalRow)OW.Data;
+        CurrentRow.ANTPEJ = OW.Observations.Count;
+        CurrentRow.MINDATO = OW.Observations.Min(x => x.Time);
+        CurrentRow.MAXDATO = OW.Observations.Max(x => x.Time);
+        CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
+        CurrentRow.AKTDAGE = CurrentRow.MAXDATO.Subtract(CurrentRow.MINDATO).Days + 1;
+        CurrentRow.PEJPRAAR = CurrentRow.ANTPEJ / CurrentRow.AKTAAR;
+      }
+    }
+
+
+
     /// <summary>
     /// Reads in all wells from a Jupiter database. 
     /// </summary>
