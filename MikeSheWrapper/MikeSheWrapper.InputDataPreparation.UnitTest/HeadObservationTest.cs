@@ -78,5 +78,11 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     }
 
 
+    [Test]
+    public void SpecialNovanaPrint()
+    {
+      HO.ReadWellsForNovanaFromJupiter(@"D:\Udvikling\MikeSheWrapper\JupiterData\pcjupiter.mdb");
+    }
+
   }
 }
