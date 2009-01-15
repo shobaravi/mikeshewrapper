@@ -205,9 +205,13 @@ namespace MikeSheWrapper.InputDataPreparation
           CurrentRow.LOCATION = Boring.LOCATION;
 //          CurrentRow.BOTROCK 
           CurrentRow.DRILENDATE = Boring.DRILENDATE;
-          CurrentRow.ABANDONDAT = Boring.ABANDONDAT;
-          CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
-          CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
+          
+          if (!Boring.IsABANDONDATNull())
+            CurrentRow.ABANDONDAT = Boring.ABANDONDAT;
+          if(!Boring.IsABANDCAUSENull())
+            CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
+          if (!Boring.IsDRILLDEPTHNull())  
+            CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
 
           //Assumes that the string no from the intake identifies the correct Casing
           foreach (var Casing in Boring.GetCASINGRows())
@@ -216,8 +220,10 @@ namespace MikeSheWrapper.InputDataPreparation
               CurrentRow.CASIBOT = Casing.BOTTOM;
           }
 
-          CurrentRow.PURPOSE = Boring.PURPOSE;
-          CurrentRow.USE = Boring.USE;
+          if(!Boring.IsPURPOSENull())
+            CurrentRow.PURPOSE = Boring.PURPOSE;
+          if(!Boring.IsUSENull())
+            CurrentRow.USE = Boring.USE;
 
           //Loop the screens. One intake can in special cases have multiple screens
           foreach (var Screen in Intake.GetSCREENRows())
