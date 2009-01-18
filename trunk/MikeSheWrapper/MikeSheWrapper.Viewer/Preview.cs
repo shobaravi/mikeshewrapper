@@ -11,11 +11,11 @@ namespace MikeSheWrapper.Viewer
 {
   public partial class Preview : Form
   {
-    public Preview()
+    public Preview(DataTable DT)
     {
       InitializeComponent();
       dataGridView1.DataSource = null;
-      dataGridView1.DataSource = new MikeSheWrapper.InputDataPreparation.NovanaTables.PejlingerTotalDataTable();
+      dataGridView1.DataSource = DT;
     
     }
   }

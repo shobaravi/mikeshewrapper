@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using MikeSheWrapper.InputDataPreparation;
 using MikeSheWrapper.Tools;
+using MikeSheWrapper.JupiterTools;
 
 namespace MikeSheWrapper.Viewer
 {
@@ -23,33 +24,49 @@ namespace MikeSheWrapper.Viewer
       InitializeComponent();
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void ReadButton_Click(object sender, EventArgs e)
     {
       if (openFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        textBox2.Text = openFileDialog1.FileName;
-        if (Path.GetExtension(textBox2.Text).Equals(".shp", StringComparison.OrdinalIgnoreCase))
+        string FileName=openFileDialog1.FileName;
+        HO = new HeadObservations();
+
+        textBox2.Text = FileName;
+        
+        switch (Path.GetExtension(FileName))
         {
-          PointShapeReader SR = new PointShapeReader(textBox2.Text);
+          case ".she":
+            HO.ReadInDetailedTimeSeries(new Model(FileName));
+            break;
+          case ".mdb":
+            bool ReadAll = (DialogResult.Yes == MessageBox.Show("Read data for specialized NOVANA output?", "Read in how much data?", MessageBoxButtons.YesNo));
+            if (ReadAll)
+              JupiterTools.Reader.WellsForNovana(FileName, HO.Wells);
+            else
+            {
+              JupiterTools.Reader.Wells(FileName, HO.Wells);
+              JupiterTools.Reader.Waterlevels(FileName, false, HO.Wells);
+            }
+            textBoxObsFile.Text = FileName;
+            break;
+          case ".shp":
+            PointShapeReader SR = new PointShapeReader(textBox2.Text);
+            DataSelector DS = new DataSelector();
 
-          DataSelector DS = new DataSelector();
+            DS.Dt = SR.Data.Read();
 
-          DS.Dt = SR.Data.Read();
-
-          if (DS.ShowDialog() == DialogResult.OK)
-          {
-            HO = new HeadObservations();
-            HO.FillInFromNovanaShape(DS.Dt.Select(DS.SelectString));
-          }
-          else
-          {
-            textBox2.Text = "";
-            return;
-          }
-        }
-        else
-        {
-          HO = new HeadObservations(textBox2.Text);
+            if (DS.ShowDialog() == DialogResult.OK)
+            {
+              HO.FillInFromNovanaShape(DS.Dt.Select(DS.SelectString));
+            }
+            else
+            {
+              textBox2.Text = "";
+              return;
+            }
+            break;
+          default:
+            break;
         }
 
         textBox1.Text = HO.Wells.Count.ToString();
@@ -58,16 +75,25 @@ namespace MikeSheWrapper.Viewer
       }      
     }
 
+    /// <summary>
+    /// Read in observations
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void button2_Click(object sender, EventArgs e)
     {
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
-        HO.ReadWaterlevelsFromJupiterAccess(openFileDialog2.FileName, false);
+        Reader.Waterlevels(openFileDialog2.FileName, false, HO.Wells);
         textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }
 
-
+    /// <summary>
+    /// Refesh the sorting
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void button3_Click(object sender, EventArgs e)
     {
       int Min = int.Parse(MinNumber.Text);
@@ -80,6 +106,11 @@ namespace MikeSheWrapper.Viewer
       textBox4.Text = listBox1.Items.Count.ToString();
     }
 
+    /// <summary>
+    /// Write the dfs0s
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void button4_Click(object sender, EventArgs e)
     {
       if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -89,11 +120,16 @@ namespace MikeSheWrapper.Viewer
       }
     }
 
+    /// <summary>
+    /// Write to shape
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void button5_Click(object sender, EventArgs e)
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        HO.WriteNovanaShape(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value);
+        HO.WriteSimpleShape(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value);
       }
     }
 
@@ -122,9 +158,19 @@ namespace MikeSheWrapper.Viewer
 
     private void button1_Click_1(object sender, EventArgs e)
     {
-      Preview pr = new Preview();
+      ((ObservationWell)listBox1.SelectedItem).Data.Table.Rows.Add(((ObservationWell)listBox1.SelectedItem).Data);
+      Preview pr = new Preview(((ObservationWell) listBox1.SelectedItem).Data.Table );
       
       pr.Show();
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        HO.WriteShapeFromDataRow(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value);
+      }
+
     }
   }
 }

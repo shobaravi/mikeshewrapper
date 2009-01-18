@@ -35,6 +35,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MikeSheWrapper.Setup", "Mik
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeologyChecker", "GeologyChecker\GeologyChecker.csproj", "{0E401C8E-A789-4B97-8472-F4EE24E9BE16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.JupiterTools", "MikeSheWrapper.JupiterTools\MikeSheWrapper.JupiterTools.csproj", "{517D7D0D-85FB-4423-B5C9-B94FAF253112}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -111,6 +113,10 @@ Global
 		{0E401C8E-A789-4B97-8472-F4EE24E9BE16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E401C8E-A789-4B97-8472-F4EE24E9BE16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E401C8E-A789-4B97-8472-F4EE24E9BE16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{517D7D0D-85FB-4423-B5C9-B94FAF253112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{517D7D0D-85FB-4423-B5C9-B94FAF253112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{517D7D0D-85FB-4423-B5C9-B94FAF253112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{517D7D0D-85FB-4423-B5C9-B94FAF253112}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

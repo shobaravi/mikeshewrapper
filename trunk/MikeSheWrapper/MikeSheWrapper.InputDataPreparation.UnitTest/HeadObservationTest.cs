@@ -19,9 +19,9 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     [Test]
     public void ReadFromJupiter()
     {
-      HO.ReadWellsFromJupiter(@"F:\Jacob\Pejlinger\herning.mdb");
-      HO.ReadWaterlevelsFromJupiterAccess(@"F:\Jacob\Pejlinger\herning.mdb", false);
-      int NumberOfWells = HO.Wells.Values.Count(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
+      //HO.ReadWellsFromJupiter(@"F:\Jacob\Pejlinger\herning.mdb");
+      //HO.ReadWaterlevelsFromJupiterAccess(@"F:\Jacob\Pejlinger\herning.mdb", false);
+      //int NumberOfWells = HO.Wells.Values.Count(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
 
     }
 
@@ -81,7 +81,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     [Test]
     public void SpecialNovanaPrint()
     {
-      HO.ReadWellsForNovanaFromJupiter(@"D:\Udvikling\MikeSheWrapper\JupiterData\pcjupiter.mdb");
+      //HO.ReadWellsForNovanaFromJupiter(@"D:\Udvikling\MikeSheWrapper\JupiterData\pcjupiter.mdb");
     }
 
   }

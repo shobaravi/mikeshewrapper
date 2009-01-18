@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C83B70C2-F74F-497D-8933-6E1549DA2853}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MikeSheWrapper.Viewer</RootNamespace>
-    <AssemblyName>MikeSheWrapper.Viewer</AssemblyName>
+    <AssemblyName>WellViewer</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -118,6 +118,10 @@
     <ProjectReference Include="..\MikeSheWrapper.Interfaces\MikeSheWrapper.Interfaces.csproj">
       <Project>{1040884D-8EAF-4412-A236-4414BC488474}</Project>
       <Name>MikeSheWrapper.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.JupiterTools\MikeSheWrapper.JupiterTools.csproj">
+      <Project>{517D7D0D-85FB-4423-B5C9-B94FAF253112}</Project>
+      <Name>MikeSheWrapper.JupiterTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
       <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>

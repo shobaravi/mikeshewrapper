@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 
 using MikeSheWrapper;
-using MikeSheWrapper.Tools;
-using MikeSheWrapper.Tools.JupiterXLTableAdapters;
+using MikeSheWrapper.JupiterTools;
+using MikeSheWrapper.JupiterTools.JupiterXLTableAdapters;
 
 using MathNet.Numerics.Statistics;
 
@@ -26,7 +26,7 @@ namespace GeologyChecker
       Model m = new Model(args[0]);
 
       JupiterXL JXL = new JupiterXL();
-      JXL.ReadInNovanaWells(args[1]);
+      JXL.PartialReadOfWells(args[1]);
 
       LITHSAMPTableAdapter LTA = new LITHSAMPTableAdapter();
       LTA.Connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + args[1] + ";Persist Security Info=False";

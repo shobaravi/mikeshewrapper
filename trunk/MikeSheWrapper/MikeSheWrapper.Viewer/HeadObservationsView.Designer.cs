@@ -74,13 +74,13 @@
       // 
       // ButtonReadWells
       // 
-      this.ButtonReadWells.Location = new System.Drawing.Point(421, 28);
+      this.ButtonReadWells.Location = new System.Drawing.Point(468, 29);
       this.ButtonReadWells.Name = "ButtonReadWells";
       this.ButtonReadWells.Size = new System.Drawing.Size(26, 23);
       this.ButtonReadWells.TabIndex = 0;
       this.ButtonReadWells.Text = "...";
       this.ButtonReadWells.UseVisualStyleBackColor = true;
-      this.ButtonReadWells.Click += new System.EventHandler(this.button1_Click);
+      this.ButtonReadWells.Click += new System.EventHandler(this.ReadButton_Click);
       // 
       // textBox1
       // 
@@ -93,7 +93,7 @@
       // 
       this.textBox2.Location = new System.Drawing.Point(120, 30);
       this.textBox2.Name = "textBox2";
-      this.textBox2.Size = new System.Drawing.Size(295, 20);
+      this.textBox2.Size = new System.Drawing.Size(342, 20);
       this.textBox2.TabIndex = 2;
       // 
       // label1
@@ -118,12 +118,12 @@
       // 
       this.textBoxObsFile.Location = new System.Drawing.Point(120, 83);
       this.textBoxObsFile.Name = "textBoxObsFile";
-      this.textBoxObsFile.Size = new System.Drawing.Size(295, 20);
+      this.textBoxObsFile.Size = new System.Drawing.Size(342, 20);
       this.textBoxObsFile.TabIndex = 6;
       // 
       // buttonReadObs
       // 
-      this.buttonReadObs.Location = new System.Drawing.Point(421, 81);
+      this.buttonReadObs.Location = new System.Drawing.Point(468, 80);
       this.buttonReadObs.Name = "buttonReadObs";
       this.buttonReadObs.Size = new System.Drawing.Size(26, 23);
       this.buttonReadObs.TabIndex = 5;
@@ -144,14 +144,14 @@
       // 
       // MinNumber
       // 
-      this.MinNumber.Location = new System.Drawing.Point(273, 218);
+      this.MinNumber.Location = new System.Drawing.Point(298, 216);
       this.MinNumber.Name = "MinNumber";
       this.MinNumber.Size = new System.Drawing.Size(93, 20);
       this.MinNumber.TabIndex = 10;
       // 
       // RefreshButton
       // 
-      this.RefreshButton.Location = new System.Drawing.Point(372, 216);
+      this.RefreshButton.Location = new System.Drawing.Point(419, 216);
       this.RefreshButton.Name = "RefreshButton";
       this.RefreshButton.Size = new System.Drawing.Size(75, 23);
       this.RefreshButton.TabIndex = 11;
@@ -195,7 +195,7 @@
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(270, 183);
+      this.label5.Location = new System.Drawing.Point(295, 181);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(114, 13);
       this.label5.TabIndex = 16;
@@ -224,12 +224,12 @@
       // 
       this.textBoxMikeSHe.Location = new System.Drawing.Point(120, 140);
       this.textBoxMikeSHe.Name = "textBoxMikeSHe";
-      this.textBoxMikeSHe.Size = new System.Drawing.Size(295, 20);
+      this.textBoxMikeSHe.Size = new System.Drawing.Size(342, 20);
       this.textBoxMikeSHe.TabIndex = 21;
       // 
       // buttonSelectMShe
       // 
-      this.buttonSelectMShe.Location = new System.Drawing.Point(421, 138);
+      this.buttonSelectMShe.Location = new System.Drawing.Point(468, 137);
       this.buttonSelectMShe.Name = "buttonSelectMShe";
       this.buttonSelectMShe.Size = new System.Drawing.Size(26, 23);
       this.buttonSelectMShe.TabIndex = 20;
@@ -257,7 +257,7 @@
       // 
       // button5
       // 
-      this.button5.Location = new System.Drawing.Point(176, 597);
+      this.button5.Location = new System.Drawing.Point(132, 597);
       this.button5.Name = "button5";
       this.button5.Size = new System.Drawing.Size(104, 23);
       this.button5.TabIndex = 28;
@@ -269,7 +269,7 @@
       // 
       this.propertyGrid1.Location = new System.Drawing.Point(230, 276);
       this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new System.Drawing.Size(217, 296);
+      this.propertyGrid1.Size = new System.Drawing.Size(264, 296);
       this.propertyGrid1.TabIndex = 29;
       // 
       // listBox1
@@ -287,7 +287,7 @@
       // 
       // buttonLSFile
       // 
-      this.buttonLSFile.Location = new System.Drawing.Point(343, 597);
+      this.buttonLSFile.Location = new System.Drawing.Point(390, 597);
       this.buttonLSFile.Name = "buttonLSFile";
       this.buttonLSFile.Size = new System.Drawing.Size(104, 23);
       this.buttonLSFile.TabIndex = 31;
@@ -298,7 +298,7 @@
       // radioButtonMax
       // 
       this.radioButtonMax.AutoSize = true;
-      this.radioButtonMax.Location = new System.Drawing.Point(273, 199);
+      this.radioButtonMax.Location = new System.Drawing.Point(298, 197);
       this.radioButtonMax.Name = "radioButtonMax";
       this.radioButtonMax.Size = new System.Drawing.Size(45, 17);
       this.radioButtonMax.TabIndex = 32;
@@ -309,7 +309,7 @@
       // 
       this.radioButtonMin.AutoSize = true;
       this.radioButtonMin.Checked = true;
-      this.radioButtonMin.Location = new System.Drawing.Point(324, 199);
+      this.radioButtonMin.Location = new System.Drawing.Point(349, 197);
       this.radioButtonMin.Name = "radioButtonMin";
       this.radioButtonMin.Size = new System.Drawing.Size(42, 17);
       this.radioButtonMin.TabIndex = 33;
@@ -323,19 +323,19 @@
       // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(372, 256);
+      this.button1.Location = new System.Drawing.Point(242, 597);
       this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
+      this.button1.Size = new System.Drawing.Size(142, 23);
       this.button1.TabIndex = 34;
-      this.button1.Text = "button1";
+      this.button1.Text = "Create NOVANA shape file";
       this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.button1_Click_1);
+      this.button1.Click += new System.EventHandler(this.button1_Click);
       // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(466, 651);
+      this.ClientSize = new System.Drawing.Size(526, 651);
       this.Controls.Add(this.button1);
       this.Controls.Add(this.radioButtonMin);
       this.Controls.Add(this.radioButtonMax);
