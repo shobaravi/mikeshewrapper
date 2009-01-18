@@ -51,7 +51,7 @@ namespace MikeSheWrapper.InputDataPreparation
           ReadInDetailedTimeSeries(new Model(FileName));
           break;
         case ".mdb":
-          ReadWellsFromJupiter(FileName);
+//          ReadWellsFromJupiter(FileName);
           break;
         case ".shp":
           ReadFromShape(FileName,"");
@@ -154,205 +154,11 @@ namespace MikeSheWrapper.InputDataPreparation
 #region Population Methods
 
 
-    public void ReadWellsForNovanaFromJupiter(string DataBaseFile)
-    {
-      //Construct the data set
-      JupiterXL JXL = new JupiterXL();
-      JXL.ReadInTotalWellsForNovana(DataBaseFile);
-
-      NovanaTables.PejlingerTotalDataTable DT = new NovanaTables.PejlingerTotalDataTable();
-
-      ObservationWell CurrentWell;
-      NovanaTables.PejlingerTotalRow CurrentRow;
-
-      //Loop the wells
-      foreach (var Boring in JXL.BOREHOLE)
-      {
-        //Loop the intakes
-        foreach (var Intake in Boring.GetINTAKERows())
-        {
-          //Remove spaces and add the intake number to create a unique well ID
-          string wellname = Boring.BOREHOLENO.Replace(" ", "") + "_" + Intake.INTAKENO;
-
-          if (!_wells.TryGetValue(wellname, out CurrentWell))
-          {
-            CurrentWell = new ObservationWell(wellname);
-            CurrentWell.Data = DT.NewPejlingerTotalRow(); 
-            _wells.Add(wellname, CurrentWell);
-          }
-
-          CurrentRow = (NovanaTables.PejlingerTotalRow)CurrentWell.Data;
-
-          if (!Boring.IsXUTMNull())
-            CurrentWell.X = Boring.XUTM;
-          if (!Boring.IsYUTMNull())
-            CurrentWell.Y = Boring.YUTM;
-
-          CurrentWell.Description = Boring.LOCATION;
-          if (!Boring.IsELEVATIONNull())
-            CurrentWell.Terrain = Boring.ELEVATION;
-
-          CurrentRow.COUNT = 1;
-          CurrentRow.NOVANAID = wellname;
-//          CurrentRow.BORID = 
-          CurrentRow.XUTM = Boring.XUTM;
-          CurrentRow.YUTM = Boring.YUTM;
-//          CurrentRow.KOORTYPE =
-          CurrentRow.JUPKOTE = Boring.ELEVATION;
-          CurrentRow.BOREHOLENO = Boring.BOREHOLENO;
-          CurrentRow.INTAKENO = Intake.INTAKENO;
-//          CurrentRow.WATLEVELNO =
-          CurrentRow.LOCATION = Boring.LOCATION;
-//          CurrentRow.BOTROCK 
-          CurrentRow.DRILENDATE = Boring.DRILENDATE;
-          
-          if (!Boring.IsABANDONDATNull())
-            CurrentRow.ABANDONDAT = Boring.ABANDONDAT;
-          if(!Boring.IsABANDCAUSENull())
-            CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
-          if (!Boring.IsDRILLDEPTHNull())  
-            CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
-
-          //Assumes that the string no from the intake identifies the correct Casing
-          foreach (var Casing in Boring.GetCASINGRows())
-          {
-            if (Intake.STRINGNO == Casing.STRINGNO)
-              CurrentRow.CASIBOT = Casing.BOTTOM;
-          }
-
-          if(!Boring.IsPURPOSENull())
-            CurrentRow.PURPOSE = Boring.PURPOSE;
-          if(!Boring.IsUSENull())
-            CurrentRow.USE = Boring.USE;
-
-          //Loop the screens. One intake can in special cases have multiple screens
-          foreach (var Screen in Intake.GetSCREENRows())
-          {
-            if (!Screen.IsTOPNull())
-              CurrentWell.ScreenTop.Add(Screen.TOP);
-            if (!Screen.IsBOTTOMNull())
-              CurrentWell.ScreenBottom.Add(Screen.BOTTOM);
-          }//Screen loop
-
-        if (CurrentWell.ScreenTop.Count>0)
-          CurrentRow.INTAKETOP = CurrentWell.ScreenTop.Min();
-        if (CurrentWell.ScreenBottom.Count>0)  
-          CurrentRow.INTAKEBOT = CurrentWell.ScreenBottom.Max();
-
-          CurrentRow.INTSTDATE2 = Intake.GetSCREENRows().Min(x=>x.STARTDATE);
-          CurrentRow.INTENDATE2 = Intake.GetSCREENRows().Max(x=>x.ENDDATE);
-
-//          CurrentRow.RESROCK=
-//Fra WatLevel          CurrentRow.REFPOINT = 
-          CurrentRow.ANTINT_B = Boring.GetINTAKERows().Count();
-
-        }//Intake loop
-      }//Bore loop
-
-
-      ReadWaterlevelsFromJupiterAccess(DataBaseFile, false);
-
-
-      foreach (ObservationWell OW in _wells.Values)
-      {
-        CurrentRow = (NovanaTables.PejlingerTotalRow)OW.Data;
-        CurrentRow.ANTPEJ = OW.Observations.Count;
-        CurrentRow.MINDATO = OW.Observations.Min(x => x.Time);
-        CurrentRow.MAXDATO = OW.Observations.Max(x => x.Time);
-        CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
-        CurrentRow.AKTDAGE = CurrentRow.MAXDATO.Subtract(CurrentRow.MINDATO).Days + 1;
-        CurrentRow.PEJPRAAR = CurrentRow.ANTPEJ / CurrentRow.AKTAAR;
-      }
-    }
 
 
 
-    /// <summary>
-    /// Reads in all wells from a Jupiter database. 
-    /// </summary>
-    /// <param name="DataBaseFile"></param>
-    public void ReadWellsFromJupiter(string DataBaseFile)
-    {
-      //Construct the data set
-      JupiterXL JXL = new JupiterXL();
-      JXL.ReadInNovanaWells(DataBaseFile);
-
-      ObservationWell CurrentWell;
-      //Loop the wells
-      foreach (var Boring in JXL.BOREHOLE)
-      {
-        //Loop the intakes
-        foreach (var Intake in Boring.GetINTAKERows())
-        {
-          //Remove spaces and add the intake number to create a unique well ID
-          string wellname = Boring.BOREHOLENO.Replace(" ", "") + "_" + Intake.INTAKENO;
-
-          if (!_wells.TryGetValue(wellname, out CurrentWell))
-          {
-            CurrentWell = new ObservationWell(wellname);
-            _wells.Add(wellname, CurrentWell);
-          }
-
-          if (!Boring.IsXUTMNull())
-            CurrentWell.X = Boring.XUTM;
-          if (!Boring.IsYUTMNull())
-            CurrentWell.Y = Boring.YUTM;
-
-          CurrentWell.Description = Boring.LOCATION;
-          if (!Boring.IsELEVATIONNull())
-            CurrentWell.Terrain = Boring.ELEVATION;
-
-          //Loop the screens. One intake can in special cases have multiple screens
-          foreach (var Screen in Intake.GetSCREENRows())
-          {
-            if (!Screen.IsTOPNull())
-              CurrentWell.ScreenTop.Add(Screen.TOP);
-            if (!Screen.IsBOTTOMNull())
-              CurrentWell.ScreenBottom.Add(Screen.BOTTOM);
-          }//Screen loop
-        }//Intake loop
-      }//Bore loop
-    }
 
 
-    /// <summary>
-    /// Read in water levels from a Jupiter access database. 
-    /// If CreateWells is true a new well is created if it does not exist in the list.
-    /// Entries with blank dates of waterlevels are skipped.
-    /// </summary>
-    /// <param name="DataBaseFile"></param>
-    /// <param name="CreateWells"></param>
-    public void ReadWaterlevelsFromJupiterAccess(string DataBaseFile, bool CreateWells)
-    {
-      JupiterXL JXL = new JupiterXL();
-
-      JXL.ReadWaterLevels(DataBaseFile);
-
-      foreach (var WatLev in JXL.WATLEVEL)
-      {
-        ObservationWell CurrentWell;
-
-        //Builds the unique well ID
-        string well = WatLev.BOREHOLENO.Replace(" ", "") + "_" + WatLev.INTAKENO;
-        
-        //Find the well in the dictionary
-        if (!_wells.TryGetValue(well, out CurrentWell))
-        {
-          //Create the well if not found
-          if (CreateWells)
-          {
-            CurrentWell = new ObservationWell(well);
-            _wells.Add(well, CurrentWell);
-          }
-        }
-        //If the well has been found or is created fill in the observations
-        if (CurrentWell!=null)
-          if (!WatLev.IsTIMEOFMEASNull())
-            if (!WatLev.IsWATLEVMSLNull())
-              CurrentWell.Observations.Add(new TimeSeriesEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
-
-      }
-    }
 
     /// <summary>
     /// Reads in the wells defined in detailed timeseries input section
@@ -488,6 +294,18 @@ namespace MikeSheWrapper.InputDataPreparation
       });
     }
 
+    public void WriteShapeFromDataRow(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)
+    {
+      PointShapeWriter PSW = new PointShapeWriter(FileName);
+      foreach(ObservationWell OW in Wells)
+      {
+        PSW.WritePointShape(OW.X, OW.Y);
+        PSW.Data.WriteData(OW.Data);
+      }
+      PSW.Dispose();
+
+    }
+
     /// <summary>
     /// Writes the wells to a point shape
     /// Calculates statistics on the observations within the period from start to end
@@ -496,13 +314,14 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="Wells"></param>
     /// <param name="Start"></param>
     /// <param name="End"></param>
-    public void WriteNovanaShape(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)
+    public void WriteSimpleShape(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)
     {
       PointShapeWriter PSW = new PointShapeWriter(FileName);
 
+
       NovanaTables NT = new NovanaTables();
       NovanaTables.PejlingerOutputDataTable PDT = new NovanaTables.PejlingerOutputDataTable();
-      
+
       foreach (ObservationWell W in Wells)
       {
         List<TimeSeriesEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
@@ -517,9 +336,9 @@ namespace MikeSheWrapper.InputDataPreparation
         PR.YUTM = W.Y;
         PR.JUPKOTE = W.Terrain;
 
-        if (W.ScreenTop.Count>0)
+        if (W.ScreenTop.Count > 0)
           PR.INTAKETOP = W.ScreenTop.Min();
-        if (W.ScreenBottom.Count>0)  
+        if (W.ScreenBottom.Count > 0)
           PR.INTAKEBOT = W.ScreenBottom.Min();
 
         PR.NUMBEROFOB = SelectedObs.Count;
@@ -533,6 +352,7 @@ namespace MikeSheWrapper.InputDataPreparation
         }
         PDT.Rows.Add(PR);
       }
+
       PSW.Data.WriteDate(PDT);
       PSW.Dispose();
     }

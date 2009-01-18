@@ -63,16 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeadObservations.cs" />
-    <Compile Include="NovanaTables.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NovanaTables.xsd</DependentUpon>
-    </Compile>
     <Compile Include="ObservationWell.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Program2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QStation.cs" />
+    <Compile Include="TimeSeriesEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikeSheWrapper.DFS\MikeSheWrapper.DFS.csproj">
@@ -98,19 +94,6 @@
       <Name>MikeSheWrapper</Name>
       <Private>True</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NovanaTables.xsc">
-      <DependentUpon>NovanaTables.xsd</DependentUpon>
-    </None>
-    <None Include="NovanaTables.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>NovanaTables.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="NovanaTables.xss">
-      <DependentUpon>NovanaTables.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

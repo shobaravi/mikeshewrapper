@@ -9,6 +9,9 @@ namespace MikeSheWrapper.Tools
 {
   public class DBFWriter : DBF
   {
+
+    private List<DataRow> _rows = new List<DataRow>();
+
     public DBFWriter(string FileName)
       : base(FileName)
     { }
@@ -22,6 +25,9 @@ namespace MikeSheWrapper.Tools
     public void WriteDate(DataTable DT)
     {
       _data = DT;
+
+      foreach(DataRow Dr in DT.Rows)
+        _rows.Add(Dr);
     }
 
     /// <summary>
@@ -30,9 +36,7 @@ namespace MikeSheWrapper.Tools
     /// <param name="DR"></param>
     public void WriteData(DataRow DR)
     {
-      if (_data == null)
-        _data = new DataTable();
-      _data.Rows.Add(DR);
+      _rows.Add(DR);
     }
 
     public void Flush()
@@ -41,51 +45,53 @@ namespace MikeSheWrapper.Tools
         CreateBDF();
 
       //Now fill in the data
-      for (int j = 0; j < _data.Columns.Count; j++)
+      for (int j = 0; j < _rows[0].Table.Columns.Count; j++)
       {
         //double data
-        if (_data.Columns[j].DataType == typeof(double))
+        if (_rows[0].Table.Columns[j].DataType == typeof(double))
         {
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
-            if (_data.Rows[i][j]!=DBNull.Value)
-              ShapeLib.DBFWriteDoubleAttribute(_dbfPointer, i, j , (double)_data.Rows[i][j]);
+            if (_rows[i][j]!=DBNull.Value)
+              ShapeLib.DBFWriteDoubleAttribute(_dbfPointer, i, j , (double)_rows[i][j]);
           }
         }
         // int data
-        else if (_data.Columns[j].DataType == typeof(int))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(int))
         {
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
-            ShapeLib.DBFWriteIntegerAttribute(_dbfPointer, i, j, (int)_data.Rows[i][j]);
+            if (_rows[i][j] != DBNull.Value)
+              ShapeLib.DBFWriteIntegerAttribute(_dbfPointer, i, j, (int)_rows[i][j]);
           }
         }
         //string data
-        else if (_data.Columns[j].DataType == typeof(string))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(string))
         {
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
-            int ok =ShapeLib.DBFWriteStringAttribute(_dbfPointer, i, j, _data.Rows[i][j].ToString());
+            int ok =ShapeLib.DBFWriteStringAttribute(_dbfPointer, i, j, _rows[i][j].ToString());
           }
         }
         //DateTime data
-        else if (_data.Columns[j].DataType == typeof(DateTime))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(DateTime))
         {
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
-            ShapeLib.DBFWriteDateAttribute(_dbfPointer, i, j,(DateTime) _data.Rows[i][j]);
+            if (_rows[i][j] != DBNull.Value)
+              ShapeLib.DBFWriteDateAttribute(_dbfPointer, i, j, (DateTime)_rows[i][j]);
           }
         }
-        else if(_data.Columns[j].DataType == typeof(bool))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(bool))
         {
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
-            ShapeLib.DBFWriteLogicalAttribute(_dbfPointer, i, j, (bool)_data.Rows[i][j]);
+            ShapeLib.DBFWriteLogicalAttribute(_dbfPointer, i, j, (bool)_rows[i][j]);
           }
         }
 
       }
-      _data.Clear();
+      _rows.Clear();
     }
 
     /// <summary>
@@ -145,59 +151,69 @@ namespace MikeSheWrapper.Tools
       int[] Precision = new int[2];
 
       //Make the dbf file one attribute at the time
-      for (int j = 0; j < _data.Columns.Count; j++)
+      for (int j = 0; j < _rows[0].Table.Columns.Count; j++)
       {
         //double -attribute
-        if (_data.Columns[j].DataType == typeof(double))
+        if (_rows[0].Table.Columns[j].DataType == typeof(double))
         {
           DigitsBeforePoint = 0;
           DigitsAfterPoint = 0;
 
+          bool AllNulls = true;
           //Loop to find precision
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
             //Don't try if no data
-            if (_data.Rows[i][j] != DBNull.Value)
+            if (_rows[i][j] != DBNull.Value)
             {
-              Precision = GetPrecision((float)(double)_data.Rows[i][j]);
+              AllNulls = false;
+              Precision = GetPrecision((float)(double)_rows[i][j]);
               DigitsBeforePoint = Math.Max(Precision[0], DigitsBeforePoint);
               DigitsAfterPoint = Math.Max(Precision[1], DigitsAfterPoint);
             }
           }
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTDouble, DigitsBeforePoint + DigitsAfterPoint + 1, DigitsAfterPoint);
+          //Set default precision
+          if (AllNulls)
+          {
+            DigitsAfterPoint = 5;
+            DigitsBeforePoint = 7;
+          }
+          ShapeLib.DBFAddField(_dbfPointer, _rows[0].Table.Columns[j].Caption, ShapeLib.DBFFieldType.FTDouble, DigitsBeforePoint + DigitsAfterPoint + 1, DigitsAfterPoint);
         }
 
         //String attribute
-        else if (_data.Columns[j].DataType == typeof(string))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(string))
         {
-          int width = 1;
+          int width = 10;
           //Loop to find cell width.
-          for (int i = 0; i < _data.Rows.Count; i++)
+          for (int i = 0; i < _rows.Count; i++)
           {
-            width = Math.Max(width, (_data.Rows[i][j]).ToString().Length);
+            width = Math.Max(width, (_rows[i][j]).ToString().Length);
           }
 
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTString, width, 0);
+          ShapeLib.DBFAddField(_dbfPointer, _rows[0].Table.Columns[j].Caption, ShapeLib.DBFFieldType.FTString, width, 0);
         }
 
         //int attribute
-        else if (_data.Columns[j].DataType == typeof(int))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(int))
         {
-          int width = 1;
-          for (int i = 0; i < _data.Rows.Count; i++)
+          int width = 5;
+          for (int i = 0; i < _rows.Count; i++)
           {
             //Loop to find precision
-            width = Math.Max(width, GetPrecision((int)_data.Rows[i][j]));
+            //Don't try if no data
+            if (_rows[i][j] != DBNull.Value)
+              width = Math.Max(width, GetPrecision((int)_rows[i][j]));
           }
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTInteger, width, 0);
+          ShapeLib.DBFAddField(_dbfPointer, _rows[0].Table.Columns[j].Caption, ShapeLib.DBFFieldType.FTInteger, width, 0);
         }
-        else if (_data.Columns[j].DataType == typeof(bool))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(bool))
         {
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTLogical, 1, 0);
+          ShapeLib.DBFAddField(_dbfPointer, _rows[0].Table.Columns[j].Caption, ShapeLib.DBFFieldType.FTLogical, 1, 0);
         }
-        else if (_data.Columns[j].DataType == typeof(DateTime))
+        else if (_rows[0].Table.Columns[j].DataType == typeof(DateTime))
         {
-          ShapeLib.DBFAddField(_dbfPointer, _data.Columns[j].Caption, ShapeLib.DBFFieldType.FTDate, 8, 0);
+          ShapeLib.DBFAddField(_dbfPointer, _rows[0].Table.Columns[j].Caption, ShapeLib.DBFFieldType.FTDate, 8, 0);
         }
       }
     }

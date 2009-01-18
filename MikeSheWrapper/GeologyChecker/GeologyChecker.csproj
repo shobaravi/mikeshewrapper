@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0E401C8E-A789-4B97-8472-F4EE24E9BE16}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -65,6 +65,10 @@
     <ProjectReference Include="..\MikeSheWrapper.Interfaces\MikeSheWrapper.Interfaces.csproj">
       <Project>{1040884D-8EAF-4412-A236-4414BC488474}</Project>
       <Name>MikeSheWrapper.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.JupiterTools\MikeSheWrapper.JupiterTools.csproj">
+      <Project>{517D7D0D-85FB-4423-B5C9-B94FAF253112}</Project>
+      <Name>MikeSheWrapper.JupiterTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
       <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>

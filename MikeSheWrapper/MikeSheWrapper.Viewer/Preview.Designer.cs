@@ -1,4 +1,6 @@
-﻿namespace MikeSheWrapper.Viewer
+﻿using MikeSheWrapper.Tools;
+
+namespace MikeSheWrapper.Viewer
 {
   partial class Preview
   {
@@ -28,7 +30,7 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.novanaTables1 = new MikeSheWrapper.InputDataPreparation.NovanaTables();
+      this.novanaTables1 = new MikeSheWrapper.Tools.NovanaTables();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
       ((System.ComponentModel.ISupportInitialize)(this.novanaTables1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -63,7 +65,7 @@
 
     #endregion
 
-    private MikeSheWrapper.InputDataPreparation.NovanaTables novanaTables1;
+    private MikeSheWrapper.Tools.NovanaTables novanaTables1;
     private System.Windows.Forms.DataGridView dataGridView1;
   }
 }
