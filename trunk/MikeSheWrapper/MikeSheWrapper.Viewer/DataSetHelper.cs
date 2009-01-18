@@ -8,7 +8,12 @@ namespace MikeSheWrapper.Viewer
 {
   public class DataSetHelper
   {
-
+    /// <summary>
+    /// Returns a datatable containing a column with the distinct values from the Sourcetable with the column "Fieldname"
+    /// </summary>
+    /// <param name="SourceTable"></param>
+    /// <param name="FieldName"></param>
+    /// <returns></returns>
     public static DataTable SelectDistinct(DataTable SourceTable, string FieldName)
     {
       DataTable dt = new DataTable();
