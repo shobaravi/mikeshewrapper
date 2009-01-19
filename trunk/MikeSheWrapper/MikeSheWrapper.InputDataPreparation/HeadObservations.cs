@@ -187,25 +187,19 @@ namespace MikeSheWrapper.InputDataPreparation
     }
 
 
-    public void FillInFromNovanaShape(DataRow[] DS)
+    public void FillInFromNovanaShape(DataRow[] DS, ShapeReaderConfiguration SRC)
     {
       ObservationWell CurrentWell;
       foreach (DataRow DR in DS)
       {
         //Find the well in the dictionary
-        if (!_wells.TryGetValue((string)DR["NOVANAID"], out CurrentWell))
+        if (!_wells.TryGetValue((string)DR[SRC.WellIDHeader], out CurrentWell))
         {
           //Add a new well if it was not found
-          CurrentWell = new ObservationWell((string)DR["NOVANAID"], (double)DR["XUTM"], (double)DR["YUTM"]);
-          if ((int)(double)DR["MIDTJUST"] == -999)
-            if ((int)(double)DR["INTAKETOP"] == -999)
-              CurrentWell.Depth = (double)DR["DRILLDEPTH"];
-            else
-              CurrentWell.Depth = 0.5 * ((double)DR["INTAKETOP"] + (double)DR["INTAKEBOT"]);
-          else
-            CurrentWell.Depth = (double)DR["DTMKOTE"] - (double)DR["MIDTJUST"];
+            CurrentWell = new ObservationWell((string)DR[SRC.WellIDHeader], (double)DR[SRC.XHeader], (double)DR[SRC.YHeader]);
+            CurrentWell.Depth = (double)DR[SRC.ZHeader];
 
-          _wells.Add((string)DR["NOVANAID"], CurrentWell);
+          _wells.Add(CurrentWell.ID, CurrentWell);
         }
       }
     }
