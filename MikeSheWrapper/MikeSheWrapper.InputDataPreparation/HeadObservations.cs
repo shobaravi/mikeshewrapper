@@ -319,8 +319,8 @@ namespace MikeSheWrapper.InputDataPreparation
       PointShapeWriter PSW = new PointShapeWriter(FileName);
 
 
-      NovanaTables NT = new NovanaTables();
-      NovanaTables.PejlingerOutputDataTable PDT = new NovanaTables.PejlingerOutputDataTable();
+      OutputTables NT = new OutputTables();
+      OutputTables.PejlingerOutputDataTable PDT = new OutputTables.PejlingerOutputDataTable();
 
       foreach (ObservationWell W in Wells)
       {
@@ -328,7 +328,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
         PSW.WritePointShape(W.X, W.Y);
 
-        NovanaTables.PejlingerOutputRow PR = PDT.NewPejlingerOutputRow();
+        OutputTables.PejlingerOutputRow PR = PDT.NewPejlingerOutputRow();
 
         PR.NOVANAID = W.ID;
         PR.LOCATION = W.Description;

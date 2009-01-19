@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -60,11 +60,6 @@
     <Compile Include="DBFWriter.cs" />
     <Compile Include="IMatrix3d.cs" />
     <Compile Include="Matrix3d.cs" />
-    <Compile Include="NovanaTables.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NovanaTables.xsd</DependentUpon>
-    </Compile>
     <Compile Include="PointShapeWriter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -79,17 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="NovanaTables.xsc">
-      <DependentUpon>NovanaTables.xsd</DependentUpon>
-    </None>
-    <None Include="NovanaTables.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>NovanaTables.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="NovanaTables.xss">
-      <DependentUpon>NovanaTables.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
