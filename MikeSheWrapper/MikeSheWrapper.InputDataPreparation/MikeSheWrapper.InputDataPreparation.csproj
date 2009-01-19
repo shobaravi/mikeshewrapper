@@ -73,6 +73,7 @@
     <Compile Include="Program2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QStation.cs" />
+    <Compile Include="ShapeReaderConfiguration.cs" />
     <Compile Include="TimeSeriesEntry.cs" />
   </ItemGroup>
   <ItemGroup>
