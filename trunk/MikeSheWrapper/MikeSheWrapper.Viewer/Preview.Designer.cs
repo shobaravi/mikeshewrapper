@@ -30,7 +30,7 @@ namespace MikeSheWrapper.Viewer
     /// </summary>
     private void InitializeComponent()
     {
-      this.novanaTables1 = new MikeSheWrapper.Tools.NovanaTables();
+      this.novanaTables1 = new MikeSheWrapper.JupiterTools.NovanaTables();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
       ((System.ComponentModel.ISupportInitialize)(this.novanaTables1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -65,7 +65,7 @@ namespace MikeSheWrapper.Viewer
 
     #endregion
 
-    private MikeSheWrapper.Tools.NovanaTables novanaTables1;
+    private MikeSheWrapper.JupiterTools.NovanaTables novanaTables1;
     private System.Windows.Forms.DataGridView dataGridView1;
   }
 }
