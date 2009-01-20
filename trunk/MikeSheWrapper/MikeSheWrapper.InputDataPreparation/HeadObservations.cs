@@ -43,6 +43,10 @@ namespace MikeSheWrapper.InputDataPreparation
     { }
 
 
+    /// <summary>
+    /// Obsolete!
+    /// </summary>
+    /// <param name="FileName"></param>
     public HeadObservations(string FileName)
     {
       switch (Path.GetExtension(FileName))
@@ -216,7 +220,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       DataTable DT = SR.Data.Read();
 
-      FillInFromNovanaShape(DT.Select(SelectString));
+     // FillInFromNovanaShape(DT.Select(SelectString));
     }
 
 #endregion

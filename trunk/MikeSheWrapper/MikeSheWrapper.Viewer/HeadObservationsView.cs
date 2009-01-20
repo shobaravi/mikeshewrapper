@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 using MikeSheWrapper.InputDataPreparation;
 using MikeSheWrapper.Tools;
@@ -17,6 +19,7 @@ namespace MikeSheWrapper.Viewer
   public partial class HeadObservationsView : Form
   {
     private HeadObservations HO;
+    private ShapeReaderConfiguration ShpConfig = null;
 
 
     public HeadObservationsView()
@@ -57,8 +60,18 @@ namespace MikeSheWrapper.Viewer
 
             if (DS.ShowDialog() == DialogResult.OK)
             {
-              HO.FillInFromNovanaShape(DS.Dt.Select(DS.SelectString));
-            }
+              if (ShpConfig == null)
+              {
+                XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
+                string InstallationPath = Path.GetDirectoryName(this.GetType().Assembly.Location);
+                string config = Path.Combine(InstallationPath, "config.xml");
+                using (FileStream fs = new FileStream(config, FileMode.Open))
+                {
+                  ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
+                }
+              }
+              HO.FillInFromNovanaShape(DS.Dt.Select(DS.SelectString), ShpConfig);
+              }
             else
             {
               textBox2.Text = "";
