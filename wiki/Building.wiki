@@ -2,12 +2,8 @@
 
 = Introduction =
 
-Add your content here.
+The code is build in Visual Studio 2008 using .NET 3.5 and uses Microsoft Parallel extensions to .NET 3.5 Framework. The latter can be installed from this link: 
+http://www.microsoft.com/downloads/details.aspx?FamilyId=348F73FD-593D-4B3C-B055-694C50D2B0F3&displaylang=en
 
 
 = Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
