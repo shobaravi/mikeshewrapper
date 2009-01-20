@@ -5,6 +5,7 @@ using System.Text;
 
 namespace MikeSheWrapper.InputDataPreparation
 {
+    [Serializable]
     public class ShapeReaderConfiguration
     {
         public string WellIDHeader { get; set; }
