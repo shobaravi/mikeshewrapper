@@ -27,7 +27,7 @@ namespace MikeSheWrapper.DFS.UnitTest
     [Test]
     public void ReadItems()
     {
-      DFS0 _data = new DFS0(@"F:\Jacob\MikeSheWrapper\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
+      DFS0 _data = new DFS0(@"..\..\..\\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
 
     }
   }
