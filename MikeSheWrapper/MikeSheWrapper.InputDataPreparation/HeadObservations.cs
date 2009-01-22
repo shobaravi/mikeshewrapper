@@ -235,6 +235,7 @@ namespace MikeSheWrapper.InputDataPreparation
         foreach (ObservationWell OW in SelectedWells)
         {
           List<TimeSeriesEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+          SelectedObs.Sort();
 
           StringBuilder S = new StringBuilder();
           S.Append(OW.ID + "\t" + OW.X + "\t" + OW.Y + "\t" + OW.Depth + "\t");
