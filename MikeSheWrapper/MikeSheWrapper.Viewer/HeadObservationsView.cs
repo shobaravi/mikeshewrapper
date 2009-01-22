@@ -109,7 +109,11 @@ namespace MikeSheWrapper.Viewer
     /// <param name="e"></param>
     private void button3_Click(object sender, EventArgs e)
     {
-      int Min = int.Parse(MinNumber.Text);
+      int Min;
+      //Anything else than an integer is set to zero
+      if (!int.TryParse(MinNumber.Text, out Min))
+        Min = 0;
+
       listBox1.Items.Clear();
       if (radioButtonMin.Checked)
         listBox1.Items.AddRange(HO.WorkingList.Where(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
@@ -169,15 +173,8 @@ namespace MikeSheWrapper.Viewer
       }
     }
 
-    private void button1_Click_1(object sender, EventArgs e)
-    {
-      ((ObservationWell)listBox1.SelectedItem).Data.Table.Rows.Add(((ObservationWell)listBox1.SelectedItem).Data);
-      Preview pr = new Preview(((ObservationWell) listBox1.SelectedItem).Data.Table );
-      
-      pr.Show();
-    }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void WriteNovanaShape(object sender, EventArgs e)
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
