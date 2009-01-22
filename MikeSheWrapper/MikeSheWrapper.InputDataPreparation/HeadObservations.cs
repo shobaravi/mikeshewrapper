@@ -95,18 +95,15 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         foreach (ObservationWell W in WorkingList)
         {
-          SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+          if (W.Dfs0Written)
+            SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t1\t"+W.ID +"\t1 ");
+          else  
+            SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
         }
       }
     }
 
-
-    public void WriteToMikeSheModel(Model Mshe)
-    {
-      Mshe.Input.MIKESHE_FLOWMODEL.StoringOfResults.DetailedTimeseriesOutput.Item_1s.Clear();
-
-    }
-    
+  
     /// <summary>
     /// Finds a well based on the ID in the detailed SZ output dfs0. When a well is found it is added to the workinglist
     /// The working list should be cleared before entering this method

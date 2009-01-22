@@ -34,6 +34,9 @@ namespace MikeSheWrapper.InputDataPreparation
     private TSObject _tso;
     private TSItem _item;
     private TimeSpan _minTimeStep = new TimeSpan(0, 0, 10);
+    
+    public bool Dfs0Written {get; private set;} 
+
 
     public DataRow Data { get; set; }
 
@@ -41,22 +44,16 @@ namespace MikeSheWrapper.InputDataPreparation
     public ObservationWell(string ID)
       : base(ID)
     {
+      Dfs0Written = false;
     }
 
     public ObservationWell(string ID, double UTMX, double UTMY):base(ID, UTMX, UTMY)
     {
+      Dfs0Written = false;
     }
 
     #endregion
 
-
-    /// <summary>
-    /// Create the timeseries including all entries
-    /// </summary>
-    public void InitializeToWriteDFS0()
-    {
-      InitializeToWriteDFS0(DateTime.MinValue, DateTime.MaxValue);
-    }
 
 
     /// <summary>
@@ -84,12 +81,10 @@ namespace MikeSheWrapper.InputDataPreparation
         //Only add the first measurement of the day
         if (SelectedObs[i].Time != _previousTimeStep)
         {
-
           _tso.Time.AddTimeSteps(1);
           _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
           _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
         }
-
 
         ////TimeSteps have to be increasing
         //if (_previousTimeStep >= _observations[i].Time)
@@ -101,7 +96,6 @@ namespace MikeSheWrapper.InputDataPreparation
         //  _previousTimeStep = _observations[i].Time;
         //}
         //_tso.Time.SetTimeForTimeStepNr(i+1, _previousTimeStep);
-
 
       }
     }
@@ -115,10 +109,15 @@ namespace MikeSheWrapper.InputDataPreparation
     public void WriteToDfs0(string OutputPath)
     {
       if (_tso == null)
-        InitializeToWriteDFS0();
+        //Create the timeseries including all entries
+        InitializeToWriteDFS0(DateTime.MinValue, DateTime.MaxValue);
 
-      _tso.Connection.FilePath = Path.Combine(OutputPath, _id + ".dfs0");
-      _tso.Connection.Save();
+      if (_tso.Time.NrTimeSteps != 0)
+      {
+        _tso.Connection.FilePath = Path.Combine(OutputPath, _id + ".dfs0");
+        _tso.Connection.Save();
+        Dfs0Written = true;
+      }
     }
 
     /// <summary>
