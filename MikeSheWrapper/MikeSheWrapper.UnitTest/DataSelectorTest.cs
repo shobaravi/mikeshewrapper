@@ -17,7 +17,6 @@ namespace MikeSheWrapper.UnitTest
     [Test]
     public void ShowTest()
     {
-      DataSelector DS = new DataSelector();
 
       DataTable DT = new DataTable();
       DT.Columns.Add("Tekst", typeof(string));
@@ -28,7 +27,8 @@ namespace MikeSheWrapper.UnitTest
 
       string[] data = new string[] { "felt1", "felt2", "felt3" };
 
-      DS.Dt = DT;
+
+      DataSelector DS = new DataSelector(DT);
 
       DS.ShowDialog();
 
