@@ -11,34 +11,71 @@ namespace MikeSheWrapper.Viewer
 {
   public partial class DataSelector : Form
   {
-    DataTable _dt;
+    private DataTable _data;
 
-    public DataTable Dt
+    /// <summary>
+    /// Gets the selected rows. Returns null until the ok-button is pressed
+    /// </summary>
+    public DataRow[] SelectedRows { get; private set; }
+
+
+    /// <summary>
+    /// Returns the selected rows.
+    /// </summary>
+    /// <returns></returns>
+    private bool TrySelectRows()
     {
-      get { return _dt; }
-      set { _dt = value;
-      foreach (DataColumn DC in _dt.Columns)
-        listBox1.Items.Add(DC.ColumnName);
+      try
+      {
+        SelectedRows = _data.Select(SelectString);
       }
+      catch (InvalidExpressionException EE)
+      {
+        MessageBox.Show(EE.Message, "Invalid filter expression");
+        return false;
+      }
+      return true;
     }
 
-    public DataSelector()
+
+
+
+    public DataSelector(DataTable Data)
     {
       InitializeComponent();
+
+      _data = Data;
+      foreach (DataColumn DC in _data.Columns)
+        listBox1.Items.Add(DC.ColumnName);
+
+
+      this.EqualButton.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonNE.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonLike.Click += new System.EventHandler(this.EqualButton_Click);
+     
+      this.buttonGT.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonGE.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonAnd.Click += new System.EventHandler(this.EqualButton_Click);
+
+      this.buttonLT.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonLE.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonOr.Click += new System.EventHandler(this.EqualButton_Click);
+
+      this.button_.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonParanteses.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonNot.Click += new System.EventHandler(this.EqualButton_Click);
+
+      this.buttonPercent.Click += new System.EventHandler(this.EqualButton_Click);
+      this.buttonLs.Click += new System.EventHandler(this.EqualButton_Click);
+
       this.listBox1.DoubleClick += new EventHandler(listBox1_DoubleClick);
       this.listBoxUniqueValues.DoubleClick += new EventHandler(listBoxUniqueValues_DoubleClick);
     }
 
-    void listBox1_DoubleClick(object sender, EventArgs e)
-    {
-      richTextBoxSelectString.Text += ((ListBox)sender).SelectedItem.ToString();
-    }
 
-    void listBoxUniqueValues_DoubleClick(object sender, EventArgs e)
-    {
-      richTextBoxSelectString.Text += "'" + ((ListBox)sender).SelectedItem.ToString() + "'";
-    }
-
+    /// <summary>
+    /// Gets the created string
+    /// </summary>
     public string SelectString
     {
       get
@@ -47,6 +84,9 @@ namespace MikeSheWrapper.Viewer
       }
     }
 
+    /// <summary>
+    /// Sets the array of strings in the listbox
+    /// </summary>
     public string[] Fields
     {
       set
@@ -55,11 +95,34 @@ namespace MikeSheWrapper.Viewer
       }
     }
 
+    /// <summary>
+    /// Inserts the text at the position of the cursor
+    /// </summary>
+    /// <param name="text"></param>
+    private void InsertText(string text)
+    {
+      int k = richTextBoxSelectString.SelectionStart;
 
+      richTextBoxSelectString.Text = richTextBoxSelectString.Text.Insert(k, text);
+
+      richTextBoxSelectString.SelectionStart = k + text.Length;
+
+    }
+
+    #region EventHandlers
+
+    /// <summary>
+    /// Closes the form if the select string is ok
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OkButton_Click(object sender, EventArgs e)
     {
-      DialogResult = DialogResult.OK;
-      this.Close();
+      if (TrySelectRows())
+      {
+        DialogResult = DialogResult.OK;
+        this.Close();
+      }
     }
 
     private void CancelButton_Click(object sender, EventArgs e)
@@ -73,24 +136,32 @@ namespace MikeSheWrapper.Viewer
       listBoxUniqueValues.Items.Clear();
     }
 
-    private void EqualButton_Click(object sender, EventArgs e)
+    void listBox1_DoubleClick(object sender, EventArgs e)
     {
-      richTextBoxSelectString.Text += "=";
+      InsertText(((ListBox)sender).SelectedItem.ToString());
     }
 
-    private void button2_Click(object sender, EventArgs e)
+    void listBoxUniqueValues_DoubleClick(object sender, EventArgs e)
     {
+      InsertText("'" + ((ListBox)sender).SelectedItem.ToString() + "'");
+    }
+
+    private void EqualButton_Click(object sender, EventArgs e)
+    {
+      InsertText(((Button)sender).Text);
     }
 
     private void button1_Click(object sender, EventArgs e)
     {
-      if (_dt != null)
+      if (_data != null & listBox1.SelectedItem!=null)
       {
-        DataTable DTDistinct = DataSetHelper.SelectDistinct(_dt, listBox1.SelectedItem.ToString());
+        DataTable DTDistinct = DataSetHelper.SelectDistinct(_data, listBox1.SelectedItem.ToString());
         listBoxUniqueValues.Items.Clear();
         foreach (DataRow DR in DTDistinct.Rows)
         listBoxUniqueValues.Items.Add(DR[0]);
       }
     }
+
+    #endregion
   }
 }
