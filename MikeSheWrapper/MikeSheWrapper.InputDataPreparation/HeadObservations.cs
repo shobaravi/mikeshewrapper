@@ -89,11 +89,11 @@ namespace MikeSheWrapper.InputDataPreparation
     /// Writes a textfile that can be used for importing detailed timeseries output
     /// </summary>
     /// <param name="TxtFileName"></param>
-    public void WriteToMikeSheModel(string TxtFileName)
+    public void WriteToMikeSheModel(string TxtFileName, IEnumerable<ObservationWell> SelectedWells)
     {
       using (StreamWriter SW = new StreamWriter(TxtFileName, false, Encoding.Default))
       {
-        foreach (ObservationWell W in WorkingList)
+        foreach (ObservationWell W in SelectedWells)
         {
           if (W.Dfs0Written)
             SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t1\t"+W.ID +"\t1 ");
@@ -188,6 +188,11 @@ namespace MikeSheWrapper.InputDataPreparation
     }
 
 
+    /// <summary>
+    /// Creates wells from DataRows based on ShapeReaderConfiguration
+    /// </summary>
+    /// <param name="DS"></param>
+    /// <param name="SRC"></param>
     public void FillInFromNovanaShape(DataRow[] DS, ShapeReaderConfiguration SRC)
     {
       ObservationWell CurrentWell;
@@ -205,14 +210,12 @@ namespace MikeSheWrapper.InputDataPreparation
       }
     }
 
-
     /// <summary>
     /// Reads in observations from a shape file
     /// </summary>
     /// <param name="ShapeFileName"></param>
     public void ReadFromShape(string ShapeFileName, string SelectString)
     {
-
       PointShapeReader SR = new PointShapeReader(ShapeFileName);
 
       DataTable DT = SR.Data.Read();
@@ -222,7 +225,14 @@ namespace MikeSheWrapper.InputDataPreparation
 
 #endregion
 
-
+    /// <summary>
+    /// Write a text-file that can be used by LayerStatistics.
+    /// </summary>
+    /// <param name="FileName"></param>
+    /// <param name="SelectedWells"></param>
+    /// <param name="Start"></param>
+    /// <param name="End"></param>
+    /// <param name="AllObs"></param>
     public void WriteToLSInput(string FileName, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End, bool AllObs)
     {
       using (StreamWriter SW = new StreamWriter(FileName, false, Encoding.Default))
@@ -235,6 +245,7 @@ namespace MikeSheWrapper.InputDataPreparation
         foreach (ObservationWell OW in SelectedWells)
         {
           List<TimeSeriesEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+        
           SelectedObs.Sort();
 
           StringBuilder S = new StringBuilder();
@@ -288,6 +299,32 @@ namespace MikeSheWrapper.InputDataPreparation
       {
           W.WriteToDfs0(OutputPath);
       });
+    }
+
+    /// <summary>
+    /// Write a specialized output with all observation in one long .dat file
+    /// </summary>
+    /// <param name="FileName"></param>
+    /// <param name="SelectedWells"></param>
+    /// <param name="Start"></param>
+    /// <param name="End"></param>
+    public void WriteToDatFile(string FileName, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End)
+    {
+      StringBuilder S = new StringBuilder();
+
+      using (StreamWriter SW = new StreamWriter(FileName, false, Encoding.Default))
+      {
+        foreach (ObservationWell OW in SelectedWells)
+        {
+          List<TimeSeriesEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+          SelectedObs.Sort();
+          foreach (TimeSeriesEntry TSE in SelectedObs)
+          {
+            S.Append(OW.ID + "    " + TSE.Time.ToString("dd/MM/yyyy hh:mm:ss") + " " + TSE.Value.ToString() + "\n");
+          }
+        }
+        SW.Write(S.ToString());
+      }
     }
 
     public void WriteShapeFromDataRow(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)

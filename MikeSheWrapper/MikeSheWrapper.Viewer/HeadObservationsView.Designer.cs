@@ -62,7 +62,7 @@
       this.radioButtonMax = new System.Windows.Forms.RadioButton();
       this.radioButtonMin = new System.Windows.Forms.RadioButton();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
-      this.button1 = new System.Windows.Forms.Button();
+      this.buttonNovanaShape = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
@@ -321,22 +321,23 @@
       // 
       this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
       // 
-      // button1
+      // buttonNovanaShape
       // 
-      this.button1.Location = new System.Drawing.Point(242, 597);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(142, 23);
-      this.button1.TabIndex = 34;
-      this.button1.Text = "Create NOVANA shape file";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.WriteNovanaShape);
+      this.buttonNovanaShape.Enabled = false;
+      this.buttonNovanaShape.Location = new System.Drawing.Point(242, 597);
+      this.buttonNovanaShape.Name = "buttonNovanaShape";
+      this.buttonNovanaShape.Size = new System.Drawing.Size(142, 23);
+      this.buttonNovanaShape.TabIndex = 34;
+      this.buttonNovanaShape.Text = "Create NOVANA shape file";
+      this.buttonNovanaShape.UseVisualStyleBackColor = true;
+      this.buttonNovanaShape.Click += new System.EventHandler(this.WriteNovanaShape);
       // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(526, 651);
-      this.Controls.Add(this.button1);
+      this.Controls.Add(this.buttonNovanaShape);
       this.Controls.Add(this.radioButtonMin);
       this.Controls.Add(this.radioButtonMax);
       this.Controls.Add(this.buttonLSFile);
@@ -407,7 +408,7 @@
     private System.Windows.Forms.Button buttonLSFile;
     private System.Windows.Forms.RadioButton radioButtonMax;
     private System.Windows.Forms.RadioButton radioButtonMin;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button buttonNovanaShape;
   }
 }
 

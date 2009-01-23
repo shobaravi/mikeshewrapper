@@ -42,7 +42,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     public void DomainAreaTest()
     {
       HO.SelectByMikeSheModelArea(new Model(@"F:\Novana\Novomr4\Result\omr4_jag_UZ.SHE").GridInfo);
-      HO.WriteToMikeSheModel(@"F:\Jacob\Pejlinger\DetailedTsimport.txt");
+      HO.WriteToMikeSheModel(@"F:\Jacob\Pejlinger\DetailedTsimport.txt", HO.Wells.Values);
     }
 
     [Test]
