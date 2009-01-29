@@ -90,8 +90,8 @@ namespace MikeSheWrapper
       NumberOfLayers = PreProcessed3D.NumberOfLayers;
 
       //For MikeShe the origin is lower left whereas it is center of lower left for DFS
-      _xOrigin = PreProcessed3D.XOrigin - _gridSize / 2 ;
-      _yOrigin = PreProcessed3D.YOrigin - _gridSize/2;
+      _xOrigin = PreProcessed3D.XOrigin;
+      _yOrigin = PreProcessed3D.YOrigin;
 
     }
 
