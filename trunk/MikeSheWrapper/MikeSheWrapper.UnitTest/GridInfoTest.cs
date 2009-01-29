@@ -15,14 +15,14 @@ namespace MikeSheWrapper.UnitTest
     [Test]
     public void GetIndexTest()
     {
-      Model mshe = new Model(@"F:\Novana\Novomr4\Result\omr4_jag_UZ.SHE");
+      Model mshe = new Model(@"..\..\..\TestData\TestModel.she");
 
       int Column;
       int Row;
 
-      Assert.IsTrue(mshe.GridInfo.GetIndex(518406,6148241,out Column, out Row));
-      Assert.AreEqual(159, Column);
-      Assert.AreEqual(153, Row);    
+      Assert.IsTrue(mshe.GridInfo.GetIndex(1,1,out Column, out Row));
+      Assert.AreEqual(0, Column);
+      Assert.AreEqual(0, Row);    
 
     }
 
