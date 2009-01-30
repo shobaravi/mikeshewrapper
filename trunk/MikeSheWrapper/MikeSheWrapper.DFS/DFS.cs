@@ -38,7 +38,7 @@ namespace MikeSheWrapper.DFS
       if (DynamicItemInfos[0].XCoords != null)
       {
         _numberOfColumns = DynamicItemInfos[0].XCoords.Length;
-        XOrigin = DynamicItemInfos[0].XCoords[0] - DynamicItemInfos[0].DX / 2;
+        XOrigin = DynamicItemInfos[0].XCoords[0];
       }
       else
       {
@@ -49,7 +49,7 @@ namespace MikeSheWrapper.DFS
       if (DynamicItemInfos[0].YCoords != null)
       {
         _numberOfRows = DynamicItemInfos[0].YCoords.Length;
-        YOrigin = DynamicItemInfos[0].YCoords[0] - DynamicItemInfos[0].DY / 2;
+        YOrigin = DynamicItemInfos[0].YCoords[0];
 
       }
       else
@@ -148,7 +148,7 @@ namespace MikeSheWrapper.DFS
     public int GetColumnIndex(double UTMX)
     {
       //Calculate as a double to prevent overflow errors when casting 
-      double ColumnD = Math.Max(-1, Math.Floor((UTMX - XOrigin) / DynamicItemInfos[0].DX));
+      double ColumnD = Math.Max(-1, Math.Floor((UTMX - (XOrigin-DynamicItemInfos[0].DX/2)) / DynamicItemInfos[0].DX));
 
       if (ColumnD > _numberOfColumns)
         return -2;
@@ -164,7 +164,7 @@ namespace MikeSheWrapper.DFS
     public int GetRowIndex(double UTMY)
     {
       //Calculate as a double to prevent overflow errors when casting 
-      double RowD = Math.Max(-1, Math.Floor((UTMY - YOrigin) / DynamicItemInfos[0].DY));
+      double RowD = Math.Max(-1, Math.Floor((UTMY - (YOrigin - DynamicItemInfos[0].DY / 2)) / DynamicItemInfos[0].DY));
 
       if (RowD > _numberOfRows)
         return -2;
@@ -178,7 +178,7 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public int GetTimeStep(DateTime TimeStamp)
     {
-      if (TimeStamp < _firstTimeStep)
+      if (TimeStamp < _firstTimeStep || NumberOfTimeSteps==1)
         return 0;
       int TimeStep=0;
 
