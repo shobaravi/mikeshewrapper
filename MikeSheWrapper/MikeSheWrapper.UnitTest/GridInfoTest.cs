@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using MikeSheWrapper;
+using MikeSheWrapper.DFS;
 using NUnit.Framework;
 
 namespace MikeSheWrapper.UnitTest
@@ -15,14 +16,29 @@ namespace MikeSheWrapper.UnitTest
     [Test]
     public void GetIndexTest()
     {
-      Model mshe = new Model(@"..\..\..\TestData\TestModel.she");
+      Model mshe = new Model(@"..\..\..\TestData\TestModelDemo.she");
 
       int Column;
       int Row;
 
-      Assert.IsTrue(mshe.GridInfo.GetIndex(1,1,out Column, out Row));
-      Assert.AreEqual(0, Column);
-      Assert.AreEqual(0, Row);    
+      Assert.IsTrue(mshe.GridInfo.GetIndex(11,11,out Column, out Row));
+      Assert.AreEqual(1, Column);
+      Assert.AreEqual(1, Row);
+
+      Assert.IsTrue(mshe.GridInfo.GetIndex(19, 19, out Column, out Row));
+      Assert.AreEqual(1, Column);
+      Assert.AreEqual(1, Row);
+
+      mshe.Dispose();
+
+      DFS3 heads = new DFS3(@"..\..\..\TestData\TestModelDemo.she - Result Files\TestModelDemo_3DSZ.dfs3");
+
+      Assert.AreEqual(1, heads.GetColumnIndex(11));
+
+      Assert.AreEqual(2, heads.GetColumnIndex(19));
+
+      heads.Dispose();
+      
 
     }
 
