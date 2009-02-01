@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,19 +8,44 @@ using DHI.Generic.MikeZero.DFS;
 
 namespace MikeSheWrapper.DFS
 {
+
+
   public abstract class DFS 
   {
+    /// <summary>
+    /// Call directly into ufs.dll because the wrapped call does not work on vista due to something with string.
+    /// </summary>
+    /// <param name="ItemPointer"></param>
+    /// <param name="ItemType"></param>
+    /// <param name="Name"></param>
+    /// <param name="Unit"></param>
+    /// <param name="DataType"></param>
+    /// <returns></returns>
+    [DllImport(@"C:\Program Files\Common Files\DHI\MIKEZero\ufs.dll", CharSet = CharSet.None , CallingConvention = CallingConvention.StdCall)]
+    public extern static int dfsGetItemInfo_(IntPtr ItemPointer, ref int ItemType, ref IntPtr Name, ref IntPtr Unit, ref int DataType);
+
+    /// <summary>
+    /// Call directly into ufs.dll because the wrapped call does not work on vista due to something with strings.
+    /// </summary>
+    /// <param name="HeaderPointer"></param>
+    /// <param name="Projection"></param>
+    /// <param name="longitude"></param>
+    /// <param name="Latitude"></param>
+    /// <param name="Orientation"></param>
+    /// <returns></returns>
+    [DllImport(@"C:\Program Files\Common Files\DHI\MIKEZero\ufs.dll", CharSet = CharSet.None, CallingConvention = CallingConvention.StdCall)]
+    public extern static int dfsGetGeoInfoUTMProj(IntPtr HeaderPointer, ref IntPtr Projection, ref double longitude, ref double Latitude, ref double Orientation);
+
+
     private int _currentTimeStep = -1;
     private int _currentItem = -1;
 
     protected float[] dfsdata; //Buffer used to fill data into
-    protected int _numberOfLayers;
-    protected int _numberOfColumns;
-    protected int _numberOfRows;
+    protected int _numberOfLayers =1;
+    protected int _numberOfColumns =1;
+    protected int _numberOfRows = 1;
     private DateTime _firstTimeStep;
     private TimeSpan _timeStep;
-
-    private DfsFileInfo _fileInfo;
 
     private IntPtr _fileWriter = IntPtr.Zero;
     private IntPtr _headerWriter = IntPtr.Zero;
@@ -31,60 +57,109 @@ namespace MikeSheWrapper.DFS
     public DFS(string DFSFileName)
     {
       _filename = DFSFileName;
-      _fileInfo = new DfsFileInfo();
-      _fileInfo.Read(_filename);
 
-      //Read in dimensionality
-      if (DynamicItemInfos[0].XCoords != null)
+
+      DFSWrapper.dfsFileRead(DFSFileName, ref _headerWriter, ref _fileWriter);
+
+
+      int nitems = DFSWrapper.dfsGetNoOfItems(_headerWriter);
+      IntPtr[] IPointers = new IntPtr[nitems];
+      ItemNames = new string[nitems];
+
+
+
+      for (int i = 1; i <= nitems; i++)
+        IPointers[i-1]=(DFSWrapper.dfsItemD(_headerWriter, i));
+
+      int item_type=0;
+      int data_type=0;
+      int j=0;
+      int k=0;
+      int l=0;
+      IntPtr name = new IntPtr();
+      IntPtr Eum = new IntPtr();
+      int unit =0;
+      string eum_type = "";
+      string eum_unit = "";
+
+      List<string> eumunits = new List<string>();
+
+      float x =0;
+      float y=0;
+      float z=0;
+
+      float dx = 0;
+      float dy =0;
+      float dz =0;
+
+      bool firstItem = true;
+
+      int ii=0;
+      foreach (IntPtr IP in IPointers)
       {
-        _numberOfColumns = DynamicItemInfos[0].XCoords.Length;
-        XOrigin = DynamicItemInfos[0].XCoords[0];
+        dfsGetItemInfo_(IP, ref item_type,  ref name, ref Eum, ref data_type);
+        ItemNames[ii] =(Marshal.PtrToStringAnsi(name));
+        eumunits.Add(Marshal.PtrToStringAnsi(Eum));
+        DFSWrapper.dfsGetItemRefCoords(IP, ref x, ref y, ref z);
+        ii++;
+        
+        //Read in xyz axis-info
+        if (firstItem)
+        {
+          firstItem = false;
+          int axistype = DFSWrapper.dfsGetItemAxisType(IP);
+
+          //DFS2 from MikeShe
+          if (axistype == 5)
+          {
+            DFSWrapper.dfsGetItemAxisEqD2(IP, ref item_type, ref eum_unit, ref _numberOfColumns, ref _numberOfRows, ref x, ref y, ref dx, ref dy);
+            XOrigin = x;
+            YOrigin = y;
+            GridSize = dx;
+          }
+          //DFS3 from MikeShe
+          else if (axistype == 8)
+          {
+            DFSWrapper.dfsGetItemAxisEqD3(IP, ref item_type, ref eum_unit, ref _numberOfColumns, ref _numberOfRows, ref _numberOfLayers, ref x, ref y, ref z, ref dx, ref dy, ref dz);
+            GridSize = dx;
+
+            double lon = 0;
+            double lat = 0;
+            double or = 0;
+
+            dfsGetGeoInfoUTMProj(_headerWriter, ref name, ref lon, ref lat, ref or);
+            XOrigin = lon;
+            YOrigin = lat;
+          }
+        }
       }
-      else
+
+      //Now look at time axis
+
+      int timeAxisType = DFSWrapper.dfsGetTimeAxisType(_headerWriter);
+
+      if (timeAxisType != 4)
       {
-        _numberOfColumns = 1; //Dfs0-file
-        XOrigin = double.NaN;
+        string startdate = "";
+        string starttime = "";
+        double tstart = 0;
+        double tstep = 0;
+        int nt = 0;
+        int tindex = 0;
+        DFSWrapper.dfsGetEqCalendarAxis(_headerWriter, ref startdate, ref starttime, ref unit, ref eum_unit, ref tstart, ref tstep, ref nt, ref tindex);
+        DateTime start = DateTime.Parse(startdate);
+        TimeSpan plus = TimeSpan.Parse(starttime);
+
+        _firstTimeStep = DateTime.Parse(startdate).Add(TimeSpan.Parse(starttime));
+
+        if (unit == 1400)
+          _timeStep = new TimeSpan(0, 0, (int)tstep);
+
+        NumberOfTimeSteps = nt;
       }
-
-      if (DynamicItemInfos[0].YCoords != null)
-      {
-        _numberOfRows = DynamicItemInfos[0].YCoords.Length;
-        YOrigin = DynamicItemInfos[0].YCoords[0];
-
-      }
-      else
-      {
-        _numberOfRows = 1; //Dfs1-file   
-        YOrigin = double.NaN;
-      }
-
-      // DFS3-file
-      if (DynamicItemInfos[0].ZCoords != null)
-      {
-        _numberOfLayers = DynamicItemInfos[0].ZCoords.Length;
-        //in DFS3 files it it is necessary to add the longitude and latitude.
-        XOrigin += _fileInfo.Longitude;
-        YOrigin += _fileInfo.Latitude;
-      }
-      else
-      {
-        _numberOfLayers = 1; //Dfs2-file
-      }
-
-
-      NumberOfTimeSteps = _fileInfo.TimeSteps.Length;
-
-      if (_fileInfo.TimeSteps.Length == 0)
-        throw new Exception("No timesteps read from: " + _fileInfo.FileName);
-
-      _firstTimeStep = _fileInfo.TimeSteps[0];
-
-      if (NumberOfTimeSteps > 1)
-        _timeStep = _fileInfo.TimeSteps[1].Subtract(_firstTimeStep);
-
       //Prepares an array of floats to recieve the data
-      dfsdata = new float[DynamicItemInfos[0].GetTotalNumberOfPoints()];
-    }
+      dfsdata = new float[_numberOfColumns * _numberOfRows * _numberOfLayers];
+        }
 
    /// <summary>
    /// Override of the Dispose method in DFSFileInfo which probably does not account for finalization
@@ -101,9 +176,7 @@ namespace MikeSheWrapper.DFS
       {
         dfsdata = null;
       }
-      _fileInfo.Dispose();
-     if (_initializedForWriting)
-       DFSWrapper.dfsFileClose(_headerWriter, ref _fileWriter);
+      DFSWrapper.dfsFileClose(_headerWriter, ref _fileWriter);
    }
 
     /// <summary>
@@ -148,7 +221,7 @@ namespace MikeSheWrapper.DFS
     public int GetColumnIndex(double UTMX)
     {
       //Calculate as a double to prevent overflow errors when casting 
-      double ColumnD = Math.Max(-1, Math.Floor((UTMX - (XOrigin-DynamicItemInfos[0].DX/2)) / DynamicItemInfos[0].DX));
+      double ColumnD = Math.Max(-1, Math.Floor((UTMX - (XOrigin - GridSize / 2)) / GridSize));
 
       if (ColumnD > _numberOfColumns)
         return -2;
@@ -164,7 +237,7 @@ namespace MikeSheWrapper.DFS
     public int GetRowIndex(double UTMY)
     {
       //Calculate as a double to prevent overflow errors when casting 
-      double RowD = Math.Max(-1, Math.Floor((UTMY - (YOrigin - DynamicItemInfos[0].DY / 2)) / DynamicItemInfos[0].DY));
+      double RowD = Math.Max(-1, Math.Floor((UTMY - (YOrigin - GridSize / 2)) / GridSize));
 
       if (RowD > _numberOfRows)
         return -2;
@@ -180,35 +253,9 @@ namespace MikeSheWrapper.DFS
     {
       if (TimeStamp < _firstTimeStep || NumberOfTimeSteps==1)
         return 0;
-      int TimeStep=0;
+      int TimeStep= (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
+      return Math.Min(NumberOfTimeSteps, TimeStep);
 
-      //For equidistant time axis
-      if (_fileInfo.TimeAxisType == TimeAxisType.F_CAL_EQ_AXIS || _fileInfo.TimeAxisType == TimeAxisType.F_TM_EQ_AXIS)
-      {
-        TimeStep = (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
-
-        return Math.Min(NumberOfTimeSteps, TimeStep);
-      }
-
-      //If the TimeStamp is later than the simulated period the last timestep is returned
-      if (TimeStamp >= _fileInfo.TimeSteps[_fileInfo.TimeSteps.Length - 1])
-        TimeStep = _fileInfo.TimeSteps.Length - 1;
-      else
-      {
-        //Note in case of equidistant times this could be made more efficient
-        //Steps until a bigger timestep is found
-        while (TimeStamp > _fileInfo.TimeSteps[TimeStep])
-          TimeStep++;
-      }
-
-      if (TimeStep > 0)
-      {
-        //Checks if the timestep just before is actually closer.
-        if (_fileInfo.TimeSteps[TimeStep].Subtract(TimeStamp) >= TimeStamp.Subtract(_fileInfo.TimeSteps[TimeStep - 1]))
-          TimeStep--;
-      }
-
-      return TimeStep;
     }
 
     /// <summary>
@@ -223,16 +270,16 @@ namespace MikeSheWrapper.DFS
         _currentTimeStep = TimeStep;
         _currentItem = Item;
         //Spools to the correct Item and TimeStep
-        int ok = DFSWrapper.dfsFindItemDynamic(_fileInfo.HeaderPtr, _fileInfo.FilePtr, TimeStep, Item);
+        int ok = DFSWrapper.dfsFindItemDynamic(_headerWriter, _fileWriter, TimeStep, Item);
         if (ok != 0)
           throw new Exception("Could not find TimeStep number: " + TimeStep +" and Item number: " + Item);
 
         double time = 0;
 
         //Reads the data
-        ok = DFSWrapper.dfsReadItemTimeStep(_fileInfo.HeaderPtr, _fileInfo.FilePtr, ref time, dfsdata);
+        ok = DFSWrapper.dfsReadItemTimeStep(_headerWriter, _fileWriter, ref time, dfsdata);
         if (ok != 0)
-          throw new Exception("Error in file: " + _fileInfo.FileName + " reading timestep number: " + this._currentTimeStep);
+          throw new Exception("Error in file: " + _filename + " reading timestep number: " + this._currentTimeStep);
       }
     }
 
@@ -300,18 +347,16 @@ namespace MikeSheWrapper.DFS
     {
       get
       {
-        return DFSWrapper.dfsGetDeleteValFloat(_fileInfo.HeaderPtr);
+        return DFSWrapper.dfsGetDeleteValFloat(_headerWriter);
       }
     }
 
     /// <summary>
-    /// Gets information about the Items
+    /// Gets a list
     /// </summary>
-    public DfsFileItemInfo[] DynamicItemInfos
-    {
-      get { return _fileInfo.DynamicItemInfos; }
-    }
+    public string[] ItemNames { get; private set; }
 
+    
     /// <summary>
     /// Gets the number of timesteps
     /// </summary>
@@ -330,6 +375,8 @@ namespace MikeSheWrapper.DFS
     /// Remember that MikeShe does not use the center
     /// </summary>
     public double YOrigin { get; private set; }
+
+    public double GridSize { get; private set; }
 
   }
 }
