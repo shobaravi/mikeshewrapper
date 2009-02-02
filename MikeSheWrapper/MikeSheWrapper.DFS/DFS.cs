@@ -12,6 +12,9 @@ namespace MikeSheWrapper.DFS
 
   public abstract class DFS 
   {
+
+    const string UFSDll = "ufs.dll";  // Name of debug dll
+
     /// <summary>
     /// Call directly into ufs.dll because the wrapped call does not work on vista due to something with string.
     /// </summary>
@@ -21,8 +24,8 @@ namespace MikeSheWrapper.DFS
     /// <param name="Unit"></param>
     /// <param name="DataType"></param>
     /// <returns></returns>
-    [DllImport(@"C:\Program Files\Common Files\DHI\MIKEZero\ufs.dll", CharSet = CharSet.None , CallingConvention = CallingConvention.StdCall)]
-    public extern static int dfsGetItemInfo_(IntPtr ItemPointer, ref int ItemType, ref IntPtr Name, ref IntPtr Unit, ref int DataType);
+    [DllImport(UFSDll, CharSet = CharSet.None, CallingConvention = CallingConvention.StdCall)]
+    private extern static int dfsGetItemInfo_(IntPtr ItemPointer, ref int ItemType, ref IntPtr Name, ref IntPtr Unit, ref int DataType);
 
     /// <summary>
     /// Call directly into ufs.dll because the wrapped call does not work on vista due to something with strings.
@@ -33,8 +36,8 @@ namespace MikeSheWrapper.DFS
     /// <param name="Latitude"></param>
     /// <param name="Orientation"></param>
     /// <returns></returns>
-    [DllImport(@"C:\Program Files\Common Files\DHI\MIKEZero\ufs.dll", CharSet = CharSet.None, CallingConvention = CallingConvention.StdCall)]
-    public extern static int dfsGetGeoInfoUTMProj(IntPtr HeaderPointer, ref IntPtr Projection, ref double longitude, ref double Latitude, ref double Orientation);
+    [DllImport(UFSDll, CharSet = CharSet.None, CallingConvention = CallingConvention.StdCall)]
+    private extern static int dfsGetGeoInfoUTMProj(IntPtr HeaderPointer, ref IntPtr Projection, ref double longitude, ref double Latitude, ref double Orientation);
 
 
     private int _currentTimeStep = -1;
@@ -57,7 +60,6 @@ namespace MikeSheWrapper.DFS
     public DFS(string DFSFileName)
     {
       _filename = DFSFileName;
-
 
       DFSWrapper.dfsFileRead(DFSFileName, ref _headerWriter, ref _fileWriter);
 
@@ -193,6 +195,7 @@ namespace MikeSheWrapper.DFS
     /// </summary>
    private void InitializeForWriting()
    {
+     Dispose(false);
      int ok = DFSWrapper.dfsFileEdit(_filename, ref _headerWriter, ref _fileWriter);
      if (ok != 0)
        throw new Exception("Error in initializing file : " + _filename + " for writing");
@@ -290,7 +293,7 @@ namespace MikeSheWrapper.DFS
     /// <param name="Item"></param>
     protected void WriteItemTimeStep(int TimeStep, int Item, float[] data)
     {
-      if (_headerWriter == IntPtr.Zero)
+      if (!_initializedForWriting)
         InitializeForWriting();
 
       //Spools to the correct Item and TimeStep
