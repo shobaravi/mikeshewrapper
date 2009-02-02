@@ -97,9 +97,9 @@ namespace MikeSheWrapper
     {
       SZ3D = new DFS3(sz3dFile);
       _deleteValue = SZ3D.DeleteValue;
-      for (int i = 0; i < SZ3D.DynamicItemInfos.Length; i++)
+      for (int i = 0; i < SZ3D.ItemNames.Length; i++)
       {
-        if (SZ3D.DynamicItemInfos[i].Name.Equals(HeadElevationString, StringComparison.OrdinalIgnoreCase))
+        if (SZ3D.ItemNames[i].Equals(HeadElevationString, StringComparison.OrdinalIgnoreCase))
         {
             _heads = new DataSetsFromDFS3(SZ3D, i + 1);
             //Also create the phreatic heads;
@@ -110,9 +110,9 @@ namespace MikeSheWrapper
     private void Initialize3DSZFlow(string sz3dFlowFile)
     {
       DFS3 SZ3DFlow = new DFS3(sz3dFlowFile);
-      for (int i = 0; i < SZ3DFlow.DynamicItemInfos.Length; i++)
+      for (int i = 0; i < SZ3DFlow.ItemNames.Length; i++)
       {
-        switch (SZ3DFlow.DynamicItemInfos[i].Name)
+        switch (SZ3DFlow.ItemNames[i])
         {
           case "groundwater flow in x-direction":
             _xflow = new DataSetsFromDFS3(SZ3DFlow, i + 1);

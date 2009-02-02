@@ -48,9 +48,9 @@ namespace MikeSheWrapper
     private void Initialize(DFS3 PreProcessed3D, DFS2 Preprocessed2D)
     {
       //Generate 3D properties
-      for (int i = 0; i < PreProcessed3D.DynamicItemInfos.Length; i++)
+      for (int i = 0; i < PreProcessed3D.ItemNames.Length; i++)
       {
-        switch (PreProcessed3D.DynamicItemInfos[i].Name)
+        switch (PreProcessed3D.ItemNames[i])
         {
           case "Boundary conditions for the saturated zone":
             _boundaryConditionsForTheSaturatedZone = new DataSetsFromDFS3(PreProcessed3D, i + 1);
@@ -67,9 +67,9 @@ namespace MikeSheWrapper
       }
 
       //Generate 2D properties by looping the items
-      for (int i = 0; i < Preprocessed2D.DynamicItemInfos.Length; i++)
+      for (int i = 0; i < Preprocessed2D.ItemNames.Length; i++)
       {
-        switch (Preprocessed2D.DynamicItemInfos[i].Name)
+        switch (Preprocessed2D.ItemNames[i])
         {
           case "Model domain and grid":
             _modelDomainAndGrid = new DataSetsFromDFS2(Preprocessed2D, i + 1);
@@ -83,7 +83,7 @@ namespace MikeSheWrapper
       }
 
       _deleteValue = PreProcessed3D.DeleteValue;
-      _gridSize = PreProcessed3D.DynamicItemInfos[0].DX;
+      _gridSize = PreProcessed3D.GridSize;
 
       NumberOfRows = PreProcessed3D.NumberOfRows; ;
       NumberOfColumns = PreProcessed3D.NumberOfColumns;

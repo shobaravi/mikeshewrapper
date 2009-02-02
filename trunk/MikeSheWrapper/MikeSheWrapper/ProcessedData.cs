@@ -55,9 +55,9 @@ namespace MikeSheWrapper
       _PreProcessed_3DSZ = new DFS3(PreProcessed3dSzFile);
 
       //Generate 3D properties
-      for (int i = 0; i < _PreProcessed_3DSZ.DynamicItemInfos.Length; i++)
+      for (int i = 0; i < _PreProcessed_3DSZ.ItemNames.Length; i++)
       {
-        switch (_PreProcessed_3DSZ.DynamicItemInfos[i].Name)
+        switch (_PreProcessed_3DSZ.ItemNames[i])
         {
           case "Horizontal conductivity in the saturated zone":
             _horizontalConductivity = new DataSetsFromDFS3(_PreProcessed_3DSZ, i+1);
@@ -86,9 +86,9 @@ namespace MikeSheWrapper
       _prePro2D = new DFS2(PreProcessed2dSzFile);
 
       //Generate 2D properties by looping the items
-      for (int i = 0; i < _prePro2D.DynamicItemInfos.Length; i++)
+      for (int i = 0; i < _prePro2D.ItemNames.Length; i++)
       {
-        switch (_prePro2D.DynamicItemInfos[i].Name)
+        switch (_prePro2D.ItemNames[i])
         {
           case "Net Rainfall Fraction":
             _netRainFallFraction = new DataSetsFromDFS2(_prePro2D, i +1);
