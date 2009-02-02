@@ -20,6 +20,8 @@ namespace MikeSheWrapper.DFS.UnitTest
     [SetUp]
     public void ConstructTest()
     {
+      //DFS2 d = new DFS2(@"D:\Udvikling\MikeSheWrapper\MikeSheWrapper\TestData\Layer Statistics\Novomr1_inv_PreProcessed.dfs2");
+
       _simpleDfs = new DFS2(@"..\..\..\TestData\simpelmatrix.dfs2");
       _dfs = new DFS3(@"..\..\..\TestData\omr4_jag_3DSZ.dfs3");
 
