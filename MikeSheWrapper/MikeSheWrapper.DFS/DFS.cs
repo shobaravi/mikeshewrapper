@@ -140,25 +140,36 @@ namespace MikeSheWrapper.DFS
 
       int timeAxisType = DFSWrapper.dfsGetTimeAxisType(_headerWriter);
 
-      if (timeAxisType != 4)
-      {
+
         string startdate = "";
         string starttime = "";
         double tstart = 0;
         double tstep = 0;
         int nt = 0;
         int tindex = 0;
-        DFSWrapper.dfsGetEqCalendarAxis(_headerWriter, ref startdate, ref starttime, ref unit, ref eum_unit, ref tstart, ref tstep, ref nt, ref tindex);
-        DateTime start = DateTime.Parse(startdate);
-        TimeSpan plus = TimeSpan.Parse(starttime);
 
-        _firstTimeStep = DateTime.Parse(startdate).Add(TimeSpan.Parse(starttime));
+      
+      if (timeAxisType != 4)
+      {
+        DFSWrapper.dfsGetEqCalendarAxis(_headerWriter, ref startdate, ref starttime, ref unit, ref eum_unit, ref tstart, ref tstep, ref nt, ref tindex);
 
         if (unit == 1400)
           _timeStep = new TimeSpan(0, 0, (int)tstep);
 
-        NumberOfTimeSteps = nt;
       }
+      else if (timeAxisType == 4)
+      {
+        double tspan=0;
+        int tnum=1;
+        tindex = 1;
+        DFSWrapper.dfsGetNeqCalendarAxis(_headerWriter, ref startdate, ref starttime, ref unit, ref eum_unit, ref tstart, ref tstep, ref nt, ref tindex);
+        DFSWrapper.dfsGetNeqTimeAxis(_headerWriter, ref unit, ref eum_unit, ref tstart, ref tspan, ref tnum, ref tindex);
+        
+      }
+      _firstTimeStep = DateTime.Parse(startdate).Add(TimeSpan.Parse(starttime));
+      NumberOfTimeSteps = nt;
+
+      
       //Prepares an array of floats to recieve the data
       dfsdata = new float[_numberOfColumns * _numberOfRows * _numberOfLayers];
         }

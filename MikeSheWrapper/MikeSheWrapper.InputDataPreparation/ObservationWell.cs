@@ -209,13 +209,6 @@ namespace MikeSheWrapper.InputDataPreparation
       get { return _observations; }
     }
 
-    public List<TimeSeriesEntry> UniqueObservations
-    {
-      get
-      {
-        return _observations.Distinct().ToList();
-      }
-    }
 
     public int Column
     {
