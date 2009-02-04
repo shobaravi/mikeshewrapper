@@ -36,7 +36,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <summary>
     /// Function that returns true if a well has more than Count observations in the period between Start and End
     /// </summary>
-    public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.UniqueObservations.Count(num => InBetween(num, Start, End));
+    public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.Observations.Distinct().Count(num => InBetween(num, Start, End));
 
 
     public HeadObservations()
@@ -117,9 +117,9 @@ namespace MikeSheWrapper.InputDataPreparation
       int item=1;
 
       //Loop all Items
-      foreach (DfsFileItemInfo DI in _data.DynamicItemInfos)
+      foreach (string DI in _data.ItemNames)
       {
-        if (_wells.TryGetValue(DI.Name, out OW))
+        if (_wells.TryGetValue(DI, out OW))
         {
           WorkingList.Add(OW);
           //Loop the observations

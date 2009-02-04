@@ -52,7 +52,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
       foreach (ObservationWell W in HO.Wells.Values)
       {
-        if (W.UniqueObservations.Count > 1)
+        if (W.Observations.Distinct().Count() > 1)
           Console.WriteLine(W);
       }
 

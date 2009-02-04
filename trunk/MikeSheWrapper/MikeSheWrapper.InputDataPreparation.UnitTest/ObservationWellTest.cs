@@ -31,7 +31,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       int kk = OW.Observations.Distinct().Count(W => InBetween(W, DateTime.MinValue, DateTime.MaxValue)); ;
                  //   group obs by obs.Time into g 
 
-      Assert.AreEqual(2, OW.UniqueObservations.Count);
+      Assert.AreEqual(2, OW.Observations.Distinct().Count());
 
       //foreach (var W in grouped)
       //{
