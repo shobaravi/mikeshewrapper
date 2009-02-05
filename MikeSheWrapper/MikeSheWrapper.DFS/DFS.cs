@@ -49,6 +49,7 @@ namespace MikeSheWrapper.DFS
     protected int _numberOfRows = 1;
     private DateTime _firstTimeStep;
     private TimeSpan _timeStep;
+    public DateTime[] TimeSteps {get; private set;}
 
     private IntPtr _fileWriter = IntPtr.Zero;
     private IntPtr _headerWriter = IntPtr.Zero;
@@ -71,40 +72,40 @@ namespace MikeSheWrapper.DFS
 
 
       for (int i = 1; i <= nitems; i++)
-        IPointers[i-1]=(DFSWrapper.dfsItemD(_headerWriter, i));
+        IPointers[i - 1] = (DFSWrapper.dfsItemD(_headerWriter, i));
 
-      int item_type=0;
-      int data_type=0;
-      int j=0;
-      int k=0;
-      int l=0;
+      int item_type = 0;
+      int data_type = 0;
+      int j = 0;
+      int k = 0;
+      int l = 0;
       IntPtr name = new IntPtr();
       IntPtr Eum = new IntPtr();
-      int unit =0;
+      int unit = 0;
       string eum_type = "";
       string eum_unit = "";
 
       List<string> eumunits = new List<string>();
 
-      float x =0;
-      float y=0;
-      float z=0;
+      float x = 0;
+      float y = 0;
+      float z = 0;
 
       float dx = 0;
-      float dy =0;
-      float dz =0;
+      float dy = 0;
+      float dz = 0;
 
       bool firstItem = true;
 
-      int ii=0;
+      int ii = 0;
       foreach (IntPtr IP in IPointers)
       {
-        dfsGetItemInfo_(IP, ref item_type,  ref name, ref Eum, ref data_type);
-        ItemNames[ii] =(Marshal.PtrToStringAnsi(name));
+        dfsGetItemInfo_(IP, ref item_type, ref name, ref Eum, ref data_type);
+        ItemNames[ii] = (Marshal.PtrToStringAnsi(name));
         eumunits.Add(Marshal.PtrToStringAnsi(Eum));
         DFSWrapper.dfsGetItemRefCoords(IP, ref x, ref y, ref z);
         ii++;
-        
+
         //Read in xyz axis-info
         if (firstItem)
         {
@@ -135,20 +136,18 @@ namespace MikeSheWrapper.DFS
           }
         }
       }
+      //Prepares an array of floats to recieve the data
+      dfsdata = new float[_numberOfColumns * _numberOfRows * _numberOfLayers];
 
       //Now look at time axis
-
       int timeAxisType = DFSWrapper.dfsGetTimeAxisType(_headerWriter);
+      string startdate = "";
+      string starttime = "";
+      double tstart = 0;
+      double tstep = 0;
+      int nt = 0;
+      int tindex = 0;
 
-
-        string startdate = "";
-        string starttime = "";
-        double tstart = 0;
-        double tstep = 0;
-        int nt = 0;
-        int tindex = 0;
-
-      
       if (timeAxisType != 4)
       {
         DFSWrapper.dfsGetEqCalendarAxis(_headerWriter, ref startdate, ref starttime, ref unit, ref eum_unit, ref tstart, ref tstep, ref nt, ref tindex);
@@ -159,20 +158,25 @@ namespace MikeSheWrapper.DFS
       }
       else if (timeAxisType == 4)
       {
-        double tspan=0;
-        int tnum=1;
-        tindex = 1;
         DFSWrapper.dfsGetNeqCalendarAxis(_headerWriter, ref startdate, ref starttime, ref unit, ref eum_unit, ref tstart, ref tstep, ref nt, ref tindex);
-        DFSWrapper.dfsGetNeqTimeAxis(_headerWriter, ref unit, ref eum_unit, ref tstart, ref tspan, ref tnum, ref tindex);
-        
       }
+
       _firstTimeStep = DateTime.Parse(startdate).Add(TimeSpan.Parse(starttime));
       NumberOfTimeSteps = nt;
+      TimeSteps = new DateTime[NumberOfTimeSteps];
+      TimeSteps[0] = _firstTimeStep;
 
-      
-      //Prepares an array of floats to recieve the data
-      dfsdata = new float[_numberOfColumns * _numberOfRows * _numberOfLayers];
+      for (int i = 1; i < nt; i++)
+      {
+        if (timeAxisType == 4)
+        {
+          if (unit == 1400)
+            TimeSteps[i] = _firstTimeStep.AddSeconds(ReadItemTimeStep(i, 1));
         }
+        else
+          TimeSteps[i] = TimeSteps[i - 1].Add(_timeStep);
+      }
+    }
 
    /// <summary>
    /// Override of the Dispose method in DFSFileInfo which probably does not account for finalization
@@ -267,18 +271,26 @@ namespace MikeSheWrapper.DFS
     {
       if (TimeStamp < _firstTimeStep || NumberOfTimeSteps==1)
         return 0;
-      int TimeStep= (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
+      int TimeStep;
+      if (_timeStep != null)
+        TimeStep = (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
+      else
+        TimeStep = Array.BinarySearch(TimeSteps, TimeStamp);
       return Math.Min(NumberOfTimeSteps, TimeStep);
 
     }
 
     /// <summary>
-    /// Reads data for the TimeStep and Item if necessary and fills them into the buffer
+    /// Reads data for the TimeStep and Item if necessary and fills them into the buffer.
+    /// Time steps counts from 0 and Item from 1.
+    /// In case of nonequidistant time (only dfs0) it returns the timestep as double
     /// </summary>
     /// <param name="TimeStep"></param>
     /// <param name="Item"></param>
-    protected void ReadItemTimeStep(int TimeStep, int Item)
+    protected double ReadItemTimeStep(int TimeStep, int Item)
     {
+      double time = 0;
+
       if (TimeStep != _currentTimeStep || Item != _currentItem)
       {
         _currentTimeStep = TimeStep;
@@ -288,13 +300,13 @@ namespace MikeSheWrapper.DFS
         if (ok != 0)
           throw new Exception("Could not find TimeStep number: " + TimeStep +" and Item number: " + Item);
 
-        double time = 0;
 
         //Reads the data
         ok = DFSWrapper.dfsReadItemTimeStep(_headerWriter, _fileWriter, ref time, dfsdata);
         if (ok != 0)
           throw new Exception("Error in file: " + _filename + " reading timestep number: " + this._currentTimeStep);
       }
+      return time;
     }
 
     /// <summary>
@@ -351,7 +363,6 @@ namespace MikeSheWrapper.DFS
         WriteTime();
       }
     }
-    
 
 
     /// <summary>
