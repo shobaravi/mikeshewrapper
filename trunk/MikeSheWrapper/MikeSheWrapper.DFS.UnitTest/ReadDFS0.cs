@@ -27,8 +27,10 @@ namespace MikeSheWrapper.DFS.UnitTest
     [Test]
     public void ReadItems()
     {
-      DFS0 _data = new DFS0(@"..\..\..\\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
+      DFS0 _data = new DFS0(@"..\..\..\\TestData\Detailed timeseries output.dfs0");
 
-    }
+      _data.GetTimeStep(new DateTime(2000,1,4,12,0,0));
+
+      }
   }
 }
