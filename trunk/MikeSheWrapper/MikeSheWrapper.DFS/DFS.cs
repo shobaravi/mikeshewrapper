@@ -48,7 +48,7 @@ namespace MikeSheWrapper.DFS
     protected int _numberOfColumns =1;
     protected int _numberOfRows = 1;
     private DateTime _firstTimeStep;
-    private TimeSpan _timeStep;
+    private TimeSpan _timeStep = TimeSpan.Zero;
     public DateTime[] TimeSteps {get; private set;}
 
     private IntPtr _fileWriter = IntPtr.Zero;
@@ -272,10 +272,18 @@ namespace MikeSheWrapper.DFS
       if (TimeStamp < _firstTimeStep || NumberOfTimeSteps==1)
         return 0;
       int TimeStep;
-      if (_timeStep != null)
+      if (_timeStep != TimeSpan.Zero)
         TimeStep = (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
       else
-        TimeStep = Array.BinarySearch(TimeSteps, TimeStamp);
+      {
+        TimeStep = 1;
+
+        for (int i = 0; i < TimeSteps.Length; i++)
+        {
+        }
+ 
+
+        }
       return Math.Min(NumberOfTimeSteps, TimeStep);
 
     }
