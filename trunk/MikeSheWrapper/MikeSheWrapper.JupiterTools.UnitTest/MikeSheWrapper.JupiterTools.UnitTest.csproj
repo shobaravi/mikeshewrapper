@@ -57,6 +57,10 @@
       <Project>{517D7D0D-85FB-4423-B5C9-B94FAF253112}</Project>
       <Name>MikeSheWrapper.JupiterTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
+      <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>
+      <Name>MikeSheWrapper.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

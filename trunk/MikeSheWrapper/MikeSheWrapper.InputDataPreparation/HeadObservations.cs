@@ -30,7 +30,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <summary>
     /// Function that returns true if a time series entry is between the two dates
     /// </summary>
-    public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
+    public static Func<ObservationEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
 
 
     /// <summary>
@@ -123,7 +123,7 @@ namespace MikeSheWrapper.InputDataPreparation
         {
           WorkingList.Add(OW);
           //Loop the observations
-          foreach (TimeSeriesEntry TSE in OW.Observations)
+          foreach (ObservationEntry TSE in OW.Observations)
             TSE.SimulatedValue = _data.GetData(TSE.Time, item);
         }
         item++;
@@ -141,7 +141,7 @@ namespace MikeSheWrapper.InputDataPreparation
     {
       foreach(ObservationWell W in WorkingList)
       {
-        foreach (TimeSeriesEntry TSE in W.Observations)
+        foreach (ObservationEntry TSE in W.Observations)
         {
           Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[W.Layer];
           TSE.SimulatedValueCell = M[W.Row, W.Column];
@@ -244,7 +244,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
         foreach (ObservationWell OW in SelectedWells)
         {
-          List<TimeSeriesEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+          List<ObservationEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
         
           SelectedObs.Sort();
 
@@ -252,7 +252,7 @@ namespace MikeSheWrapper.InputDataPreparation
           S.Append(OW.ID + "\t" + OW.X + "\t" + OW.Y + "\t" + OW.Depth + "\t");
 
           if (AllObs)
-            foreach (TimeSeriesEntry TSE in SelectedObs)
+            foreach (ObservationEntry TSE in SelectedObs)
             {
               StringBuilder ObsString = new StringBuilder(S.ToString());
               ObsString.Append(TSE.Value + "\t" + TSE.Time.ToShortDateString());
@@ -316,9 +316,9 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         foreach (ObservationWell OW in SelectedWells)
         {
-          List<TimeSeriesEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+          List<ObservationEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
           SelectedObs.Sort();
-          foreach (TimeSeriesEntry TSE in SelectedObs)
+          foreach (ObservationEntry TSE in SelectedObs)
           {
             S.Append(OW.ID + "    " + TSE.Time.ToString("dd/MM/yyyy hh:mm:ss") + " " + TSE.Value.ToString() + "\n");
           }
@@ -357,7 +357,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       foreach (ObservationWell W in Wells)
       {
-        List<TimeSeriesEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+        List<ObservationEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
 
         PSW.WritePointShape(W.X, W.Y);
 

@@ -98,7 +98,7 @@ namespace MikeSheWrapper.LayerStatistics
         //Samler resultaterne for hver lag
         foreach (ObservationWell OW in HO.WorkingList)
         {
-          foreach (TimeSeriesEntry TSE in OW.Observations)
+          foreach (ObservationEntry TSE in OW.Observations)
           {
             if (TSE.SimulatedValueCell == _res.DeleteValue)
             {

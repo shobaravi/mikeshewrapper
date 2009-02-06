@@ -12,17 +12,17 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
   [TestFixture]
   public class ObservationWellTest
   {
-    private static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
+    private static Func<ObservationEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
 
     [Test]
     public void GroupByTest()
     {
       ObservationWell OW = new ObservationWell("test");
 
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(2000, 1, 1), 10));
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 10));
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 5));
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 15));
+      OW.Observations.Add(new ObservationEntry(new DateTime(2000, 1, 1), 10));
+      OW.Observations.Add(new ObservationEntry(new DateTime(1999, 1, 1), 10));
+      OW.Observations.Add(new ObservationEntry(new DateTime(1999, 1, 1), 5));
+      OW.Observations.Add(new ObservationEntry(new DateTime(1999, 1, 1), 15));
 
       OW.Observations.Sort();
 
@@ -43,7 +43,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       {
         Console.WriteLine("newline");
         int k = 0;
-        foreach (TimeSeriesEntry TSE in W)
+        foreach (ObservationEntry TSE in W)
         {
           if(k==0)
           Console.WriteLine(TSE.ToString());
@@ -60,8 +60,8 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     {
       ObservationWell OW = new ObservationWell("test");
 
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(2000, 1, 1), 10));
-      OW.Observations.Add(new TimeSeriesEntry(new DateTime(1999, 1, 1), 15));
+      OW.Observations.Add(new ObservationEntry(new DateTime(2000, 1, 1), 10));
+      OW.Observations.Add(new ObservationEntry(new DateTime(1999, 1, 1), 15));
 
       Assert.AreEqual(10, OW.Observations[0].Value);
 
@@ -72,20 +72,20 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       DateTime start = new DateTime(1999, 1, 1);
       DateTime end = new DateTime(2000, 1, 1);
 
-      Func<TimeSeriesEntry, bool> InBetween = a => a.Time >= start & a.Time <= end;
+      Func<ObservationEntry, bool> InBetween = a => a.Time >= start & a.Time <= end;
 
       var query = OW.Observations.Where(a => InBetween(a));
 
-      foreach (TimeSeriesEntry tse in query)
+      foreach (ObservationEntry tse in query)
         Console.WriteLine(tse.Time);
 
 
       var query2 = from entry in OW.Observations where entry.Time >= start & entry.Time <= end select entry;
 
-      double d = query2.Sum(new Func<TimeSeriesEntry, double>(a => a.Value));
+      double d = query2.Sum(new Func<ObservationEntry, double>(a => a.Value));
 
 
-      foreach (TimeSeriesEntry tse in query2)
+      foreach (ObservationEntry tse in query2)
         Console.WriteLine(tse.Time);
 
 
