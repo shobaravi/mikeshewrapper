@@ -49,6 +49,25 @@ namespace MikeSheWrapper.JupiterTools
       }
     }
 
+    public static void Extraction(string DataBaseFile)
+    {
+      JupiterXL JXL = new JupiterXL();
+      JXL.ReadExtractions(DataBaseFile);
+
+      ObservationWell CurrentWell;
+
+      foreach (var Anlaeg in JXL.DRWPLANT)
+        foreach (var Intake in Anlaeg.GetDRWPLANTINTAKERows())
+        {
+          Anlaeg.GetWRRCATCHMENTRows();
+          string id = Intake.BOREHOLENO;
+        }
+
+
+
+
+    }
+
     /// <summary>
     /// Reads in all wells from a Jupiter database. 
     /// </summary>
