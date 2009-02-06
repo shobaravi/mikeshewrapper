@@ -81,7 +81,7 @@ namespace MikeSheWrapper.LayerStatistics
                 }
               }
               //Now add the observation
-              OW.Observations.Add(new TimeSeriesEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
+              OW.Observations.Add(new ObservationEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
             }
             catch (FormatException e)
             {
@@ -107,7 +107,7 @@ namespace MikeSheWrapper.LayerStatistics
       foreach (ObservationWell OW in Obs.WorkingList)
       {
         //Write for each observation
-        foreach (TimeSeriesEntry TSE in OW.Observations)
+        foreach (ObservationEntry TSE in OW.Observations)
         {
           StringBuilder ObsString = new StringBuilder();
           ObsString.Append(OW.ID + "\t");

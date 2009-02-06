@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MikeSheWrapper
+namespace MikeSheWrapper.Tools
 {
   /// <summary>
   /// A small class holding typical data to describe a well

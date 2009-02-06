@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using MikeSheWrapper.InputDataPreparation;
+using MikeSheWrapper.Tools;
 
 namespace MikeSheWrapper.JupiterTools
 {
@@ -44,28 +45,66 @@ namespace MikeSheWrapper.JupiterTools
         if (CurrentWell != null)
           if (!WatLev.IsTIMEOFMEASNull())
             if (!WatLev.IsWATLEVMSLNull())
-              CurrentWell.Observations.Add(new TimeSeriesEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
+              CurrentWell.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
 
       }
     }
 
-    public static void Extraction(string DataBaseFile)
+    public static void Extraction(string DataBaseFile, Dictionary<int, Plant> Plants, Dictionary<string, Well> Wells)
     {
       JupiterXL JXL = new JupiterXL();
       JXL.ReadExtractions(DataBaseFile);
 
-      ObservationWell CurrentWell;
+      Well CurrentWell;
+      Plant CurrentPlant;
 
       foreach (var Anlaeg in JXL.DRWPLANT)
-        foreach (var Intake in Anlaeg.GetDRWPLANTINTAKERows())
+      {
+        if (!Plants.TryGetValue(Anlaeg.PLANTID, out CurrentPlant))
         {
-          Anlaeg.GetWRRCATCHMENTRows();
-          string id = Intake.BOREHOLENO;
+          CurrentPlant = new Plant(Anlaeg.PLANTID);
+          Plants.Add(CurrentPlant.IDNumber, CurrentPlant);
         }
 
+        if (!Anlaeg.IsPLANTNAMENull())
+          CurrentPlant.Name = Anlaeg.PLANTNAME;
 
+        if (!Anlaeg.IsPLANTADDRESSNull())
+          CurrentPlant.Address = Anlaeg.PLANTADDRESS;
 
+        if (!Anlaeg.IsPLANTPOSTALCODENull())
+          CurrentPlant.ZipCode = Anlaeg.PLANTPOSTALCODE;
 
+        if (!Anlaeg.IsPERMITDATENull())
+          CurrentPlant.PermitDate = Anlaeg.PERMITDATE;
+
+        if (!Anlaeg.IsPERMITEXPIREDATENull())
+          CurrentPlant.PermitExpiryDate = Anlaeg.PERMITEXPIREDATE;
+
+        if (!Anlaeg.IsPERMITAMOUNTNull())
+          CurrentPlant.Permit = Anlaeg.PERMITAMOUNT;
+
+        //Loop the intakes
+        foreach (var Intake in Anlaeg.GetDRWPLANTINTAKERows())
+        {
+          string NovanaID = Intake.BOREHOLENO.Replace(" ", "") + "_" + Intake.INTAKENO;
+          if (!Wells.TryGetValue(NovanaID, out CurrentWell))
+          {
+            CurrentWell = new Well(NovanaID);
+            Wells.Add(NovanaID, CurrentWell);
+          }
+          CurrentPlant.PumpingWells.Add(CurrentWell);
+        }
+
+        //Loop the extractions
+        foreach (var Ext in Anlaeg.GetWRRCATCHMENTRows())
+        {
+          if (!Ext.IsAMOUNTNull())
+            CurrentPlant.Extractions.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.AMOUNT));
+          if (!Ext.IsSURFACEWATERVOLUMENull())
+            CurrentPlant.SurfaceWaterExtrations.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.SURFACEWATERVOLUME));
+        }
+      }
     }
 
     /// <summary>

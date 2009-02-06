@@ -28,7 +28,7 @@ namespace MikeSheWrapper.InputDataPreparation
     public double Depth {get; set;}
     
     private double _z;
-    private List<TimeSeriesEntry> _observations = new List<TimeSeriesEntry>();
+    private List<ObservationEntry> _observations = new List<ObservationEntry>();
 
     //TSObject members
     private TSObject _tso;
@@ -72,7 +72,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       DateTime _previousTimeStep = DateTime.MinValue;
 
-      List<TimeSeriesEntry> SelectedObs = _observations.Where(TSE => HeadObservations.InBetween(TSE, Start, End)).ToList<TimeSeriesEntry>();
+      List<ObservationEntry> SelectedObs = _observations.Where(TSE => HeadObservations.InBetween(TSE, Start, End)).ToList<ObservationEntry>();
 
       SelectedObs.Sort();
 
@@ -133,7 +133,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       for (int i = 1; i <= _tso.Time.NrTimeSteps; i++)
       {
-        _observations.Add(new TimeSeriesEntry((DateTime)_tso.Time.GetTimeForTimeStepNr(i), (float)_tso.Item(item).GetDataForTimeStepNr(i)));
+        _observations.Add(new ObservationEntry((DateTime)_tso.Time.GetTimeForTimeStepNr(i), (float)_tso.Item(item).GetDataForTimeStepNr(i)));
       }
     }
 
@@ -159,7 +159,7 @@ namespace MikeSheWrapper.InputDataPreparation
         if (_observations.Count == 0)
           return null;
 
-        return Math.Pow(_observations.Average(new Func<TimeSeriesEntry, double>(num => num.RMSE)), 0.5);
+        return Math.Pow(_observations.Average(new Func<ObservationEntry, double>(num => num.RMSE)), 0.5);
       }
     }
 
@@ -169,7 +169,7 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         if (_observations.Count == 0)
           return null;
-        return _observations.Average(new Func<TimeSeriesEntry, double>(num => num.ME));
+        return _observations.Average(new Func<ObservationEntry, double>(num => num.ME));
       }
     }
 
@@ -179,7 +179,7 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         if (_observations.Count == 0)
           return null;
-        return _observations.Average(new Func<TimeSeriesEntry, double>(num => Math.Abs(num.ME)));
+        return _observations.Average(new Func<ObservationEntry, double>(num => Math.Abs(num.ME)));
       }
     }
 
@@ -190,10 +190,10 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         if (_observations.Count == 0)
           return null;
-        double simmean = _observations.Average(new Func<TimeSeriesEntry, double>(num => num.SimulatedValue));
-        double obsmean = _observations.Average(new Func<TimeSeriesEntry, double>(num => num.Value)); 
+        double simmean = _observations.Average(new Func<ObservationEntry, double>(num => num.SimulatedValue));
+        double obsmean = _observations.Average(new Func<ObservationEntry, double>(num => num.Value)); 
 
-        double val = _observations.Sum(new Func<TimeSeriesEntry,double>(num => Math.Pow(num.Value - obsmean-(num.SimulatedValue - simmean),2)));
+        double val = _observations.Sum(new Func<ObservationEntry,double>(num => Math.Pow(num.Value - obsmean-(num.SimulatedValue - simmean),2)));
         return  Math.Pow(val/_observations.Count, 0.5);
       }
     }
@@ -204,7 +204,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <summary>
     /// Gets the observations. Also used to add data
     /// </summary>
-    public List<TimeSeriesEntry> Observations
+    public List<ObservationEntry> Observations
     {
       get { return _observations; }
     }

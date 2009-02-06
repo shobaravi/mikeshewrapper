@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using MikeSheWrapper.Tools;
+
 namespace MikeSheWrapper.InputDataPreparation
 {
   /// <summary>
-  /// A small class that can hold an entry in a time series and calculate basic statistics. 
+  /// A small class that can hold an observation entry and calculate basic statistics. 
   /// Note. Entries are equal if the time is equal.
   /// </summary>
-  public class TimeSeriesEntry:IComparable<TimeSeriesEntry>,IEquatable<TimeSeriesEntry>
+  public class ObservationEntry:TimeSeriesEntry
   {
     
     /// <summary>
@@ -17,10 +19,8 @@ namespace MikeSheWrapper.InputDataPreparation
     /// </summary>
     /// <param name="Time"></param>
     /// <param name="Value"></param>
-    public TimeSeriesEntry(DateTime Time, double Value)
+    public ObservationEntry(DateTime Time, double Value):base(Time, Value)
     {
-      this.Time = Time;
-      this.Value = Value;
     }
 
 
@@ -39,16 +39,6 @@ namespace MikeSheWrapper.InputDataPreparation
     /// </summary>
     public double SimulatedValueCell {get;set;}
     
-    /// <summary>
-    /// Gets and sets the time for this entry
-    /// </summary>
-    public DateTime Time { get; set; }
-
-    /// <summary>
-    /// Gets and sets the value for this entry
-    /// </summary>
-    public double Value { get; set; }
-
     /// <summary>
     /// Gets and sets the simulated value. This value is used for the statistics calculation
     /// </summary>
@@ -71,38 +61,6 @@ namespace MikeSheWrapper.InputDataPreparation
     public double RMSE
     {
       get { return Math.Pow(ME, 2.0);  }
-    }
-   
-#region System.Object overrides
-
-    public override string ToString()
-    {
-      return "T= " + Time.ToShortDateString() + ", V = " + Value;
-    }
-
-    public override int GetHashCode()
-    {
-      return Time.GetHashCode();
-    }
-
-#endregion
-
-    #region IComparable<TimeSeriesEntry> Members
-
-    public int CompareTo(TimeSeriesEntry other)
-    {
-      return Time.CompareTo(other.Time);
-    }
-
-    #endregion
-
-    #region IEquatable<TimeSeriesEntry> Members
-
-    public bool Equals(TimeSeriesEntry other)
-    {
-      return other.Time.Equals(Time);
-    }
-
-    #endregion
+    }   
   }
 }
