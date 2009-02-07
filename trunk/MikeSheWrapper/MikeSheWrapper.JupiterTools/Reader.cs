@@ -213,7 +213,6 @@ namespace MikeSheWrapper.JupiterTools
           if (!Boring.IsELEVATIONNull())
             CurrentWell.Terrain = Boring.ELEVATION;
 
-          CurrentRow.COUNT = 1;
           CurrentRow.NOVANAID = wellname;
           //          CurrentRow.BORID = 
           //          CurrentRow.KOORTYPE =
