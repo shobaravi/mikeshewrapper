@@ -73,7 +73,7 @@ namespace MikeSheWrapper.JupiterTools
           CurrentPlant.Address = Anlaeg.PLANTADDRESS;
 
         if (!Anlaeg.IsPLANTPOSTALCODENull())
-          CurrentPlant.ZipCode = Anlaeg.PLANTPOSTALCODE;
+          CurrentPlant.PostalCode = Anlaeg.PLANTPOSTALCODE;
 
         if (!Anlaeg.IsPERMITDATENull())
           CurrentPlant.PermitDate = Anlaeg.PERMITDATE;
