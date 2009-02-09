@@ -40,5 +40,11 @@ namespace MikeSheWrapper.UnitTest
       }
 
     }
+
+    [TearDown]
+    public void Dispose()
+    {
+      _res.Dispose();
+    }
   }
 }

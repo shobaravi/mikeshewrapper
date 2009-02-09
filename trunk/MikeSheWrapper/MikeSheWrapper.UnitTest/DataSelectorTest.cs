@@ -13,7 +13,7 @@ namespace MikeSheWrapper.UnitTest
   [TestFixture]
   public class DataSelectorTest
   {
-
+    [Ignore]
     [Test]
     public void ShowTest()
     {
@@ -31,6 +31,8 @@ namespace MikeSheWrapper.UnitTest
       DataSelector DS = new DataSelector(DT);
 
       DS.ShowDialog();
+
+      
 
       Assert.AreEqual("\"felt1\"", DS.SelectString);
       

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DHI.DHIfl;
 
 namespace MikeSheWrapper
 {
@@ -14,22 +15,26 @@ namespace MikeSheWrapper
 
       Process Runner = new Process();
 
+      //Getting the path from the registry. This will be changed in 2009.
+      string path;
+      DHIRegistry key = new DHIRegistry(DHIProductAreas.MIKE_ZERO, false);
+      key.GetHomeDirectory(out path);
+      path = Path.Combine(path, "bin");
+
       if (UseMZLauncher)
       {
-        Runner.StartInfo.FileName = "Mzlaunch.exe";
-        Runner.StartInfo.Arguments = MsheFileName + " -exit";
+        Runner.StartInfo.FileName = Path.Combine(path,"Mzlaunch.exe");
+        Runner.StartInfo.Arguments = Path.GetFullPath(MsheFileName) + " -exit";
         
       }
 
       else
       {
-        //This should actually check the path using DHI.Fl, which will be changed in 2009
-
-        Runner.StartInfo.FileName = "Mshe_preprocessor.exe";
+        Runner.StartInfo.FileName = Path.Combine(path,"Mshe_preprocessor.exe");
         Runner.StartInfo.Arguments = MsheFileName;
         Runner.Start();
         Runner.WaitForExit();
-        Runner.StartInfo.FileName = "Mshe_watermovement.exe";
+        Runner.StartInfo.FileName = Path.Combine(path,"Mshe_watermovement.exe");
       }
       Runner.Start();
       Runner.WaitForExit();

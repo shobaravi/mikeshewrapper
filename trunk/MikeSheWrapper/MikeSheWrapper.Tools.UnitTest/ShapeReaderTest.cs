@@ -15,13 +15,7 @@ namespace MikeSheWrapper.Tools.UnitTest
     [Test]
     public void TestSingleRead()
     {
-      PointShapeReader SP = new PointShapeReader(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
-
-
-      double d = SP.Data.ReadDouble(600000, "YUTM");
-
-      DateTime dd = SP.Data.ReadDate(1, "tiemofmeas");
-      int di = SP.Data.ReadInt(1, "tiemofmeas");
+      
     }
 
 
