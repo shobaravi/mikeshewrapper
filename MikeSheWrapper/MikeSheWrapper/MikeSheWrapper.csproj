@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dhi.dhifl, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c513450b5d0bf0bf, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Programmer\Fælles filer\DHI\MIKEZero\Dhi.dhifl.dll</HintPath>
+    </Reference>
     <Reference Include="DHI.Generic.MikeZero.DFS, Version=8.0.0.0, Culture=neutral, PublicKeyToken=c513450b5d0bf0bf, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Programmer\Fælles filer\DHI\MIKEZero\DHI.Generic.MikeZero.DFS.dll</HintPath>

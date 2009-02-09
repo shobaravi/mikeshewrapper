@@ -18,7 +18,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       Dictionary<int, Plant> Anlaeg = new Dictionary<int, Plant>();
       Dictionary<string, Well> Wells = new Dictionary<string, Well>();
-      Reader.Extraction(@"C:\Kode\MikeSheWrapper\TestData\AlbertslundPcJupiter.mdb", Anlaeg, Wells);
+      Reader.Extraction(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", Anlaeg, Wells);
 
       Assert.AreEqual(4,Anlaeg.Values.Count(x=>x.PumpingWells.Count==0));
 

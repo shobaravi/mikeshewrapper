@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,10 @@ namespace MikeSheWrapper.UnitTest
     [Test]
     public void PreProcessTest()
     {
-     
-      MSheLauncher.PreprocessAndRun(@"F:\Jacob\MikeSheWrapper\TestData\TestModel.she",false);
+
+      MSheLauncher.PreprocessAndRun(@"..\..\..\TestData\TestModel.she", true);
       Console.WriteLine("simulation finished");
+      Thread.Sleep(2000);
     }
   }
 }

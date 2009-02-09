@@ -13,7 +13,7 @@ namespace MikeSheWrapper.Irrigation.UnitTest
   [TestFixture]
   public class ControllerTest
   {
-
+    [Ignore]
     [Test]
     public void SerializeTest()
     {
@@ -37,9 +37,6 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
       
       XDocument xd = XDocument.Load(@"..\..\..\TestData\IrrigationConfiguration.xml");
-
-      
-      
 
       Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(@"..\..\..\TestData\IrrigationConfiguration.xml", System.IO.FileMode.Open));
       Controller C = new Controller(Cf);
