@@ -1,6 +1,6 @@
-// Created     : 2008-12-15 12:4:28
-// DLL id      : D:\Programmer\Fælles filer\DHI\MikeZero\pfs2004.dll
-// PFS version : Sep 25 2008 20:27:52
+// Created     : 2009-01-30 10:49:8
+// DLL id      : C:\Programmer\Fælles filer\DHI\MIKEZero\pfs2004.dll
+// PFS version : Nov 27 2007 20:39:43
 
 [MIKESHE_FLOWMODEL]
    [FlowModelDocVersion]
@@ -143,7 +143,7 @@
          MaxAllowedSZTimeStep = 1
          IncrementRate = 0.05
          MaxPrecDepthPerTimeStep = 10
-         MaxInfiltDepthPerTimeStep = 10
+         MaxInfiltDepthPerTimeStep  = 10
          PrecThresholdRate = 0.1
       EndSect  // CompControlParaTimeStep
 
@@ -238,7 +238,7 @@
          CompressibilityWater = 1e-008
          CompressibilityAir = 1.777e-005
          StdAtmPressure = 1010
-         GravityAcceleration = 9.810000000000001
+         GravityAcceleration = 9.81
          TypeAmbientWaterHeadInput = 34078720
       EndSect  // AirFlowSimulationParametersMod
 
@@ -421,7 +421,7 @@
       [DFS_2D_DATA_FILE]
          Touched = 1
          IsDataUsedInSetup = 1
-         FILE_NAME = |Model Domain and Grid.dfs2|
+         FILE_NAME = |.\Model Domain and Grid.dfs2|
          ITEM_COUNT = 1
          ITEM_NUMBERS = 1
       EndSect  // DFS_2D_DATA_FILE
@@ -1357,7 +1357,7 @@
          [DFS_2D_DATA_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = |Irrigation command areas.dfs2|
+            FILE_NAME = |.\Irrigation command areas.dfs2|
             ITEM_COUNT = 1
             ITEM_NUMBERS = 1
          EndSect  // DFS_2D_DATA_FILE
@@ -1365,7 +1365,7 @@
          [SHAPE_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = |commandareas.shp|
+            FILE_NAME = |.\commandareas.shp|
             ITEM_COUNT = 1
             ITEM_NUMBERS = 'ID'
          EndSect  // SHAPE_FILE
@@ -1474,7 +1474,7 @@
          [DFS_2D_DATA_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = |Irrigation demand.dfs2|
+            FILE_NAME = |.\Irrigation demand.dfs2|
             ITEM_COUNT = 1
             ITEM_NUMBERS = 1
          EndSect  // DFS_2D_DATA_FILE
@@ -1609,7 +1609,7 @@
    [River]
       Touched = 1
       IsDataUsedInSetup = 1
-      Filename = |Mike11\Untitled1.sim11|
+      Filename = |.\Mike11\Untitled1.sim11|
       FilenameWQ = ||
       Bathymetry = 0
       FloodCodes = 0
@@ -3840,7 +3840,7 @@
             [TIME_SERIES_FILE]
                Touched = 1
                IsDataUsedInSetup = 1
-               FILE_NAME = |Detailed timeseries output.dfs0|
+               FILE_NAME = |.\Detailed timeseries output.dfs0|
                ITEM_COUNT = 1
                ITEM_NUMBERS = 2
             EndSect  // TIME_SERIES_FILE
@@ -3860,7 +3860,7 @@
             [TIME_SERIES_FILE]
                Touched = 1
                IsDataUsedInSetup = 1
-               FILE_NAME = |Detailed timeseries output.dfs0|
+               FILE_NAME = |.\Detailed timeseries output.dfs0|
                ITEM_COUNT = 1
                ITEM_NUMBERS = 1
             EndSect  // TIME_SERIES_FILE
