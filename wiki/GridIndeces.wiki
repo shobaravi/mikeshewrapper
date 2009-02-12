@@ -1,4 +1,4 @@
-#summary How MikeShe, GridEditor and MikeSheWrapper interprets a grid
+#summary How MikeShe, MikeZero and MikeSheWrapper interprets a grid
 
 = Introduction =
 
