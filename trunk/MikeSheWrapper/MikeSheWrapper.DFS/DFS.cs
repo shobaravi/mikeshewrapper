@@ -276,16 +276,21 @@ namespace MikeSheWrapper.DFS
         TimeStep = (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
       else
       {
-        TimeStep = 1;
-
-        for (int i = 0; i < TimeSteps.Length; i++)
+        if (TimeStamp >= TimeSteps[TimeSteps.Length - 1])
+          return TimeSteps.Length;
+        
+        int i = 1;
+        while (TimeStamp < TimeSteps[i])
         {
+          i++;
         }
- 
 
+        if (TimeStamp.Subtract(TimeSteps[i]) < TimeStamp.Subtract(TimeSteps[i - 1]))
+          return i;
+        else
+          return i - 1;
         }
       return Math.Min(NumberOfTimeSteps, TimeStep);
-
     }
 
     /// <summary>
