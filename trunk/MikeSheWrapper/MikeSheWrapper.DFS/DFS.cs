@@ -69,21 +69,16 @@ namespace MikeSheWrapper.DFS
       IntPtr[] IPointers = new IntPtr[nitems];
       ItemNames = new string[nitems];
 
-
-
+      //Gets the pointers to the items
       for (int i = 1; i <= nitems; i++)
         IPointers[i - 1] = (DFSWrapper.dfsItemD(_headerWriter, i));
 
       int item_type = 0;
       int data_type = 0;
-      int j = 0;
-      int k = 0;
-      int l = 0;
       IntPtr name = new IntPtr();
       IntPtr Eum = new IntPtr();
-      int unit = 0;
-      string eum_type = "";
       string eum_unit = "";
+      int unit = 0;
 
       List<string> eumunits = new List<string>();
 
@@ -98,6 +93,7 @@ namespace MikeSheWrapper.DFS
       bool firstItem = true;
 
       int ii = 0;
+      //Loop the items
       foreach (IntPtr IP in IPointers)
       {
         dfsGetItemInfo_(IP, ref item_type, ref name, ref Eum, ref data_type);
@@ -263,7 +259,9 @@ namespace MikeSheWrapper.DFS
     }
 
     /// <summary>
-    /// Returns the TimeStep closest to the TimeStamp. If the timestamp falls exactly between two timestep the smallest is returned
+    /// Returns the zero-based index of the TimeStep closest to the TimeStamp. If the timestamp falls exactly between two timestep the smallest is returned.
+    /// If the TimeStamp is before the first timestep 0 is returned.
+    /// If the TimeStamp is after the last timestep the index of the last timestep is returned
     /// </summary>
     /// <param name="TimeStamp"></param>
     /// <returns></returns>
@@ -272,20 +270,24 @@ namespace MikeSheWrapper.DFS
       if (TimeStamp < _firstTimeStep || NumberOfTimeSteps==1)
         return 0;
       int TimeStep;
+      //fixed timestep
       if (_timeStep != TimeSpan.Zero)
         TimeStep = (int)Math.Round(TimeStamp.Subtract(_firstTimeStep).TotalSeconds / _timeStep.TotalSeconds, 0);
+      //Variabale timestep
       else
       {
+        //Last timestep is known
         if (TimeStamp >= TimeSteps[TimeSteps.Length - 1])
-          return TimeSteps.Length;
+          return TimeSteps.Length-1;
         
         int i = 1;
-        while (TimeStamp < TimeSteps[i])
+        //Loop the timesteps
+        while (TimeStamp > TimeSteps[i])
         {
           i++;
         }
-
-        if (TimeStamp.Subtract(TimeSteps[i]) < TimeStamp.Subtract(TimeSteps[i - 1]))
+        //Check if last one was actually close
+        if (TimeSteps[i].Subtract(TimeStamp) < TimeStamp.Subtract(TimeSteps[i - 1]))
           return i;
         else
           return i - 1;
@@ -345,6 +347,8 @@ namespace MikeSheWrapper.DFS
         throw new Exception("Error writing timestep number: " + _currentTimeStep);
     }
 
+    #region Properties
+
     /// <summary>
     /// Gets and sets the date and time of the first time step.
     /// </summary>
@@ -372,6 +376,8 @@ namespace MikeSheWrapper.DFS
       }
       set
       {
+        if (_timeStep == TimeSpan.Zero)
+          throw new Exception("Cannot set the time step when the dfs-file is non-equidistant"); 
         _timeStep = value;
         WriteTime();
       }
@@ -390,11 +396,10 @@ namespace MikeSheWrapper.DFS
     }
 
     /// <summary>
-    /// Gets a list
+    /// Gets an string array with the names of the items
     /// </summary>
     public string[] ItemNames { get; private set; }
 
-    
     /// <summary>
     /// Gets the number of timesteps
     /// </summary>
@@ -414,7 +419,11 @@ namespace MikeSheWrapper.DFS
     /// </summary>
     public double YOrigin { get; private set; }
 
+    /// <summary>
+    /// Gets the grid size. Only valid for dfs2 and dfs3.
+    /// </summary>
     public double GridSize { get; private set; }
 
+    #endregion
   }
 }
