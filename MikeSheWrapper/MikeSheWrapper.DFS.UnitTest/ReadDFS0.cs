@@ -29,8 +29,17 @@ namespace MikeSheWrapper.DFS.UnitTest
     {
       DFS0 _data = new DFS0(@"..\..\..\\TestData\Detailed timeseries output.dfs0");
 
-      _data.GetTimeStep(new DateTime(2000,1,4,12,0,0));
+      Assert.AreEqual(3, _data.GetTimeStep(new DateTime(2000, 1, 4, 11, 0, 0)));
+      Assert.AreEqual(3, _data.GetTimeStep(new DateTime(2000, 1, 4, 12, 0, 0)));
 
-      }
+      Assert.AreEqual(4, _data.GetTimeStep(new DateTime(2000, 1, 4, 13, 0, 0)));
+      Assert.AreEqual(0, _data.GetTimeStep(new DateTime(1200, 1, 4, 13, 0, 0)));
+      Assert.AreEqual(31, _data.GetTimeStep(new DateTime(2200, 1, 4, 13, 0, 0)));
+
+      
+
+      _data.Dispose();
+
+    }
   }
 }
