@@ -6,7 +6,7 @@ namespace MikeSheWrapper.JupiterTools
 
   public partial class JupiterXL
   {
-
+    
     /// <summary>
     /// Reads in data required for the NOVANA project.
     /// </summary>
@@ -55,6 +55,18 @@ namespace MikeSheWrapper.JupiterTools
       CTA.Connection.ConnectionString = ConnectionString;
       CTA.Fill(CASING);
 
+    }
+
+    /// <summary>
+    /// Read the data from the Lithsample table.
+    /// </summary>
+    /// <param name="DataBaseFileName"></param>
+    public void ReadInLithology(string DataBaseFileName)
+    {
+      string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
+      LITHSAMPTableAdapter LTA = new LITHSAMPTableAdapter();
+      LTA.Connection.ConnectionString = ConnectionString;
+      LTA.Fill(LITHSAMP);
     }
 
     /// <summary>
