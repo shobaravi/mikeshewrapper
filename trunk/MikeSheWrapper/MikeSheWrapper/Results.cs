@@ -11,7 +11,11 @@ namespace MikeSheWrapper
   public class Results:IDisposable 
   {
     private DFS3 SZ3D;
-    public static string HeadElevationString = "head elevation in saturated zone";
+
+    /// <summary>
+    /// The name of the item containing head elevation data.  
+    /// </summary>
+    public string HeadElevationString = "head elevation in saturated zone";
 
     private DataSetsFromDFS3 _heads;
     private DataSetsFromDFS3 _xflow;
@@ -22,29 +26,40 @@ namespace MikeSheWrapper
     private DataSetsFromDFS3 _sZDrainageFlow;
     private PhreaticPotential _phreaticHead;
 
-    private double _deleteValue;
-
-    public double DeleteValue
-    {
-      get { return _deleteValue; }
-    }
-
     private MikeSheGridInfo _grid;
 
+    #region Constructors
 
+    /// <summary>
+    /// Constructs results from .dfs3 file with head data and a GridInfo object. 
+    /// This constructor is only to be used by LayerStatistics.
+    /// </summary>
+    /// <param name="SZ3DFileName"></param>
+    /// <param name="Grid"></param>
     public Results(string SZ3DFileName, MikeSheGridInfo Grid)
     {
       _grid = Grid;
       Initialize3DSZ(SZ3DFileName);
     }
 
-    internal Results(FileNames fileNames, MikeSheGridInfo Grid)
+    /// <summary>
+    /// Constructs results from .dfs3 file with head data and a GridInfo object. 
+    /// This constructor is only to be used by LayerStatistics.
+    /// </summary>
+    /// <param name="SZ3DFileName"></param>
+    /// <param name="Grid"></param>
+    public Results(string SZ3DFileName, MikeSheGridInfo Grid, string HeadElevationString)
     {
+      this.HeadElevationString = HeadElevationString;
       _grid = Grid;
-      Initialize3DSZ(fileNames.Get3DSZFileName);
-      Initialize3DSZFlow(fileNames.get3DSZFlowFileName);
+      Initialize3DSZ(SZ3DFileName);
     }
 
+
+    /// <summary>
+    /// Constructs the Results from a MikeShe setup file (.she)
+    /// </summary>
+    /// <param name="SheFileName"></param>
     public Results(string SheFileName)
     {
       FileNames fn = new FileNames(SheFileName);
@@ -52,6 +67,26 @@ namespace MikeSheWrapper
       Initialize3DSZ(fn.Get3DSZFileName);
       Initialize3DSZFlow(fn.get3DSZFlowFileName);
     }
+
+    /// <summary>
+    /// Use this when the filenames object and the GridInfo object have already been constructed
+    /// </summary>
+    /// <param name="fileNames"></param>
+    /// <param name="Grid"></param>
+    internal Results(FileNames fileNames, MikeSheGridInfo Grid)
+    {
+      _grid = Grid;
+      Initialize3DSZ(fileNames.Get3DSZFileName);
+      Initialize3DSZFlow(fileNames.get3DSZFlowFileName);
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Gets the delete value
+    /// </summary>
+    public double DeleteValue { get; private set; }
+
 
     public IXYZTDataSet Heads
     {
@@ -96,7 +131,7 @@ namespace MikeSheWrapper
     private void Initialize3DSZ(string sz3dFile)
     {
       SZ3D = new DFS3(sz3dFile);
-      _deleteValue = SZ3D.DeleteValue;
+      DeleteValue = SZ3D.DeleteValue;
       for (int i = 0; i < SZ3D.ItemNames.Length; i++)
       {
         if (SZ3D.ItemNames[i].Equals(HeadElevationString, StringComparison.OrdinalIgnoreCase))
@@ -107,6 +142,7 @@ namespace MikeSheWrapper
         }
       }
     }
+
     private void Initialize3DSZFlow(string sz3dFlowFile)
     {
       DFS3 SZ3DFlow = new DFS3(sz3dFlowFile);
