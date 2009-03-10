@@ -11,7 +11,7 @@ namespace MikeSheWrapper.InputDataPreparation
   /// A small class that can hold an observation entry and calculate basic statistics. 
   /// Note. Entries are equal if the time is equal.
   /// </summary>
-  public class ObservationEntry:TimeSeriesEntry
+  public class ObservationEntry : TimeSeriesEntry, IComparable<ObservationEntry>, IEquatable<ObservationEntry>
   {
     
     /// <summary>
@@ -61,6 +61,25 @@ namespace MikeSheWrapper.InputDataPreparation
     public double RMSE
     {
       get { return Math.Pow(ME, 2.0);  }
-    }   
+    }
+
+    #region IComparable<TimeSeriesEntry> Members
+
+    public int CompareTo(ObservationEntry other)
+    {
+      return base.CompareTo(other);
+    }
+
+    #endregion
+
+    #region IEquatable<TimeSeriesEntry> Members
+
+    public bool Equals(ObservationEntry other)
+    {
+      return base.Equals(other);
+    }
+
+    #endregion
+
   }
 }
