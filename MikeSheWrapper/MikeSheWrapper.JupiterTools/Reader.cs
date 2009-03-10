@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using MikeSheWrapper.InputDataPreparation;
 using MikeSheWrapper.Tools;
 
 namespace MikeSheWrapper.JupiterTools
@@ -43,11 +42,21 @@ namespace MikeSheWrapper.JupiterTools
         }
         //If the well has been found or is created fill in the observations
         if (CurrentWell != null)
-          if (!WatLev.IsTIMEOFMEASNull())
-            if (!WatLev.IsWATLEVMSLNull())
-              CurrentWell.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
+          FillInWaterLevel(CurrentWell, WatLev);
 
       }
+    }
+
+    /// <summary>
+    /// Put the observation in the well
+    /// </summary>
+    /// <param name="CurrentWell"></param>
+    /// <param name="WatLev"></param>
+    private static void FillInWaterLevel(ObservationWell CurrentWell, JupiterXL.WATLEVELRow WatLev)
+    {
+      if (!WatLev.IsTIMEOFMEASNull())
+        if (!WatLev.IsWATLEVMSLNull())
+          CurrentWell.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
     }
 
     public static void Extraction(string DataBaseFile, Dictionary<int, Plant> Plants, Dictionary<string, Well> Wells)
@@ -107,6 +116,12 @@ namespace MikeSheWrapper.JupiterTools
       }
     }
 
+
+    public static void ReadLithology(string DataBaseFile, Dictionary<string, JupiterWell> Wells)
+    {
+
+    }
+
     /// <summary>
     /// Reads in all wells from a Jupiter database. 
     /// </summary>
@@ -155,15 +170,16 @@ namespace MikeSheWrapper.JupiterTools
     }
 
 
-    public static void WellsForNovana(string DataBaseFile, Dictionary<string, ObservationWell> Wells)
+    public static void WellsForNovana(string DataBaseFile, Dictionary<string, JupiterWell> Wells)
     {
       //Construct the data set
       JupiterXL JXL = new JupiterXL();
       JXL.ReadInTotalWellsForNovana(DataBaseFile);
+      JXL.ReadInLithology(DataBaseFile);
 
       NovanaTables.PejlingerTotalDataTable DT = new NovanaTables.PejlingerTotalDataTable();
 
-      ObservationWell CurrentWell;
+      JupiterWell CurrentWell;
       NovanaTables.PejlingerTotalRow CurrentRow;
 
       
@@ -179,7 +195,7 @@ namespace MikeSheWrapper.JupiterTools
 
           if (!Wells.TryGetValue(wellname, out CurrentWell))
           {
-            CurrentWell = new ObservationWell(wellname);
+            CurrentWell = new JupiterWell(wellname);
             CurrentWell.Data = DT.NewPejlingerTotalRow();
             DT.Rows.Add(CurrentWell.Data);
             Wells.Add(wellname, CurrentWell);
@@ -274,27 +290,51 @@ namespace MikeSheWrapper.JupiterTools
           //Fra WatLevel          CurrentRow.REFPOINT = 
           CurrentRow.ANTINT_B = Boring.GetINTAKERows().Count();
 
+          //Read in the water levels
+          foreach (var WatLev in Intake.GetWATLEVELRows())
+          {
+            FillInWaterLevel(CurrentWell, WatLev);
+          }
+
+          //Create statistics on water levels
+          CurrentRow.ANTPEJ = CurrentWell.Observations.Count;
+          if (CurrentRow.ANTPEJ > 0)
+          {
+            CurrentRow.MINDATO = CurrentWell.Observations.Min(x => x.Time);
+            CurrentRow.MAXDATO = CurrentWell.Observations.Max(x => x.Time);
+            CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
+            CurrentRow.AKTDAGE = CurrentRow.MAXDATO.Subtract(CurrentRow.MINDATO).Days + 1;
+            CurrentRow.PEJPRAAR = CurrentRow.ANTPEJ / CurrentRow.AKTAAR;
+            CurrentRow.MAXPEJ = CurrentWell.Observations.Max(num => num.Value);
+            CurrentRow.MINPEJ = CurrentWell.Observations.Min(num => num.Value);
+            CurrentRow.MEANPEJ = CurrentWell.Observations.Average(num => num.Value);
+          }
+
+          //Loop the lithology
+          foreach (var Lith in Boring.GetLITHSAMPRows())
+          {
+            Lithology L = new Lithology();
+            L.Bottom = Lith.BOTTOM;
+            L.Top = Lith.TOP;
+            L.RockSymbol = Lith.ROCKSYMBOL;
+            L.RockType = Lith.ROCKTYPE;
+            L.TotalDescription = Lith.TOTALDESCR;
+            CurrentWell.LithSamples.Add(L);
+          }
+
+          if (CurrentWell.LithSamples.Count != 0)
+          {
+            CurrentWell.LithSamples.Sort();
+            CurrentRow.BOTROCK = CurrentWell.LithSamples[CurrentWell.LithSamples.Count - 1].RockSymbol;
+          }
+          else
+            CurrentRow.BOTROCK = "999";
+
         }//Intake loop
+
       }//Bore loop
 
-      Waterlevels(DataBaseFile, false, Wells);
 
-      foreach (ObservationWell OW in Wells.Values)
-      {
-        CurrentRow = (NovanaTables.PejlingerTotalRow)OW.Data;
-        CurrentRow.ANTPEJ = OW.Observations.Count;
-        if (CurrentRow.ANTPEJ > 0)
-        {
-          CurrentRow.MINDATO = OW.Observations.Min(x => x.Time);
-          CurrentRow.MAXDATO = OW.Observations.Max(x => x.Time);
-          CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
-          CurrentRow.AKTDAGE = CurrentRow.MAXDATO.Subtract(CurrentRow.MINDATO).Days + 1;
-          CurrentRow.PEJPRAAR = CurrentRow.ANTPEJ / CurrentRow.AKTAAR;
-          CurrentRow.MAXPEJ = OW.Observations.Max(num => num.Value);
-          CurrentRow.MINPEJ = OW.Observations.Min(num => num.Value);
-          CurrentRow.MEANPEJ =OW.Observations.Average(num => num.Value);
-        }
-      }
     }
 
   }
