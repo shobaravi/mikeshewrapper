@@ -46,7 +46,7 @@ namespace MikeSheWrapper.Viewer
             bool ReadAll = (DialogResult.Yes == MessageBox.Show("Read data for specialized NOVANA output?", "Read in how much data?", MessageBoxButtons.YesNo));
             if (ReadAll)
             {
-              JupiterTools.Reader.WellsForNovana(FileName, HO.Wells);
+              //JupiterTools.Reader.WellsForNovana(FileName, HO.Wells);
               buttonNovanaShape.Enabled = true;
             }
             else

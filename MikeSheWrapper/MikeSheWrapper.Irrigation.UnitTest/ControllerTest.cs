@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Collections.Generic;
@@ -13,56 +14,39 @@ namespace MikeSheWrapper.Irrigation.UnitTest
   [TestFixture]
   public class ControllerTest
   {
-    [Ignore]
     [Test]
     public void SerializeTest()
     {
       Configuration Cf = new Configuration();
 
-      Cf.BottomHeader = "BUND";
+      Cf.BottomHeader = "BOTTOM";
       Cf.TopHeader = "TOP";
-      Cf.XHeader = "UTMX";
-      Cf.YHeader = "UTMY";
-      Cf.IdHeader = "NOVANA_ID";
-      Cf.SheFile = @"F:\Jacob\MikeSheWrapper\TestData\TestModel.she";
-      Cf.WellShapeFile = @"F:\DHI\Data\Novana\Novomr4\Time\thiesn1_SpatialJoin.shp";
+      Cf.XHeader = "XUTM";
+      Cf.YHeader = "YUTM";
+      Cf.IdHeader = "ID";
+      Cf.SheFile = @"C:\Kode\MikeSheWrapper\TestData\TestModel.she";
+      Cf.WellShapeFile = @"C:\Kode\MikeSheWrapper\TestData\commandareas.shp";
+      Cf.DeleteWellsAfterRun = true;
 
       XmlSerializer x = new XmlSerializer(Cf.GetType());
-      x.Serialize(new System.IO.FileStream(@"F:\jacob\out.xml", System.IO.FileMode.Create), Cf);
+      x.Serialize(new System.IO.FileStream(@"..\..\..\TestData\IrrigationConfiguration.xml", System.IO.FileMode.Create), Cf);
     }
 
     [Test]
     public void RunTest()
     {
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
-      
-      XDocument xd = XDocument.Load(@"..\..\..\TestData\IrrigationConfiguration.xml");
 
-      Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(@"..\..\..\TestData\IrrigationConfiguration.xml", System.IO.FileMode.Open));
+      string xmlFileName = @"C:\Kode\MikeSheWrapper\TestData\IrrigationConfiguration.xml";
+
+      Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(xmlFileName, System.IO.FileMode.Open));
+     
       Controller C = new Controller(Cf);
 
       C.Run();
 
     }
 
-    [Ignore]
-    [Test]
-    public void Test1()
-    {
-      Configuration Cf = new Configuration();
-
-      Cf.BottomHeader = "BUND";
-      Cf.TopHeader = "TOP";
-      Cf.XHeader = "UTMX";
-      Cf.YHeader = "UTMY";
-      Cf.IdHeader = "NOVANA_ID";
-      Cf.SheFile = @"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ_irr.SHE";
-      Cf.WellShapeFile = @"F:\DHI\Data\Novana\Novomr4\Time\thiesn1_SpatialJoin.shp";
-
-      Controller C = new Controller(Cf);
-      C.InsertIrrigationWells();
-      C.SaveAs(@"F:\DHI\Data\Novana\Novomr4\Result\omr4_jag_UZ_irr_to.SHE");
-    }
-
+    
   }
 }

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MikeSheWrapper.Tools;
-using MikeSheWrapper.InputDataPreparation;
 
 using NUnit.Framework;
 
-namespace MikeSheWrapper.InputDataPreparation.UnitTest
+namespace MikeSheWrapper.Tools.UnitTest
 {
   [TestFixture]
   public class ObservationWellTest
