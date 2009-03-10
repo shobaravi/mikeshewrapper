@@ -95,10 +95,11 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         foreach (ObservationWell W in SelectedWells)
         {
-          if (W.Dfs0Written)
+//          if (W.Dfs0Written)
             SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t1\t"+W.ID +"\t1 ");
-          else  
-            SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+          //When is this necessary
+  //        else  
+    //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
         }
       }
     }
@@ -168,6 +169,7 @@ namespace MikeSheWrapper.InputDataPreparation
     public void ReadInDetailedTimeSeries(Model Mshe)
     {
       ObservationWell CurrentWell;
+      TSObject _tso = null;
 
       foreach (MikeSheWrapper.InputFiles.Item_11 dt in Mshe.Input.MIKESHE_FLOWMODEL.StoringOfResults.DetailedTimeseriesOutput.Item_1s)
       {
@@ -182,7 +184,17 @@ namespace MikeSheWrapper.InputDataPreparation
         //Read in observations if they are included
         if (dt.InclObserved == 1)
         {
-          CurrentWell.ReadDfs0(dt.TIME_SERIES_FILE.FILE_NAME, dt.TIME_SERIES_FILE.ITEM_NUMBERS);
+          if (_tso == null || _tso.Connection.FilePath != dt.TIME_SERIES_FILE.FILE_NAME)
+          {
+            _tso = new TSObjectClass();
+            _tso.Connection.FilePath = dt.TIME_SERIES_FILE.FILE_NAME;
+            _tso.Connection.Open();
+          }
+
+          for (int i = 1; i <= _tso.Time.NrTimeSteps; i++)
+          {
+            CurrentWell.Observations.Add(new ObservationEntry((DateTime)_tso.Time.GetTimeForTimeStepNr(i), (float)_tso.Item(dt.TIME_SERIES_FILE.ITEM_NUMBERS).GetDataForTimeStepNr(i)));
+          }
         }
       }
     }
@@ -288,17 +300,46 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="OutputPath"></param>
     public void WriteToDfs0(string OutputPath, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End)
     {
-      //Prepare the time series if there is more than one observation
+      //Write the time series if there is more than one observation
       Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
       {
-          W.InitializeToWriteDFS0(Start, End);
+        //Create the TSObject
+        TSObject _tso = new TSObjectClass();
+        TSItem _item = new TSItemClass();
+        _item.DataType = ItemDataType.Type_Float;
+        _item.ValueType = ItemValueType.Instantaneous;
+        _item.EumType = 171;
+        _item.EumUnit = 1;
+        _item.Name = "Head";
+        _tso.Add(_item);
+
+        DateTime _previousTimeStep = DateTime.MinValue;
+
+        //Select the observations
+        List<ObservationEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
+
+        SelectedObs.Sort();
+
+        for (int i = 0; i < SelectedObs.Count; i++)
+        {
+          //Only add the first measurement of the day
+          if (SelectedObs[i].Time != _previousTimeStep)
+          {
+            _tso.Time.AddTimeSteps(1);
+            _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
+            _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
+          }
+        }
+
+        //Now write the DFS0.
+        if (_tso.Time.NrTimeSteps != 0)
+        {
+          _tso.Connection.FilePath = Path.Combine(OutputPath, W.ID + ".dfs0");
+          _tso.Connection.Save();
+        }
+
       });
 
-      //Write the dfs0s
-      Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
-      {
-          W.WriteToDfs0(OutputPath);
-      });
     }
 
     /// <summary>
