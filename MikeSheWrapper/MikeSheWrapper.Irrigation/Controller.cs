@@ -32,8 +32,11 @@ namespace MikeSheWrapper.Irrigation
       InsertIrrigationWells();
       SaveAs(_config.SheFile);
       MSheLauncher.PreprocessAndRun(_config.SheFile, true);
-      _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
-      SaveAs(_config.SheFile);
+      if (_config.DeleteWellsAfterRun)
+      {
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
+        SaveAs(_config.SheFile);
+      }
     }
 
     public bool IrrigationEnabled

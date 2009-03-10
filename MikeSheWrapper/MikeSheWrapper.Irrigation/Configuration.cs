@@ -19,6 +19,8 @@ namespace MikeSheWrapper.Irrigation
     private string _maxDepthHeader;
     private string _maxRateHeader;
 
+    public bool DeleteWellsAfterRun { get; set; }
+
     //public Configuration(
 
 
