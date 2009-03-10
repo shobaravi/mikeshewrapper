@@ -6,7 +6,9 @@ using System.Text;
 using NUnit.Framework;
 using MikeSheWrapper;
 using MikeSheWrapper.Tools;
+using MikeSheWrapper.JupiterTools;
 using MikeSheWrapper.InputDataPreparation;
+
 
 namespace MikeSheWrapper.InputDataPreparation.UnitTest
 {
@@ -15,51 +17,37 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
   {
     HeadObservations HO = new HeadObservations();
 
-
     [Test]
-    public void ReadFromJupiter()
+    public void ReadAllAndWriteDFS0()
     {
-      //HO.ReadWellsFromJupiter(@"F:\Jacob\Pejlinger\herning.mdb");
-      //HO.ReadWaterlevelsFromJupiterAccess(@"F:\Jacob\Pejlinger\herning.mdb", false);
-      //int NumberOfWells = HO.Wells.Values.Count(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
+      JupiterTools.Reader.Wells(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", HO.Wells);
+      JupiterTools.Reader.Waterlevels(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", false, HO.Wells);
 
-    }
+      Assert.AreEqual(747, HO.Wells.Count);
 
-    [Ignore]
-    [SetUp]
-    public void ConstructTest()
-    {
-     // HO.ReadFromShape(@"F:\Jacob\Pejlinger\novomr456_pejle_ks.shp");
+      HO.WriteToDfs0(@"..\..\..\TestData\TidsSerier", HO.WorkingList, new DateTime(2003, 1, 1), new DateTime(2009, 1, 1));
+
+
     }
 
     [Test]
-    public void ReadAllAndWrite()
+    public void SelectByMikeSheModelAreaTest()
     {
-      HO.WriteToDfs0( @"F:\Jacob\Pejlinger\TidsSerier");
+      HO.Wells.Add("well1", new ObservationWell("well1", 10000, 10000));
+      HO.Wells.Add("well2", new ObservationWell("well2", 250, 250));
+      HO.Wells.Add("well3", new ObservationWell("well3", 300, 300));
+
+      Model M = new Model(@"..\..\..\TestData\TestModel.she");
+
+      HO.SelectByMikeSheModelArea(M.GridInfo);
+
+      Assert.AreEqual(2, HO.WorkingList.Count);
+      Assert.AreEqual("well2", HO.WorkingList[0].ID);
+
+      M.Dispose();
     }
 
-    [Test]
-    public void DomainAreaTest()
-    {
-      HO.SelectByMikeSheModelArea(new Model(@"F:\Novana\Novomr4\Result\omr4_jag_UZ.SHE").GridInfo);
-      HO.WriteToMikeSheModel(@"F:\Jacob\Pejlinger\DetailedTsimport.txt", HO.Wells.Values);
-    }
 
-    [Test]
-    public void SelectByFunction()
-    {
-      int NumberOfWells = HO.Wells.Values.Count(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
-
-      foreach (ObservationWell W in HO.Wells.Values)
-      {
-        if (W.Observations.Distinct().Count() > 1)
-          Console.WriteLine(W);
-      }
-
-      var query = HO.Wells.Values.Where(w => HO.NosInBetween(w, new DateTime(1990, 1, 1), new DateTime(2000, 1, 1), 10));
-
-
-    }
 
     [Test]
     public void ReadInFromMsheModel()
@@ -67,21 +55,8 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       Model M = new Model(@"..\..\..\TestData\TestModel.she");
       HO.ReadInDetailedTimeSeries(M);
       HO.GetSimulatedValuesFromDetailedTSOutput(@"..\..\..\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");
-
-    }
-
-    [Test]
-    public void StatisticsFromDFS0Test()
-    {
-      HO.GetSimulatedValuesFromDetailedTSOutput(@"F:\Novana\Novomr4\Result\omr4_jag_UZ_ts.SHE - Result Files\omr4_jag_UZ_tsDetailedTS_SZ.dfs0");
-
-    }
-
-
-    [Test]
-    public void SpecialNovanaPrint()
-    {
-      //HO.ReadWellsForNovanaFromJupiter(@"D:\Udvikling\MikeSheWrapper\JupiterData\pcjupiter.mdb");
+      Assert.AreEqual(2, HO.WorkingList.Count);
+      M.Dispose();
     }
 
   }

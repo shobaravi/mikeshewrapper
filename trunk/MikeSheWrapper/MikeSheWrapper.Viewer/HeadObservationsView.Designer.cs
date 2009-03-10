@@ -319,7 +319,7 @@
       // 
       // observationWellBindingSource
       // 
-      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.InputDataPreparation.ObservationWell);
+      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
       // 
       // buttonNovanaShape
       // 

@@ -11,12 +11,11 @@ namespace MikeSheWrapper.InputFiles
   {
     private MIKESHE_FLOWMODEL _mshe;
     private PFSClass she1;
-
     
     public SheFile(string SheFileName)
     {
-      FileName = SheFileName;
-      she1 = new PFSClass(Path.GetFullPath(SheFileName));
+      FileName = Path.GetFullPath(SheFileName);
+      she1 = new PFSClass(FileName);
       _mshe = new MIKESHE_FLOWMODEL( she1.GetTarget(1) );      
     }
 
@@ -26,7 +25,8 @@ namespace MikeSheWrapper.InputFiles
     /// <param name="SheFileName"></param>
     public void SaveAs(string SheFileName)
     {
-      she1.DumpToPfsFile(SheFileName);
+      FileName = Path.GetFullPath(SheFileName);
+      Save();
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ namespace MikeSheWrapper.InputFiles
     /// </summary>
     public void Save()
     {
-      SaveAs(FileName);
+      she1.DumpToPfsFile(FileName);
     }
 
     /// <summary>

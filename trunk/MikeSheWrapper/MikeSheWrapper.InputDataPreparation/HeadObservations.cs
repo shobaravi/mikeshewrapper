@@ -122,7 +122,6 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         if (_wells.TryGetValue(DI, out OW))
         {
-          WorkingList.Add(OW);
           //Loop the observations
           foreach (ObservationEntry TSE in OW.Observations)
             TSE.SimulatedValue = _data.GetData(TSE.Time, item);
@@ -154,13 +153,6 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
 #region Population Methods
-
-
-
-
-
-
-
 
     /// <summary>
     /// Reads in the wells defined in detailed timeseries input section
@@ -301,7 +293,8 @@ namespace MikeSheWrapper.InputDataPreparation
     public void WriteToDfs0(string OutputPath, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End)
     {
       //Write the time series if there is more than one observation
-      Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
+     // Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
+      foreach(ObservationWell W in SelectedWells)
       {
         //Create the TSObject
         TSObject _tso = new TSObjectClass();
@@ -338,7 +331,8 @@ namespace MikeSheWrapper.InputDataPreparation
           _tso.Connection.Save();
         }
 
-      });
+      }
+//      );
 
     }
 
