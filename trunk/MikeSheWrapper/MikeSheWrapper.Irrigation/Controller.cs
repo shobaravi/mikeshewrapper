@@ -14,7 +14,6 @@ namespace MikeSheWrapper.Irrigation
   {
     private Model _she;
     private Configuration _config;
-    private DataTable _wellData;
     private List<IrrigationWell> _wells = new List<IrrigationWell>();
     private List<CommandAreas> _originalAreas = new List<CommandAreas>();
 
@@ -30,6 +29,11 @@ namespace MikeSheWrapper.Irrigation
     {
       ReadWellsFromShape();
       InsertIrrigationWells();
+
+      //Make sure that i both preprocesses and runs
+      _she.Input.MIKESHE_FLOWMODEL.ExecuteEngineFlagsPfs.PP = 1;
+      _she.Input.MIKESHE_FLOWMODEL.ExecuteEngineFlagsPfs.WM = 1;
+
       SaveAs(_config.SheFile);
       MSheLauncher.PreprocessAndRun(_config.SheFile, true);
       if (_config.DeleteWellsAfterRun)
@@ -51,7 +55,7 @@ namespace MikeSheWrapper.Irrigation
     public void ReadWellsFromShape()
     {
       PointShapeReader SR = new PointShapeReader(_config.WellShapeFile);
-      _wellData = SR.Data.Read();
+      DataTable _wellData = SR.Data.Read();
       SR.Dispose();
 
       foreach (DataRow dr in _wellData.Rows)
@@ -66,6 +70,7 @@ namespace MikeSheWrapper.Irrigation
         IW.ScreenTop.Add( (double) dr[_config.TopHeader]);
         _wells.Add(IW);
       }
+      _wellData.Dispose();
     }
 
     public void InsertIrrigationWells()

@@ -165,7 +165,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (OpenSheFileForSelection.ShowDialog() == DialogResult.OK)
       {
-        HO.SelectByMikeSheModelArea(new Model(OpenSheFileForSelection.FileName).GridInfo);
+        //HO.SelectByMikeSheModelArea(new Model(OpenSheFileForSelection.FileName).GridInfo);
         textBoxMikeSHe.Text = OpenSheFileForSelection.FileName;
       }
     }

@@ -47,7 +47,7 @@ namespace MikeSheWrapper.Tools
     /// <summary>
     /// Disposes the shapefile
     /// </summary>
-    public override void  Dispose()
+    public override void Dispose()
     {
       _data.Dispose();
       base.Dispose();

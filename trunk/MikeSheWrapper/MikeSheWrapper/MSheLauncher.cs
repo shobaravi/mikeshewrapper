@@ -10,6 +10,12 @@ namespace MikeSheWrapper
 {
   public class MSheLauncher
   {
+    /// <summary>
+    /// Preprocesses and runs Mike She
+    /// Note that if the MzLauncher is used it uses the execution engine flags from the .she-file
+    /// </summary>
+    /// <param name="MsheFileName"></param>
+    /// <param name="UseMZLauncher"></param>
     public static void PreprocessAndRun(string MsheFileName, bool UseMZLauncher)
     {
 
@@ -24,8 +30,7 @@ namespace MikeSheWrapper
       if (UseMZLauncher)
       {
         Runner.StartInfo.FileName = Path.Combine(path,"Mzlaunch.exe");
-        Runner.StartInfo.Arguments = Path.GetFullPath(MsheFileName) + " -exit";
-        
+        Runner.StartInfo.Arguments = Path.GetFullPath(MsheFileName) + " -exit"; 
       }
 
       else

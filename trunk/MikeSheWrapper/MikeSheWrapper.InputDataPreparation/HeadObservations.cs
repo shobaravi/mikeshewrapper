@@ -70,17 +70,14 @@ namespace MikeSheWrapper.InputDataPreparation
     /// z - coordinate
     /// </summary>
     /// <param name="MikeShe"></param>
-    public void SelectByMikeSheModelArea(MikeSheGridInfo Grid)
+    public static IEnumerable<ObservationWell> SelectByMikeSheModelArea(MikeSheGridInfo Grid, Dictionary<string, ObservationWell> Wells )
     {
       //     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
-      foreach (ObservationWell W in _wells.Values)
+      foreach (ObservationWell W in Wells.Values)
       {
         //Gets the index and sets the column and row
-        if (!Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
-          lock (_lock)
-          {
-            WorkingList.Remove(W);
-          }
+        if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
+          yield return W;
       }
       //      );
     }
@@ -133,22 +130,18 @@ namespace MikeSheWrapper.InputDataPreparation
 
     /// <summary>
     /// 4-point bilinear interpolation is used to get the value in a point.
-    /// Uses the working list.
     /// </summary>
     /// <param name="MSheResults"></param>
     /// <param name="GridInfo"></param>
-    public void GetSimulatedValuesFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo)
+    public static void GetSimulatedValuesFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo, ObservationWell Well)
     {
-      foreach(ObservationWell W in WorkingList)
-      {
-        foreach (ObservationEntry TSE in W.Observations)
+        foreach (ObservationEntry TSE in Well.Observations)
         {
-          Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[W.Layer];
-          TSE.SimulatedValueCell = M[W.Row, W.Column];
+          Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[Well.Layer];
+          TSE.SimulatedValueCell = M[Well.Row, Well.Column];
           //Interpolates in the matrix
-          TSE.SimulatedValue  = GridInfo.Interpolate(W.X, W.Y, W.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
+          TSE.SimulatedValue = GridInfo.Interpolate(Well.X, Well.Y, Well.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
         }
-      }
     }
 
 

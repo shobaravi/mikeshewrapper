@@ -28,7 +28,9 @@ namespace MikeSheWrapper
     }
 
 
-
+    /// <summary>
+    /// Gets the file names
+    /// </summary>
     public FileNames Files
     {
       get { 
@@ -38,9 +40,18 @@ namespace MikeSheWrapper
         return _files; }
     }
 
+    /// <summary>
+    /// Gets the grid info object
+    /// Returns null if the model has not been preprocessed.
+    /// </summary>
     public MikeSheGridInfo GridInfo
     {
-      get { return Processed.Grid; }
+      get 
+      {
+        if (Processed !=null)
+          return Processed.Grid;
+        return null;
+      }
     }
 
     /// <summary>
@@ -58,6 +69,7 @@ namespace MikeSheWrapper
 
     /// <summary>
     /// Gets read access to the results
+    /// Returns null if there are no results
     /// </summary>
     public Results Results
     {
@@ -71,13 +83,15 @@ namespace MikeSheWrapper
 
     /// <summary>
     /// Gets read access to the processed data
+    /// Returns null if the model has not been preprocessed.
     /// </summary>
     public ProcessedData Processed
     {
       get
       {
         if (_processed == null)
-          _processed = new ProcessedData(Files);
+          if (File.Exists(Files.PreProcessed2D)) 
+            _processed = new ProcessedData(Files);
 
         return _processed;
       }
