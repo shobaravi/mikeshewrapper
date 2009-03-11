@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
@@ -22,15 +23,13 @@ namespace MikeSheWrapper.LayerStatistics
 		[STAThread]
 		public static void Main(string[] args)
 		{
-      
-      DateTime Start = DateTime.Now;
-//      try
+      try
       {
         MikeSheGridInfo _grid = null;
         Results _res = null;
         string ObsFileName;
-        DateTime SimulationStart= DateTime.MaxValue;
 
+        //Input is a -she-file and an observation file
         if (args.Length == 2)
         {
           Model MS = new Model(args[0]);
@@ -38,6 +37,7 @@ namespace MikeSheWrapper.LayerStatistics
           _res = MS.Results;
           ObsFileName = args[1];
         }
+        //Input is an .xml-file
         else
         {
           Configuration cf = Configuration.ConfigurationFactory(args[0]);
@@ -55,13 +55,10 @@ namespace MikeSheWrapper.LayerStatistics
           ObsFileName = cf.ObservationFile;
         }
 
-        HeadObservations HO = new HeadObservations();
         InputOutput IO = new InputOutput(_grid.NumberOfLayers);
 
-        IO.ReadFromLSText(ObsFileName, HO);
-
-        TimeSpan ReadInput = Start.Subtract(DateTime.Now);
-        Start = DateTime.Now;
+        //Read in the wells
+        Dictionary<string, ObservationWell> Wells = IO.ReadFromLSText(ObsFileName);
 
         int NLay = _grid.NumberOfLayers;
         double [] ME = new double[NLay];
@@ -78,9 +75,11 @@ namespace MikeSheWrapper.LayerStatistics
           ObsTotal[i] = 0;
         }
 
-        HO.SelectByMikeSheModelArea(_grid);
+        //Only operate on wells within the mikeshe area
+        var SelectedWells = HeadObservations.SelectByMikeSheModelArea(_grid, Wells);
 
-        foreach (ObservationWell W in HO.WorkingList)
+        //Loops the wells that are within the model area
+        foreach (ObservationWell W in SelectedWells)
         {
           if (W.Layer == -3)
           {
@@ -90,56 +89,48 @@ namespace MikeSheWrapper.LayerStatistics
           {
             W.Z = _grid.LowerLevelOfComputationalLayers.Data[W.Row, W.Column, W.Layer] + 0.5 * _grid.ThicknessOfComputationalLayers.Data[W.Row, W.Column, W.Layer];
           }
-        }
 
+          //Henter de simulerede værdier
+          HeadObservations.GetSimulatedValuesFromGridOutput(_res, _grid, W);
 
-        HO.GetSimulatedValuesFromGridOutput(_res, _grid);
-      
-        //Samler resultaterne for hver lag
-        foreach (ObservationWell OW in HO.WorkingList)
-        {
-          foreach (ObservationEntry TSE in OW.Observations)
+          //Samler resultaterne for hver lag
+          foreach (ObservationEntry TSE in W.Observations)
           {
             if (TSE.SimulatedValueCell == _res.DeleteValue)
             {
-              ObsTotal[OW.Layer - 1]++;
+              ObsTotal[W.Layer - 1]++;
             }
             else
             {
-              ME[OW.Layer ] += TSE.ME;
-              RMSE[OW.Layer] += TSE.RMSE;
-              ObsUsed[OW.Layer]++;
-              ObsTotal[OW.Layer]++;
+              ME[W.Layer] += TSE.ME;
+              RMSE[W.Layer] += TSE.RMSE;
+              ObsUsed[W.Layer]++;
+              ObsTotal[W.Layer]++;
             }
           }
         }
 
+        //Divide with the number of observations.
         for (int i=0;i<NLay;i++)
         {
           ME[i]   = ME[i]/ObsUsed[i];
           RMSE[i] = Math.Pow(RMSE[i]/ObsUsed[i], 0.5);
         }
-        TimeSpan Calculation = Start.Subtract(DateTime.Now);
-        Start = DateTime.Now;
 
-        IO.WriteObservations(HO);
+        //Write output
+        IO.WriteObservations(SelectedWells);
         IO.WriteLayers(ME,RMSE,ObsUsed,ObsTotal);
 
-        TimeSpan WriteOutput = Start.Subtract(DateTime.Now);
-
+        //Dispose MikeShe
         _grid.Dispose();
         _res.Dispose();
 
-        //Console.WriteLine("Reading of input:" + ReadInput.TotalSeconds + " s");
-        //Console.WriteLine("Calculation:" + Calculation.TotalSeconds + " s");
-        //Console.WriteLine("Writing of output:" + WriteOutput.TotalSeconds + " s");
-        //Console.ReadLine();
 
       }
-      //catch (Exception e)
-      //{
-      //  MessageBox.Show("Der er opstået en fejl af typen: " + e.Message);
-      //} 
+      catch (Exception e)
+      {
+        MessageBox.Show("Der er opstået en fejl af typen: " + e.Message);
+      } 
 		}
 	}
 }
