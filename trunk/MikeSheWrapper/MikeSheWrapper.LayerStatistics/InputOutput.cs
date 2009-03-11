@@ -36,8 +36,9 @@ namespace MikeSheWrapper.LayerStatistics
     /// "WellID X Y Z Head  Date  Layer". Separated with tabs. Layer is optional
     /// </summary>
     /// <param name="LSFileName"></param>
-    public void ReadFromLSText(string LSFileName, HeadObservations Obs)
+    public Dictionary<string, ObservationWell> ReadFromLSText(string LSFileName)
     {
+      Dictionary<string, ObservationWell> Wells = new Dictionary<string, ObservationWell>();
       //Sets the output file name for subsequent writing
       string path = Path.GetDirectoryName(LSFileName);
       string FileName = Path.GetFileNameWithoutExtension(LSFileName);
@@ -62,10 +63,10 @@ namespace MikeSheWrapper.LayerStatistics
             try
             {
               //If the well has not already been read in create a new one
-              if (!Obs.Wells.TryGetValue(s[0], out OW))
+              if (!Wells.TryGetValue(s[0], out OW))
               {
                 OW = new ObservationWell(s[0]);
-                Obs.Wells.Add(OW.ID, OW);
+                Wells.Add(OW.ID, OW);
                 OW.X = double.Parse(s[1]);
                 OW.Y = double.Parse(s[2]);
 
@@ -89,14 +90,15 @@ namespace MikeSheWrapper.LayerStatistics
             }
           }
         }
-      }
+      } //End of streamreader
+      return Wells;
     }
 
         /// <summary>
     /// Skriver en fil med alle observationsdata
     /// </summary>
     /// <param name="Observations"></param>
-    public void WriteObservations(HeadObservations Obs)
+    public void WriteObservations(IEnumerable<ObservationWell> Wells)
     {
       StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt");
       StreamWriter swell = new StreamWriter(_baseOutPutFileName + "_wells.txt");
@@ -104,7 +106,7 @@ namespace MikeSheWrapper.LayerStatistics
       sw.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
       swell.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tME\tME^2");
 
-      foreach (ObservationWell OW in Obs.WorkingList)
+      foreach (ObservationWell OW in Wells)
       {
         //Write for each observation
         foreach (ObservationEntry TSE in OW.Observations)
