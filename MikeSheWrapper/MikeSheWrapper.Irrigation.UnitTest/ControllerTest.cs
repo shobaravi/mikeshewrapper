@@ -26,7 +26,7 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       Cf.IdHeader = "ID";
       Cf.SheFile = @"C:\Kode\MikeSheWrapper\TestData\TestModel.she";
       Cf.WellShapeFile = @"C:\Kode\MikeSheWrapper\TestData\commandareas.shp";
-      Cf.DeleteWellsAfterRun = true;
+      Cf.DeleteWellsAfterRun = false;
 
       XmlSerializer x = new XmlSerializer(Cf.GetType());
       x.Serialize(new System.IO.FileStream(@"..\..\..\TestData\IrrigationConfiguration.xml", System.IO.FileMode.Create), Cf);

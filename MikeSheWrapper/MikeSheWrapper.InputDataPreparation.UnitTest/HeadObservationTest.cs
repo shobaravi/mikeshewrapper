@@ -39,10 +39,10 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
       Model M = new Model(@"..\..\..\TestData\TestModel.she");
 
-      HO.SelectByMikeSheModelArea(M.GridInfo);
+      var SelectedWells = HeadObservations.SelectByMikeSheModelArea(M.GridInfo, HO.Wells);
 
-      Assert.AreEqual(2, HO.WorkingList.Count);
-      Assert.AreEqual("well2", HO.WorkingList[0].ID);
+      Assert.AreEqual(2, SelectedWells.Count());
+
 
       M.Dispose();
     }
