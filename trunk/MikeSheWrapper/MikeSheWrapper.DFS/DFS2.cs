@@ -11,7 +11,7 @@ namespace MikeSheWrapper.DFS
   /// <summary>
   /// Provides read and write access to a .dfs2-file
   /// </summary>
-  public class DFS2 : DFS
+  public class DFS2 : DFS2DBase
   {
 
     public DFS2(string DFSFileName)
@@ -78,27 +78,6 @@ namespace MikeSheWrapper.DFS
     }
 
     
-    /// <summary>
-    /// Gets the number of columns
-    /// </summary>
-    public int NumberOfColumns
-    {
-      get
-      {
-        return _numberOfColumns;
-      }
-    }
-
-    /// <summary>
-    /// Gets the number of rows
-    /// </summary>
-    public int NumberOfRows
-    {
-      get
-      {
-        return _numberOfRows;
-      }
-    }
 
   }
 

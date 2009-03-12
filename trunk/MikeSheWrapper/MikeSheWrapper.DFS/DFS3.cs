@@ -6,7 +6,7 @@ using MikeSheWrapper.Tools;
 
 namespace MikeSheWrapper.DFS
 {
-  public class DFS3:DFS
+  public class DFS3:DFS2DBase
   {
     /// <summary>
     /// Provides read access to a .DFS3 file.
@@ -41,26 +41,5 @@ namespace MikeSheWrapper.DFS
       }
     }
 
-    /// <summary>
-    /// Gets the number of columns
-    /// </summary>
-    public int NumberOfColumns
-    {
-      get
-      {
-        return _numberOfColumns;
-      }
-    }
-
-    /// <summary>
-    /// Gets the number of rows
-    /// </summary>
-    public int NumberOfRows
-    {
-      get
-      {
-        return _numberOfRows;
-      }
-    }
   }
 }
