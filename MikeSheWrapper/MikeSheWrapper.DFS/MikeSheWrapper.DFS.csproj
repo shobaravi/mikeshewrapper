@@ -61,6 +61,7 @@
     <Compile Include="DFS.cs" />
     <Compile Include="DFS0.cs" />
     <Compile Include="DFS2.cs" />
+    <Compile Include="DFS2DBase.cs" />
     <Compile Include="DFS3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

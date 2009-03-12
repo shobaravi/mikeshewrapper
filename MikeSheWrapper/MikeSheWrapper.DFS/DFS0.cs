@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MikeSheWrapper.DFS
 {
-  public class DFS0 : DFS
+  public class DFS0 : DFSBase
   {
     public DFS0(string DFSFileName)
       : base(DFSFileName)

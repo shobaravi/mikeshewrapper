@@ -10,7 +10,7 @@ namespace MikeSheWrapper.DFS
 {
 
 
-  public abstract class DFS 
+  public abstract class DFSBase 
   {
 
     const string UFSDll = "ufs.dll";  // Name of debug dll
@@ -47,6 +47,11 @@ namespace MikeSheWrapper.DFS
     protected int _numberOfLayers =1;
     protected int _numberOfColumns =1;
     protected int _numberOfRows = 1;
+
+    protected double _xOrigin;
+    protected double _yOrigin;
+    protected double _gridSize;
+
     private DateTime _firstTimeStep;
     private TimeSpan _timeStep = TimeSpan.Zero;
     public DateTime[] TimeSteps {get; private set;}
@@ -58,7 +63,7 @@ namespace MikeSheWrapper.DFS
     private string _filename;
 
 
-    public DFS(string DFSFileName)
+    public DFSBase(string DFSFileName)
     {
       _filename = DFSFileName;
 
@@ -112,23 +117,23 @@ namespace MikeSheWrapper.DFS
           if (axistype == 5)
           {
             DFSWrapper.dfsGetItemAxisEqD2(IP, ref item_type, ref eum_unit, ref _numberOfColumns, ref _numberOfRows, ref x, ref y, ref dx, ref dy);
-            XOrigin = x;
-            YOrigin = y;
-            GridSize = dx;
+            _xOrigin = x;
+            _yOrigin = y;
+            _gridSize = dx;
           }
           //DFS3 from MikeShe
           else if (axistype == 8)
           {
             DFSWrapper.dfsGetItemAxisEqD3(IP, ref item_type, ref eum_unit, ref _numberOfColumns, ref _numberOfRows, ref _numberOfLayers, ref x, ref y, ref z, ref dx, ref dy, ref dz);
-            GridSize = dx;
+            _gridSize = dx;
 
             double lon = 0;
             double lat = 0;
             double or = 0;
 
             dfsGetGeoInfoUTMProj(_headerWriter, ref name, ref lon, ref lat, ref or);
-            XOrigin = lon;
-            YOrigin = lat;
+            _xOrigin = lon;
+            _yOrigin = lat;
           }
         }
       }
@@ -195,7 +200,7 @@ namespace MikeSheWrapper.DFS
     /// <summary>
     /// Destructor called when the object is garbage collected.
     /// </summary>
-   ~DFS()
+   ~DFSBase()
    {
      // Simply call Dispose(false).
      Dispose(false);
@@ -223,40 +228,7 @@ namespace MikeSheWrapper.DFS
        InitializeForWriting();
      int ok = DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToString("yyyy-MM-dd"), _firstTimeStep.ToString("hh:mm:ss"), 1400, 0, _timeStep.TotalSeconds, 0);
    }
-
-
-    
-    /// <summary>
-    /// Gets the Column index for this coordinate. Lower left is (0,0). 
-    /// Returns -1 if UTMY is left of the grid and -2 if it is right.
-    /// </summary>
-    /// <param name="UTMY"></param>
-    /// <returns></returns>
-    public int GetColumnIndex(double UTMX)
-    {
-      //Calculate as a double to prevent overflow errors when casting 
-      double ColumnD = Math.Max(-1, Math.Floor((UTMX - (XOrigin - GridSize / 2)) / GridSize));
-
-      if (ColumnD > _numberOfColumns)
-        return -2;
-      return (int) ColumnD;
-    }
-
-    /// <summary>
-    /// Gets the Row index for this coordinate. Lower left is (0,0). 
-    /// Returns -1 if UTMY is below the grid and -2 if it is above.
-    /// </summary>
-    /// <param name="UTMY"></param>
-    /// <returns></returns>
-    public int GetRowIndex(double UTMY)
-    {
-      //Calculate as a double to prevent overflow errors when casting 
-      double RowD = Math.Max(-1, Math.Floor((UTMY - (YOrigin - GridSize / 2)) / GridSize));
-
-      if (RowD > _numberOfRows)
-        return -2;
-      return (int)RowD;
-    }
+ 
 
     /// <summary>
     /// Returns the zero-based index of the TimeStep closest to the TimeStamp. If the timestamp falls exactly between two timestep the smallest is returned.
@@ -405,24 +377,6 @@ namespace MikeSheWrapper.DFS
     /// </summary>
     public int NumberOfTimeSteps{get; protected set;}
 
-    /// <summary>
-    /// Gets the x-coordinate of the grid the center of the lower left
-    /// Only valid for DFS2 and DFS3
-    /// Remember that MikeShe does not use the center
-    /// </summary>
-    public double XOrigin { get; private set; }
-
-    /// <summary>
-    /// Gets the Y-coordinate of the grid the center of the lower left
-    /// Only valid for DFS2 and DFS3
-    /// Remember that MikeShe does not use the center
-    /// </summary>
-    public double YOrigin { get; private set; }
-
-    /// <summary>
-    /// Gets the grid size. Only valid for dfs2 and dfs3.
-    /// </summary>
-    public double GridSize { get; private set; }
 
     #endregion
   }
