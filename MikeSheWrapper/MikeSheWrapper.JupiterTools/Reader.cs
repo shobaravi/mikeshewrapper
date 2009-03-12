@@ -126,8 +126,9 @@ namespace MikeSheWrapper.JupiterTools
     /// Reads in all wells from a Jupiter database. 
     /// </summary>
     /// <param name="DataBaseFile"></param>
-    public static void Wells(string DataBaseFile, Dictionary<string, ObservationWell> Wells)
+    public static Dictionary<string, ObservationWell> Wells(string DataBaseFile)
     {
+      Dictionary<string, ObservationWell> Wells = new Dictionary<string, ObservationWell>();
       //Construct the data set
       JupiterXL JXL = new JupiterXL();
       JXL.PartialReadOfWells(DataBaseFile);
@@ -167,11 +168,14 @@ namespace MikeSheWrapper.JupiterTools
           }//Screen loop
         }//Intake loop
       }//Bore loop
+
+      return Wells;
     }
 
 
-    public static void WellsForNovana(string DataBaseFile, Dictionary<string, JupiterWell> Wells)
+    public static Dictionary<string, JupiterWell> WellsForNovana(string DataBaseFile)
     {
+      Dictionary<string, JupiterWell> Wells = new Dictionary<string, JupiterWell>();
       //Construct the data set
       JupiterXL JXL = new JupiterXL();
       JXL.ReadInTotalWellsForNovana(DataBaseFile);
@@ -334,7 +338,7 @@ namespace MikeSheWrapper.JupiterTools
 
       }//Bore loop
 
-
+      return Wells;
     }
 
   }

@@ -52,6 +52,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     [Test]
     public void ReadInFromMsheModel()
     {
+      HO.Wells.Clear();
       Model M = new Model(@"..\..\..\TestData\TestModel.she");
       HO.ReadInDetailedTimeSeries(M);
       HO.GetSimulatedValuesFromDetailedTSOutput(@"..\..\..\TestData\TestModel.she - Result Files\TestModelDetailedTS_SZ.dfs0");

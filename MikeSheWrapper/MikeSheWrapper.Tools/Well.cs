@@ -8,7 +8,7 @@ namespace MikeSheWrapper.Tools
   /// <summary>
   /// A small class holding typical data to describe a well
   /// </summary>
-  public class Well
+  public class Well : IWell
   {
     protected string _id;
     protected string _description;

@@ -20,7 +20,8 @@ namespace MikeSheWrapper.Viewer
   {
     private HeadObservations HO;
     private ShapeReaderConfiguration ShpConfig = null;
-
+    private Dictionary<string, JupiterWell> JupWells;
+    private Dictionary<string, ObservationWell> ObsWells; 
 
     public HeadObservationsView()
     {
@@ -46,13 +47,13 @@ namespace MikeSheWrapper.Viewer
             bool ReadAll = (DialogResult.Yes == MessageBox.Show("Read data for specialized NOVANA output?", "Read in how much data?", MessageBoxButtons.YesNo));
             if (ReadAll)
             {
-              //JupiterTools.Reader.WellsForNovana(FileName, HO.Wells);
+              JupWells = JupiterTools.Reader.WellsForNovana(FileName);
               buttonNovanaShape.Enabled = true;
             }
             else
             {
-              JupiterTools.Reader.Wells(FileName, HO.Wells);
-              JupiterTools.Reader.Waterlevels(FileName, false, HO.Wells);
+              ObsWells = JupiterTools.Reader.Wells(FileName);
+              JupiterTools.Reader.Waterlevels(FileName, false, ObsWells);
             }
             textBoxObsFile.Text = FileName;
             break;
@@ -86,8 +87,12 @@ namespace MikeSheWrapper.Viewer
             break;
         }
 
-        textBox1.Text = HO.Wells.Count.ToString();
-        listBox1.Items.AddRange(HO.WorkingList.ToArray());
+        if (ObsWells!=null)
+          listBox1.Items.AddRange(ObsWells.Values.ToArray());
+        if (JupWells!=null)
+          listBox1.Items.AddRange(JupWells.Values.ToArray());
+
+        textBox1.Text = listBox1.Items.Count.ToString();
         textBox4.Text = listBox1.Items.Count.ToString();
       }      
     }
@@ -101,7 +106,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
-        Reader.Waterlevels(openFileDialog2.FileName, false, HO.Wells);
+        Reader.Waterlevels(openFileDialog2.FileName, false, ObsWells);
         textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }
