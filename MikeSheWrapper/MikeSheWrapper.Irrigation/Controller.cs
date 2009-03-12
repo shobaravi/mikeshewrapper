@@ -43,13 +43,22 @@ namespace MikeSheWrapper.Irrigation
       }
     }
 
+    /// <summary>
+    /// Gets or sets a boolean to see if irrigation is enabled
+    /// </summary>
     public bool IrrigationEnabled
     {
       get
       {
-        return true;
+        return _she.Input.MIKESHE_FLOWMODEL.LandUse.Irrigation == 1;
       }
-
+      set
+      {
+        if (value)
+          _she.Input.MIKESHE_FLOWMODEL.LandUse.Irrigation = 1;
+        else
+          _she.Input.MIKESHE_FLOWMODEL.LandUse.Irrigation = 0;
+      }
     }
 
     public void ReadWellsFromShape()
@@ -75,6 +84,9 @@ namespace MikeSheWrapper.Irrigation
 
     public void InsertIrrigationWells()
     {
+      //Include irrigation
+      _she.Input.MIKESHE_FLOWMODEL.LandUse.Irrigation = 1;
+      //Clear all but the first commandarea.
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
  
 
@@ -82,6 +94,11 @@ namespace MikeSheWrapper.Irrigation
       for (int i = 0; i < _wells.Count; i++) 
       {
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.AddNewCommandArea();
+
+        //Set to single well.
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.SourceTypeCode = 2;
+        //Set to sprinkler.
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.WaterApplication = 1;
 
         int AreaCode;
         if (int.TryParse(_wells[i].ID, out AreaCode))
@@ -94,17 +111,19 @@ namespace MikeSheWrapper.Irrigation
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.WellXposSIWS = _wells[i].X;
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.WellYposSIWS = _wells[i].Y;
 
-        double Topo = _she.GridInfo.SurfaceTopography.GetData(_wells[i].X, _wells[i].Y);
+        //Use this if top and bottom are in m.a.s.l.
+        //double Topo = _she.GridInfo.SurfaceTopography.GetData(_wells[i].X, _wells[i].Y);
 
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.ScreenTopDepthSIWS  = Math.Max(2,Topo -_wells[i].ScreenTop[0]);
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ScreenBottomDepthSIWS = Math.Max(3, Topo - _wells[i].ScreenBottom[0]);
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ThresholdDepthSIWS = Math.Max(3, Topo - _wells[i].ScreenBottom[0]);
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i ].Sources.Source1.ScreenTopDepthSIWS  = _wells[i].ScreenTop[0];
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ScreenBottomDepthSIWS = _wells[i].ScreenBottom[0];
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ThresholdDepthSIWS = _wells[i].ScreenBottom[0];
 
       }
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.Type = 2;
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.SHAPE_FILE.FILE_NAME = _config.WellShapeFile;
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.SHAPE_FILE.ITEM_NUMBERS = _config.IdHeader;
 
+      //Now remove the first command area which was used to clone.
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.RemoveCommandArea(0);
 
 
