@@ -35,7 +35,7 @@ namespace MikeSheWrapper.InputFiles.UnitTest
 
       Assert.AreEqual(Path.GetFullPath(@"..\..\..\TestData\Model Domain and Grid.dfs2"), _she.MIKESHE_FLOWMODEL.Catchment.DFS_2D_DATA_FILE.FILE_NAME);
 
-      Assert.AreEqual(1, _she.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1.Count);
+      Assert.AreEqual(4, _she.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1.Count);
       Assert.AreEqual("1", _she.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[0].AreaName);
 
     }

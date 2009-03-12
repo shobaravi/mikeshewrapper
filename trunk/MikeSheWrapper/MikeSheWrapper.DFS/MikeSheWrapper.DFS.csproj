@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="DataSetsFromDFS2.cs" />
     <Compile Include="DataSetsFromDFS3.cs" />
-    <Compile Include="DFS.cs" />
+    <Compile Include="DFSBase.cs" />
     <Compile Include="DFS0.cs" />
     <Compile Include="DFS2.cs" />
     <Compile Include="DFS2DBase.cs" />
