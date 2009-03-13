@@ -17,6 +17,32 @@ namespace MikeSheWrapper.InputFiles
     }
 
     /// <summary>
+    /// Deletes the section "SectionToDelete" from the ParentSection if it exists
+    /// </summary>
+    /// <param name="ParentSection"></param>
+    /// <param name="SectionToDelete"></param>
+    public static void SafeDeleteSection(PFSSection ParentSection, string SectionToDelete)
+    {
+      PFSSection DeleteME = ParentSection.GetSection(SectionToDelete, 1);
+      if (DeleteME != null)
+        ParentSection.DeleteSection(DeleteME);
+    }
+
+    /// <summary>
+    /// Deletes the Keyword "KeywordToDelete" from the ParentSection if it exists
+    /// </summary>
+    /// <param name="ParentSection"></param>
+    /// <param name="SectionToDelete"></param>
+    public static void SafeDeleteKeyword(PFSSection ParentSection, string KeywordToDelete)
+    {
+      PFSKeyword DeleteME = ParentSection.GetKeyword(KeywordToDelete, 1);
+      if (DeleteME != null)
+        ParentSection.DeleteKeyword(DeleteME);
+    }
+
+
+
+    /// <summary>
     /// Returns a deep clone of the section. Does not clone any parents;
     /// </summary>
     /// <param name="SectionToClone"></param>

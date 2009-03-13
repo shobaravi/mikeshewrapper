@@ -43,6 +43,24 @@ namespace MikeSheWrapper.InputFiles
         _commandAreas.RemoveAt(i);
       }
       NO_AREAS = 1;
+
+      PFSMapper.SafeDeleteSection(_commandAreas[0]._pfsHandle, "INDIRECT_APPLICATION_AREA");
+      PFSMapper.SafeDeleteSection(_commandAreas[0].Sources.Source1._pfsHandle, "TIME_SERIES_FILE");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "RiverNameRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "UpstreamChainageRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "DownstreamChainageRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "CapacityRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "UseThresholdDischargeRateRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ThresholdDischargeRateStopRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ThresholdDischargeRateRestartRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "UseThresholdStageRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ThresholdStageStopRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ThresholdStageRestartRS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ScreenTopDepthSWS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ThresholdDepthSWS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "CapacitySWS");
+      PFSMapper.SafeDeleteKeyword(_commandAreas[0].Sources.Source1._pfsHandle, "ScreenBottomDepthSWS");
+
     }
   }
 }
