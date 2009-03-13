@@ -10,6 +10,14 @@ namespace MikeSheWrapper.JupiterTools
   public class Reader
   {
 
+    private JupiterXL JXL;
+
+    public Reader(string DataBaseFile)
+    {
+      JXL = new JupiterXL(DataBaseFile);
+    }
+
+
     /// <summary>
     /// Read in water levels from a Jupiter access database. 
     /// If CreateWells is true a new well is created if it does not exist in the list.
@@ -17,11 +25,11 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     /// <param name="DataBaseFile"></param>
     /// <param name="CreateWells"></param>
-    public static void Waterlevels(string DataBaseFile, bool CreateWells, Dictionary<string, ObservationWell> Wells)
+    public void Waterlevels(bool CreateWells, Dictionary<string, ObservationWell> Wells)
     {
-      JupiterXL JXL = new JupiterXL();
+      
 
-      JXL.ReadWaterLevels(DataBaseFile);
+      JXL.ReadWaterLevels();
 
       foreach (var WatLev in JXL.WATLEVEL)
       {
@@ -52,17 +60,16 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     /// <param name="CurrentWell"></param>
     /// <param name="WatLev"></param>
-    private static void FillInWaterLevel(ObservationWell CurrentWell, JupiterXL.WATLEVELRow WatLev)
+    private void FillInWaterLevel(ObservationWell CurrentWell, JupiterXL.WATLEVELRow WatLev)
     {
       if (!WatLev.IsTIMEOFMEASNull())
         if (!WatLev.IsWATLEVMSLNull())
           CurrentWell.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
     }
 
-    public static void Extraction(string DataBaseFile, Dictionary<int, Plant> Plants, Dictionary<string, Well> Wells)
+    public void Extraction(Dictionary<int, Plant> Plants, Dictionary<string, Well> Wells)
     {
-      JupiterXL JXL = new JupiterXL();
-      JXL.ReadExtractions(DataBaseFile);
+      JXL.ReadExtractions();
 
       Well CurrentWell;
       Plant CurrentPlant;
@@ -75,13 +82,10 @@ namespace MikeSheWrapper.JupiterTools
           Plants.Add(CurrentPlant.IDNumber, CurrentPlant);
         }
 
-        if (!Anlaeg.IsPLANTNAMENull())
           CurrentPlant.Name = Anlaeg.PLANTNAME;
 
-        if (!Anlaeg.IsPLANTADDRESSNull())
           CurrentPlant.Address = Anlaeg.PLANTADDRESS;
 
-        if (!Anlaeg.IsPLANTPOSTALCODENull())
           CurrentPlant.PostalCode = Anlaeg.PLANTPOSTALCODE;
 
         if (!Anlaeg.IsPERMITDATENull())
@@ -90,7 +94,6 @@ namespace MikeSheWrapper.JupiterTools
         if (!Anlaeg.IsPERMITEXPIREDATENull())
           CurrentPlant.PermitExpiryDate = Anlaeg.PERMITEXPIREDATE;
 
-        if (!Anlaeg.IsPERMITAMOUNTNull())
           CurrentPlant.Permit = Anlaeg.PERMITAMOUNT;
 
         //Loop the intakes
@@ -117,7 +120,7 @@ namespace MikeSheWrapper.JupiterTools
     }
 
 
-    public static void ReadLithology(string DataBaseFile, Dictionary<string, JupiterWell> Wells)
+    public void ReadLithology(string DataBaseFile, Dictionary<string, JupiterWell> Wells)
     {
 
     }
@@ -126,12 +129,11 @@ namespace MikeSheWrapper.JupiterTools
     /// Reads in all wells from a Jupiter database. 
     /// </summary>
     /// <param name="DataBaseFile"></param>
-    public static Dictionary<string, ObservationWell> Wells(string DataBaseFile)
+    public Dictionary<string, ObservationWell> Wells()
     {
       Dictionary<string, ObservationWell> Wells = new Dictionary<string, ObservationWell>();
       //Construct the data set
-      JupiterXL JXL = new JupiterXL();
-      JXL.PartialReadOfWells(DataBaseFile);
+      JXL.PartialReadOfWells();
 
       ObservationWell CurrentWell;
       //Loop the wells
@@ -173,13 +175,12 @@ namespace MikeSheWrapper.JupiterTools
     }
 
 
-    public static Dictionary<string, JupiterWell> WellsForNovana(string DataBaseFile)
+    public Dictionary<string, JupiterWell> WellsForNovana()
     {
       Dictionary<string, JupiterWell> Wells = new Dictionary<string, JupiterWell>();
       //Construct the data set
-      JupiterXL JXL = new JupiterXL();
-      JXL.ReadInTotalWellsForNovana(DataBaseFile);
-      JXL.ReadInLithology(DataBaseFile);
+      JXL.ReadInTotalWellsForNovana();
+      JXL.ReadInLithology();
 
       NovanaTables.PejlingerTotalDataTable DT = new NovanaTables.PejlingerTotalDataTable();
 
@@ -230,28 +231,24 @@ namespace MikeSheWrapper.JupiterTools
           }
 
           CurrentWell.Description = Boring.LOCATION;
-          if (!Boring.IsELEVATIONNull())
-            CurrentWell.Terrain = Boring.ELEVATION;
+          CurrentWell.Terrain = Boring.ELEVATION;
 
           CurrentRow.NOVANAID = wellname;
-          //          CurrentRow.BORID = 
           //          CurrentRow.KOORTYPE =
           CurrentRow.JUPKOTE = Boring.ELEVATION;
           CurrentRow.BOREHOLENO = Boring.BOREHOLENO;
           CurrentRow.INTAKENO = Intake.INTAKENO;
           //          CurrentRow.WATLEVELNO =
           CurrentRow.LOCATION = Boring.LOCATION;
-          //          CurrentRow.BOTROCK 
 
           if (!Boring.IsDRILENDATENull())
             CurrentRow.DRILENDATE = Boring.DRILENDATE;
 
           if (!Boring.IsABANDONDATNull())
             CurrentRow.ABANDONDAT = Boring.ABANDONDAT;
-          if (!Boring.IsABANDCAUSENull())
-            CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
-          if (!Boring.IsDRILLDEPTHNull())
-            CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
+
+          CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
+          CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
 
           //Assumes that the string no from the intake identifies the correct Casing
           foreach (var Casing in Boring.GetCASINGRows())
@@ -261,17 +258,13 @@ namespace MikeSheWrapper.JupiterTools
                 CurrentRow.CASIBOT = Casing.BOTTOM;
           }
 
-          if (!Boring.IsPURPOSENull())
             CurrentRow.PURPOSE = Boring.PURPOSE;
-          if (!Boring.IsUSENull())
             CurrentRow.USE = Boring.USE;
 
           //Loop the screens. One intake can in special cases have multiple screens
           foreach (var Screen in Intake.GetSCREENRows())
           {
-            if (!Screen.IsTOPNull())
               CurrentWell.ScreenTop.Add(Screen.TOP);
-            if (!Screen.IsBOTTOMNull())
               CurrentWell.ScreenBottom.Add(Screen.BOTTOM);
           }//Screen loop
 
@@ -290,7 +283,7 @@ namespace MikeSheWrapper.JupiterTools
           if (NonNullList.Count() > 0)
             CurrentRow.INTENDATE2 = NonNullList.Max(x => x.ENDDATE);
 
-          //          CurrentRow.RESROCK=
+          CurrentRow.RESROCK = Intake.RESERVOIRROCK;
           //Fra WatLevel          CurrentRow.REFPOINT = 
           CurrentRow.ANTINT_B = Boring.GetINTAKERows().Count();
 
@@ -325,6 +318,19 @@ namespace MikeSheWrapper.JupiterTools
             L.TotalDescription = Lith.TOTALDESCR;
             CurrentWell.LithSamples.Add(L);
           }
+          
+          //Reads in chemistry
+          foreach (var Chem in Boring.GetGRWCHEMSAMPLERows())
+          {
+            foreach (var analysis in Chem.GetGRWCHEMANALYSISRows())
+            {
+              ChemistrySample C = new ChemistrySample();
+              C.SampleDate = Chem.SAMPLEDATE;
+              C.CompoundNo = analysis.COMPOUNDNO;
+              C.Amount = analysis.AMOUNT;
+              C.Unit = analysis.UNIT;
+            }
+          }
 
           if (CurrentWell.LithSamples.Count != 0)
           {
@@ -333,6 +339,7 @@ namespace MikeSheWrapper.JupiterTools
           }
           else
             CurrentRow.BOTROCK = "999";
+          
 
         }//Intake loop
 
