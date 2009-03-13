@@ -67,6 +67,12 @@
     <Compile Include="HeadObservationsView.Designer.cs">
       <DependentUpon>HeadObservationsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="JupiterFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JupiterFilter.Designer.cs">
+      <DependentUpon>JupiterFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Preview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     <EmbeddedResource Include="HeadObservationsView.resx">
       <DependentUpon>HeadObservationsView.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JupiterFilter.resx">
+      <DependentUpon>JupiterFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preview.resx">
       <DependentUpon>Preview.cs</DependentUpon>

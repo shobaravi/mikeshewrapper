@@ -47,17 +47,17 @@
   <ItemGroup>
     <Compile Include="ChemistrySample.cs" />
     <Compile Include="JupiterWell.cs" />
+    <Compile Include="JupiterXL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JupiterXL.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Lithology.cs" />
     <Compile Include="Plant.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="JupiterXL.cs">
       <DependentUpon>JupiterXL.xsd</DependentUpon>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="JupiterXL.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JupiterXL.xsd</DependentUpon>
     </Compile>
     <Compile Include="NovanaTables.Designer.cs">
       <DependentUpon>NovanaTables.xsd</DependentUpon>

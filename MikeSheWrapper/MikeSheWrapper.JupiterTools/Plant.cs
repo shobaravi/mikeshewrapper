@@ -74,5 +74,11 @@ namespace MikeSheWrapper.JupiterTools
       SurfaceWaterExtrations = new List<TimeSeriesEntry>();
       this.IDNumber = IDNumber;
     }
+
+
+    public override string ToString()
+    {
+      return Name;
+    }
   }
 }

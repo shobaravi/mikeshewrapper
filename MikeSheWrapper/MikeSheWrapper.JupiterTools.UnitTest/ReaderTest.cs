@@ -18,7 +18,9 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       Dictionary<int, Plant> Anlaeg = new Dictionary<int, Plant>();
       Dictionary<string, Well> Wells = new Dictionary<string, Well>();
-      Reader.Extraction(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", Anlaeg, Wells);
+      Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
+
+      R.Extraction(Anlaeg, Wells);
 
       Assert.AreEqual(4, Anlaeg.Values.Count(x => x.PumpingWells.Count == 0));
 
@@ -29,7 +31,8 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       Dictionary<int, Plant> Anlaeg = new Dictionary<int, Plant>();
       Dictionary<string, Well> Wells = new Dictionary<string, Well>();
-      Reader.Extraction(@"..\..\..\mcribe.mdb", Anlaeg, Wells);
+      Reader R = new Reader(@"..\..\..\mcribe.mdb");
+      R.Extraction(Anlaeg, Wells);
 
     }
 
@@ -38,7 +41,9 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       Dictionary<string, JupiterWell> Wells = new Dictionary<string, JupiterWell>();
 
-      Reader.WellsForNovana(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", Wells);
+
+      Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
+      Wells= R.WellsForNovana();
 
     }
   }

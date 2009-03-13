@@ -116,6 +116,7 @@
       // 
       // textBoxObsFile
       // 
+      this.textBoxObsFile.Enabled = false;
       this.textBoxObsFile.Location = new System.Drawing.Point(120, 83);
       this.textBoxObsFile.Name = "textBoxObsFile";
       this.textBoxObsFile.Size = new System.Drawing.Size(342, 20);
@@ -123,6 +124,7 @@
       // 
       // buttonReadObs
       // 
+      this.buttonReadObs.Enabled = false;
       this.buttonReadObs.Location = new System.Drawing.Point(468, 80);
       this.buttonReadObs.Name = "buttonReadObs";
       this.buttonReadObs.Size = new System.Drawing.Size(26, 23);
