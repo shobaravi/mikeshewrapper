@@ -422,6 +422,7 @@ namespace MikeSheWrapper.InputDataPreparation
     public Dictionary<string, ObservationWell> Wells
     {
       get { return _wells; }
+      set { _wells = value; }
     }
 
     public List<ObservationWell> WorkingList

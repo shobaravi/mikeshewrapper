@@ -20,12 +20,13 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     [Test]
     public void ReadAllAndWriteDFS0()
     {
-      JupiterTools.Reader.Wells(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", HO.Wells);
-      JupiterTools.Reader.Waterlevels(@"..\..\..\TestData\AlbertslundPcJupiter.mdb", false, HO.Wells);
+      JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
+      Dictionary<string, ObservationWell> Wells = R.Wells();
+      R.Waterlevels(false, Wells);
 
-      Assert.AreEqual(747, HO.Wells.Count);
+      Assert.AreEqual(747, Wells.Count);
 
-      HO.WriteToDfs0(@"..\..\..\TestData\TidsSerier", HO.WorkingList, new DateTime(2003, 1, 1), new DateTime(2009, 1, 1));
+      HO.WriteToDfs0(@"..\..\..\TestData\TidsSerier", Wells.Values, new DateTime(2003, 1, 1), new DateTime(2009, 1, 1));
 
 
     }

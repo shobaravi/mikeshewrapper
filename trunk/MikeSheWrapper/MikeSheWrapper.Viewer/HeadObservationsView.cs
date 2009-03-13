@@ -45,15 +45,18 @@ namespace MikeSheWrapper.Viewer
             break;
           case ".mdb":
             bool ReadAll = (DialogResult.Yes == MessageBox.Show("Read data for specialized NOVANA output?", "Read in how much data?", MessageBoxButtons.YesNo));
+            JupiterTools.Reader R = new Reader(FileName);
+
             if (ReadAll)
             {
-              JupWells = JupiterTools.Reader.WellsForNovana(FileName);
+
+              JupWells = R.WellsForNovana();
               buttonNovanaShape.Enabled = true;
             }
             else
             {
-              ObsWells = JupiterTools.Reader.Wells(FileName);
-              JupiterTools.Reader.Waterlevels(FileName, false, ObsWells);
+              ObsWells = R.Wells();
+              R.Waterlevels(false, ObsWells);
             }
             textBoxObsFile.Text = FileName;
             break;
@@ -82,6 +85,8 @@ namespace MikeSheWrapper.Viewer
               textBox2.Text = "";
               return;
             }
+            this.textBoxObsFile.Enabled = true;
+            this.buttonReadObs.Enabled = true;
             break;
           default:
             break;
@@ -106,7 +111,8 @@ namespace MikeSheWrapper.Viewer
     {
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
-        Reader.Waterlevels(openFileDialog2.FileName, false, ObsWells);
+        Reader R = new Reader(openFileDialog2.FileName);
+        R.Waterlevels(false, ObsWells);
         textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }
