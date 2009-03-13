@@ -6,14 +6,40 @@ namespace MikeSheWrapper.JupiterTools
 
   public partial class JupiterXL
   {
+
+    private string ConnectionString;
+
+    public JupiterXL(string DataBaseFileName)
+    {
+      ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
+
+    }
+
+    /// <summary>
+    /// Reads in groundwater chemistry
+    /// </summary>
+    /// <param name="DataBaseFileName"></param>
+    public void ReadInChemistrySamples()
+    {
+      GRWCHEMSAMPLETableAdapter GSA = new GRWCHEMSAMPLETableAdapter();
+      GSA.Connection.ConnectionString = ConnectionString;
+      GSA.Fill(GRWCHEMSAMPLE);
+
+      COMPOUNDLISTTableAdapter CTA = new COMPOUNDLISTTableAdapter();
+      CTA.Connection.ConnectionString = ConnectionString;
+      CTA.Fill(COMPOUNDLIST);
+
+      GRWCHEMANALYSISTableAdapter GTA = new GRWCHEMANALYSISTableAdapter();
+      GTA.Connection.ConnectionString = ConnectionString;
+      GTA.Fill(GRWCHEMANALYSIS);
+    }
     
     /// <summary>
     /// Reads in data required for the NOVANA project.
     /// </summary>
     /// <param name="DataBaseFileName"></param>
-    public void PartialReadOfWells(string DataBaseFileName)
+    public void PartialReadOfWells()
     {
-      string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
 
       //Read in boreholes through table adapter
       BOREHOLETableAdapter BTA = new BOREHOLETableAdapter();
@@ -31,10 +57,8 @@ namespace MikeSheWrapper.JupiterTools
       STA.FillByNovana(SCREEN);
     }
 
-    public void ReadInTotalWellsForNovana(string DataBaseFileName)
+    public void ReadInTotalWellsForNovana()
     {
-      string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
-
       //Read in boreholes through table adapter
       BOREHOLETableAdapter BTA = new BOREHOLETableAdapter();
       BTA.Connection.ConnectionString = ConnectionString;
@@ -61,9 +85,8 @@ namespace MikeSheWrapper.JupiterTools
     /// Read the data from the Lithsample table.
     /// </summary>
     /// <param name="DataBaseFileName"></param>
-    public void ReadInLithology(string DataBaseFileName)
+    public void ReadInLithology()
     {
-      string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
       LITHSAMPTableAdapter LTA = new LITHSAMPTableAdapter();
       LTA.Connection.ConnectionString = ConnectionString;
       LTA.Fill(LITHSAMP);
@@ -74,9 +97,8 @@ namespace MikeSheWrapper.JupiterTools
     /// Only necessary fields are read.
     /// </summary>
     /// <param name="DataBaseFileName"></param>
-    public void ReadWaterLevels(string DataBaseFileName)
+    public void ReadWaterLevels()
     {
-      string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
       WATLEVELTableAdapter WTA = new WATLEVELTableAdapter();
       WTA.Connection.ConnectionString = ConnectionString;
       WTA.FillByNovana(WATLEVEL);
@@ -87,9 +109,8 @@ namespace MikeSheWrapper.JupiterTools
     /// Tables DRWPLANT, DRWPLANTINTAKE, WRRCATHCHMENT are filled.
     /// </summary>
     /// <param name="DataBaseFileName"></param>
-    public void ReadExtractions(string DataBaseFileName)
+    public void ReadExtractions()
     {
-      string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
       DRWPLANTTableAdapter DTA = new DRWPLANTTableAdapter();
       DTA.Connection.ConnectionString = ConnectionString;
       DTA.Fill(DRWPLANT);
