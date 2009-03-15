@@ -56,7 +56,7 @@ namespace MikeSheWrapper.Viewer
             else
             {
               ObsWells = R.Wells();
-              R.Waterlevels(false, ObsWells);
+              R.Waterlevels(ObsWells);
             }
             textBoxObsFile.Text = FileName;
             break;
@@ -112,7 +112,7 @@ namespace MikeSheWrapper.Viewer
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
         Reader R = new Reader(openFileDialog2.FileName);
-        R.Waterlevels(false, ObsWells);
+        R.Waterlevels( ObsWells);
         textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }

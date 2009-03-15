@@ -33,7 +33,7 @@ namespace MikeSheWrapper.JupiterTools
     /// <summary>
     /// The wells associated to this plant
     /// </summary>
-    public List<Well> PumpingWells { get; private set; }
+    public List<Intake> PumpingIntakes { get; private set; }
 
     /// <summary>
     /// The name of the plant

@@ -58,7 +58,7 @@ namespace MikeSheWrapper.LayerStatistics
         InputOutput IO = new InputOutput(_grid.NumberOfLayers);
 
         //Read in the wells
-        Dictionary<string, ObservationWell> Wells = IO.ReadFromLSText(ObsFileName);
+        Dictionary<string, MikeSheWell> Wells = IO.ReadFromLSText(ObsFileName);
 
         int NLay = _grid.NumberOfLayers;
         double [] ME = new double[NLay];
@@ -76,10 +76,10 @@ namespace MikeSheWrapper.LayerStatistics
         }
 
         //Only operate on wells within the mikeshe area
-        var SelectedWells = HeadObservations.SelectByMikeSheModelArea(_grid, Wells);
+        var SelectedWells = HeadObservations.SelectByMikeSheModelArea(_grid, Wells.Values);
 
         //Loops the wells that are within the model area
-        foreach (ObservationWell W in SelectedWells)
+        foreach (MikeSheWell W in SelectedWells)
         {
           if (W.Layer == -3)
           {
@@ -94,7 +94,7 @@ namespace MikeSheWrapper.LayerStatistics
           HeadObservations.GetSimulatedValuesFromGridOutput(_res, _grid, W);
 
           //Samler resultaterne for hver lag
-          foreach (ObservationEntry TSE in W.Observations)
+          foreach (ObservationEntry TSE in W.Intakes[0].Observations)
           {
             if (TSE.SimulatedValueCell == _res.DeleteValue)
             {

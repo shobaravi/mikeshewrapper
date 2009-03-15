@@ -36,9 +36,9 @@ namespace MikeSheWrapper.LayerStatistics
     /// "WellID X Y Z Head  Date  Layer". Separated with tabs. Layer is optional
     /// </summary>
     /// <param name="LSFileName"></param>
-    public Dictionary<string, ObservationWell> ReadFromLSText(string LSFileName)
+    public Dictionary<string, MikeSheWell> ReadFromLSText(string LSFileName)
     {
-      Dictionary<string, ObservationWell> Wells = new Dictionary<string, ObservationWell>();
+      Dictionary<string, MikeSheWell> Wells = new Dictionary<string, MikeSheWell>();
       //Sets the output file name for subsequent writing
       string path = Path.GetDirectoryName(LSFileName);
       string FileName = Path.GetFileNameWithoutExtension(LSFileName);
@@ -51,7 +51,7 @@ namespace MikeSheWrapper.LayerStatistics
         //Reads the HeadLine
         string line = SR.ReadLine();
         string[] s;
-        ObservationWell OW;
+        MikeSheWell OW;
 
         while ((line = SR.ReadLine()) != null)
         {
@@ -65,7 +65,8 @@ namespace MikeSheWrapper.LayerStatistics
               //If the well has not already been read in create a new one
               if (!Wells.TryGetValue(s[0], out OW))
               {
-                OW = new ObservationWell(s[0]);
+                OW = new MikeSheWell(s[0]);
+                Intake I = new Intake(OW, 1);
                 Wells.Add(OW.ID, OW);
                 OW.X = double.Parse(s[1]);
                 OW.Y = double.Parse(s[2]);
@@ -79,10 +80,11 @@ namespace MikeSheWrapper.LayerStatistics
                 else
                 {
                   OW.Z = double.Parse(s[3]);
+                  OW.Layer = -3;
                 }
               }
               //Now add the observation
-              OW.Observations.Add(new ObservationEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
+              OW.Intakes[0].Observations.Add(new ObservationEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
             }
             catch (FormatException e)
             {
@@ -98,7 +100,7 @@ namespace MikeSheWrapper.LayerStatistics
     /// Skriver en fil med alle observationsdata
     /// </summary>
     /// <param name="Observations"></param>
-    public void WriteObservations(IEnumerable<ObservationWell> Wells)
+    public void WriteObservations(IEnumerable<MikeSheWell> Wells)
     {
       StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt");
       StreamWriter swell = new StreamWriter(_baseOutPutFileName + "_wells.txt");
@@ -106,10 +108,10 @@ namespace MikeSheWrapper.LayerStatistics
       sw.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
       swell.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tME\tME^2");
 
-      foreach (ObservationWell OW in Wells)
+      foreach (MikeSheWell OW in Wells)
       {
         //Write for each observation
-        foreach (ObservationEntry TSE in OW.Observations)
+        foreach (ObservationEntry TSE in OW.Intakes[0].Observations)
         {
           StringBuilder ObsString = new StringBuilder();
           ObsString.Append(OW.ID + "\t");
@@ -138,8 +140,8 @@ namespace MikeSheWrapper.LayerStatistics
         WellString.Append(OW.Y + "\t");
         WellString.Append(OW.Z + "\t");
         WellString.Append((_numberOfLayers - OW.Layer) + "\t");
-        WellString.Append(OW.Observations.Average(num => num.ME).ToString() + "\t");
-        WellString.Append(OW.Observations.Average(num => num.RMSE).ToString() + "\t");
+        WellString.Append(OW.Intakes[0].Observations.Average(num => num.ME).ToString() + "\t");
+        WellString.Append(OW.Intakes[0].Observations.Average(num => num.RMSE).ToString() + "\t");
         swell.WriteLine(WellString.ToString());
       }
       sw.Flush();
