@@ -14,18 +14,16 @@ namespace MikeSheWrapper.Tools
     protected string _description;
     protected double _x;
     protected double _y;
-    protected List<double> _screenTop = new List<double>();
-    protected List<double> _screenBottom = new List<double>();
     protected double _terrain;
 
+    public List<Intake> Intakes {get;private set;}
+
     #region Constructors
-    public Well()
-    {
-    }
 
     public Well(string ID)
     {
       _id = ID;
+      Intakes = new List<Intake>();
     }
 
     public Well(string ID, double X, double Y):this(ID)
@@ -58,24 +56,6 @@ namespace MikeSheWrapper.Tools
     {
       get { return _y; }
       set { _y = value; }
-    }
-
-    /// <summary>
-    /// Gets and sets the top of the screen in meters above sealevel
-    /// </summary>
-    public List<double> ScreenTop
-    {
-      get { return _screenTop; }
-      set { _screenTop = value; }
-    }
-
-    /// <summary>
-    /// Gets and sets the bottom of the screen in meters above mean sea level
-    /// </summary>
-    public List<double> ScreenBottom
-    {
-      get { return _screenBottom; }
-      set { _screenBottom = value; }
     }
 
     /// <summary>

@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="FileNames.cs" />
     <Compile Include="MikeSheGridInfo.cs" />
+    <Compile Include="MikeSheWell.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="MSheLauncher.cs" />
     <Compile Include="PhreaticPotential.cs" />

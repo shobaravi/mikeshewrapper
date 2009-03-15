@@ -20,10 +20,8 @@ namespace MikeSheWrapper.InputDataPreparation
 {
   public class HeadObservations
   {
-    private Dictionary<string, ObservationWell> _wells = new Dictionary<string,ObservationWell>();
+    private Dictionary<string, Well> _wells = new Dictionary<string,Well>();
     
-    private List<ObservationWell> _workingList;
-
     //Object used for thread safety. What happens if two instances are running in the same process?
     private static object _lock = new object();
 
@@ -34,9 +32,9 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
     /// <summary>
-    /// Function that returns true if a well has more than Count observations in the period between Start and End
+    /// Function that returns true if an Intake has more than Count observations in the period between Start and End
     /// </summary>
-    public Func<ObservationWell, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.Observations.Distinct().Count(num => InBetween(num, Start, End));
+    public Func<Intake, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.Observations.Distinct().Count(num => InBetween(num, Start, End));
 
 
     public HeadObservations()
@@ -70,33 +68,43 @@ namespace MikeSheWrapper.InputDataPreparation
     /// z - coordinate
     /// </summary>
     /// <param name="MikeShe"></param>
-    public static IEnumerable<ObservationWell> SelectByMikeSheModelArea(MikeSheGridInfo Grid, Dictionary<string, ObservationWell> Wells )
+    public static IEnumerable<MikeSheWell> SelectByMikeSheModelArea(MikeSheGridInfo Grid, IEnumerable<MikeSheWell> Wells)
     {
-      //     Parallel.ForEach<ObservationWell>(_wells.Values, delegate(ObservationWell W)
-      foreach (ObservationWell W in Wells.Values)
+      int Column;
+      int Row;
+      foreach (MikeSheWell W in Wells)
       {
+
         //Gets the index and sets the column and row
-        if (Grid.GetIndex(W.X, W.Y, out W._column, out W._row))
+        if (Grid.GetIndex(W.X, W.Y, out Column, out Row))
+        {
+          W.Column = Column;
+          W.Row = Row;
           yield return W;
+        }
       }
-      //      );
     }
 
     /// <summary>
     /// Writes a textfile that can be used for importing detailed timeseries output
+    /// Depth is calculated as the midpoint of the lowest screen
     /// </summary>
     /// <param name="TxtFileName"></param>
-    public void WriteToMikeSheModel(string TxtFileName, IEnumerable<ObservationWell> SelectedWells)
+    public void WriteToMikeSheModel(string TxtFileName, IEnumerable<Well> SelectedWells)
     {
       using (StreamWriter SW = new StreamWriter(TxtFileName, false, Encoding.Default))
       {
-        foreach (ObservationWell W in SelectedWells)
+        foreach (Well W in SelectedWells)
         {
-//          if (W.Dfs0Written)
-            SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t1\t"+W.ID +"\t1 ");
-          //When is this necessary
-  //        else  
-    //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+          foreach (Intake I in W.Intakes)
+          {
+            double depth = (I.ScreenTop.Max() + I.ScreenBottom.Max()) / 2;
+            //          if (W.Dfs0Written)
+            SW.WriteLine(I.ToString() + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 ");
+            //When is this necessary
+            //        else  
+            //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+          }
         }
       }
     }
@@ -107,17 +115,18 @@ namespace MikeSheWrapper.InputDataPreparation
     /// The working list should be cleared before entering this method
     /// </summary>
     /// <param name="DFS0FileName"></param>
-    public void GetSimulatedValuesFromDetailedTSOutput(string DFS0FileName)
+    public void GetSimulatedValuesFromDetailedTSOutput(string DFS0FileName, List<Intake> Intakes)
     {
       DFS0 _data = new DFS0(DFS0FileName);
 
-      ObservationWell OW;
+      Intake OW;
       int item=1;
 
       //Loop all Items
       foreach (string DI in _data.ItemNames)
       {
-        if (_wells.TryGetValue(DI, out OW))
+        OW = Intakes.Find(var => var.ToString() == DI);
+        if (OW!=null)
         {
           //Loop the observations
           foreach (ObservationEntry TSE in OW.Observations)
@@ -133,9 +142,10 @@ namespace MikeSheWrapper.InputDataPreparation
     /// </summary>
     /// <param name="MSheResults"></param>
     /// <param name="GridInfo"></param>
-    public static void GetSimulatedValuesFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo, ObservationWell Well)
+    public static void GetSimulatedValuesFromGridOutput(Results MSheResults, MikeSheGridInfo GridInfo, MikeSheWell Well)
     {
-        foreach (ObservationEntry TSE in Well.Observations)
+      foreach(Intake I in Well.Intakes)
+        foreach (ObservationEntry TSE in I.Observations)
         {
           Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[Well.Layer];
           TSE.SimulatedValueCell = M[Well.Row, Well.Column];
@@ -230,7 +240,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="Start"></param>
     /// <param name="End"></param>
     /// <param name="AllObs"></param>
-    public void WriteToLSInput(string FileName, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End, bool AllObs)
+    public void WriteToLSInput(string FileName, IEnumerable<Well> SelectedWells, DateTime Start, DateTime End, bool AllObs)
     {
       using (StreamWriter SW = new StreamWriter(FileName, false, Encoding.Default))
       {
@@ -239,94 +249,89 @@ namespace MikeSheWrapper.InputDataPreparation
         else
           SW.WriteLine("NOVANAID\tXUTM\tYUTM\tMIDTK_FNL\tMEANPEJ\tMAXDATO\tBERELAG");
 
-        foreach (ObservationWell OW in SelectedWells)
+        foreach (Well OW in SelectedWells)
         {
-          List<ObservationEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
-        
-          SelectedObs.Sort();
-
-          StringBuilder S = new StringBuilder();
-          S.Append(OW.ID + "\t" + OW.X + "\t" + OW.Y + "\t" + OW.Depth + "\t");
-
-          if (AllObs)
-            foreach (ObservationEntry TSE in SelectedObs)
-            {
-              StringBuilder ObsString = new StringBuilder(S.ToString());
-              ObsString.Append(TSE.Value + "\t" + TSE.Time.ToShortDateString());
-              if (OW.Layer > 0)
-                ObsString.Append("\t" + OW.Layer);
-              SW.WriteLine(ObsString.ToString());
-            }
-          else
+          foreach (Intake I in OW.Intakes)
           {
-            S.Append(SelectedObs.Average(num => num.Value).ToString() + "\t");
-            S.Append(SelectedObs.Max(num => num.Time).ToShortDateString());
-            if (OW.Layer > 0)
-              S.Append("\t" + OW.Layer);
-            SW.WriteLine(S.ToString());
+            List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
+
+            SelectedObs.Sort();
+
+            StringBuilder S = new StringBuilder();
+            double depth = (I.ScreenTop.Max() + I.ScreenBottom.Max()) / 2;
+            S.Append(I.ToString() + "\t" + OW.X + "\t" + OW.Y + "\t" + depth + "\t");
+
+            if (AllObs)
+              foreach (ObservationEntry TSE in SelectedObs)
+              {
+                StringBuilder ObsString = new StringBuilder(S.ToString());
+                ObsString.Append(TSE.Value + "\t" + TSE.Time.ToShortDateString());
+                SW.WriteLine(ObsString.ToString());
+              }
+            else
+            {
+              S.Append(SelectedObs.Average(num => num.Value).ToString() + "\t");
+              S.Append(SelectedObs.Max(num => num.Time).ToShortDateString());
+              SW.WriteLine(S.ToString());
+            }
           }
         }
       }
     }
 
-    /// <summary>
-    /// Writes dfs0-files for all wells in the workinglist included all data
-    /// </summary>
-    /// <param name="OutputPath"></param>
-    public void WriteToDfs0(string OutputPath)
-    {
-      WriteToDfs0(OutputPath, WorkingList, DateTime.MinValue, DateTime.MaxValue);
-    }
 
     /// <summary>
     /// Writes dfs0 files for the SelectedWells wells
     /// Only includes data within the period bounded by Start and End
     /// </summary>
     /// <param name="OutputPath"></param>
-    public void WriteToDfs0(string OutputPath, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End)
+    public void WriteToDfs0(string OutputPath, IEnumerable<Well> SelectedWells, DateTime Start, DateTime End)
     {
       //Write the time series if there is more than one observation
-     // Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
-      foreach(ObservationWell W in SelectedWells)
+      // Parallel.ForEach<ObservationWell>(SelectedWells, delegate(ObservationWell W)
+      foreach (Well W in SelectedWells)
       {
-        //Create the TSObject
-        TSObject _tso = new TSObjectClass();
-        TSItem _item = new TSItemClass();
-        _item.DataType = ItemDataType.Type_Float;
-        _item.ValueType = ItemValueType.Instantaneous;
-        _item.EumType = 171;
-        _item.EumUnit = 1;
-        _item.Name = "Head";
-        _tso.Add(_item);
-
-        DateTime _previousTimeStep = DateTime.MinValue;
-
-        //Select the observations
-        List<ObservationEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
-
-        SelectedObs.Sort();
-
-        for (int i = 0; i < SelectedObs.Count; i++)
+        foreach (Intake I in W.Intakes)
         {
-          //Only add the first measurement of the day
-          if (SelectedObs[i].Time != _previousTimeStep)
+          //Create the TSObject
+          TSObject _tso = new TSObjectClass();
+          TSItem _item = new TSItemClass();
+          _item.DataType = ItemDataType.Type_Float;
+          _item.ValueType = ItemValueType.Instantaneous;
+          _item.EumType = 171;
+          _item.EumUnit = 1;
+          _item.Name = "Head";
+          _tso.Add(_item);
+
+          DateTime _previousTimeStep = DateTime.MinValue;
+
+          //Select the observations
+          List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
+
+          SelectedObs.Sort();
+
+          for (int i = 0; i < SelectedObs.Count; i++)
           {
-            _tso.Time.AddTimeSteps(1);
-            _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
-            _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
+            //Only add the first measurement of the day
+            if (SelectedObs[i].Time != _previousTimeStep)
+            {
+              _tso.Time.AddTimeSteps(1);
+              _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
+              _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
+            }
           }
-        }
 
-        //Now write the DFS0.
-        if (_tso.Time.NrTimeSteps != 0)
-        {
-          _tso.Connection.FilePath = Path.Combine(OutputPath, W.ID + ".dfs0");
-          _tso.Connection.Save();
+          //Now write the DFS0.
+          if (_tso.Time.NrTimeSteps != 0)
+          {
+            _tso.Connection.FilePath = Path.Combine(OutputPath, I.ToString() + ".dfs0");
+            _tso.Connection.Save();
+          }
+
         }
+        //      );
 
       }
-//      );
-
     }
 
     /// <summary>
@@ -336,29 +341,32 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="SelectedWells"></param>
     /// <param name="Start"></param>
     /// <param name="End"></param>
-    public void WriteToDatFile(string FileName, IEnumerable<ObservationWell> SelectedWells, DateTime Start, DateTime End)
+    public void WriteToDatFile(string FileName, IEnumerable<Well> SelectedWells, DateTime Start, DateTime End)
     {
       StringBuilder S = new StringBuilder();
 
       using (StreamWriter SW = new StreamWriter(FileName, false, Encoding.Default))
       {
-        foreach (ObservationWell OW in SelectedWells)
+        foreach (Well OW in SelectedWells)
         {
-          List<ObservationEntry> SelectedObs = OW.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
-          SelectedObs.Sort();
-          foreach (ObservationEntry TSE in SelectedObs)
+          foreach (Intake I in OW.Intakes)
           {
-            S.Append(OW.ID + "    " + TSE.Time.ToString("dd/MM/yyyy hh:mm:ss") + " " + TSE.Value.ToString() + "\n");
+            List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
+            SelectedObs.Sort();
+            foreach (ObservationEntry TSE in SelectedObs)
+            {
+              S.Append(I.ToString() + "    " + TSE.Time.ToString("dd/MM/yyyy hh:mm:ss") + " " + TSE.Value.ToString() + "\n");
+            }
           }
         }
         SW.Write(S.ToString());
       }
     }
 
-    public void WriteShapeFromDataRow(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)
+    public void WriteShapeFromDataRow(string FileName, IEnumerable<JupiterWell> Wells, DateTime Start, DateTime End)
     {
       PointShapeWriter PSW = new PointShapeWriter(FileName);
-      foreach(ObservationWell OW in Wells)
+      foreach (JupiterWell OW in Wells)
       {
         PSW.WritePointShape(OW.X, OW.Y);
         PSW.Data.WriteData(OW.Data);
@@ -375,7 +383,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="Wells"></param>
     /// <param name="Start"></param>
     /// <param name="End"></param>
-    public void WriteSimpleShape(string FileName, IEnumerable<ObservationWell> Wells, DateTime Start, DateTime End)
+    public void WriteSimpleShape(string FileName, IEnumerable<Well> Wells, DateTime Start, DateTime End)
     {
       PointShapeWriter PSW = new PointShapeWriter(FileName);
 
@@ -383,57 +391,42 @@ namespace MikeSheWrapper.InputDataPreparation
       OutputTables NT = new OutputTables();
       OutputTables.PejlingerOutputDataTable PDT = new OutputTables.PejlingerOutputDataTable();
 
-      foreach (ObservationWell W in Wells)
+      foreach (Well W in Wells)
       {
-        List<ObservationEntry> SelectedObs = W.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
-
-        PSW.WritePointShape(W.X, W.Y);
-
-        OutputTables.PejlingerOutputRow PR = PDT.NewPejlingerOutputRow();
-
-        PR.NOVANAID = W.ID;
-        PR.LOCATION = W.Description;
-        PR.XUTM = W.X;
-        PR.YUTM = W.Y;
-        PR.JUPKOTE = W.Terrain;
-
-        if (W.ScreenTop.Count > 0)
-          PR.INTAKETOP = W.ScreenTop.Min();
-        if (W.ScreenBottom.Count > 0)
-          PR.INTAKEBOT = W.ScreenBottom.Min();
-
-        PR.NUMBEROFOB = SelectedObs.Count;
-        if (SelectedObs.Count > 0)
+        foreach (Intake I in W.Intakes)
         {
-          PR.STARTDATO = SelectedObs.Min(x => x.Time);
-          PR.ENDDATO = SelectedObs.Max(x => x.Time);
-          PR.MAXOBS = SelectedObs.Max(num => num.Value);
-          PR.MINOBS = SelectedObs.Min(num => num.Value);
-          PR.MEANOBS = SelectedObs.Average(num => num.Value);
+          List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
+
+          PSW.WritePointShape(W.X, W.Y);
+
+          OutputTables.PejlingerOutputRow PR = PDT.NewPejlingerOutputRow();
+
+          PR.NOVANAID = I.ToString();
+          PR.LOCATION = W.Description;
+          PR.XUTM = W.X;
+          PR.YUTM = W.Y;
+          PR.JUPKOTE = W.Terrain;
+
+          if (I.ScreenTop.Count > 0)
+            PR.INTAKETOP = I.ScreenTop.Max();
+          if (I.ScreenBottom.Count > 0)
+            PR.INTAKEBOT = I.ScreenBottom.Max();
+
+          PR.NUMBEROFOB = SelectedObs.Count;
+          if (SelectedObs.Count > 0)
+          {
+            PR.STARTDATO = SelectedObs.Min(x => x.Time);
+            PR.ENDDATO = SelectedObs.Max(x => x.Time);
+            PR.MAXOBS = SelectedObs.Max(num => num.Value);
+            PR.MINOBS = SelectedObs.Min(num => num.Value);
+            PR.MEANOBS = SelectedObs.Average(num => num.Value);
+          }
+          PDT.Rows.Add(PR);
         }
-        PDT.Rows.Add(PR);
       }
 
       PSW.Data.WriteDate(PDT);
       PSW.Dispose();
     }
-
-
-    public Dictionary<string, ObservationWell> Wells
-    {
-      get { return _wells; }
-      set { _wells = value; }
-    }
-
-    public List<ObservationWell> WorkingList
-    {
-      get {
-        if (_workingList ==null)
-          _workingList = _wells.Values.ToList();
-        return _workingList; }
-    }
-
-
-
   }
 }

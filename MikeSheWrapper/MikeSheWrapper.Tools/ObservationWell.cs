@@ -25,9 +25,7 @@ namespace MikeSheWrapper.Tools
     public double Depth {get; set;}
     
     private double _z;
-    private List<ObservationEntry> _observations = new List<ObservationEntry>();
    
-    public DataRow Data { get; set; }
 
     #region Constructors
     public ObservationWell(string ID)
@@ -51,69 +49,6 @@ namespace MikeSheWrapper.Tools
 
 
     #region Properties
-
-
-#region Statistics
-
-    /// <summary>
-    /// Returns the Root mean square error for the observations
-    /// </summary>
-    public double? RMS
-    {
-      get
-      {
-        if (_observations.Count == 0)
-          return null;
-
-        return Math.Pow(_observations.Average(new Func<ObservationEntry, double>(num => num.RMSE)), 0.5);
-      }
-    }
-
-    public double? ME
-    {
-      get
-      {
-        if (_observations.Count == 0)
-          return null;
-        return _observations.Average(new Func<ObservationEntry, double>(num => num.ME));
-      }
-    }
-
-    public double? MAE
-    {
-      get
-      {
-        if (_observations.Count == 0)
-          return null;
-        return _observations.Average(new Func<ObservationEntry, double>(num => Math.Abs(num.ME)));
-      }
-    }
-
-
-    public double? RMST
-    {
-      get 
-      {
-        if (_observations.Count == 0)
-          return null;
-        double simmean = _observations.Average(new Func<ObservationEntry, double>(num => num.SimulatedValue));
-        double obsmean = _observations.Average(new Func<ObservationEntry, double>(num => num.Value)); 
-
-        double val = _observations.Sum(new Func<ObservationEntry,double>(num => Math.Pow(num.Value - obsmean-(num.SimulatedValue - simmean),2)));
-        return  Math.Pow(val/_observations.Count, 0.5);
-      }
-    }
-
-
-#endregion
-
-    /// <summary>
-    /// Gets the observations. Also used to add data
-    /// </summary>
-    public List<ObservationEntry> Observations
-    {
-      get { return _observations; }
-    }
 
 
     public int Column

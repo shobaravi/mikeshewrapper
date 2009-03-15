@@ -22,7 +22,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     {
       JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
       Dictionary<string, ObservationWell> Wells = R.Wells();
-      R.Waterlevels(false, Wells);
+      R.Waterlevels(Wells);
 
       Assert.AreEqual(747, Wells.Count);
 

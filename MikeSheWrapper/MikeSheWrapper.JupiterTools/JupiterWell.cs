@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,12 @@ using MikeSheWrapper.Tools;
 
 namespace MikeSheWrapper.JupiterTools
 {
-  public class JupiterWell:ObservationWell 
+  public class JupiterWell:Well 
   {
     private List<Lithology> _lithSamples = new List<Lithology>();
+
+    public DataRow Data { get; set; }
+
 
     public List<Lithology> LithSamples
     {
