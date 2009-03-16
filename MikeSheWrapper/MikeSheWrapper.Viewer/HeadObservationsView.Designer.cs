@@ -56,13 +56,18 @@
       this.button5 = new System.Windows.Forms.Button();
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-      this.listBox1 = new System.Windows.Forms.ListBox();
+      this.listBoxIntakes = new System.Windows.Forms.ListBox();
       this.OpenSheFileForSelection = new System.Windows.Forms.OpenFileDialog();
       this.buttonLSFile = new System.Windows.Forms.Button();
       this.radioButtonMax = new System.Windows.Forms.RadioButton();
       this.radioButtonMin = new System.Windows.Forms.RadioButton();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.buttonNovanaShape = new System.Windows.Forms.Button();
+      this.listBoxAnlaeg = new System.Windows.Forms.ListBox();
+      this.listBox1 = new System.Windows.Forms.ListBox();
+      this.label8 = new System.Windows.Forms.Label();
+      this.label9 = new System.Windows.Forms.Label();
+      this.label11 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
@@ -84,7 +89,7 @@
       // 
       // textBox1
       // 
-      this.textBox1.Location = new System.Drawing.Point(132, 256);
+      this.textBox1.Location = new System.Drawing.Point(657, 31);
       this.textBox1.Name = "textBox1";
       this.textBox1.Size = new System.Drawing.Size(79, 20);
       this.textBox1.TabIndex = 1;
@@ -139,7 +144,7 @@
       // 
       // textBox4
       // 
-      this.textBox4.Location = new System.Drawing.Point(132, 282);
+      this.textBox4.Location = new System.Drawing.Point(657, 57);
       this.textBox4.Name = "textBox4";
       this.textBox4.Size = new System.Drawing.Size(79, 20);
       this.textBox4.TabIndex = 9;
@@ -206,7 +211,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(12, 259);
+      this.label6.Location = new System.Drawing.Point(537, 34);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(89, 13);
       this.label6.TabIndex = 17;
@@ -251,7 +256,7 @@
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(12, 285);
+      this.label10.Location = new System.Drawing.Point(537, 60);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(107, 13);
       this.label10.TabIndex = 27;
@@ -269,19 +274,19 @@
       // 
       // propertyGrid1
       // 
-      this.propertyGrid1.Location = new System.Drawing.Point(230, 276);
+      this.propertyGrid1.Location = new System.Drawing.Point(580, 298);
       this.propertyGrid1.Name = "propertyGrid1";
       this.propertyGrid1.Size = new System.Drawing.Size(264, 296);
       this.propertyGrid1.TabIndex = 29;
       // 
-      // listBox1
+      // listBoxIntakes
       // 
-      this.listBox1.FormattingEnabled = true;
-      this.listBox1.Location = new System.Drawing.Point(15, 308);
-      this.listBox1.Name = "listBox1";
-      this.listBox1.Size = new System.Drawing.Size(196, 264);
-      this.listBox1.TabIndex = 30;
-      this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+      this.listBoxIntakes.FormattingEnabled = true;
+      this.listBoxIntakes.Location = new System.Drawing.Point(359, 317);
+      this.listBoxIntakes.Name = "listBoxIntakes";
+      this.listBoxIntakes.Size = new System.Drawing.Size(169, 264);
+      this.listBoxIntakes.TabIndex = 30;
+      this.listBoxIntakes.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
       // 
       // OpenSheFileForSelection
       // 
@@ -334,16 +339,64 @@
       this.buttonNovanaShape.UseVisualStyleBackColor = true;
       this.buttonNovanaShape.Click += new System.EventHandler(this.WriteNovanaShape);
       // 
+      // listBoxAnlaeg
+      // 
+      this.listBoxAnlaeg.FormattingEnabled = true;
+      this.listBoxAnlaeg.Location = new System.Drawing.Point(12, 317);
+      this.listBoxAnlaeg.Name = "listBoxAnlaeg";
+      this.listBoxAnlaeg.Size = new System.Drawing.Size(144, 264);
+      this.listBoxAnlaeg.TabIndex = 35;
+      // 
+      // listBox1
+      // 
+      this.listBox1.FormattingEnabled = true;
+      this.listBox1.Location = new System.Drawing.Point(179, 317);
+      this.listBox1.Name = "listBox1";
+      this.listBox1.Size = new System.Drawing.Size(164, 264);
+      this.listBox1.TabIndex = 36;
+      // 
+      // label8
+      // 
+      this.label8.AutoSize = true;
+      this.label8.Location = new System.Drawing.Point(12, 298);
+      this.label8.Name = "label8";
+      this.label8.Size = new System.Drawing.Size(36, 13);
+      this.label8.TabIndex = 37;
+      this.label8.Text = "Plants";
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new System.Drawing.Point(179, 298);
+      this.label9.Name = "label9";
+      this.label9.Size = new System.Drawing.Size(33, 13);
+      this.label9.TabIndex = 38;
+      this.label9.Text = "Wells";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(359, 298);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(42, 13);
+      this.label11.TabIndex = 39;
+      this.label11.Text = "Intakes";
+      // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(526, 651);
+      this.ClientSize = new System.Drawing.Size(888, 651);
+      this.Controls.Add(this.label11);
+      this.Controls.Add(this.label9);
+      this.Controls.Add(this.label8);
+      this.Controls.Add(this.listBox1);
+      this.Controls.Add(this.listBoxAnlaeg);
       this.Controls.Add(this.buttonNovanaShape);
       this.Controls.Add(this.radioButtonMin);
       this.Controls.Add(this.radioButtonMax);
       this.Controls.Add(this.buttonLSFile);
-      this.Controls.Add(this.listBox1);
+      this.Controls.Add(this.listBoxIntakes);
       this.Controls.Add(this.propertyGrid1);
       this.Controls.Add(this.button5);
       this.Controls.Add(this.label10);
@@ -369,6 +422,7 @@
       this.Controls.Add(this.ButtonReadWells);
       this.Name = "HeadObservationsView";
       this.Text = "Wells and observations";
+      this.Load += new System.EventHandler(this.HeadObservationsView_Load);
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -404,13 +458,18 @@
     private System.Windows.Forms.Button button5;
     private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     private System.Windows.Forms.PropertyGrid propertyGrid1;
-    private System.Windows.Forms.ListBox listBox1;
+    private System.Windows.Forms.ListBox listBoxIntakes;
     private System.Windows.Forms.BindingSource observationWellBindingSource;
     private System.Windows.Forms.OpenFileDialog OpenSheFileForSelection;
     private System.Windows.Forms.Button buttonLSFile;
     private System.Windows.Forms.RadioButton radioButtonMax;
     private System.Windows.Forms.RadioButton radioButtonMin;
     private System.Windows.Forms.Button buttonNovanaShape;
+    private System.Windows.Forms.ListBox listBoxAnlaeg;
+    private System.Windows.Forms.ListBox listBox1;
+    private System.Windows.Forms.Label label8;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.Label label11;
   }
 }
 
