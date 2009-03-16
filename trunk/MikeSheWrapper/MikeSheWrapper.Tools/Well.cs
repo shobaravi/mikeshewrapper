@@ -16,14 +16,15 @@ namespace MikeSheWrapper.Tools
     protected double _y;
     protected double _terrain;
 
-    public List<Intake> Intakes {get;private set;}
+    public List<IIntake> Intakes {get;private set;}
 
     #region Constructors
+
 
     public Well(string ID)
     {
       _id = ID;
-      Intakes = new List<Intake>();
+      Intakes = new List<IIntake>();
     }
 
     public Well(string ID, double X, double Y):this(ID)

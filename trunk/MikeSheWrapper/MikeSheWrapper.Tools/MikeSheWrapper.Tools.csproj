@@ -54,6 +54,7 @@
     <Compile Include="DBFEntry.cs" />
     <Compile Include="DBFReader.cs" />
     <Compile Include="DBFWriter.cs" />
+    <Compile Include="IIntake.cs" />
     <Compile Include="IMatrix3d.cs" />
     <Compile Include="Intake.cs" />
     <Compile Include="IWell.cs" />

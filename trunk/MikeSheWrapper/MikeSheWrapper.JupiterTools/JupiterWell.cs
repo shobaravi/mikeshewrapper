@@ -12,7 +12,6 @@ namespace MikeSheWrapper.JupiterTools
   {
     private List<Lithology> _lithSamples = new List<Lithology>();
 
-    public DataRow Data { get; set; }
 
 
     public List<Lithology> LithSamples

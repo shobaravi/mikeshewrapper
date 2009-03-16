@@ -22,7 +22,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
 
       R.Extraction(Anlaeg, Wells);
 
-      Assert.AreEqual(4, Anlaeg.Values.Count(x => x.PumpingWells.Count == 0));
+      Assert.AreEqual(4, Anlaeg.Values.Count(x => x.PumpingIntakes.Count == 0));
 
     }
 
@@ -39,11 +39,10 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     [Test]
     public void WellsForNovanaTest()
     {
-      Dictionary<string, JupiterWell> Wells = new Dictionary<string, JupiterWell>();
 
 
       Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
-      Wells= R.WellsForNovana();
+            Dictionary<string, IWell> Wells = R.WellsForNovana();
 
     }
   }

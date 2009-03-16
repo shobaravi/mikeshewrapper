@@ -33,7 +33,7 @@ namespace MikeSheWrapper.JupiterTools
     /// <summary>
     /// The wells associated to this plant
     /// </summary>
-    public List<Intake> PumpingIntakes { get; private set; }
+    public List<IIntake> PumpingIntakes { get; private set; }
 
     /// <summary>
     /// The name of the plant
@@ -70,7 +70,7 @@ namespace MikeSheWrapper.JupiterTools
     public Plant(int IDNumber)
     {
       Extractions = new List<TimeSeriesEntry>();
-      PumpingWells = new List<Well>();
+      PumpingIntakes = new List<IIntake>();
       SurfaceWaterExtrations = new List<TimeSeriesEntry>();
       this.IDNumber = IDNumber;
     }
