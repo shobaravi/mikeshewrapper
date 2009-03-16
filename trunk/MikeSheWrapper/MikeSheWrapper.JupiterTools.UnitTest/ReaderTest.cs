@@ -16,21 +16,21 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     [Test]
     public void ReadExtractionsTest()
     {
-      Dictionary<int, Plant> Anlaeg = new Dictionary<int, Plant>();
-      Dictionary<string, Well> Wells = new Dictionary<string, Well>();
+      List<Plant> Anlaeg = new List<Plant>();
+      Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
 
       R.Extraction(Anlaeg, Wells);
 
-      Assert.AreEqual(4, Anlaeg.Values.Count(x => x.PumpingIntakes.Count == 0));
+      Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
 
     }
 
     [Test]
     public void ReadRibeTest()
     {
-      Dictionary<int, Plant> Anlaeg = new Dictionary<int, Plant>();
-      Dictionary<string, Well> Wells = new Dictionary<string, Well>();
+      List<Plant> Anlaeg = new List<Plant>();
+      Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       Reader R = new Reader(@"..\..\..\mcribe.mdb");
       R.Extraction(Anlaeg, Wells);
 

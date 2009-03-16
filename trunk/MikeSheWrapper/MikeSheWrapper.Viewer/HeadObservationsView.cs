@@ -206,5 +206,14 @@ namespace MikeSheWrapper.Viewer
     {
 
     }
+
+    private void listBoxAnlaeg_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      listBox1.Items.Clear();
+      listBox1.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
+      listBoxIntakes.Items.Clear();
+      listBoxIntakes.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingIntakes.ToArray());
+
+    }
   }
 }
