@@ -35,6 +35,18 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     public List<IIntake> PumpingIntakes { get; private set; }
 
+    public List<IWell> PumpingWells
+    {
+      get
+      {
+        List<IWell> wells = new List<IWell>();
+        foreach (IIntake I in PumpingIntakes)
+          if (!wells.Contains(I.well))
+            wells.Add(I.well);
+        return wells;
+      }
+    }
+
     /// <summary>
     /// The name of the plant
     /// </summary>
