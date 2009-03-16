@@ -53,21 +53,18 @@ namespace MikeSheWrapper.JupiterTools
           CurrentIntake.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
     }
 
-    public void Extraction(Dictionary<int, Plant> Plants, Dictionary<string, Well> Wells)
+    public void Extraction(List<Plant> Plants, Dictionary<string, IWell> Wells)
     {
       JXL.ReadExtractions();
 
-      Well CurrentWell;
+      IWell CurrentWell;
       IIntake CurrentIntake;
       Plant CurrentPlant;
 
       foreach (var Anlaeg in JXL.DRWPLANT)
       {
-        if (!Plants.TryGetValue(Anlaeg.PLANTID, out CurrentPlant))
-        {
           CurrentPlant = new Plant(Anlaeg.PLANTID);
-          Plants.Add(CurrentPlant.IDNumber, CurrentPlant);
-        }
+          Plants.Add(CurrentPlant);
 
           CurrentPlant.Name = Anlaeg.PLANTNAME;
 
