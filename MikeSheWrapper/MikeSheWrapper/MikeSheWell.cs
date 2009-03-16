@@ -19,5 +19,12 @@ namespace MikeSheWrapper
     {
  
     }
+
+    public MikeSheWell(string ID, double UTMX, double UTMY)
+      : base(ID,UTMX, UTMY)
+    {
+
+    }
+
   }
 }

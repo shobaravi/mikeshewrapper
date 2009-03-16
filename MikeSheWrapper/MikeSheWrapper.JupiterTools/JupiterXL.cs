@@ -9,7 +9,7 @@ namespace MikeSheWrapper.JupiterTools
 
     private string ConnectionString;
 
-    public JupiterXL(string DataBaseFileName)
+    public JupiterXL(string DataBaseFileName):this()
     {
       ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + DataBaseFileName + ";Persist Security Info=False";
 

@@ -5,20 +5,23 @@ using System.Text;
 
 namespace MikeSheWrapper.Tools
 {
-  public class Intake:IComparable<Intake>
+  public class Intake:IComparable<Intake>,IIntake
   {
     private List<double> _screenTop = new List<double>();
     private List<double> _screenBottom = new List<double>();
     private List<ObservationEntry> _observations = new List<ObservationEntry>();
-    public Well well {get;private set;}
+    public IWell well {get;protected set;}
     public int IDNumber {get; set;}
+
+    public Intake()
+    { }
 
     /// <summary>
     /// Constructs a new intake in the well and adds it to the list of Intakes.
     /// </summary>
     /// <param name="Well"></param>
     /// <param name="IDNumber"></param>
-    public Intake(Well Well, int IDNumber)
+    public Intake(IWell Well, int IDNumber)
     {
       this.well = Well;
       this.IDNumber = IDNumber;

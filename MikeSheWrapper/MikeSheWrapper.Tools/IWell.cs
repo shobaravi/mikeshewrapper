@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace MikeSheWrapper.Tools
 {
   public interface IWell
@@ -9,5 +11,6 @@ namespace MikeSheWrapper.Tools
     string ToString();
     double X { get; set; }
     double Y { get; set; }
+    List<IIntake> Intakes { get; }
   }
 }

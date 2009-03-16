@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChemistrySample.cs" />
+    <Compile Include="JupiterIntake.cs" />
     <Compile Include="JupiterWell.cs" />
     <Compile Include="JupiterXL.Designer.cs">
       <AutoGen>True</AutoGen>

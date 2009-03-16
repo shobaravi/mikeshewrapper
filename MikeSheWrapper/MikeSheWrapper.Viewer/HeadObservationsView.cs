@@ -18,10 +18,9 @@ namespace MikeSheWrapper.Viewer
 {
   public partial class HeadObservationsView : Form
   {
-    private HeadObservations HO;
     private ShapeReaderConfiguration ShpConfig = null;
-    private Dictionary<string, JupiterWell> JupWells;
-    private Dictionary<string, ObservationWell> ObsWells; 
+    private Dictionary<string, IWell> Wells;
+    private List<IIntake> Intakes;
 
     public HeadObservationsView()
     {
@@ -33,7 +32,6 @@ namespace MikeSheWrapper.Viewer
       if (openFileDialog1.ShowDialog() == DialogResult.OK)
       {
         string FileName=openFileDialog1.FileName;
-        HO = new HeadObservations();
         textBoxObsFile.Text = "";
 
         textBox2.Text = FileName;
@@ -41,7 +39,8 @@ namespace MikeSheWrapper.Viewer
         switch (Path.GetExtension(FileName))
         {
           case ".she":
-            HO.ReadInDetailedTimeSeries(new Model(FileName));
+            foreach(IWell W in HeadObservations.ReadInDetailedTimeSeries(new Model(FileName)))
+              Wells.Add(W.ID,W);
             break;
           case ".mdb":
             bool ReadAll = (DialogResult.Yes == MessageBox.Show("Read data for specialized NOVANA output?", "Read in how much data?", MessageBoxButtons.YesNo));
@@ -49,14 +48,13 @@ namespace MikeSheWrapper.Viewer
 
             if (ReadAll)
             {
-
-              JupWells = R.WellsForNovana();
+              Wells = R.WellsForNovana();
               buttonNovanaShape.Enabled = true;
             }
             else
             {
-              ObsWells = R.Wells();
-              R.Waterlevels(ObsWells);
+              Wells = R.Wells();
+              R.Waterlevels(Wells);
             }
             textBoxObsFile.Text = FileName;
             break;
@@ -78,7 +76,7 @@ namespace MikeSheWrapper.Viewer
                   ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
                 }
               }
-              HO.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
+              Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
               }
             else
             {
@@ -92,10 +90,8 @@ namespace MikeSheWrapper.Viewer
             break;
         }
 
-        if (ObsWells!=null)
-          listBox1.Items.AddRange(ObsWells.Values.ToArray());
-        if (JupWells!=null)
-          listBox1.Items.AddRange(JupWells.Values.ToArray());
+        if (Wells!=null)
+          listBox1.Items.AddRange(Wells.Values.ToArray());
 
         textBox1.Text = listBox1.Items.Count.ToString();
         textBox4.Text = listBox1.Items.Count.ToString();
@@ -112,7 +108,7 @@ namespace MikeSheWrapper.Viewer
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
         Reader R = new Reader(openFileDialog2.FileName);
-        R.Waterlevels( ObsWells);
+        R.Waterlevels(Wells);
         textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }
@@ -131,9 +127,9 @@ namespace MikeSheWrapper.Viewer
 
       listBox1.Items.Clear();
       if (radioButtonMin.Checked)
-        listBox1.Items.AddRange(HO.WorkingList.Where(w => HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+        listBox1.Items.AddRange(Intakes.Where(w => HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
       else
-        listBox1.Items.AddRange(HO.WorkingList.Where(w => !HO.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+        listBox1.Items.AddRange(Intakes.Where(w => !HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
   
       textBox4.Text = listBox1.Items.Count.ToString();
     }
@@ -147,10 +143,10 @@ namespace MikeSheWrapper.Viewer
     {
       if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
       {
-        IEnumerable<ObservationWell> SelectedWells = listBox1.Items.Cast<ObservationWell>();
-        HO.WriteToDfs0(folderBrowserDialog1.SelectedPath, SelectedWells , dateTimePicker1.Value, dateTimePicker2.Value);
-        HO.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"),SelectedWells);
-        HO.WriteToDatFile(Path.Combine(folderBrowserDialog1.SelectedPath, "Timeseries.dat"), SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
+        IEnumerable<IIntake> SelectedWells = listBox1.Items.Cast<IIntake>();
+        HeadObservations.WriteToDfs0(folderBrowserDialog1.SelectedPath, SelectedWells , dateTimePicker1.Value, dateTimePicker2.Value);
+        HeadObservations.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"), SelectedWells);
+        HeadObservations.WriteToDatFile(Path.Combine(folderBrowserDialog1.SelectedPath, "Timeseries.dat"), SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
       }
     }
 
@@ -163,7 +159,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        HO.WriteSimpleShape(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value);
+        HeadObservations.WriteSimpleShape(saveFileDialog1.FileName, listBox1.Items.Cast<IIntake>(), dateTimePicker1.Value, dateTimePicker2.Value);
       }
     }
 
@@ -186,7 +182,7 @@ namespace MikeSheWrapper.Viewer
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
         bool WriteAll = (DialogResult.Yes==MessageBox.Show("Press \"Yes\" if you want to write all values for individual time series.\nPress \"No\" if you want to write the average value of the time series.", "Average or all?", MessageBoxButtons.YesNo));
-        HO.WriteToLSInput(saveFileDialog1.FileName, listBox1.Items.Cast<ObservationWell>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
+        HeadObservations.WriteToLSInput(saveFileDialog1.FileName, listBox1.Items.Cast<IIntake>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
       }
     }
 
@@ -195,8 +191,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        IEnumerable<ObservationWell> wells = listBox1.Items.Cast<ObservationWell>();
-        HO.WriteShapeFromDataRow(saveFileDialog1.FileName, wells, dateTimePicker1.Value, dateTimePicker2.Value);
+        HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, listBox1.Items.Cast<JupiterIntake>(), dateTimePicker1.Value, dateTimePicker2.Value);
       }
 
     }
