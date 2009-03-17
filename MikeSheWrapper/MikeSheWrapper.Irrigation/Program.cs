@@ -19,8 +19,28 @@ namespace MikeSheWrapper.Irrigation
       
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
 
-      Configuration Cf = (Configuration)x.Deserialize(new FileStream(args.Aggregate<string>((a, b) => a + b), System.IO.FileMode.Open));
-      
+      Configuration Cf;
+      string xmlfile;
+      string shefile;
+      if (args.Length == 2)
+      {
+        if (Path.GetExtension(args[0]).ToLower() == "xml")
+        {
+          xmlfile = args[0];
+          shefile = args[1];
+        }
+        else
+        {
+          xmlfile = args[1];
+          shefile = args[0];
+        }
+        Cf = (Configuration)x.Deserialize(new FileStream(xmlfile, System.IO.FileMode.Open));
+        Cf.SheFile = shefile;
+      }
+      else
+        Cf = (Configuration)x.Deserialize(new FileStream(args[0], System.IO.FileMode.Open));
+        
+           
       
       Controller C = new Controller(Cf);
 
