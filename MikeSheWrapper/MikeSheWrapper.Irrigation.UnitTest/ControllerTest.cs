@@ -40,7 +40,7 @@ namespace MikeSheWrapper.Irrigation.UnitTest
     {
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
 
-      string xmlFileName = @"C:\Kode\MikeSheWrapper\TestData\IrrigationConfiguration.xml";
+      string xmlFileName = @"..\..\..\TestData\IrrigationConfiguration.xml";
 
       Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(xmlFileName, System.IO.FileMode.Open));
      
@@ -50,6 +50,14 @@ namespace MikeSheWrapper.Irrigation.UnitTest
 
     }
 
+    [Test]
+    public void RunTest2()
+    {
+      Program.Main(new string[]{@"..\..\..\TestData\IrrigationConfiguration.xml"});
+
+      Program.Main(new string[] {@"C:\Kode\MikeSheWrapper\TestData\TestModel.she", @"..\..\..\TestData\IrrigationConfiguration.xml" });
+      Program.Main(new string[] {@"..\..\..\TestData\IrrigationConfiguration.xml", @"C:\Kode\MikeSheWrapper\TestData\TestModel.she" });
+    }
     
   }
 }
