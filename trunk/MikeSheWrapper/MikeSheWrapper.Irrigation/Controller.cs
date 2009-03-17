@@ -15,7 +15,6 @@ namespace MikeSheWrapper.Irrigation
     private Model _she;
     private Configuration _config;
     private List<IrrigationWell> _wells = new List<IrrigationWell>();
-    private List<CommandAreas> _originalAreas = new List<CommandAreas>();
 
 
     public Controller(Configuration Config)
@@ -41,6 +40,7 @@ namespace MikeSheWrapper.Irrigation
         _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
         SaveAs(_config.SheFile);
       }
+      _she.Dispose();
     }
 
     /// <summary>

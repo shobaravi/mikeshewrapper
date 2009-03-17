@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace MikeSheWrapper.Irrigation
 {
-  class Program
+  public class Program
   {
     /// <summary>
 		/// The main entry point for the application.
@@ -24,7 +24,7 @@ namespace MikeSheWrapper.Irrigation
       string shefile;
       if (args.Length == 2)
       {
-        if (Path.GetExtension(args[0]).ToLower() == "xml")
+        if (Path.GetExtension(args[0]).ToLower() == ".xml")
         {
           xmlfile = args[0];
           shefile = args[1];
