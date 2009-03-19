@@ -23,7 +23,9 @@ namespace MikeSheWrapper.Irrigation
       _she = new Model(_config.SheFile);
 
     }
-
+    /// <summary>
+    /// Reads in wells from the shape, adds them to the model and rund the model.
+    /// </summary>
     public void Run()
     {
       ReadWellsFromShape();
@@ -87,20 +89,16 @@ namespace MikeSheWrapper.Irrigation
     public void InsertIrrigationWells()
     {
       //Include irrigation
-      _she.Input.MIKESHE_FLOWMODEL.LandUse.Irrigation = 1;
-      //Clear all but the first commandarea.
+      IrrigationEnabled = true;
+      
+      //Clear all commandareas.
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.ClearCommandAreas();
- 
 
+ 
       //Note. It is assumed that the wells are ordered in the same way as the shapes
       for (int i = 0; i < _wells.Count; i++) 
       {
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.AddNewCommandArea();
-
-        //Set to single well.
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.SourceTypeCode = 2;
-        //Set to sprinkler.
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.WaterApplication = 1;
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.AddNewSingleWellCommandArea();
 
         int AreaCode;
         if (int.TryParse(_wells[i].ID, out AreaCode))
@@ -124,9 +122,6 @@ namespace MikeSheWrapper.Irrigation
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.Type = 2;
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.SHAPE_FILE.FILE_NAME = _config.WellShapeFile;
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.SHAPE_FILE.ITEM_NUMBERS = _config.IdHeader;
-
-      //Now remove the first command area which was used to clone.
-      _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.RemoveCommandArea(0);
 
 
     }
