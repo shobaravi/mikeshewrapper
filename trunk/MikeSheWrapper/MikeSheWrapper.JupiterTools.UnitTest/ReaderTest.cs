@@ -14,6 +14,33 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
   {
 
     [Test]
+    public void TableMergeTest()
+    {
+      NovanaTables.IntakeCommonDataTable DT = new NovanaTables.IntakeCommonDataTable();
+      NovanaTables.PejlingerDataTable DT2 = new NovanaTables.PejlingerDataTable();
+
+
+      NovanaTables.IntakeCommonRow dr = DT.NewIntakeCommonRow();
+      dr.NOVANAID = "boring 1";
+      dr.JUPKOTE = 10;
+
+      DT.Rows.Add(dr);
+
+      NovanaTables.PejlingerRow dr1 = DT2.NewPejlingerRow();
+      dr1.NOVANAID= "boring2";
+      DT2.Rows.Add(dr1);
+      NovanaTables.PejlingerRow dr2 = DT2.NewPejlingerRow();
+      dr2.NOVANAID = "boring 1";
+      DT2.Rows.Add(dr2);
+
+      int n = dr.Table.Columns.Count;
+      DT.Merge(DT2);
+      n = dr.Table.Columns.Count;
+    }
+
+
+
+    [Test]
     public void ReadExtractionsTest()
     {
       List<Plant> Anlaeg = new List<Plant>();
@@ -42,7 +69,16 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
 
 
       Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
-            Dictionary<string, IWell> Wells = R.WellsForNovana();
+     Dictionary<string, IWell> Wells = R.WellsForNovana();
+
+     List<JupiterIntake> Intakes = new List<JupiterIntake>();
+
+     foreach (IWell w in Wells.Values)
+     {
+       foreach (JupiterIntake JI in w.Intakes)
+         Intakes.Add(JI);
+     }
+     R.AddDataForNovanaPejl(Intakes);
 
     }
   }
