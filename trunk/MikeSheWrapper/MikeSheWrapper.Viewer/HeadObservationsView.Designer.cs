@@ -151,14 +151,14 @@
       // 
       // MinNumber
       // 
-      this.MinNumber.Location = new System.Drawing.Point(298, 216);
+      this.MinNumber.Location = new System.Drawing.Point(798, 125);
       this.MinNumber.Name = "MinNumber";
       this.MinNumber.Size = new System.Drawing.Size(93, 20);
       this.MinNumber.TabIndex = 10;
       // 
       // RefreshButton
       // 
-      this.RefreshButton.Location = new System.Drawing.Point(419, 216);
+      this.RefreshButton.Location = new System.Drawing.Point(919, 125);
       this.RefreshButton.Name = "RefreshButton";
       this.RefreshButton.Size = new System.Drawing.Size(75, 23);
       this.RefreshButton.TabIndex = 11;
@@ -168,7 +168,7 @@
       // 
       // dateTimePicker1
       // 
-      this.dateTimePicker1.Location = new System.Drawing.Point(15, 218);
+      this.dateTimePicker1.Location = new System.Drawing.Point(515, 127);
       this.dateTimePicker1.Name = "dateTimePicker1";
       this.dateTimePicker1.Size = new System.Drawing.Size(122, 20);
       this.dateTimePicker1.TabIndex = 12;
@@ -176,7 +176,7 @@
       // 
       // dateTimePicker2
       // 
-      this.dateTimePicker2.Location = new System.Drawing.Point(145, 218);
+      this.dateTimePicker2.Location = new System.Drawing.Point(645, 127);
       this.dateTimePicker2.Name = "dateTimePicker2";
       this.dateTimePicker2.Size = new System.Drawing.Size(122, 20);
       this.dateTimePicker2.TabIndex = 13;
@@ -184,7 +184,7 @@
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(15, 199);
+      this.label3.Location = new System.Drawing.Point(515, 108);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(53, 13);
       this.label3.TabIndex = 14;
@@ -193,7 +193,7 @@
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(142, 199);
+      this.label4.Location = new System.Drawing.Point(642, 108);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(50, 13);
       this.label4.TabIndex = 15;
@@ -202,7 +202,7 @@
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(295, 181);
+      this.label5.Location = new System.Drawing.Point(795, 90);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(114, 13);
       this.label5.TabIndex = 16;
@@ -219,7 +219,7 @@
       // 
       // button4
       // 
-      this.button4.Location = new System.Drawing.Point(18, 729);
+      this.button4.Location = new System.Drawing.Point(15, 800);
       this.button4.Name = "button4";
       this.button4.Size = new System.Drawing.Size(104, 23);
       this.button4.TabIndex = 18;
@@ -264,7 +264,7 @@
       // 
       // button5
       // 
-      this.button5.Location = new System.Drawing.Point(132, 729);
+      this.button5.Location = new System.Drawing.Point(132, 800);
       this.button5.Name = "button5";
       this.button5.Size = new System.Drawing.Size(104, 23);
       this.button5.TabIndex = 28;
@@ -274,17 +274,17 @@
       // 
       // propertyGrid1
       // 
-      this.propertyGrid1.Location = new System.Drawing.Point(717, 298);
+      this.propertyGrid1.Location = new System.Drawing.Point(468, 539);
       this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new System.Drawing.Size(264, 400);
+      this.propertyGrid1.Size = new System.Drawing.Size(230, 255);
       this.propertyGrid1.TabIndex = 29;
       // 
       // listBoxIntakes
       // 
       this.listBoxIntakes.FormattingEnabled = true;
-      this.listBoxIntakes.Location = new System.Drawing.Point(468, 317);
+      this.listBoxIntakes.Location = new System.Drawing.Point(468, 208);
       this.listBoxIntakes.Name = "listBoxIntakes";
-      this.listBoxIntakes.Size = new System.Drawing.Size(210, 368);
+      this.listBoxIntakes.Size = new System.Drawing.Size(210, 316);
       this.listBoxIntakes.TabIndex = 30;
       this.listBoxIntakes.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
       // 
@@ -294,7 +294,7 @@
       // 
       // buttonLSFile
       // 
-      this.buttonLSFile.Location = new System.Drawing.Point(390, 729);
+      this.buttonLSFile.Location = new System.Drawing.Point(390, 800);
       this.buttonLSFile.Name = "buttonLSFile";
       this.buttonLSFile.Size = new System.Drawing.Size(104, 23);
       this.buttonLSFile.TabIndex = 31;
@@ -305,7 +305,7 @@
       // radioButtonMax
       // 
       this.radioButtonMax.AutoSize = true;
-      this.radioButtonMax.Location = new System.Drawing.Point(298, 197);
+      this.radioButtonMax.Location = new System.Drawing.Point(798, 106);
       this.radioButtonMax.Name = "radioButtonMax";
       this.radioButtonMax.Size = new System.Drawing.Size(45, 17);
       this.radioButtonMax.TabIndex = 32;
@@ -316,7 +316,7 @@
       // 
       this.radioButtonMin.AutoSize = true;
       this.radioButtonMin.Checked = true;
-      this.radioButtonMin.Location = new System.Drawing.Point(349, 197);
+      this.radioButtonMin.Location = new System.Drawing.Point(849, 106);
       this.radioButtonMin.Name = "radioButtonMin";
       this.radioButtonMin.Size = new System.Drawing.Size(42, 17);
       this.radioButtonMin.TabIndex = 33;
@@ -327,7 +327,7 @@
       // buttonNovanaShape
       // 
       this.buttonNovanaShape.Enabled = false;
-      this.buttonNovanaShape.Location = new System.Drawing.Point(242, 729);
+      this.buttonNovanaShape.Location = new System.Drawing.Point(242, 800);
       this.buttonNovanaShape.Name = "buttonNovanaShape";
       this.buttonNovanaShape.Size = new System.Drawing.Size(142, 23);
       this.buttonNovanaShape.TabIndex = 34;
@@ -338,7 +338,7 @@
       // listBoxAnlaeg
       // 
       this.listBoxAnlaeg.FormattingEnabled = true;
-      this.listBoxAnlaeg.Location = new System.Drawing.Point(12, 317);
+      this.listBoxAnlaeg.Location = new System.Drawing.Point(12, 208);
       this.listBoxAnlaeg.Name = "listBoxAnlaeg";
       this.listBoxAnlaeg.Size = new System.Drawing.Size(210, 368);
       this.listBoxAnlaeg.TabIndex = 35;
@@ -347,7 +347,7 @@
       // listBox1
       // 
       this.listBox1.FormattingEnabled = true;
-      this.listBox1.Location = new System.Drawing.Point(242, 317);
+      this.listBox1.Location = new System.Drawing.Point(242, 208);
       this.listBox1.Name = "listBox1";
       this.listBox1.Size = new System.Drawing.Size(210, 368);
       this.listBox1.TabIndex = 36;
@@ -355,7 +355,7 @@
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(12, 298);
+      this.label8.Location = new System.Drawing.Point(12, 189);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(36, 13);
       this.label8.TabIndex = 37;
@@ -364,7 +364,7 @@
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(252, 298);
+      this.label9.Location = new System.Drawing.Point(252, 189);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(33, 13);
       this.label9.TabIndex = 38;
@@ -373,7 +373,7 @@
       // label11
       // 
       this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(465, 298);
+      this.label11.Location = new System.Drawing.Point(465, 189);
       this.label11.Name = "label11";
       this.label11.Size = new System.Drawing.Size(42, 13);
       this.label11.TabIndex = 39;
@@ -387,7 +387,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1009, 773);
+      this.ClientSize = new System.Drawing.Size(1009, 861);
       this.Controls.Add(this.label11);
       this.Controls.Add(this.label9);
       this.Controls.Add(this.label8);
