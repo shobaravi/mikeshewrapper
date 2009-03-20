@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -162,6 +163,156 @@ namespace MikeSheWrapper.JupiterTools
       return Wells;
     }
 
+    private void AddCommonDataForNovana(JupiterIntake CurrentIntake)
+    {
+      JupiterWell CurrentWell;
+
+      NovanaTables.IntakeCommonRow CurrentRow = (NovanaTables.IntakeCommonRow)CurrentIntake.Data;
+
+      CurrentWell = (JupiterWell)CurrentIntake.well;
+
+      CurrentRow.NOVANAID = CurrentWell.ID.Replace(" ", "") + "_" + CurrentIntake.ToString();
+
+      CurrentRow.XUTM = CurrentWell.X;
+      CurrentRow.YUTM = CurrentWell.Y;
+
+      var BoringsData = JXL.BOREHOLE.FindByBOREHOLENO(CurrentWell.ID);
+      var IntakeData = BoringsData.GetINTAKERows().First(var => var.INTAKENO == CurrentIntake.IDNumber);
+
+      CurrentRow.JUPKOTE = BoringsData.ELEVATION;
+      CurrentRow.BOREHOLENO = BoringsData.BOREHOLENO;
+      CurrentRow.INTAKENO = CurrentIntake.IDNumber;
+      CurrentRow.LOCATION = BoringsData.LOCATION;
+
+      CurrentRow.ANTINT_B = BoringsData.GetINTAKERows().Count();
+
+
+      if (!BoringsData.IsDRILENDATENull())
+        CurrentRow.DRILENDATE = BoringsData.DRILENDATE;
+
+      if (!BoringsData.IsABANDONDATNull())
+        CurrentRow.ABANDONDAT = BoringsData.ABANDONDAT;
+
+      CurrentRow.ABANDCAUSE = BoringsData.ABANDCAUSE;
+      CurrentRow.DRILLDEPTH = BoringsData.DRILLDEPTH;
+
+      //Assumes that the string no from the intake identifies the correct Casing
+      foreach (var Casing in BoringsData.GetCASINGRows())
+      {
+        if (!IntakeData.IsSTRINGNONull() & !Casing.IsSTRINGNONull())
+          if (IntakeData.STRINGNO == Casing.STRINGNO & !Casing.IsBOTTOMNull())
+            CurrentRow.CASIBOT = Casing.BOTTOM;
+      }
+
+      CurrentRow.PURPOSE = BoringsData.PURPOSE;
+      CurrentRow.USE = BoringsData.USE;
+      if (CurrentIntake.ScreenTop.Count > 0)
+        CurrentRow.INTAKETOP = CurrentIntake.ScreenTop.Min();
+      if (CurrentIntake.ScreenBottom.Count > 0)
+        CurrentRow.INTAKEBOT = CurrentIntake.ScreenBottom.Max();
+
+      //Takes the minimum of all non-null dates
+      IEnumerable<JupiterXL.SCREENRow> NonNullList = IntakeData.GetSCREENRows().Where(x => !x.IsSTARTDATENull());
+      if (NonNullList.Count() > 0)
+        CurrentRow.INTSTDATE2 = NonNullList.Min(x => x.STARTDATE);
+
+      //Takes the maximum of all non-null dates
+      NonNullList = IntakeData.GetSCREENRows().Where(x => !x.IsENDDATENull());
+      if (NonNullList.Count() > 0)
+        CurrentRow.INTENDATE2 = NonNullList.Max(x => x.ENDDATE);
+
+      CurrentRow.RESROCK = IntakeData.RESERVOIRROCK;
+
+      if (CurrentWell.LithSamples.Count != 0)
+      {
+        CurrentWell.LithSamples.Sort();
+        CurrentRow.BOTROCK = CurrentWell.LithSamples[CurrentWell.LithSamples.Count - 1].RockSymbol;
+      }
+      else
+        CurrentRow.BOTROCK = "999";
+    }
+
+    public void AddDataForNovanaExtraction(IEnumerable<Plant> Plants)
+    {
+      NovanaTables.IntakeCommonDataTable DT2 = new NovanaTables.IntakeCommonDataTable();
+      NovanaTables.IndvindingerDataTable DT1 = new NovanaTables.IndvindingerDataTable();
+      NovanaTables.IndvindingerRow CurrentRow;
+
+      foreach (Plant P in Plants)
+      {
+        foreach (JupiterIntake CurrentIntake in P.PumpingIntakes)
+        {
+          CurrentIntake.Data = DT2.NewIntakeCommonRow();
+          AddCommonDataForNovana(CurrentIntake);
+          DT2.Rows.Add(CurrentIntake.Data);
+          CurrentRow = DT1.NewIndvindingerRow();
+
+          string NovanaID = P.IDNumber + "_" + CurrentIntake.well.ID.Replace(" ", "") + "_" + CurrentIntake.IDNumber;
+
+          var anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
+
+          CurrentRow.NOVANAID = NovanaID;
+          CurrentIntake.Data["NOVANAID"] = NovanaID;
+
+          CurrentRow.PLANTID = P.IDNumber;
+          CurrentRow.PLANTNAME = P.Name;
+
+          CurrentRow.NYKOMNR = anlaeg.MUNICIPALITYNO2007;
+          CurrentRow.KOMNR = anlaeg.MUNICIPALITYNO;
+          CurrentRow.ATYP = anlaeg.PLANTTYPE;
+          CurrentRow.ANR = anlaeg.SERIALNO;
+          CurrentRow.UNR = anlaeg.SUBNO;
+          CurrentRow.ANLUTMX = anlaeg.XUTM;
+          CurrentRow.ANLUTMY = anlaeg.YUTM;
+          CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
+          CurrentRow.ACTIVE = anlaeg.ACTIVE;
+
+          DT1.Rows.Add(CurrentRow);
+        }
+        DT2.Merge(DT1);
+      }
+    }
+
+
+    public void AddDataForNovanaPejl(IEnumerable<JupiterIntake> Intakes)
+    {
+      NovanaTables.PejlingerDataTable DT1 = new NovanaTables.PejlingerDataTable();
+      NovanaTables.PejlingerRow CurrentRow;
+
+      NovanaTables.IntakeCommonDataTable DT2 = new NovanaTables.IntakeCommonDataTable();
+
+
+      foreach (JupiterIntake CurrentIntake in Intakes)
+      {
+        CurrentIntake.Data = DT2.NewIntakeCommonRow();
+        AddCommonDataForNovana(CurrentIntake);
+        DT2.Rows.Add(CurrentIntake.Data);
+        CurrentRow = DT1.NewPejlingerRow();
+        CurrentRow.NOVANAID = CurrentIntake.Data["NOVANAID"].ToString();
+
+        DT1.Rows.Add(CurrentRow);
+
+
+        //Create statistics on water levels
+        CurrentRow.ANTPEJ = CurrentIntake.Observations.Count;
+        if (CurrentRow.ANTPEJ > 0)
+        {
+          //Fra WatLevel          
+          CurrentRow.REFPOINT = JXL.WATLEVEL.FindByBOREHOLENOWATLEVELNO(CurrentIntake.well.ID, 1).REFPOINT;
+
+          CurrentRow.MINDATO = CurrentIntake.Observations.Min(x => x.Time);
+          CurrentRow.MAXDATO = CurrentIntake.Observations.Max(x => x.Time);
+          CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
+          CurrentRow.AKTDAGE = CurrentRow.MAXDATO.Subtract(CurrentRow.MINDATO).Days + 1;
+          CurrentRow.PEJPRAAR = CurrentRow.ANTPEJ / CurrentRow.AKTAAR;
+          CurrentRow.MAXPEJ = CurrentIntake.Observations.Max(num => num.Value);
+          CurrentRow.MINPEJ = CurrentIntake.Observations.Min(num => num.Value);
+          CurrentRow.MEANPEJ = CurrentIntake.Observations.Average(num => num.Value);
+        }
+      }
+      DT2.Merge(DT1);
+    }
+
 
     public Dictionary<string, IWell> WellsForNovana()
     {
@@ -169,12 +320,10 @@ namespace MikeSheWrapper.JupiterTools
       //Construct the data set
       JXL.ReadInTotalWellsForNovana();
       JXL.ReadInLithology();
-
-      NovanaTables.PejlingerTotalDataTable DT = new NovanaTables.PejlingerTotalDataTable();
+      JXL.ReadWaterLevels();
 
       JupiterWell CurrentWell;
       JupiterIntake CurrentIntake;
-      NovanaTables.PejlingerTotalRow CurrentRow;
 
       //Loop the wells
       foreach (var Boring in JXL.BOREHOLE)
@@ -220,45 +369,10 @@ namespace MikeSheWrapper.JupiterTools
             }
           }
 
-
         //Loop the intakes
         foreach (var Intake in Boring.GetINTAKERows())
         {
           CurrentIntake = new JupiterIntake(CurrentWell, Intake.INTAKENO);
-          CurrentRow = DT.NewPejlingerTotalRow();
-          CurrentIntake.Data = CurrentRow;
-
-
-          CurrentRow.NOVANAID = CurrentIntake.ToString();
-
-          CurrentRow.XUTM = CurrentWell.X;
-          CurrentRow.YUTM = CurrentWell.Y;
-          //          CurrentRow.KOORTYPE =
-          CurrentRow.JUPKOTE = Boring.ELEVATION;
-          CurrentRow.BOREHOLENO = Boring.BOREHOLENO;
-          CurrentRow.INTAKENO = Intake.INTAKENO;
-          //          CurrentRow.WATLEVELNO =
-          CurrentRow.LOCATION = Boring.LOCATION;
-
-          if (!Boring.IsDRILENDATENull())
-            CurrentRow.DRILENDATE = Boring.DRILENDATE;
-
-          if (!Boring.IsABANDONDATNull())
-            CurrentRow.ABANDONDAT = Boring.ABANDONDAT;
-
-          CurrentRow.ABANDCAUSE = Boring.ABANDCAUSE;
-          CurrentRow.DRILLDEPTH = Boring.DRILLDEPTH;
-
-          //Assumes that the string no from the intake identifies the correct Casing
-          foreach (var Casing in Boring.GetCASINGRows())
-          {
-            if (!Intake.IsSTRINGNONull() & !Casing.IsSTRINGNONull())
-              if (Intake.STRINGNO == Casing.STRINGNO & !Casing.IsBOTTOMNull())
-                CurrentRow.CASIBOT = Casing.BOTTOM;
-          }
-
-            CurrentRow.PURPOSE = Boring.PURPOSE;
-            CurrentRow.USE = Boring.USE;
 
           //Loop the screens. One intake can in special cases have multiple screens
           foreach (var Screen in Intake.GetSCREENRows())
@@ -267,54 +381,12 @@ namespace MikeSheWrapper.JupiterTools
               CurrentIntake.ScreenBottom.Add(Screen.BOTTOM);
           }//Screen loop
 
-          if (CurrentIntake.ScreenTop.Count > 0)
-            CurrentRow.INTAKETOP = CurrentIntake.ScreenTop.Min();
-          if (CurrentIntake.ScreenBottom.Count > 0)
-            CurrentRow.INTAKEBOT = CurrentIntake.ScreenBottom.Max();
-
-          //Takes the minimum of all non-null dates
-          IEnumerable<JupiterXL.SCREENRow> NonNullList = Intake.GetSCREENRows().Where(x => !x.IsSTARTDATENull());
-          if (NonNullList.Count() > 0)
-            CurrentRow.INTSTDATE2 = NonNullList.Min(x => x.STARTDATE);
-
-          //Takes the maximum of all non-null dates
-          NonNullList = Intake.GetSCREENRows().Where(x => !x.IsENDDATENull());
-          if (NonNullList.Count() > 0)
-            CurrentRow.INTENDATE2 = NonNullList.Max(x => x.ENDDATE);
-
-          CurrentRow.RESROCK = Intake.RESERVOIRROCK;
-          //Fra WatLevel          CurrentRow.REFPOINT = 
-          CurrentRow.ANTINT_B = Boring.GetINTAKERows().Count();
 
           //Read in the water levels
           foreach (var WatLev in Intake.GetWATLEVELRows())
           {
             FillInWaterLevel(CurrentIntake, WatLev);
-          }
-
-          //Create statistics on water levels
-          CurrentRow.ANTPEJ = CurrentIntake.Observations.Count;
-          if (CurrentRow.ANTPEJ > 0)
-          {
-            CurrentRow.MINDATO = CurrentIntake.Observations.Min(x => x.Time);
-            CurrentRow.MAXDATO = CurrentIntake.Observations.Max(x => x.Time);
-            CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
-            CurrentRow.AKTDAGE = CurrentRow.MAXDATO.Subtract(CurrentRow.MINDATO).Days + 1;
-            CurrentRow.PEJPRAAR = CurrentRow.ANTPEJ / CurrentRow.AKTAAR;
-            CurrentRow.MAXPEJ = CurrentIntake.Observations.Max(num => num.Value);
-            CurrentRow.MINPEJ = CurrentIntake.Observations.Min(num => num.Value);
-            CurrentRow.MEANPEJ = CurrentIntake.Observations.Average(num => num.Value);
-          }
-
-
-          if (CurrentWell.LithSamples.Count != 0)
-          {
-            CurrentWell.LithSamples.Sort();
-            CurrentRow.BOTROCK = CurrentWell.LithSamples[CurrentWell.LithSamples.Count - 1].RockSymbol;
-          }
-          else
-            CurrentRow.BOTROCK = "999";
-          
+          }         
 
         }//Intake loop
 
