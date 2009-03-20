@@ -25,6 +25,8 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       Cf.YHeader = "YUTM";
       Cf.IdHeader = "XUTM";
       Cf.SheFile = @"C:\Kode\MikeSheWrapper\TestData\TestModel.she";
+      Cf.MaxDepthHeader = "BOTTOM";
+      Cf.MaxRateHeader = "XUTM";
 
       Cf.WellShapeFile = @"C:\Kode\MikeSheWrapper\TestData\commandareas.shp";
       Cf.DeleteWellsAfterRun = false;

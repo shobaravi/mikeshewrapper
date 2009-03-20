@@ -77,8 +77,8 @@ namespace MikeSheWrapper.Irrigation
 
         Intake I = new Intake(IW, 1);
 
-        //IW.MaxDepth = (double) dr[_config.MaxDepthHeader];
-        //IW.MaxRate = (double) dr[_config.MaxRateHeader];
+        IW.MaxDepth = Convert.ToDouble(dr[_config.MaxDepthHeader]);
+        IW.MaxRate = Convert.ToDouble(dr[_config.MaxRateHeader]);
         I.ScreenBottom.Add( Convert.ToDouble(dr[_config.BottomHeader]));
         I.ScreenTop.Add(Convert.ToDouble(dr[_config.TopHeader]));
         _wells.Add(IW);
