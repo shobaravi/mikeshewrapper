@@ -54,6 +54,10 @@
       <DependentUpon>JupiterXL.xsd</DependentUpon>
     </Compile>
     <Compile Include="Lithology.cs" />
+    <Compile Include="NovanaTables.cs">
+      <DependentUpon>NovanaTables.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Plant.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="JupiterXL.cs">
