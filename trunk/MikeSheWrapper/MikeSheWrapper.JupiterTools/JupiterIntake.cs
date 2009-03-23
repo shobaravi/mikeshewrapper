@@ -19,6 +19,18 @@ namespace MikeSheWrapper.JupiterTools
       well.Intakes.Add(this);
     }
 
+    public JupiterIntake(JupiterWell Well, IIntake Intake):this(Well, Intake.IDNumber)
+    {
+      foreach (ObservationEntry OE in Intake.Observations)
+        this.Observations.Add(OE);
+      foreach (double SB in Intake.ScreenBottom)
+        ScreenBottom.Add(SB);
+      foreach (double ST in Intake.ScreenTop)
+        ScreenTop.Add(ST);
+
+      if (Intake is JupiterIntake)
+        Data = ((JupiterIntake)Intake).Data;
+    }
 
   }
 }
