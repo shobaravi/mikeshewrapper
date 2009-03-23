@@ -18,6 +18,13 @@ namespace MikeSheWrapper.JupiterTools
       JXL = new JupiterXL(DataBaseFile);
     }
 
+    /// <summary>
+    /// Disposes the dataset and closes the connection to the database.
+    /// </summary>
+    public void Dispose()
+    {
+      JXL.Dispose();
+    }
 
     /// <summary>
     /// Read in water levels from a Jupiter access database. 
@@ -106,11 +113,6 @@ namespace MikeSheWrapper.JupiterTools
       }
     }
 
-
-    public void ReadLithology(string DataBaseFile, Dictionary<string, JupiterWell> Wells)
-    {
-
-    }
 
     /// <summary>
     /// Reads in all wells from a Jupiter database. 
@@ -238,10 +240,21 @@ namespace MikeSheWrapper.JupiterTools
       NovanaTables.IndvindingerDataTable DT1 = new NovanaTables.IndvindingerDataTable();
       NovanaTables.IndvindingerRow CurrentRow;
 
+      JupiterIntake CurrentIntake;
+
       foreach (Plant P in Plants)
       {
-        foreach (JupiterIntake CurrentIntake in P.PumpingIntakes)
+        for (int i = 0; i <= P.PumpingIntakes.Count;i++ )
         {
+
+          CurrentIntake = P.PumpingIntakes[i] as JupiterIntake;
+
+          if (CurrentIntake == null)
+          {
+            CurrentIntake = new JupiterIntake(P.PumpingIntakes[i].well, P.PumpingIntakes[i].IDNumber);
+            P.PumpingIntakes[i] = CurrentIntake;
+          }
+
           CurrentIntake.Data = DT2.NewIntakeCommonRow();
           AddCommonDataForNovana(CurrentIntake);
           DT2.Rows.Add(CurrentIntake.Data);

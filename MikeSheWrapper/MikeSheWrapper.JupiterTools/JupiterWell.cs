@@ -38,6 +38,17 @@ namespace MikeSheWrapper.JupiterTools
     {
     }
 
+    public JupiterWell(IWell Well):base(Well.ID,Well.X,Well.Y)
+    {
+      this.Description = Well.Description;
+      this.Terrain = Well.Terrain;
+
+      foreach (IIntake I in Well.Intakes)
+      {
+         JupiterIntake J = new JupiterIntake(this, I);
+      }
+    }
+
     #endregion
 
 
