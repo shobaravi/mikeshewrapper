@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MikeSheWrapper.JupiterTools
 {
+  /// <summary>
+  /// A small class holding the data from a Jupiter lithology sample. Sorts by depth.
+  /// </summary>
   public class Lithology:IComparable<Lithology>
   {
     public double Top { get; set; }
@@ -15,6 +18,11 @@ namespace MikeSheWrapper.JupiterTools
 
     public Lithology()
     { 
+    }
+
+    public override string ToString()
+    {
+      return Top + " - " + Bottom + ": "+ RockSymbol;
     }
 
 
