@@ -30,94 +30,76 @@ namespace MikeSheWrapper.Viewer
 
     private void ReadButton_Click(object sender, EventArgs e)
     {
+      openFileDialog1.Filter = "Known file types (*.mdb)|*.mdb";
+      this.openFileDialog1.ShowReadOnly = true;
+      this.openFileDialog1.Title = "Select an Access file with data in JupiterXL format";
+
       if (openFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        string FileName=openFileDialog1.FileName;
-        textBoxObsFile.Text = "";
-
-        textBox2.Text = FileName;
-        
-        switch (Path.GetExtension(FileName))
+        JupiterFilter jd = new JupiterFilter();
+        string FileName = openFileDialog1.FileName;
+        if (DialogResult.OK == jd.ShowDialog())
         {
-          case ".she":
-            foreach(IWell W in HeadObservations.ReadInDetailedTimeSeries(new Model(FileName)))
-              Wells.Add(W.ID,W);
-            break;
-          case ".mdb":
-            bool ReadAll = (DialogResult.Yes == MessageBox.Show("Read data for specialized NOVANA output?", "Read in how much data?", MessageBoxButtons.YesNo));
-            JupiterTools.Reader R = new Reader(FileName);
+          JupiterTools.Reader R = new Reader(FileName);
 
-            if (ReadAll)
-            {
-              Wells = R.WellsForNovana();
-              Plants = new List<Plant>();
-              R.Extraction(Plants, Wells);
-              buttonNovanaShape.Enabled = true;
-            }
-            else
-            {
-              Wells = R.Wells();
-              R.Waterlevels(Wells);
-            }
-            textBoxObsFile.Text = FileName;
-            break;
-          case ".shp":
-            PointShapeReader SR = new PointShapeReader(textBox2.Text);
+          if (jd.ReadNovana)
+          {
+            Wells = R.WellsForNovana();
+            Plants = new List<Plant>();
+            R.Extraction(Plants, Wells);
+            buttonNovanaShape.Enabled = true;
+          }
+          else
+          {
+            Wells = R.Wells();
+            R.Waterlevels(Wells);
+          }
+          if (Wells != null)
+            listBoxWells.Items.AddRange(Wells.Values.ToArray());
 
-            //Launch a data selector
-            DataSelector DS = new DataSelector(SR.Data.Read());
+          if (Plants != null)
+            listBoxAnlaeg.Items.AddRange(Plants.ToArray());
+          textBox1.Text = listBoxIntakes.Items.Count.ToString();
+          textBox4.Text = listBoxIntakes.Items.Count.ToString();
 
-            if (DS.ShowDialog() == DialogResult.OK)
-            {
-              if (ShpConfig == null)
-              {
-                XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
-                string InstallationPath = Path.GetDirectoryName(this.GetType().Assembly.Location);
-                string config = Path.Combine(InstallationPath, "config.xml");
-                using (FileStream fs = new FileStream(config, FileMode.Open))
-                {
-                  ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
-                }
-              }
-              Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
-              }
-            else
-            {
-              textBox2.Text = "";
-              return;
-            }
-            this.textBoxObsFile.Enabled = true;
-            this.buttonReadObs.Enabled = true;
-            break;
-          default:
-            break;
         }
-
-         
-        if (Wells!=null)
-          listBox1.Items.AddRange(Wells.Values.ToArray());
-
-        if (Plants != null)
-          listBoxAnlaeg.Items.AddRange(Plants.ToArray());
-        textBox1.Text = listBoxIntakes.Items.Count.ToString();
-        textBox4.Text = listBoxIntakes.Items.Count.ToString();
-      }      
-    }
-
-    /// <summary>
-    /// Read in observations
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void button2_Click(object sender, EventArgs e)
-    {
-      if (openFileDialog2.ShowDialog() == DialogResult.OK)
-      {
-        Reader R = new Reader(openFileDialog2.FileName);
-        R.Waterlevels(Wells);
-        textBoxObsFile.Text = openFileDialog2.FileName;
       }
     }
+
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+      openFileDialog1.Filter = "Known file types (*.shp)|*.shp";
+      this.openFileDialog1.ShowReadOnly = true;
+      this.openFileDialog1.Title = "Select a shape file with data for wells or intakes";
+
+      if (openFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        string FileName = openFileDialog1.FileName;
+
+        PointShapeReader SR = new PointShapeReader(FileName);
+
+        //Launch a data selector
+        DataSelector DS = new DataSelector(SR.Data.Read());
+
+        if (DS.ShowDialog() == DialogResult.OK)
+        {
+          if (ShpConfig == null)
+          {
+            XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
+            string InstallationPath = Path.GetDirectoryName(this.GetType().Assembly.Location);
+            string config = Path.Combine(InstallationPath, "config.xml");
+            using (FileStream fs = new FileStream(config, FileMode.Open))
+            {
+              ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
+              Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
+            }
+          }
+        }
+      }
+    }
+
+         
 
     /// <summary>
     /// Refesh the sorting
@@ -179,7 +161,6 @@ namespace MikeSheWrapper.Viewer
       if (OpenSheFileForSelection.ShowDialog() == DialogResult.OK)
       {
         //HO.SelectByMikeSheModelArea(new Model(OpenSheFileForSelection.FileName).GridInfo);
-        textBoxMikeSHe.Text = OpenSheFileForSelection.FileName;
       }
     }
 
@@ -209,11 +190,21 @@ namespace MikeSheWrapper.Viewer
 
     private void listBoxAnlaeg_SelectedIndexChanged(object sender, EventArgs e)
     {
-      listBox1.Items.Clear();
-      listBox1.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
+      listBoxWells.Items.Clear();
+      listBoxWells.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
       listBoxIntakes.Items.Clear();
       listBoxIntakes.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingIntakes.ToArray());
 
+    }
+
+    private void listBoxWells_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      propertyWells.SelectedObject = listBoxWells.SelectedItem;
+    }
+
+    private void listBoxAnlaeg_SelectedIndexChanged_1(object sender, EventArgs e)
+    {
+      propertyGridPlants.SelectedObject = listBoxAnlaeg.SelectedItem;
     }
   }
 }
