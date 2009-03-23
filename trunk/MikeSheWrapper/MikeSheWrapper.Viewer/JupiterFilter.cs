@@ -15,5 +15,19 @@ namespace MikeSheWrapper.Viewer
     {
       InitializeComponent();
     }
+
+    public bool ReadNovana
+    {
+      get
+      {
+        return this.checkBoxNovana.Checked;
+      }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      this.Close();
+      this.DialogResult = DialogResult.OK;
+    }
   }
 }
