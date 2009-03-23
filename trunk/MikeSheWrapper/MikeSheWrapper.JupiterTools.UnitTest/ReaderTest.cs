@@ -12,6 +12,21 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
   [TestFixture]
   public class ReaderTest
   {
+    Reader R;
+
+    [SetUp]
+    public void ConstructTest()
+    {
+      R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
+    }
+
+    [TearDown]
+    public void DisposeTest()
+    {
+      R.Dispose();
+    }
+
+    
 
     [Test]
     public void TableMergeTest()
@@ -45,14 +60,16 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       List<Plant> Anlaeg = new List<Plant>();
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
-      Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
 
       R.Extraction(Anlaeg, Wells);
 
       Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
 
+      R.AddDataForNovanaExtraction(Anlaeg);
+
     }
 
+    [Ignore]
     [Test]
     public void ReadRibeTest()
     {
@@ -67,18 +84,15 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     public void WellsForNovanaTest()
     {
 
+      Dictionary<string, IWell> Wells = R.WellsForNovana();
+      List<JupiterIntake> Intakes = new List<JupiterIntake>();
 
-      Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
-     Dictionary<string, IWell> Wells = R.WellsForNovana();
-
-     List<JupiterIntake> Intakes = new List<JupiterIntake>();
-
-     foreach (IWell w in Wells.Values)
-     {
-       foreach (JupiterIntake JI in w.Intakes)
-         Intakes.Add(JI);
-     }
-     R.AddDataForNovanaPejl(Intakes);
+      foreach (IWell w in Wells.Values)
+      {
+        foreach (JupiterIntake JI in w.Intakes)
+          Intakes.Add(JI);
+      }
+      R.AddDataForNovanaPejl(Intakes);
 
     }
   }
