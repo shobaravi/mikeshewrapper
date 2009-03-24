@@ -12,14 +12,13 @@ namespace MikeSheWrapper.JupiterTools
   {
     public DataRow Data { get; set; }
 
-    public JupiterIntake(IWell Well, int IDNumber)
+    internal JupiterIntake(IWell Well, int IDNumber)
     {
       this.well = Well;
       this.IDNumber = IDNumber;
-      well.Intakes.Add(this);
     }
 
-    public JupiterIntake(JupiterWell Well, IIntake Intake):this(Well, Intake.IDNumber)
+    internal JupiterIntake(JupiterWell Well, IIntake Intake):this(Well, Intake.IDNumber)
     {
       foreach (ObservationEntry OE in Intake.Observations)
         this.Observations.Add(OE);

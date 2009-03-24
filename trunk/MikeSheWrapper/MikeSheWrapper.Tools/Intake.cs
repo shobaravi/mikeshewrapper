@@ -13,7 +13,7 @@ namespace MikeSheWrapper.Tools
     public IWell well {get;protected set;}
     public int IDNumber {get; set;}
 
-    public Intake()
+    protected Intake()
     { }
 
     /// <summary>
@@ -21,11 +21,10 @@ namespace MikeSheWrapper.Tools
     /// </summary>
     /// <param name="Well"></param>
     /// <param name="IDNumber"></param>
-    public Intake(IWell Well, int IDNumber)
+    internal Intake(IWell Well, int IDNumber)
     {
       this.well = Well;
       this.IDNumber = IDNumber;
-      well.Intakes.Add(this);
     }
 
 

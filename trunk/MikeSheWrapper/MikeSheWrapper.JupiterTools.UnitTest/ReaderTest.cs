@@ -26,6 +26,11 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
       R.Dispose();
     }
 
+    public void DobbeltFillTest()
+    {
+      
+    }
+
     
 
     [Test]
@@ -58,10 +63,9 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     [Test]
     public void ReadExtractionsTest()
     {
-      List<Plant> Anlaeg = new List<Plant>();
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
 
-      R.Extraction(Anlaeg, Wells);
+      var Anlaeg = R.Extraction(Wells);
 
       Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
 
@@ -73,10 +77,11 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     [Test]
     public void ReadRibeTest()
     {
-      List<Plant> Anlaeg = new List<Plant>();
+      
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       Reader R = new Reader(@"..\..\..\mcribe.mdb");
-      R.Extraction(Anlaeg, Wells);
+      var Anlaeg = R.Extraction(Wells);
+
 
     }
 

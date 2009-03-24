@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -94,7 +95,7 @@ namespace MikeSheWrapper.LayerStatistics
           HeadObservations.GetSimulatedValuesFromGridOutput(_res, _grid, W);
 
           //Samler resultaterne for hver lag
-          foreach (ObservationEntry TSE in W.Intakes[0].Observations)
+          foreach (ObservationEntry TSE in W.Intakes.First().Observations)
           {
             if (TSE.SimulatedValueCell == _res.DeleteValue)
             {

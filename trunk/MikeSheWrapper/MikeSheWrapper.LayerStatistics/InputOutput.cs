@@ -66,7 +66,7 @@ namespace MikeSheWrapper.LayerStatistics
               if (!Wells.TryGetValue(s[0], out OW))
               {
                 OW = new MikeSheWell(s[0]);
-                Intake I = new Intake(OW, 1);
+                IIntake I = OW.AddNewIntake(1);
                 Wells.Add(OW.ID, OW);
                 OW.X = double.Parse(s[1]);
                 OW.Y = double.Parse(s[2]);
@@ -84,7 +84,7 @@ namespace MikeSheWrapper.LayerStatistics
                 }
               }
               //Now add the observation
-              OW.Intakes[0].Observations.Add(new ObservationEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
+              OW.Intakes.First().Observations.Add(new ObservationEntry(DateTime.Parse(s[5]), double.Parse(s[4])));
             }
             catch (FormatException e)
             {
@@ -111,7 +111,7 @@ namespace MikeSheWrapper.LayerStatistics
       foreach (MikeSheWell OW in Wells)
       {
         //Write for each observation
-        foreach (ObservationEntry TSE in OW.Intakes[0].Observations)
+        foreach (ObservationEntry TSE in OW.Intakes.First().Observations)
         {
           StringBuilder ObsString = new StringBuilder();
           ObsString.Append(OW.ID + "\t");
@@ -140,8 +140,8 @@ namespace MikeSheWrapper.LayerStatistics
         WellString.Append(OW.Y + "\t");
         WellString.Append(OW.Z + "\t");
         WellString.Append((_numberOfLayers - OW.Layer) + "\t");
-        WellString.Append(OW.Intakes[0].Observations.Average(num => num.ME).ToString() + "\t");
-        WellString.Append(OW.Intakes[0].Observations.Average(num => num.RMSE).ToString() + "\t");
+        WellString.Append(OW.Intakes.First().Observations.Average(num => num.ME).ToString() + "\t");
+        WellString.Append(OW.Intakes.First().Observations.Average(num => num.RMSE).ToString() + "\t");
         swell.WriteLine(WellString.ToString());
       }
       sw.Flush();
