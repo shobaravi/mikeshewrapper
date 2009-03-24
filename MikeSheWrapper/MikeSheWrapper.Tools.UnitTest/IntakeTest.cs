@@ -16,7 +16,8 @@ namespace MikeSheWrapper.Tools.UnitTest
     [Test]
     public void GroupByTest()
     {
-      Intake OW = new Intake(new Well("TestDummy"),1);
+      Well WW = new Well("TestDummy");
+      IIntake OW = WW.AddNewIntake(1);
 
       OW.Observations.Add(new ObservationEntry(new DateTime(2000, 1, 1), 10));
       OW.Observations.Add(new ObservationEntry(new DateTime(1999, 1, 1), 10));
@@ -57,7 +58,8 @@ namespace MikeSheWrapper.Tools.UnitTest
     [Test]
     public void SortTest()
     {
-      Intake OW = new Intake(new Well("TestDummy"), 1);
+      Well W =new Well("TestDummy");
+      IIntake OW = W.AddNewIntake(1);
 
       OW.Observations.Add(new ObservationEntry(new DateTime(2000, 1, 1), 10));
       OW.Observations.Add(new ObservationEntry(new DateTime(1999, 1, 1), 15));

@@ -174,7 +174,8 @@ namespace MikeSheWrapper.InputDataPreparation
         //Read in observations if they are included
         if (dt.InclObserved == 1)
         {
-          CurrentIntake = new Intake(CurrentWell, 1);
+          
+          CurrentIntake = CurrentWell.AddNewIntake(1);
 
           if (_tso == null || _tso.Connection.FilePath != dt.TIME_SERIES_FILE.FILE_NAME)
           {

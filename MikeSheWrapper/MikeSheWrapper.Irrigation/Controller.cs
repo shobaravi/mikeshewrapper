@@ -75,7 +75,7 @@ namespace MikeSheWrapper.Irrigation
           IW.X =  Convert.ToDouble(dr[_config.XHeader]);
           IW.Y = Convert.ToDouble(dr[_config.YHeader]);
 
-        Intake I = new Intake(IW, 1);
+        IIntake I = IW.AddNewIntake(1);
 
         IW.MaxDepth = Convert.ToDouble(dr[_config.MaxDepthHeader]);
         IW.MaxRate = Convert.ToDouble(dr[_config.MaxRateHeader]);
@@ -114,9 +114,9 @@ namespace MikeSheWrapper.Irrigation
         //Use this if top and bottom are in m.a.s.l.
         //double Topo = _she.GridInfo.SurfaceTopography.GetData(_wells[i].X, _wells[i].Y);
 
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ScreenTopDepthSIWS  = _wells[i].Intakes[0].ScreenTop[0];
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ScreenBottomDepthSIWS = _wells[i].Intakes[0].ScreenBottom[0];
-        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ThresholdDepthSIWS = _wells[i].Intakes[0].ScreenBottom[0];
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ScreenTopDepthSIWS  = _wells[i].Intakes.First().ScreenTop[0];
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ScreenBottomDepthSIWS = _wells[i].Intakes.First().ScreenBottom[0];
+        _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.CommandAreas1[i].Sources.Source1.ThresholdDepthSIWS = _wells[i].Intakes.First().ScreenBottom[0];
 
       }
       _she.Input.MIKESHE_FLOWMODEL.LandUse.CommandAreas.Type = 2;

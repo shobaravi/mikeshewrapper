@@ -42,11 +42,12 @@ namespace MikeSheWrapper.Viewer
         {
           JupiterTools.Reader R = new Reader(FileName);
 
+          Wells = R.re
+
           if (jd.ReadNovana)
           {
-            Wells = R.WellsForNovana();
-            Plants = new List<Plant>();
-            R.Extraction(Plants, Wells);
+            Wells = R.WellsForNovana();  
+            Plants = R.Extraction(Wells).ToList<Plant>();
             buttonNovanaShape.Enabled = true;
           }
           else
@@ -54,6 +55,9 @@ namespace MikeSheWrapper.Viewer
             Wells = R.Wells();
             R.Waterlevels(Wells);
           }
+
+
+
           if (Wells != null)
             listBoxWells.Items.AddRange(Wells.Values.ToArray());
 
@@ -204,6 +208,8 @@ namespace MikeSheWrapper.Viewer
 
     private void listBoxAnlaeg_SelectedIndexChanged_1(object sender, EventArgs e)
     {
+      listBoxWells.Items.Clear();
+      listBoxWells.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
       propertyGridPlants.SelectedObject = listBoxAnlaeg.SelectedItem;
     }
   }

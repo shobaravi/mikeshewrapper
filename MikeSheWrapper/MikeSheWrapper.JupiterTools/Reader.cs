@@ -43,8 +43,9 @@ namespace MikeSheWrapper.JupiterTools
         //Find the well in the dictionary
         if (!Wells.TryGetValue(WatLev.BOREHOLENO, out CurrentWell))
         {
-          if (CurrentWell.Intakes.Count>= WatLev.INTAKENO)
-            FillInWaterLevel(CurrentWell.Intakes[WatLev.INTAKENO-1], WatLev);
+          IIntake I = CurrentWell.Intakes.First(var => var.IDNumber == WatLev.INTAKENO);
+          if(I!=null)
+            FillInWaterLevel(I, WatLev);
         }
       }
     }
@@ -61,8 +62,16 @@ namespace MikeSheWrapper.JupiterTools
           CurrentIntake.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
     }
 
-    public void Extraction(List<Plant> Plants, Dictionary<string, IWell> Wells)
+
+    /// <summary>
+    /// Read Extractions
+    /// </summary>
+    /// <param name="Plants"></param>
+    /// <param name="Wells"></param>
+    public IEnumerable<Plant> Extraction(Dictionary<string, IWell> Wells)
     {
+      List<Plant> Plants = new List<Plant>();
+
       JXL.ReadExtractions();
 
       IWell CurrentWell;
@@ -96,9 +105,11 @@ namespace MikeSheWrapper.JupiterTools
             CurrentWell = new Well(IntakeData.BOREHOLENO);
             Wells.Add(IntakeData.BOREHOLENO, CurrentWell);
           }
-          CurrentIntake = CurrentWell.Intakes.Find(var => var.IDNumber == IntakeData.INTAKENO);
+
+          CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == IntakeData.INTAKENO);
           if (CurrentIntake ==null)
-            CurrentIntake = new Intake(CurrentWell, IntakeData.INTAKENO);
+            CurrentIntake = CurrentWell.AddNewIntake(IntakeData.INTAKENO);
+          
           CurrentPlant.PumpingIntakes.Add(CurrentIntake);
         }
 
@@ -111,6 +122,7 @@ namespace MikeSheWrapper.JupiterTools
             CurrentPlant.SurfaceWaterExtrations.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.SURFACEWATERVOLUME));
         }
       }
+      return Plants;
     }
 
 
@@ -123,7 +135,7 @@ namespace MikeSheWrapper.JupiterTools
     {
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
-      JXL.PartialReadOfWells();
+      JXL.ReadWells(true);
 
       Well CurrentWell;
       IIntake CurrentIntake;
@@ -146,9 +158,9 @@ namespace MikeSheWrapper.JupiterTools
         //Loop the intakes
         foreach (var IntakeData in Boring.GetINTAKERows())
         {
-          CurrentIntake = CurrentWell.Intakes.Find(var => var.IDNumber == IntakeData.INTAKENO);
+          CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == IntakeData.INTAKENO);
           if (CurrentIntake == null)
-            CurrentIntake = new Intake(CurrentWell, IntakeData.INTAKENO);
+            CurrentIntake = CurrentWell.AddNewIntake(IntakeData.INTAKENO);
 
 
           //Loop the screens. One intake can in special cases have multiple screens
@@ -177,6 +189,9 @@ namespace MikeSheWrapper.JupiterTools
 
       CurrentRow.XUTM = CurrentWell.X;
       CurrentRow.YUTM = CurrentWell.Y;
+
+      if (JXL.BOREHOLE.Count == 0)
+        JXL.ReadWells(false);
 
       var BoringsData = JXL.BOREHOLE.FindByBOREHOLENO(CurrentWell.ID);
       var IntakeData = BoringsData.GetINTAKERows().First(var => var.INTAKENO == CurrentIntake.IDNumber);
@@ -234,56 +249,66 @@ namespace MikeSheWrapper.JupiterTools
         CurrentRow.BOTROCK = "999";
     }
 
-    public void AddDataForNovanaExtraction(IEnumerable<Plant> Plants)
+    public IEnumerable<JupiterIntake> AddDataForNovanaExtraction(IEnumerable<Plant> Plants)
     {
       NovanaTables.IntakeCommonDataTable DT2 = new NovanaTables.IntakeCommonDataTable();
       NovanaTables.IndvindingerDataTable DT1 = new NovanaTables.IndvindingerDataTable();
       NovanaTables.IndvindingerRow CurrentRow;
 
-      JupiterIntake CurrentIntake;
+      List<JupiterIntake> _intakes = new List<JupiterIntake>();
 
+      //Loop the plants
       foreach (Plant P in Plants)
-      {
-        for (int i = 0; i <= P.PumpingIntakes.Count;i++ )
+        //Loop the wells
+        foreach (IWell IW in P.PumpingWells)
         {
-
-          CurrentIntake = P.PumpingIntakes[i] as JupiterIntake;
-
-          if (CurrentIntake == null)
+          //Construct a JupiterWell
+          JupiterWell Jw = new JupiterWell(IW);
+          //Loop the intakes
+          foreach (IIntake I in Jw.Intakes)
           {
-            CurrentIntake = new JupiterIntake(P.PumpingIntakes[i].well, P.PumpingIntakes[i].IDNumber);
-            P.PumpingIntakes[i] = CurrentIntake;
+            JupiterIntake CurrentIntake = I as JupiterIntake;
+            CurrentIntake.Data = DT2.NewIntakeCommonRow();
+            //Read generic data
+            AddCommonDataForNovana(CurrentIntake);
+            DT2.Rows.Add(CurrentIntake.Data);
+            CurrentRow = DT1.NewIndvindingerRow();
+
+            //Construct novana id
+            string NovanaID = P.IDNumber + "_" + CurrentIntake.well.ID.Replace(" ", "") + "_" + CurrentIntake.IDNumber;
+
+            CurrentRow.NOVANAID = NovanaID;
+            CurrentIntake.Data["NOVANAID"] = NovanaID;
+            CurrentRow.PLANTID = P.IDNumber;
+            CurrentRow.PLANTNAME = P.Name;
+
+            //Get additional data about the plant from the dataset
+            var anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
+            CurrentRow.NYKOMNR = anlaeg.MUNICIPALITYNO2007;
+            CurrentRow.KOMNR = anlaeg.MUNICIPALITYNO;
+            CurrentRow.ATYP = anlaeg.PLANTTYPE;
+            CurrentRow.ANR = anlaeg.SERIALNO;
+            CurrentRow.UNR = anlaeg.SUBNO;
+
+            if (anlaeg.IsXUTMNull())
+              CurrentRow.ANLUTMX = 0;
+            else
+              CurrentRow.ANLUTMX = anlaeg.XUTM;
+
+            if (anlaeg.IsYUTMNull())
+              CurrentRow.ANLUTMY = 0;
+            else
+              CurrentRow.ANLUTMY = anlaeg.YUTM;
+  
+            CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
+            CurrentRow.ACTIVE = anlaeg.ACTIVE;
+
+            DT1.Rows.Add(CurrentRow);
+            _intakes.Add(CurrentIntake);
           }
-
-          CurrentIntake.Data = DT2.NewIntakeCommonRow();
-          AddCommonDataForNovana(CurrentIntake);
-          DT2.Rows.Add(CurrentIntake.Data);
-          CurrentRow = DT1.NewIndvindingerRow();
-
-          string NovanaID = P.IDNumber + "_" + CurrentIntake.well.ID.Replace(" ", "") + "_" + CurrentIntake.IDNumber;
-
-          var anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
-
-          CurrentRow.NOVANAID = NovanaID;
-          CurrentIntake.Data["NOVANAID"] = NovanaID;
-
-          CurrentRow.PLANTID = P.IDNumber;
-          CurrentRow.PLANTNAME = P.Name;
-
-          CurrentRow.NYKOMNR = anlaeg.MUNICIPALITYNO2007;
-          CurrentRow.KOMNR = anlaeg.MUNICIPALITYNO;
-          CurrentRow.ATYP = anlaeg.PLANTTYPE;
-          CurrentRow.ANR = anlaeg.SERIALNO;
-          CurrentRow.UNR = anlaeg.SUBNO;
-          CurrentRow.ANLUTMX = anlaeg.XUTM;
-          CurrentRow.ANLUTMY = anlaeg.YUTM;
-          CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
-          CurrentRow.ACTIVE = anlaeg.ACTIVE;
-
-          DT1.Rows.Add(CurrentRow);
         }
-        DT2.Merge(DT1);
-      }
+      DT2.Merge(DT1);
+      return _intakes;
     }
 
 
@@ -331,9 +356,10 @@ namespace MikeSheWrapper.JupiterTools
     {
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
-      JXL.ReadInTotalWellsForNovana();
+      JXL.ReadWells(false);
       JXL.ReadInLithology();
       JXL.ReadWaterLevels();
+      JXL.ReadInChemistrySamples();
 
       JupiterWell CurrentWell;
       JupiterIntake CurrentIntake;
@@ -379,6 +405,8 @@ namespace MikeSheWrapper.JupiterTools
               C.CompoundNo = analysis.COMPOUNDNO;
               C.Amount = analysis.AMOUNT;
               C.Unit = analysis.UNIT;
+              C.CompoundName = JXL.COMPOUNDLIST.FindByCOMPOUNDNO(C.CompoundNo).LONG_TEXT;
+              CurrentWell.ChemSamples.Add(C);
             }
           }
 

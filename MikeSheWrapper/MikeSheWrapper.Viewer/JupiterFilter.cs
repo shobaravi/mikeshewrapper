@@ -24,10 +24,40 @@ namespace MikeSheWrapper.Viewer
       }
     }
 
+    public bool ReadPejlinger
+    {
+      get
+      {
+        return checkBoxPejlinger.Checked;
+      }
+    }
+
+    public bool ReadChemistry
+    {
+      get
+      {
+        return checkBoxKemi.Checked;
+      }
+    }
+
+    public bool ReadExtration
+    {
+      get
+      {
+        return checkBoxIndvinding.Checked;
+      }
+    }
+
     private void button1_Click(object sender, EventArgs e)
     {
       this.Close();
       this.DialogResult = DialogResult.OK;
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+      this.Close();
+      this.DialogResult = DialogResult.Cancel;
     }
   }
 }

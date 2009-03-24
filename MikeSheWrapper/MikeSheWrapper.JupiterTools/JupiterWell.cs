@@ -12,7 +12,20 @@ namespace MikeSheWrapper.JupiterTools
   {
     private List<Lithology> _lithSamples = new List<Lithology>();
 
+    public override IIntake AddNewIntake(int IDNumber)
+    {
+      JupiterIntake JI = new JupiterIntake(this, IDNumber);
 
+      _intakes.Add(JI);
+      return JI;
+    }
+
+    private IIntake AddNewIntake(IIntake intake)
+    {
+      JupiterIntake Ji = new JupiterIntake(this, intake);
+      _intakes.Add(Ji);
+      return Ji;
+    }
 
     public List<Lithology> LithSamples
     {
@@ -38,6 +51,10 @@ namespace MikeSheWrapper.JupiterTools
     {
     }
 
+    /// <summary>
+    /// Constructs a new JupiterWell based on the other Well. Also construct new JupiterIntakes;
+    /// </summary>
+    /// <param name="Well"></param>
     public JupiterWell(IWell Well):base(Well.ID,Well.X,Well.Y)
     {
       this.Description = Well.Description;
@@ -45,7 +62,7 @@ namespace MikeSheWrapper.JupiterTools
 
       foreach (IIntake I in Well.Intakes)
       {
-         JupiterIntake J = new JupiterIntake(this, I);
+         this.AddNewIntake(I);
       }
     }
 

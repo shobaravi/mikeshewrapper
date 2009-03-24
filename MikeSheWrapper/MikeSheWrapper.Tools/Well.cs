@@ -16,7 +16,15 @@ namespace MikeSheWrapper.Tools
     protected double _y;
     protected double _terrain;
 
-    public List<IIntake> Intakes {get;private set;}
+    public IEnumerable<IIntake> Intakes
+    {
+      get
+      {
+        return _intakes;
+        
+      }
+    }
+    protected List<IIntake> _intakes = new List<IIntake>();
 
     #region Constructors
 
@@ -24,7 +32,6 @@ namespace MikeSheWrapper.Tools
     public Well(string ID)
     {
       _id = ID;
-      Intakes = new List<IIntake>();
     }
 
     public Well(string ID, double X, double Y):this(ID)
@@ -33,6 +40,18 @@ namespace MikeSheWrapper.Tools
       _y = Y;
     }
     #endregion
+
+    /// <summary>
+    /// Adds a new intake to the well
+    /// </summary>
+    /// <param name="IDNumber"></param>
+    /// <returns></returns>
+    public virtual IIntake AddNewIntake(int IDNumber)
+    {
+      Intake I = new Intake(this, IDNumber);
+      _intakes.Add(I);
+      return I;
+    }
 
     public override string ToString()
     {

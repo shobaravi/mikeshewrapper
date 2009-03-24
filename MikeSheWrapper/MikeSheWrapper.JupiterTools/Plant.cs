@@ -31,7 +31,7 @@ namespace MikeSheWrapper.JupiterTools
     public List<TimeSeriesEntry> SurfaceWaterExtrations { get; private set; }
     
     /// <summary>
-    /// The wells associated to this plant
+    /// The intakes associated to this plant
     /// </summary>
     public List<IIntake> PumpingIntakes { get; private set; }
 

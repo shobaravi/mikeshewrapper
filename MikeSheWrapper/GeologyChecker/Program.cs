@@ -26,12 +26,8 @@ namespace GeologyChecker
       Model m = new Model(args[0]);
 
       JupiterXL JXL = new JupiterXL(args[1]);
-      JXL.PartialReadOfWells();
-
-      LITHSAMPTableAdapter LTA = new LITHSAMPTableAdapter();
-      LTA.Connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + args[1] + ";Persist Security Info=False";
-
-      LTA.FillByOnlyRock(JXL.LITHSAMP);
+      JXL.ReadWells(true);
+      JXL.ReadInLithology();
 
       foreach (var geo in JXL.LITHSAMP)
       {
