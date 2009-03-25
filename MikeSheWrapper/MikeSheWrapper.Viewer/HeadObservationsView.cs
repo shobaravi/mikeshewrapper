@@ -22,12 +22,18 @@ namespace MikeSheWrapper.Viewer
     private Dictionary<string, IWell> Wells;
     private List<Plant> Plants;
     private List<IIntake> Intakes;
+    private JupiterTools.Reader JupiterReader;
 
     public HeadObservationsView()
     {
       InitializeComponent();
     }
 
+    /// <summary>
+    /// Opens a Jupiter database and reads requested data
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ReadButton_Click(object sender, EventArgs e)
     {
       openFileDialog1.Filter = "Known file types (*.mdb)|*.mdb";
@@ -40,37 +46,50 @@ namespace MikeSheWrapper.Viewer
         string FileName = openFileDialog1.FileName;
         if (DialogResult.OK == jd.ShowDialog())
         {
-          JupiterTools.Reader R = new Reader(FileName);
+          JupiterReader = new Reader(FileName);
 
-          Wells = R.re
+          Wells = JupiterReader.WellsForNovana(jd.ReadLithology, jd.ReadPejlinger, jd.ReadChemistry);
 
-          if (jd.ReadNovana)
+          if (jd.ReadExtration)
           {
-            Wells = R.WellsForNovana();  
-            Plants = R.Extraction(Wells).ToList<Plant>();
-            buttonNovanaShape.Enabled = true;
-          }
-          else
-          {
-            Wells = R.Wells();
-            R.Waterlevels(Wells);
+            Plants = JupiterReader.Extraction(Wells).ToList<Plant>();
           }
 
-
-
-          if (Wells != null)
-            listBoxWells.Items.AddRange(Wells.Values.ToArray());
-
-          if (Plants != null)
-            listBoxAnlaeg.Items.AddRange(Plants.ToArray());
-          textBox1.Text = listBoxIntakes.Items.Count.ToString();
-          textBox4.Text = listBoxIntakes.Items.Count.ToString();
-
+          UpdateListsAndListboxes();
         }
       }
     }
 
+    /// <summary>
+    /// Updates the list boxes with data from the lists. Also build the intakes list
+    /// </summary>
+    private void UpdateListsAndListboxes()
+    {
+      if (Wells != null)
+        listBoxWells.Items.AddRange(Wells.Values.ToArray());
 
+      if (Intakes == null)
+        Intakes = new List<IIntake>();
+
+      foreach (IWell W in Wells.Values)
+        Intakes.AddRange(W.Intakes);
+
+      listBoxIntakes.Items.AddRange(Intakes.ToArray());
+
+      if (Plants != null)
+        listBoxAnlaeg.Items.AddRange(Plants.ToArray());
+
+      textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
+      textBoxWellsNumber.Text = listBoxWells.Items.Count.ToString();
+      textBox4.Text = listBoxIntakes.Items.Count.ToString();
+
+    }
+
+    /// <summary>
+    /// Opens a point shape
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void button2_Click(object sender, EventArgs e)
     {
       openFileDialog1.Filter = "Known file types (*.shp)|*.shp";
@@ -110,19 +129,24 @@ namespace MikeSheWrapper.Viewer
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void button3_Click(object sender, EventArgs e)
+    private void SelectObservations()
     {
       int Min;
       //Anything else than an integer is set to zero
       if (!int.TryParse(MinNumber.Text, out Min))
+      {
         Min = 0;
+        MinNumber.Text = "0";
+      }
 
-      listBoxIntakes.Items.Clear();
-      if (radioButtonMin.Checked)
-        listBoxIntakes.Items.AddRange(Intakes.Where(w => HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
-      else
-        listBoxIntakes.Items.AddRange(Intakes.Where(w => !HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
-  
+      if (Intakes != null)
+      {
+        listBoxIntakes.Items.Clear();
+        if (radioButtonMin.Checked)
+          listBoxIntakes.Items.AddRange(Intakes.Where(w => HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+        else
+          listBoxIntakes.Items.AddRange(Intakes.Where(w => !HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+      }
       textBox4.Text = listBoxIntakes.Items.Count.ToString();
     }
 
@@ -155,7 +179,7 @@ namespace MikeSheWrapper.Viewer
       }
     }
 
-    private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+    private void listBoxIntake_SelectedIndexChanged(object sender, EventArgs e)
     {
       propertyGrid1.SelectedObject = listBoxIntakes.SelectedItem;
     }
@@ -182,24 +206,12 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
+        JupiterReader.AddDataForNovanaPejl(listBoxIntakes.Items.Cast<JupiterIntake>());
         HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, listBoxIntakes.Items.Cast<JupiterIntake>(), dateTimePicker1.Value, dateTimePicker2.Value);
       }
 
     }
 
-    private void HeadObservationsView_Load(object sender, EventArgs e)
-    {
-
-    }
-
-    private void listBoxAnlaeg_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      listBoxWells.Items.Clear();
-      listBoxWells.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
-      listBoxIntakes.Items.Clear();
-      listBoxIntakes.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingIntakes.ToArray());
-
-    }
 
     private void listBoxWells_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -211,6 +223,71 @@ namespace MikeSheWrapper.Viewer
       listBoxWells.Items.Clear();
       listBoxWells.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
       propertyGridPlants.SelectedObject = listBoxAnlaeg.SelectedItem;
+      textBoxWellsNumber.Text = listBoxWells.Items.Count.ToString();
+    }
+
+    private void SelectExtrations()
+    {
+      double MinVal;
+      if (!double.TryParse(textBoxMeanYearlyExt.Text, out MinVal))
+      {
+        MinVal = 0;
+        textBoxMeanYearlyExt.Text = "0";
+      }
+
+      if (Plants != null)
+      {
+        listBoxAnlaeg.Items.Clear();
+
+        if (MinVal == 0)
+          listBoxAnlaeg.Items.AddRange(Plants.ToArray());
+        else
+        {
+          foreach (Plant P in Plants)
+          {
+            if (P.Extractions.Count > 0)
+            {
+              var ReducedList = P.Extractions.Where(var2 => HeadObservations.InBetween(var2, dateTimeStartExt.Value, dateTimeEndExt.Value));
+              if (ReducedList.Count() > 0)
+                if (ReducedList.Average(var => var.Value) >= MinVal)
+                  listBoxAnlaeg.Items.Add(P);
+            }
+          }
+        }
+        textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
+      }
+    }
+
+    private void textBox2_Validating(object sender, CancelEventArgs e)
+    {
+      SelectExtrations();
+    }
+
+    private void textBoxMeanYearlyExt_KeyUp(object sender, KeyEventArgs e)
+    {
+      if (e.KeyValue == 13)
+        SelectExtrations();
+    }
+
+    private void MinNumber_Validating(object sender, CancelEventArgs e)
+    {
+      SelectObservations();
+    }
+
+    private void MinNumber_KeyUp(object sender, KeyEventArgs e)
+    {
+       if (e.KeyValue == 13)
+         SelectObservations();
+    }
+
+    private void button3_Click(object sender, EventArgs e)
+    {
+      if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        IEnumerable<JupiterIntake> intakes =  JupiterReader.AddDataForNovanaExtraction(listBoxAnlaeg.Items.Cast<Plant>(), dateTimeStartExt.Value,dateTimeEndExt.Value);
+        HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, intakes, dateTimePicker1.Value, dateTimePicker2.Value);
+      }
+
     }
   }
 }

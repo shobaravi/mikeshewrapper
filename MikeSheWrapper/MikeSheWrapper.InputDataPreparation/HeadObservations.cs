@@ -28,7 +28,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <summary>
     /// Function that returns true if a time series entry is between the two dates
     /// </summary>
-    public static Func<ObservationEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
+    public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
 
 
     /// <summary>

@@ -56,6 +56,11 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
       int n = dr.Table.Columns.Count;
       DT.Merge(DT2);
       n = dr.Table.Columns.Count;
+      
+     dr["AKTDAGE"] = 2;
+
+
+
     }
 
 
@@ -69,7 +74,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
 
       Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
 
-      R.AddDataForNovanaExtraction(Anlaeg);
+      R.AddDataForNovanaExtraction(Anlaeg,DateTime.MinValue, DateTime.MaxValue);
 
     }
 
@@ -89,7 +94,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     public void WellsForNovanaTest()
     {
 
-      Dictionary<string, IWell> Wells = R.WellsForNovana();
+      Dictionary<string, IWell> Wells = R.WellsForNovana(true, true, true);
       List<JupiterIntake> Intakes = new List<JupiterIntake>();
 
       foreach (IWell w in Wells.Values)

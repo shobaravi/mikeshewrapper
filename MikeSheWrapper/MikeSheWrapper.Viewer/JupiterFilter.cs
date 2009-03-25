@@ -16,14 +16,7 @@ namespace MikeSheWrapper.Viewer
       InitializeComponent();
     }
 
-    public bool ReadNovana
-    {
-      get
-      {
-        return this.checkBoxNovana.Checked;
-      }
-    }
-
+   
     public bool ReadPejlinger
     {
       get
@@ -45,6 +38,14 @@ namespace MikeSheWrapper.Viewer
       get
       {
         return checkBoxIndvinding.Checked;
+      }
+    }
+
+    public bool ReadLithology
+    {
+      get
+      {
+        return checkBoxLitologi.Checked;
       }
     }
 
