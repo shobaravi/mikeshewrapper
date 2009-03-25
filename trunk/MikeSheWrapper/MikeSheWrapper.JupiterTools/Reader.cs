@@ -177,6 +177,10 @@ namespace MikeSheWrapper.JupiterTools
       return Wells;
     }
 
+    /// <summary>
+    /// Fills the data row with entries common for Intake and Extractions.
+    /// </summary>
+    /// <param name="CurrentIntake"></param>
     private void AddCommonDataForNovana(JupiterIntake CurrentIntake)
     {
       JupiterWell CurrentWell;
@@ -190,8 +194,11 @@ namespace MikeSheWrapper.JupiterTools
       CurrentRow.XUTM = CurrentWell.X;
       CurrentRow.YUTM = CurrentWell.Y;
 
-      if (JXL.BOREHOLE.Count == 0)
+      //Make sure all the necessary data have been read.
+      if (JXL.ReducedRead)
         JXL.ReadWells(false);
+      if (JXL.LITHSAMP.Count == 0)
+        JXL.ReadInLithology();
 
       var BoringsData = JXL.BOREHOLE.FindByBOREHOLENO(CurrentWell.ID);
       var IntakeData = BoringsData.GetINTAKERows().First(var => var.INTAKENO == CurrentIntake.IDNumber);
@@ -201,7 +208,7 @@ namespace MikeSheWrapper.JupiterTools
       CurrentRow.INTAKENO = CurrentIntake.IDNumber;
       CurrentRow.LOCATION = BoringsData.LOCATION;
 
-      CurrentRow.ANTINT_B = BoringsData.GetINTAKERows().Count();
+      CurrentRow.ANTINT_B = CurrentWell.Intakes.Count();
 
 
       if (!BoringsData.IsDRILENDATENull())
@@ -249,7 +256,7 @@ namespace MikeSheWrapper.JupiterTools
         CurrentRow.BOTROCK = "999";
     }
 
-    public IEnumerable<JupiterIntake> AddDataForNovanaExtraction(IEnumerable<Plant> Plants)
+    public IEnumerable<JupiterIntake> AddDataForNovanaExtraction(IEnumerable<Plant> Plants, DateTime StartDate, DateTime EndDate)
     {
       NovanaTables.IntakeCommonDataTable DT2 = new NovanaTables.IntakeCommonDataTable();
       NovanaTables.IndvindingerDataTable DT1 = new NovanaTables.IndvindingerDataTable();
@@ -303,6 +310,12 @@ namespace MikeSheWrapper.JupiterTools
             CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
             CurrentRow.ACTIVE = anlaeg.ACTIVE;
 
+            CurrentRow.MEANINDV = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate).Average(var => var.Value);
+            CurrentRow.NYINDVAAR = P.Extractions.Find(var => var.Value > 0).Time.Year;
+            CurrentRow.NYIND = P.Extractions.Find(var => var.Value > 0).Value;
+            CurrentRow.ANTINT_A = P.PumpingIntakes.Count;
+            CurrentRow.ANTBOR_A = P.PumpingWells.Count;
+
             DT1.Rows.Add(CurrentRow);
             _intakes.Add(CurrentIntake);
           }
@@ -319,7 +332,6 @@ namespace MikeSheWrapper.JupiterTools
 
       NovanaTables.IntakeCommonDataTable DT2 = new NovanaTables.IntakeCommonDataTable();
 
-
       foreach (JupiterIntake CurrentIntake in Intakes)
       {
         CurrentIntake.Data = DT2.NewIntakeCommonRow();
@@ -329,7 +341,6 @@ namespace MikeSheWrapper.JupiterTools
         CurrentRow.NOVANAID = CurrentIntake.Data["NOVANAID"].ToString();
 
         DT1.Rows.Add(CurrentRow);
-
 
         //Create statistics on water levels
         CurrentRow.ANTPEJ = CurrentIntake.Observations.Count;
@@ -352,17 +363,20 @@ namespace MikeSheWrapper.JupiterTools
     }
 
 
-    public Dictionary<string, IWell> WellsForNovana()
+    public Dictionary<string, IWell> WellsForNovana(bool Lithology, bool WaterLevel, bool Chemistry)
     {
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
       JXL.ReadWells(false);
-      JXL.ReadInLithology();
-      JXL.ReadWaterLevels();
-      JXL.ReadInChemistrySamples();
+      if (Lithology)
+        JXL.ReadInLithology();
+      if (WaterLevel)
+        JXL.ReadWaterLevels();
+      if (Chemistry)
+        JXL.ReadInChemistrySamples();
 
       JupiterWell CurrentWell;
-      JupiterIntake CurrentIntake;
+      IIntake CurrentIntake;
 
       //Loop the wells
       foreach (var Boring in JXL.BOREHOLE)
@@ -413,7 +427,7 @@ namespace MikeSheWrapper.JupiterTools
         //Loop the intakes
         foreach (var Intake in Boring.GetINTAKERows())
         {
-          CurrentIntake = new JupiterIntake(CurrentWell, Intake.INTAKENO);
+          CurrentIntake = CurrentWell.AddNewIntake(Intake.INTAKENO);
 
           //Loop the screens. One intake can in special cases have multiple screens
           foreach (var Screen in Intake.GetSCREENRows())

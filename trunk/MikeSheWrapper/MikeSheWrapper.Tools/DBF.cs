@@ -28,7 +28,8 @@ namespace MikeSheWrapper.Tools
 
     public virtual void Dispose()
     {
-      _data.Dispose();
+      if (_data!=null)
+        _data.Dispose();
       ShapeLib.DBFClose(_dbfPointer);
     }
 

@@ -31,7 +31,7 @@
       this.components = new System.ComponentModel.Container();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.ButtonReadWells = new System.Windows.Forms.Button();
-      this.textBox1 = new System.Windows.Forms.TextBox();
+      this.textBoxWellsNumber = new System.Windows.Forms.TextBox();
       this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
       this.textBox4 = new System.Windows.Forms.TextBox();
       this.MinNumber = new System.Windows.Forms.TextBox();
@@ -56,7 +56,6 @@
       this.label8 = new System.Windows.Forms.Label();
       this.label9 = new System.Windows.Forms.Label();
       this.label11 = new System.Windows.Forms.Label();
-      this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.button1 = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
       this.ToolTipMSHEbutton = new System.Windows.Forms.ToolTip(this.components);
@@ -67,21 +66,26 @@
       this.panel3 = new System.Windows.Forms.Panel();
       this.propertyWells = new System.Windows.Forms.PropertyGrid();
       this.panel4 = new System.Windows.Forms.Panel();
-      this.propertyGridPlants = new System.Windows.Forms.PropertyGrid();
       this.panel5 = new System.Windows.Forms.Panel();
       this.label7 = new System.Windows.Forms.Label();
-      this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-      this.textBox2 = new System.Windows.Forms.TextBox();
-      this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+      this.dateTimeEndExt = new System.Windows.Forms.DateTimePicker();
+      this.textBoxMeanYearlyExt = new System.Windows.Forms.TextBox();
+      this.dateTimeStartExt = new System.Windows.Forms.DateTimePicker();
       this.label10 = new System.Windows.Forms.Label();
       this.label12 = new System.Windows.Forms.Label();
       this.label13 = new System.Windows.Forms.Label();
-      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
+      this.propertyGridPlants = new System.Windows.Forms.PropertyGrid();
+      this.label6 = new System.Windows.Forms.Label();
+      this.label14 = new System.Windows.Forms.Label();
+      this.textBoxPlantCount = new System.Windows.Forms.TextBox();
+      this.button3 = new System.Windows.Forms.Button();
+      this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.panel1.SuspendLayout();
       this.panel2.SuspendLayout();
       this.panel3.SuspendLayout();
       this.panel4.SuspendLayout();
       this.panel5.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
       // openFileDialog1
@@ -92,7 +96,7 @@
       // 
       // ButtonReadWells
       // 
-      this.ButtonReadWells.Location = new System.Drawing.Point(28, 24);
+      this.ButtonReadWells.Location = new System.Drawing.Point(56, 24);
       this.ButtonReadWells.Name = "ButtonReadWells";
       this.ButtonReadWells.Size = new System.Drawing.Size(142, 42);
       this.ButtonReadWells.TabIndex = 0;
@@ -100,12 +104,13 @@
       this.ButtonReadWells.UseVisualStyleBackColor = true;
       this.ButtonReadWells.Click += new System.EventHandler(this.ReadButton_Click);
       // 
-      // textBox1
+      // textBoxWellsNumber
       // 
-      this.textBox1.Location = new System.Drawing.Point(141, 181);
-      this.textBox1.Name = "textBox1";
-      this.textBox1.Size = new System.Drawing.Size(79, 20);
-      this.textBox1.TabIndex = 1;
+      this.textBoxWellsNumber.Enabled = false;
+      this.textBoxWellsNumber.Location = new System.Drawing.Point(153, 181);
+      this.textBoxWellsNumber.Name = "textBoxWellsNumber";
+      this.textBoxWellsNumber.Size = new System.Drawing.Size(67, 20);
+      this.textBoxWellsNumber.TabIndex = 1;
       // 
       // openFileDialog2
       // 
@@ -125,6 +130,8 @@
       this.MinNumber.Name = "MinNumber";
       this.MinNumber.Size = new System.Drawing.Size(67, 20);
       this.MinNumber.TabIndex = 10;
+      this.MinNumber.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MinNumber_KeyUp);
+      this.MinNumber.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
       // 
       // dateTimePicker1
       // 
@@ -133,6 +140,7 @@
       this.dateTimePicker1.Size = new System.Drawing.Size(129, 20);
       this.dateTimePicker1.TabIndex = 12;
       this.dateTimePicker1.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+      this.dateTimePicker1.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
       // 
       // dateTimePicker2
       // 
@@ -140,6 +148,7 @@
       this.dateTimePicker2.Name = "dateTimePicker2";
       this.dateTimePicker2.Size = new System.Drawing.Size(129, 20);
       this.dateTimePicker2.TabIndex = 13;
+      this.dateTimePicker2.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
       // 
       // label3
       // 
@@ -170,18 +179,18 @@
       // 
       // button4
       // 
-      this.button4.Location = new System.Drawing.Point(771, 704);
+      this.button4.Location = new System.Drawing.Point(16, 780);
       this.button4.Name = "button4";
-      this.button4.Size = new System.Drawing.Size(104, 23);
+      this.button4.Size = new System.Drawing.Size(203, 23);
       this.button4.TabIndex = 18;
-      this.button4.Text = "Create dfs0-files";
+      this.button4.Text = "Create detailed time seriesfiles";
       this.button4.UseVisualStyleBackColor = true;
       // 
       // button5
       // 
-      this.button5.Location = new System.Drawing.Point(881, 704);
+      this.button5.Location = new System.Drawing.Point(17, 722);
       this.button5.Name = "button5";
-      this.button5.Size = new System.Drawing.Size(104, 23);
+      this.button5.Size = new System.Drawing.Size(203, 23);
       this.button5.TabIndex = 28;
       this.button5.Text = "Create shape file";
       this.button5.UseVisualStyleBackColor = true;
@@ -200,6 +209,7 @@
       this.listBoxIntakes.Name = "listBoxIntakes";
       this.listBoxIntakes.Size = new System.Drawing.Size(203, 251);
       this.listBoxIntakes.TabIndex = 30;
+      this.listBoxIntakes.SelectedIndexChanged += new System.EventHandler(this.listBoxIntake_SelectedIndexChanged);
       // 
       // OpenSheFileForSelection
       // 
@@ -207,11 +217,11 @@
       // 
       // buttonLSFile
       // 
-      this.buttonLSFile.Location = new System.Drawing.Point(881, 787);
+      this.buttonLSFile.Location = new System.Drawing.Point(16, 751);
       this.buttonLSFile.Name = "buttonLSFile";
-      this.buttonLSFile.Size = new System.Drawing.Size(104, 23);
+      this.buttonLSFile.Size = new System.Drawing.Size(203, 23);
       this.buttonLSFile.TabIndex = 31;
-      this.buttonLSFile.Text = "Create ls file";
+      this.buttonLSFile.Text = "Create LayerStatistics file";
       this.buttonLSFile.UseVisualStyleBackColor = true;
       // 
       // radioButtonMax
@@ -223,6 +233,7 @@
       this.radioButtonMax.TabIndex = 32;
       this.radioButtonMax.Text = "Max";
       this.radioButtonMax.UseVisualStyleBackColor = true;
+      this.radioButtonMax.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
       // 
       // radioButtonMin
       // 
@@ -235,13 +246,13 @@
       this.radioButtonMin.TabStop = true;
       this.radioButtonMin.Text = "Min";
       this.radioButtonMin.UseVisualStyleBackColor = true;
+      this.radioButtonMin.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
       // 
       // buttonNovanaShape
       // 
-      this.buttonNovanaShape.Enabled = false;
-      this.buttonNovanaShape.Location = new System.Drawing.Point(771, 744);
+      this.buttonNovanaShape.Location = new System.Drawing.Point(16, 722);
       this.buttonNovanaShape.Name = "buttonNovanaShape";
-      this.buttonNovanaShape.Size = new System.Drawing.Size(142, 23);
+      this.buttonNovanaShape.Size = new System.Drawing.Size(203, 23);
       this.buttonNovanaShape.TabIndex = 34;
       this.buttonNovanaShape.Text = "Create NOVANA shape file";
       this.buttonNovanaShape.UseVisualStyleBackColor = true;
@@ -291,15 +302,11 @@
       this.label11.TabIndex = 39;
       this.label11.Text = "Intakes";
       // 
-      // observationWellBindingSource
-      // 
-      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
-      // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(189, 24);
+      this.button1.Location = new System.Drawing.Point(56, 74);
       this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(180, 42);
+      this.button1.Size = new System.Drawing.Size(142, 42);
       this.button1.TabIndex = 40;
       this.button1.Text = "Read in MikeShe setup";
       this.ToolTipMSHEbutton.SetToolTip(this.button1, "Read wells, observation, results or model area from MikeShe setup.");
@@ -307,7 +314,7 @@
       // 
       // button2
       // 
-      this.button2.Location = new System.Drawing.Point(390, 24);
+      this.button2.Location = new System.Drawing.Point(57, 128);
       this.button2.Name = "button2";
       this.button2.Size = new System.Drawing.Size(141, 42);
       this.button2.TabIndex = 41;
@@ -332,10 +339,13 @@
       this.panel1.Controls.Add(this.listBoxIntakes);
       this.panel1.Controls.Add(this.label11);
       this.panel1.Controls.Add(this.propertyGrid1);
+      this.panel1.Controls.Add(this.buttonLSFile);
+      this.panel1.Controls.Add(this.button4);
+      this.panel1.Controls.Add(this.buttonNovanaShape);
       this.panel1.Controls.Add(this.textBox4);
-      this.panel1.Location = new System.Drawing.Point(529, 97);
+      this.panel1.Location = new System.Drawing.Point(731, 24);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(236, 728);
+      this.panel1.Size = new System.Drawing.Size(236, 817);
       this.panel1.TabIndex = 43;
       // 
       // panel2
@@ -367,13 +377,15 @@
       // panel3
       // 
       this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.panel3.Controls.Add(this.label6);
       this.panel3.Controls.Add(this.propertyWells);
       this.panel3.Controls.Add(this.label9);
       this.panel3.Controls.Add(this.listBoxWells);
-      this.panel3.Controls.Add(this.textBox1);
-      this.panel3.Location = new System.Drawing.Point(272, 97);
+      this.panel3.Controls.Add(this.textBoxWellsNumber);
+      this.panel3.Controls.Add(this.button5);
+      this.panel3.Location = new System.Drawing.Point(474, 24);
       this.panel3.Name = "panel3";
-      this.panel3.Size = new System.Drawing.Size(236, 728);
+      this.panel3.Size = new System.Drawing.Size(236, 817);
       this.panel3.TabIndex = 44;
       // 
       // propertyWells
@@ -386,29 +398,25 @@
       // panel4
       // 
       this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.panel4.Controls.Add(this.button3);
+      this.panel4.Controls.Add(this.label14);
+      this.panel4.Controls.Add(this.textBoxPlantCount);
       this.panel4.Controls.Add(this.panel5);
       this.panel4.Controls.Add(this.propertyGridPlants);
       this.panel4.Controls.Add(this.label8);
       this.panel4.Controls.Add(this.listBoxAnlaeg);
-      this.panel4.Location = new System.Drawing.Point(12, 97);
+      this.panel4.Location = new System.Drawing.Point(214, 24);
       this.panel4.Name = "panel4";
-      this.panel4.Size = new System.Drawing.Size(236, 728);
+      this.panel4.Size = new System.Drawing.Size(236, 817);
       this.panel4.TabIndex = 45;
-      // 
-      // propertyGridPlants
-      // 
-      this.propertyGridPlants.Location = new System.Drawing.Point(14, 470);
-      this.propertyGridPlants.Name = "propertyGridPlants";
-      this.propertyGridPlants.Size = new System.Drawing.Size(203, 241);
-      this.propertyGridPlants.TabIndex = 46;
       // 
       // panel5
       // 
       this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.panel5.Controls.Add(this.label7);
-      this.panel5.Controls.Add(this.dateTimePicker3);
-      this.panel5.Controls.Add(this.textBox2);
-      this.panel5.Controls.Add(this.dateTimePicker4);
+      this.panel5.Controls.Add(this.dateTimeEndExt);
+      this.panel5.Controls.Add(this.textBoxMeanYearlyExt);
+      this.panel5.Controls.Add(this.dateTimeStartExt);
       this.panel5.Controls.Add(this.label10);
       this.panel5.Controls.Add(this.label12);
       this.panel5.Controls.Add(this.label13);
@@ -422,31 +430,35 @@
       this.label7.AutoSize = true;
       this.label7.Location = new System.Drawing.Point(6, 13);
       this.label7.Name = "label7";
-      this.label7.Size = new System.Drawing.Size(143, 13);
+      this.label7.Size = new System.Drawing.Size(160, 13);
       this.label7.TabIndex = 42;
-      this.label7.Text = "Select on average extraction";
+      this.label7.Text = "Select on mean yearly extraction";
       // 
-      // dateTimePicker3
+      // dateTimeEndExt
       // 
-      this.dateTimePicker3.Location = new System.Drawing.Point(65, 63);
-      this.dateTimePicker3.Name = "dateTimePicker3";
-      this.dateTimePicker3.Size = new System.Drawing.Size(129, 20);
-      this.dateTimePicker3.TabIndex = 13;
+      this.dateTimeEndExt.Location = new System.Drawing.Point(65, 63);
+      this.dateTimeEndExt.Name = "dateTimeEndExt";
+      this.dateTimeEndExt.Size = new System.Drawing.Size(129, 20);
+      this.dateTimeEndExt.TabIndex = 13;
+      this.dateTimeEndExt.Validating += new System.ComponentModel.CancelEventHandler(this.textBox2_Validating);
       // 
-      // textBox2
+      // textBoxMeanYearlyExt
       // 
-      this.textBox2.Location = new System.Drawing.Point(140, 100);
-      this.textBox2.Name = "textBox2";
-      this.textBox2.Size = new System.Drawing.Size(54, 20);
-      this.textBox2.TabIndex = 10;
+      this.textBoxMeanYearlyExt.Location = new System.Drawing.Point(140, 100);
+      this.textBoxMeanYearlyExt.Name = "textBoxMeanYearlyExt";
+      this.textBoxMeanYearlyExt.Size = new System.Drawing.Size(54, 20);
+      this.textBoxMeanYearlyExt.TabIndex = 14;
+      this.textBoxMeanYearlyExt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMeanYearlyExt_KeyUp);
+      this.textBoxMeanYearlyExt.Validating += new System.ComponentModel.CancelEventHandler(this.textBox2_Validating);
       // 
-      // dateTimePicker4
+      // dateTimeStartExt
       // 
-      this.dateTimePicker4.Location = new System.Drawing.Point(65, 37);
-      this.dateTimePicker4.Name = "dateTimePicker4";
-      this.dateTimePicker4.Size = new System.Drawing.Size(129, 20);
-      this.dateTimePicker4.TabIndex = 12;
-      this.dateTimePicker4.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+      this.dateTimeStartExt.Location = new System.Drawing.Point(65, 37);
+      this.dateTimeStartExt.Name = "dateTimeStartExt";
+      this.dateTimeStartExt.Size = new System.Drawing.Size(129, 20);
+      this.dateTimeStartExt.TabIndex = 12;
+      this.dateTimeStartExt.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+      this.dateTimeStartExt.Validating += new System.ComponentModel.CancelEventHandler(this.textBox2_Validating);
       // 
       // label10
       // 
@@ -475,6 +487,53 @@
       this.label13.TabIndex = 16;
       this.label13.Text = "Mean yearly extraction >=";
       // 
+      // propertyGridPlants
+      // 
+      this.propertyGridPlants.Location = new System.Drawing.Point(14, 470);
+      this.propertyGridPlants.Name = "propertyGridPlants";
+      this.propertyGridPlants.Size = new System.Drawing.Size(203, 241);
+      this.propertyGridPlants.TabIndex = 46;
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(14, 188);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(38, 13);
+      this.label6.TabIndex = 45;
+      this.label6.Text = "Count:";
+      // 
+      // label14
+      // 
+      this.label14.AutoSize = true;
+      this.label14.Location = new System.Drawing.Point(11, 188);
+      this.label14.Name = "label14";
+      this.label14.Size = new System.Drawing.Size(38, 13);
+      this.label14.TabIndex = 47;
+      this.label14.Text = "Count:";
+      // 
+      // textBoxPlantCount
+      // 
+      this.textBoxPlantCount.Enabled = false;
+      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 181);
+      this.textBoxPlantCount.Name = "textBoxPlantCount";
+      this.textBoxPlantCount.Size = new System.Drawing.Size(67, 20);
+      this.textBoxPlantCount.TabIndex = 46;
+      // 
+      // button3
+      // 
+      this.button3.Location = new System.Drawing.Point(16, 722);
+      this.button3.Name = "button3";
+      this.button3.Size = new System.Drawing.Size(203, 23);
+      this.button3.TabIndex = 45;
+      this.button3.Text = "Create NOVANA shape file";
+      this.button3.UseVisualStyleBackColor = true;
+      this.button3.Click += new System.EventHandler(this.button3_Click);
+      // 
+      // observationWellBindingSource
+      // 
+      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
+      // 
       // HeadObservationsView
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -485,14 +544,9 @@
       this.Controls.Add(this.panel1);
       this.Controls.Add(this.button2);
       this.Controls.Add(this.button1);
-      this.Controls.Add(this.buttonNovanaShape);
-      this.Controls.Add(this.buttonLSFile);
-      this.Controls.Add(this.button5);
-      this.Controls.Add(this.button4);
       this.Controls.Add(this.ButtonReadWells);
       this.Name = "HeadObservationsView";
       this.Text = "Wells and observations";
-      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
       this.panel1.ResumeLayout(false);
       this.panel1.PerformLayout();
       this.panel2.ResumeLayout(false);
@@ -503,6 +557,7 @@
       this.panel4.PerformLayout();
       this.panel5.ResumeLayout(false);
       this.panel5.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -511,7 +566,7 @@
 
     private System.Windows.Forms.OpenFileDialog openFileDialog1;
     private System.Windows.Forms.Button ButtonReadWells;
-    private System.Windows.Forms.TextBox textBox1;
+    private System.Windows.Forms.TextBox textBoxWellsNumber;
     private System.Windows.Forms.OpenFileDialog openFileDialog2;
     private System.Windows.Forms.TextBox textBox4;
     private System.Windows.Forms.TextBox MinNumber;
@@ -550,12 +605,16 @@
     private System.Windows.Forms.PropertyGrid propertyGridPlants;
     private System.Windows.Forms.Panel panel5;
     private System.Windows.Forms.Label label7;
-    private System.Windows.Forms.DateTimePicker dateTimePicker3;
-    private System.Windows.Forms.TextBox textBox2;
-    private System.Windows.Forms.DateTimePicker dateTimePicker4;
+    private System.Windows.Forms.DateTimePicker dateTimeEndExt;
+    private System.Windows.Forms.TextBox textBoxMeanYearlyExt;
+    private System.Windows.Forms.DateTimePicker dateTimeStartExt;
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.Label label12;
     private System.Windows.Forms.Label label13;
+    private System.Windows.Forms.Label label6;
+    private System.Windows.Forms.Label label14;
+    private System.Windows.Forms.TextBox textBoxPlantCount;
+    private System.Windows.Forms.Button button3;
   }
 }
 

@@ -7,6 +7,8 @@ namespace MikeSheWrapper.JupiterTools
   public partial class JupiterXL
   {
 
+    public bool ReducedRead { get; private set; }
+
     private string ConnectionString;
 
     public JupiterXL(string DataBaseFileName):this()
@@ -41,6 +43,8 @@ namespace MikeSheWrapper.JupiterTools
     /// <param name="DataBaseFileName"></param>
     public void ReadWells(bool Reduced)
     {
+      ReducedRead = Reduced;
+
       //Read in boreholes through table adapter
       BOREHOLETableAdapter BTA = new BOREHOLETableAdapter();
       BTA.Connection.ConnectionString = ConnectionString;
