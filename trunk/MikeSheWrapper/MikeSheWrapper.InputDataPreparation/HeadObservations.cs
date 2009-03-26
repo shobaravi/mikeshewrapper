@@ -74,7 +74,6 @@ namespace MikeSheWrapper.InputDataPreparation
       int Row;
       foreach (MikeSheWell W in Wells)
       {
-
         //Gets the index and sets the column and row
         if (Grid.GetIndex(W.X, W.Y, out Column, out Row))
         {

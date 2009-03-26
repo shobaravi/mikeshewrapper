@@ -68,12 +68,13 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     [Test]
     public void ReadExtractionsTest()
     {
-      Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
+      Dictionary<string, IWell> Wells =R.Wells();
 
       var Anlaeg = R.Extraction(Wells);
 
       Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
 
+      
       R.AddDataForNovanaExtraction(Anlaeg,DateTime.MinValue, DateTime.MaxValue);
 
     }

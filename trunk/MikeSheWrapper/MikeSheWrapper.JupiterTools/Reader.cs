@@ -74,6 +74,7 @@ namespace MikeSheWrapper.JupiterTools
 
       JXL.ReadExtractions();
 
+
       IWell CurrentWell;
       IIntake CurrentIntake;
       Plant CurrentPlant;
@@ -310,9 +311,12 @@ namespace MikeSheWrapper.JupiterTools
             CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
             CurrentRow.ACTIVE = anlaeg.ACTIVE;
 
-            CurrentRow.MEANINDV = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate).Average(var => var.Value);
-            CurrentRow.NYINDVAAR = P.Extractions.Find(var => var.Value > 0).Time.Year;
-            CurrentRow.NYIND = P.Extractions.Find(var => var.Value > 0).Value;
+            if (P.Extractions.Count > 0)
+            {
+              CurrentRow.MEANINDV = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate).Average(var => var.Value);
+              CurrentRow.NYINDVAAR = P.Extractions.Find(var => var.Value > 0).Time.Year;
+              CurrentRow.NYIND = P.Extractions.Find(var => var.Value > 0).Value;
+            }
             CurrentRow.ANTINT_A = P.PumpingIntakes.Count;
             CurrentRow.ANTBOR_A = P.PumpingWells.Count;
 

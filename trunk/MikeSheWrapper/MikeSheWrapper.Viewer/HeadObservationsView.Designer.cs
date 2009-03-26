@@ -29,7 +29,6 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.ButtonReadWells = new System.Windows.Forms.Button();
       this.textBoxWellsNumber = new System.Windows.Forms.TextBox();
       this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
@@ -46,7 +45,6 @@
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBoxIntakes = new System.Windows.Forms.ListBox();
-      this.OpenSheFileForSelection = new System.Windows.Forms.OpenFileDialog();
       this.buttonLSFile = new System.Windows.Forms.Button();
       this.radioButtonMax = new System.Windows.Forms.RadioButton();
       this.radioButtonMin = new System.Windows.Forms.RadioButton();
@@ -56,7 +54,7 @@
       this.label8 = new System.Windows.Forms.Label();
       this.label9 = new System.Windows.Forms.Label();
       this.label11 = new System.Windows.Forms.Label();
-      this.button1 = new System.Windows.Forms.Button();
+      this.buttonReadMshe = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
       this.ToolTipMSHEbutton = new System.Windows.Forms.ToolTip(this.components);
       this.label1 = new System.Windows.Forms.Label();
@@ -64,8 +62,14 @@
       this.panel2 = new System.Windows.Forms.Panel();
       this.label2 = new System.Windows.Forms.Label();
       this.panel3 = new System.Windows.Forms.Panel();
+      this.radioButton2 = new System.Windows.Forms.RadioButton();
+      this.radioButton1 = new System.Windows.Forms.RadioButton();
+      this.label6 = new System.Windows.Forms.Label();
       this.propertyWells = new System.Windows.Forms.PropertyGrid();
       this.panel4 = new System.Windows.Forms.Panel();
+      this.buttonNovanaExtract = new System.Windows.Forms.Button();
+      this.label14 = new System.Windows.Forms.Label();
+      this.textBoxPlantCount = new System.Windows.Forms.TextBox();
       this.panel5 = new System.Windows.Forms.Panel();
       this.label7 = new System.Windows.Forms.Label();
       this.dateTimeEndExt = new System.Windows.Forms.DateTimePicker();
@@ -75,10 +79,6 @@
       this.label12 = new System.Windows.Forms.Label();
       this.label13 = new System.Windows.Forms.Label();
       this.propertyGridPlants = new System.Windows.Forms.PropertyGrid();
-      this.label6 = new System.Windows.Forms.Label();
-      this.label14 = new System.Windows.Forms.Label();
-      this.textBoxPlantCount = new System.Windows.Forms.TextBox();
-      this.button3 = new System.Windows.Forms.Button();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.panel1.SuspendLayout();
       this.panel2.SuspendLayout();
@@ -88,15 +88,9 @@
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
-      // openFileDialog1
-      // 
-      this.openFileDialog1.Filter = "Known file types (*.she, *.mdb, *.shp)|*.she;*.mdb;*.shp";
-      this.openFileDialog1.ShowReadOnly = true;
-      this.openFileDialog1.Title = "Select file with data for wells";
-      // 
       // ButtonReadWells
       // 
-      this.ButtonReadWells.Location = new System.Drawing.Point(56, 24);
+      this.ButtonReadWells.Location = new System.Drawing.Point(12, 21);
       this.ButtonReadWells.Name = "ButtonReadWells";
       this.ButtonReadWells.Size = new System.Drawing.Size(142, 42);
       this.ButtonReadWells.TabIndex = 0;
@@ -211,12 +205,9 @@
       this.listBoxIntakes.TabIndex = 30;
       this.listBoxIntakes.SelectedIndexChanged += new System.EventHandler(this.listBoxIntake_SelectedIndexChanged);
       // 
-      // OpenSheFileForSelection
-      // 
-      this.OpenSheFileForSelection.Filter = "MikeShe imput file(*.she)|*.she";
-      // 
       // buttonLSFile
       // 
+      this.buttonLSFile.Enabled = false;
       this.buttonLSFile.Location = new System.Drawing.Point(16, 751);
       this.buttonLSFile.Name = "buttonLSFile";
       this.buttonLSFile.Size = new System.Drawing.Size(203, 23);
@@ -233,7 +224,7 @@
       this.radioButtonMax.TabIndex = 32;
       this.radioButtonMax.Text = "Max";
       this.radioButtonMax.UseVisualStyleBackColor = true;
-      this.radioButtonMax.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
+      this.radioButtonMax.CheckedChanged += new System.EventHandler(this.radioButtonMax_CheckedChanged);
       // 
       // radioButtonMin
       // 
@@ -246,10 +237,10 @@
       this.radioButtonMin.TabStop = true;
       this.radioButtonMin.Text = "Min";
       this.radioButtonMin.UseVisualStyleBackColor = true;
-      this.radioButtonMin.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
       // 
       // buttonNovanaShape
       // 
+      this.buttonNovanaShape.Enabled = false;
       this.buttonNovanaShape.Location = new System.Drawing.Point(16, 722);
       this.buttonNovanaShape.Name = "buttonNovanaShape";
       this.buttonNovanaShape.Size = new System.Drawing.Size(203, 23);
@@ -278,43 +269,47 @@
       // label8
       // 
       this.label8.AutoSize = true;
+      this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.label8.Location = new System.Drawing.Point(13, 2);
       this.label8.Name = "label8";
-      this.label8.Size = new System.Drawing.Size(36, 13);
+      this.label8.Size = new System.Drawing.Size(59, 20);
       this.label8.TabIndex = 37;
       this.label8.Text = "Plants";
       // 
       // label9
       // 
       this.label9.AutoSize = true;
+      this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.label9.Location = new System.Drawing.Point(3, 0);
       this.label9.Name = "label9";
-      this.label9.Size = new System.Drawing.Size(33, 13);
+      this.label9.Size = new System.Drawing.Size(52, 20);
       this.label9.TabIndex = 38;
       this.label9.Text = "Wells";
       // 
       // label11
       // 
       this.label11.AutoSize = true;
+      this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.label11.Location = new System.Drawing.Point(3, 0);
       this.label11.Name = "label11";
-      this.label11.Size = new System.Drawing.Size(42, 13);
+      this.label11.Size = new System.Drawing.Size(69, 20);
       this.label11.TabIndex = 39;
       this.label11.Text = "Intakes";
       // 
-      // button1
+      // buttonReadMshe
       // 
-      this.button1.Location = new System.Drawing.Point(56, 74);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(142, 42);
-      this.button1.TabIndex = 40;
-      this.button1.Text = "Read in MikeShe setup";
-      this.ToolTipMSHEbutton.SetToolTip(this.button1, "Read wells, observation, results or model area from MikeShe setup.");
-      this.button1.UseVisualStyleBackColor = true;
+      this.buttonReadMshe.Location = new System.Drawing.Point(12, 71);
+      this.buttonReadMshe.Name = "buttonReadMshe";
+      this.buttonReadMshe.Size = new System.Drawing.Size(142, 42);
+      this.buttonReadMshe.TabIndex = 40;
+      this.buttonReadMshe.Text = "Read in MikeShe setup";
+      this.ToolTipMSHEbutton.SetToolTip(this.buttonReadMshe, "Read wells, observation, results or model area from MikeShe setup.");
+      this.buttonReadMshe.UseVisualStyleBackColor = true;
+      this.buttonReadMshe.Click += new System.EventHandler(this.buttonReadMshe_Click);
       // 
       // button2
       // 
-      this.button2.Location = new System.Drawing.Point(57, 128);
+      this.button2.Location = new System.Drawing.Point(13, 125);
       this.button2.Name = "button2";
       this.button2.Size = new System.Drawing.Size(141, 42);
       this.button2.TabIndex = 41;
@@ -343,7 +338,7 @@
       this.panel1.Controls.Add(this.button4);
       this.panel1.Controls.Add(this.buttonNovanaShape);
       this.panel1.Controls.Add(this.textBox4);
-      this.panel1.Location = new System.Drawing.Point(731, 24);
+      this.panel1.Location = new System.Drawing.Point(687, 21);
       this.panel1.Name = "panel1";
       this.panel1.Size = new System.Drawing.Size(236, 817);
       this.panel1.TabIndex = 43;
@@ -377,16 +372,51 @@
       // panel3
       // 
       this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.panel3.Controls.Add(this.radioButton2);
+      this.panel3.Controls.Add(this.radioButton1);
       this.panel3.Controls.Add(this.label6);
       this.panel3.Controls.Add(this.propertyWells);
       this.panel3.Controls.Add(this.label9);
       this.panel3.Controls.Add(this.listBoxWells);
       this.panel3.Controls.Add(this.textBoxWellsNumber);
       this.panel3.Controls.Add(this.button5);
-      this.panel3.Location = new System.Drawing.Point(474, 24);
+      this.panel3.Location = new System.Drawing.Point(430, 21);
       this.panel3.Name = "panel3";
       this.panel3.Size = new System.Drawing.Size(236, 817);
       this.panel3.TabIndex = 44;
+      // 
+      // radioButton2
+      // 
+      this.radioButton2.AutoSize = true;
+      this.radioButton2.Enabled = false;
+      this.radioButton2.Location = new System.Drawing.Point(17, 150);
+      this.radioButton2.Name = "radioButton2";
+      this.radioButton2.Size = new System.Drawing.Size(204, 17);
+      this.radioButton2.TabIndex = 47;
+      this.radioButton2.Text = "Show wells attached to selected plant";
+      this.radioButton2.UseVisualStyleBackColor = true;
+      // 
+      // radioButton1
+      // 
+      this.radioButton1.AutoSize = true;
+      this.radioButton1.Checked = true;
+      this.radioButton1.Location = new System.Drawing.Point(17, 127);
+      this.radioButton1.Name = "radioButton1";
+      this.radioButton1.Size = new System.Drawing.Size(91, 17);
+      this.radioButton1.TabIndex = 46;
+      this.radioButton1.TabStop = true;
+      this.radioButton1.Text = "Show all wells";
+      this.radioButton1.UseVisualStyleBackColor = true;
+      this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(14, 188);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(38, 13);
+      this.label6.TabIndex = 45;
+      this.label6.Text = "Count:";
       // 
       // propertyWells
       // 
@@ -398,17 +428,45 @@
       // panel4
       // 
       this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.panel4.Controls.Add(this.button3);
+      this.panel4.Controls.Add(this.buttonNovanaExtract);
       this.panel4.Controls.Add(this.label14);
       this.panel4.Controls.Add(this.textBoxPlantCount);
       this.panel4.Controls.Add(this.panel5);
       this.panel4.Controls.Add(this.propertyGridPlants);
       this.panel4.Controls.Add(this.label8);
       this.panel4.Controls.Add(this.listBoxAnlaeg);
-      this.panel4.Location = new System.Drawing.Point(214, 24);
+      this.panel4.Location = new System.Drawing.Point(170, 21);
       this.panel4.Name = "panel4";
       this.panel4.Size = new System.Drawing.Size(236, 817);
       this.panel4.TabIndex = 45;
+      // 
+      // buttonNovanaExtract
+      // 
+      this.buttonNovanaExtract.Enabled = false;
+      this.buttonNovanaExtract.Location = new System.Drawing.Point(16, 722);
+      this.buttonNovanaExtract.Name = "buttonNovanaExtract";
+      this.buttonNovanaExtract.Size = new System.Drawing.Size(203, 23);
+      this.buttonNovanaExtract.TabIndex = 45;
+      this.buttonNovanaExtract.Text = "Create NOVANA shape file";
+      this.buttonNovanaExtract.UseVisualStyleBackColor = true;
+      this.buttonNovanaExtract.Click += new System.EventHandler(this.button3_Click);
+      // 
+      // label14
+      // 
+      this.label14.AutoSize = true;
+      this.label14.Location = new System.Drawing.Point(11, 188);
+      this.label14.Name = "label14";
+      this.label14.Size = new System.Drawing.Size(38, 13);
+      this.label14.TabIndex = 47;
+      this.label14.Text = "Count:";
+      // 
+      // textBoxPlantCount
+      // 
+      this.textBoxPlantCount.Enabled = false;
+      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 181);
+      this.textBoxPlantCount.Name = "textBoxPlantCount";
+      this.textBoxPlantCount.Size = new System.Drawing.Size(67, 20);
+      this.textBoxPlantCount.TabIndex = 46;
       // 
       // panel5
       // 
@@ -494,42 +552,6 @@
       this.propertyGridPlants.Size = new System.Drawing.Size(203, 241);
       this.propertyGridPlants.TabIndex = 46;
       // 
-      // label6
-      // 
-      this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(14, 188);
-      this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(38, 13);
-      this.label6.TabIndex = 45;
-      this.label6.Text = "Count:";
-      // 
-      // label14
-      // 
-      this.label14.AutoSize = true;
-      this.label14.Location = new System.Drawing.Point(11, 188);
-      this.label14.Name = "label14";
-      this.label14.Size = new System.Drawing.Size(38, 13);
-      this.label14.TabIndex = 47;
-      this.label14.Text = "Count:";
-      // 
-      // textBoxPlantCount
-      // 
-      this.textBoxPlantCount.Enabled = false;
-      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 181);
-      this.textBoxPlantCount.Name = "textBoxPlantCount";
-      this.textBoxPlantCount.Size = new System.Drawing.Size(67, 20);
-      this.textBoxPlantCount.TabIndex = 46;
-      // 
-      // button3
-      // 
-      this.button3.Location = new System.Drawing.Point(16, 722);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(203, 23);
-      this.button3.TabIndex = 45;
-      this.button3.Text = "Create NOVANA shape file";
-      this.button3.UseVisualStyleBackColor = true;
-      this.button3.Click += new System.EventHandler(this.button3_Click);
-      // 
       // observationWellBindingSource
       // 
       this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
@@ -538,12 +560,12 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1040, 861);
+      this.ClientSize = new System.Drawing.Size(942, 861);
       this.Controls.Add(this.panel4);
       this.Controls.Add(this.panel3);
       this.Controls.Add(this.panel1);
       this.Controls.Add(this.button2);
-      this.Controls.Add(this.button1);
+      this.Controls.Add(this.buttonReadMshe);
       this.Controls.Add(this.ButtonReadWells);
       this.Name = "HeadObservationsView";
       this.Text = "Wells and observations";
@@ -564,7 +586,6 @@
 
     #endregion
 
-    private System.Windows.Forms.OpenFileDialog openFileDialog1;
     private System.Windows.Forms.Button ButtonReadWells;
     private System.Windows.Forms.TextBox textBoxWellsNumber;
     private System.Windows.Forms.OpenFileDialog openFileDialog2;
@@ -582,7 +603,6 @@
     private System.Windows.Forms.PropertyGrid propertyGrid1;
     private System.Windows.Forms.ListBox listBoxIntakes;
     private System.Windows.Forms.BindingSource observationWellBindingSource;
-    private System.Windows.Forms.OpenFileDialog OpenSheFileForSelection;
     private System.Windows.Forms.Button buttonLSFile;
     private System.Windows.Forms.RadioButton radioButtonMax;
     private System.Windows.Forms.RadioButton radioButtonMin;
@@ -592,7 +612,7 @@
     private System.Windows.Forms.Label label8;
     private System.Windows.Forms.Label label9;
     private System.Windows.Forms.Label label11;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button buttonReadMshe;
     private System.Windows.Forms.Button button2;
     private System.Windows.Forms.ToolTip ToolTipMSHEbutton;
     private System.Windows.Forms.Label label1;
@@ -614,7 +634,9 @@
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Label label14;
     private System.Windows.Forms.TextBox textBoxPlantCount;
-    private System.Windows.Forms.Button button3;
+    private System.Windows.Forms.Button buttonNovanaExtract;
+    private System.Windows.Forms.RadioButton radioButton2;
+    private System.Windows.Forms.RadioButton radioButton1;
   }
 }
 
