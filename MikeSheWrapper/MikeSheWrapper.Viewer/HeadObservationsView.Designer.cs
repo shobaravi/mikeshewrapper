@@ -241,12 +241,13 @@
       // buttonNovanaShape
       // 
       this.buttonNovanaShape.Enabled = false;
-      this.buttonNovanaShape.Location = new System.Drawing.Point(16, 722);
+      this.buttonNovanaShape.Location = new System.Drawing.Point(16, 721);
       this.buttonNovanaShape.Name = "buttonNovanaShape";
       this.buttonNovanaShape.Size = new System.Drawing.Size(203, 23);
       this.buttonNovanaShape.TabIndex = 34;
       this.buttonNovanaShape.Text = "Create NOVANA shape file";
       this.buttonNovanaShape.UseVisualStyleBackColor = true;
+      this.buttonNovanaShape.Click += new System.EventHandler(this.WriteNovanaShape);
       // 
       // listBoxAnlaeg
       // 

@@ -209,12 +209,11 @@ namespace MikeSheWrapper.InputDataPreparation
         if (!Wells.TryGetValue((string)DR[SRC.WellIDHeader], out CurrentWell))
         {
           //Add a new well if it was not found
-            CurrentWell = new MikeSheWell((string)DR[SRC.WellIDHeader]);
-          CurrentWell.X =(double)DR[SRC.XHeader];
-          CurrentWell.Y =(double)DR[SRC.YHeader];
-           ((MikeSheWell) CurrentWell).Z = (double)DR[SRC.ZHeader];
-
-            Wells.Add(CurrentWell.ID, CurrentWell);
+          CurrentWell = new MikeSheWell((string)DR[SRC.WellIDHeader]);
+          CurrentWell.X = (double)DR[SRC.XHeader];
+          CurrentWell.Y = (double)DR[SRC.YHeader];
+          ((MikeSheWell)CurrentWell).Z = (double)DR[SRC.ZHeader];
+          Wells.Add(CurrentWell.ID, CurrentWell);
         }
       }
       return Wells;
