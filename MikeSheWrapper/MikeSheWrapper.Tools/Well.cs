@@ -8,7 +8,7 @@ namespace MikeSheWrapper.Tools
   /// <summary>
   /// A small class holding typical data to describe a well
   /// </summary>
-  public class Well : IWell
+  public class Well : IWell,IEquatable<IWell>
   {
     protected string _id;
     protected string _description;
@@ -103,6 +103,15 @@ namespace MikeSheWrapper.Tools
     {
       get { return _terrain; }
       set { _terrain = value; }
+    }
+
+    #endregion
+
+    #region IEquatable<IWell> Members
+
+    public bool Equals(IWell other)
+    {
+      return ID.Equals(other.ID);
     }
 
     #endregion

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MikeSheWrapper.Tools
 {
-  public class Intake:IComparable<Intake>,IIntake
+  public class Intake:IComparable<Intake>,IIntake, IEquatable<IIntake>, IEqualityComparer<IIntake>
   {
     private List<double> _screenTop = new List<double>();
     private List<double> _screenBottom = new List<double>();
@@ -116,13 +116,36 @@ namespace MikeSheWrapper.Tools
     #region IComparable<Intake> Members
 
     /// <summary>
-    /// Compares using the ID-number
+    /// Compares using the ID-number 
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
     public int CompareTo(Intake other)
     {
       return IDNumber.CompareTo(other.IDNumber);
+    }
+
+    #endregion
+
+    #region IEquatable<IIntake> Members
+
+    public bool Equals(IIntake other)
+    {
+      return IDNumber.Equals(other.IDNumber) & well.Equals(other.well);
+    }
+
+    #endregion
+
+    #region IEqualityComparer<IIntake> Members
+
+    public bool Equals(IIntake x, IIntake y)
+    {
+      return x.Equals(y);
+    }
+
+    public int GetHashCode(IIntake obj)
+    {
+      return obj.well.GetHashCode() + obj.IDNumber.GetHashCode();
     }
 
     #endregion
