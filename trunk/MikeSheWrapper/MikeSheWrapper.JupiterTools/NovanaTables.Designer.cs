@@ -1250,7 +1250,7 @@ namespace MikeSheWrapper.JupiterTools {
             
             private global::System.Data.DataColumn columnINTSTDATE;
             
-            private global::System.Data.DataColumn columnINTSTENDDATE;
+            private global::System.Data.DataColumn columnINTENDDATE;
             
             private global::System.Data.DataColumn columnMEANINDV;
             
@@ -1431,9 +1431,9 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn INTSTENDDATEColumn {
+            public global::System.Data.DataColumn INTENDDATEColumn {
                 get {
-                    return this.columnINTSTENDDATE;
+                    return this.columnINTENDDATE;
                 }
             }
             
@@ -1609,7 +1609,7 @@ namespace MikeSheWrapper.JupiterTools {
                         string INTPLAID, 
                         string INTUSAGE, 
                         System.DateTime INTSTDATE, 
-                        System.DateTime INTSTENDDATE, 
+                        System.DateTime INTENDDATE, 
                         double MEANINDV, 
                         int NYINDVAAR, 
                         double NYIND, 
@@ -1646,7 +1646,7 @@ namespace MikeSheWrapper.JupiterTools {
                         INTPLAID,
                         INTUSAGE,
                         INTSTDATE,
-                        INTSTENDDATE,
+                        INTENDDATE,
                         MEANINDV,
                         NYINDVAAR,
                         NYIND,
@@ -1706,7 +1706,7 @@ namespace MikeSheWrapper.JupiterTools {
                 this.columnINTPLAID = base.Columns["INTPLAID"];
                 this.columnINTUSAGE = base.Columns["INTUSAGE"];
                 this.columnINTSTDATE = base.Columns["INTSTDATE"];
-                this.columnINTSTENDDATE = base.Columns["INTSTENDDATE"];
+                this.columnINTENDDATE = base.Columns["INTENDDATE"];
                 this.columnMEANINDV = base.Columns["MEANINDV"];
                 this.columnNYINDVAAR = base.Columns["NYINDVAAR"];
                 this.columnNYIND = base.Columns["NYIND"];
@@ -1761,8 +1761,8 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnINTUSAGE);
                 this.columnINTSTDATE = new global::System.Data.DataColumn("INTSTDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnINTSTDATE);
-                this.columnINTSTENDDATE = new global::System.Data.DataColumn("INTSTENDDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnINTSTENDDATE);
+                this.columnINTENDDATE = new global::System.Data.DataColumn("INTENDDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnINTENDDATE);
                 this.columnMEANINDV = new global::System.Data.DataColumn("MEANINDV", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMEANINDV);
                 this.columnNYINDVAAR = new global::System.Data.DataColumn("NYINDVAAR", typeof(int), null, global::System.Data.MappingType.Element);
@@ -3940,17 +3940,17 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.DateTime INTSTENDDATE {
+            public System.DateTime INTENDDATE {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableIndvindinger.INTSTENDDATEColumn]));
+                        return ((global::System.DateTime)(this[this.tableIndvindinger.INTENDDATEColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'INTSTENDDATE\' in table \'Indvindinger\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'INTENDDATE\' in table \'Indvindinger\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableIndvindinger.INTSTENDDATEColumn] = value;
+                    this[this.tableIndvindinger.INTENDDATEColumn] = value;
                 }
             }
             
@@ -4375,13 +4375,13 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsINTSTENDDATENull() {
-                return this.IsNull(this.tableIndvindinger.INTSTENDDATEColumn);
+            public bool IsINTENDDATENull() {
+                return this.IsNull(this.tableIndvindinger.INTENDDATEColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetINTSTENDDATENull() {
-                this[this.tableIndvindinger.INTSTENDDATEColumn] = global::System.Convert.DBNull;
+            public void SetINTENDDATENull() {
+                this[this.tableIndvindinger.INTENDDATEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -117,6 +117,10 @@ namespace MikeSheWrapper.JupiterTools
       WRRCATCHMENTTableAdapter WTA = new WRRCATCHMENTTableAdapter();
       WTA.Connection.ConnectionString = ConnectionString;
       WTA.Fill(WRRCATCHMENT);
+
+      INTAKECATCHMENTTableAdapter ITA = new INTAKECATCHMENTTableAdapter();
+      ITA.Connection.ConnectionString = ConnectionString;
+      ITA.Fill(INTAKECATCHMENT);
     }
   }
 }

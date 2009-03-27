@@ -8,7 +8,7 @@ using MikeSheWrapper.Tools;
 
 namespace MikeSheWrapper.JupiterTools
 {
-  public class JupiterIntake:Intake
+  public class JupiterIntake:Intake,IEquatable<JupiterIntake>, IEqualityComparer<JupiterIntake>
   {
     public DataRow Data { get; set; }
 
@@ -31,5 +31,28 @@ namespace MikeSheWrapper.JupiterTools
         Data = ((JupiterIntake)Intake).Data;
     }
 
+
+    #region IEquatable<JupiterIntake> Members
+
+    public bool Equals(JupiterIntake other)
+    {
+      return base.Equals(other);
+    }
+
+    #endregion
+
+    #region IEqualityComparer<JupiterIntake> Members
+
+    public bool Equals(JupiterIntake x, JupiterIntake y)
+    {
+      return base.Equals(x,y);
+    }
+
+    public int GetHashCode(JupiterIntake obj)
+    {
+      return base.GetHashCode(obj);
+    }
+
+    #endregion
   }
 }
