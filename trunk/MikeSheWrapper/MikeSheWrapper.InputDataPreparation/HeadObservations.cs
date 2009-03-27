@@ -173,7 +173,6 @@ namespace MikeSheWrapper.InputDataPreparation
         //Read in observations if they are included
         if (dt.InclObserved == 1)
         {
-          
           CurrentIntake = CurrentWell.AddNewIntake(1);
 
           if (_tso == null || _tso.Connection.FilePath != dt.TIME_SERIES_FILE.FILE_NAME)
@@ -203,18 +202,21 @@ namespace MikeSheWrapper.InputDataPreparation
     {
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       IWell CurrentWell;
+      IIntake CurrentIntake;
       foreach (DataRow DR in DS)
       {
         //Find the well in the dictionary
         if (!Wells.TryGetValue((string)DR[SRC.WellIDHeader], out CurrentWell))
         {
           //Add a new well if it was not found
-          CurrentWell = new MikeSheWell((string)DR[SRC.WellIDHeader]);
-          CurrentWell.X = (double)DR[SRC.XHeader];
-          CurrentWell.Y = (double)DR[SRC.YHeader];
-          ((MikeSheWell)CurrentWell).Z = (double)DR[SRC.ZHeader];
-          Wells.Add(CurrentWell.ID, CurrentWell);
+          CurrentWell = new Well(DR[SRC.WellIDHeader].ToString());
+          CurrentIntake = CurrentWell.AddNewIntake(1);
         }
+        CurrentWell.X = Convert.ToDouble(DR[SRC.XHeader]);
+        CurrentWell.Y = Convert.ToDouble(DR[SRC.YHeader]);
+        CurrentWell.Intakes.First().ScreenBottom.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
+        CurrentWell.Intakes.First().ScreenTop.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
+        Wells.Add(CurrentWell.ID, CurrentWell);
       }
       return Wells;
     }

@@ -11,6 +11,7 @@ namespace MikeSheWrapper.InputDataPreparation
         public string WellIDHeader { get; set; }
         public string XHeader { get; set; }
         public string YHeader { get; set; }
-        public string ZHeader { get; set; }
+        public string TOPHeader { get; set; }
+        public string BOTTOMHeader { get; set; }
     }
 }
