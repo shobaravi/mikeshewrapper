@@ -3,5 +3,5 @@
   <WellIDHeader>NOVANAID</WellIDHeader>
   <XHeader>XUTM</XHeader>
   <YHeader>YUTM</YHeader>
-  <ZHeader>INTAKMIDK</ZHeader>
+  <TOPHeader>INTAKMIDK</TOPHeader>
 </ShapeReaderConfiguration>

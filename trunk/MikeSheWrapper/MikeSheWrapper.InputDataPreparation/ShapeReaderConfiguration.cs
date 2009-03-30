@@ -9,6 +9,7 @@ namespace MikeSheWrapper.InputDataPreparation
     public class ShapeReaderConfiguration
     {
         public string WellIDHeader { get; set; }
+        public string IntakeNumber { get; set; }
         public string XHeader { get; set; }
         public string YHeader { get; set; }
         public string TOPHeader { get; set; }

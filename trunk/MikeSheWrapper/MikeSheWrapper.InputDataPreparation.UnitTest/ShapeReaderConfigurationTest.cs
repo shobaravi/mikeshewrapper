@@ -21,7 +21,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       SRC.XHeader = "XUTM";
       SRC.YHeader = "YUTM";
       SRC.WellIDHeader = "NOVANAID";
-      SRC.ZHeader = "INTAKMIDK";
+      SRC.TOPHeader = "INTAKMIDK";
 
       XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
       using (FileStream fs = new FileStream(@"..\..\..\ThirdpartyBinaries\Config.xml", FileMode.Create ))
@@ -39,7 +39,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       Assert.AreEqual(SRC.XHeader, SRC2.XHeader);
       Assert.AreEqual(SRC.YHeader, SRC2.YHeader);
       Assert.AreEqual(SRC.WellIDHeader, SRC2.WellIDHeader);
-      Assert.AreEqual(SRC.ZHeader, SRC2.ZHeader);
+      Assert.AreEqual(SRC.TOPHeader, SRC2.TOPHeader);
       
 
     }

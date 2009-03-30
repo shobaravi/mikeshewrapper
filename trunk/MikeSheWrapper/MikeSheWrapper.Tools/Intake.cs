@@ -12,6 +12,8 @@ namespace MikeSheWrapper.Tools
     private List<ObservationEntry> _observations = new List<ObservationEntry>();
     public IWell well {get;protected set;}
     public int IDNumber {get; set;}
+    public DateTime PumpingStart{get;set;}
+    public DateTime PumpingStop { get; set; }
 
     protected Intake()
     { }
