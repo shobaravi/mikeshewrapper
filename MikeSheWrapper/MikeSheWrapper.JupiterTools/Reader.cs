@@ -85,12 +85,10 @@ namespace MikeSheWrapper.JupiterTools
       List<Plant> Plants = new List<Plant>();
       Dictionary<int, Plant> DPlants = new Dictionary<int, Plant>();
 
-
       JXL.ReadExtractions();
 
-
       IWell CurrentWell;
-      IIntake CurrentIntake;
+      IIntake CurrentIntake=null;
       Plant CurrentPlant;
 
       foreach (var Anlaeg in JXL.DRWPLANT)
@@ -112,20 +110,15 @@ namespace MikeSheWrapper.JupiterTools
 
         CurrentPlant.Permit = Anlaeg.PERMITAMOUNT;
 
-        //Loop the intakes
+        //Loop the intakes. Only add intakes from wells already in table
         foreach (var IntakeData in Anlaeg.GetDRWPLANTINTAKERows())
         {
-          if (!Wells.TryGetValue(IntakeData.BOREHOLENO, out CurrentWell))
+          if (Wells.TryGetValue(IntakeData.BOREHOLENO, out CurrentWell))
           {
-            CurrentWell = new Well(IntakeData.BOREHOLENO);
-            Wells.Add(IntakeData.BOREHOLENO, CurrentWell);
+            CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == IntakeData.INTAKENO);
+            if (CurrentIntake != null)
+              CurrentPlant.PumpingIntakes.Add(CurrentIntake);
           }
-
-          CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == IntakeData.INTAKENO);
-          if (CurrentIntake == null)
-            CurrentIntake = CurrentWell.AddNewIntake(IntakeData.INTAKENO);
-
-          CurrentPlant.PumpingIntakes.Add(CurrentIntake);
         }
 
         //Loop the extractions

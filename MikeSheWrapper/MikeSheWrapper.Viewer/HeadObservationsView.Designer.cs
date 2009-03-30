@@ -39,7 +39,7 @@
       this.label3 = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
       this.label5 = new System.Windows.Forms.Label();
-      this.button4 = new System.Windows.Forms.Button();
+      this.buttonMSheObs = new System.Windows.Forms.Button();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.button5 = new System.Windows.Forms.Button();
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -57,9 +57,7 @@
       this.buttonReadMshe = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
       this.ToolTipMSHEbutton = new System.Windows.Forms.ToolTip(this.components);
-      this.label1 = new System.Windows.Forms.Label();
       this.panel1 = new System.Windows.Forms.Panel();
-      this.panel2 = new System.Windows.Forms.Panel();
       this.label2 = new System.Windows.Forms.Label();
       this.panel3 = new System.Windows.Forms.Panel();
       this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -67,11 +65,8 @@
       this.label6 = new System.Windows.Forms.Label();
       this.propertyWells = new System.Windows.Forms.PropertyGrid();
       this.panel4 = new System.Windows.Forms.Panel();
-      this.buttonNovanaExtract = new System.Windows.Forms.Button();
       this.label14 = new System.Windows.Forms.Label();
       this.textBoxPlantCount = new System.Windows.Forms.TextBox();
-      this.panel5 = new System.Windows.Forms.Panel();
-      this.label7 = new System.Windows.Forms.Label();
       this.dateTimeEndExt = new System.Windows.Forms.DateTimePicker();
       this.textBoxMeanYearlyExt = new System.Windows.Forms.TextBox();
       this.dateTimeStartExt = new System.Windows.Forms.DateTimePicker();
@@ -80,12 +75,20 @@
       this.label13 = new System.Windows.Forms.Label();
       this.propertyGridPlants = new System.Windows.Forms.PropertyGrid();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
+      this.buttonNovanaExtract = new System.Windows.Forms.Button();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.groupBox3 = new System.Windows.Forms.GroupBox();
+      this.groupBox4 = new System.Windows.Forms.GroupBox();
+      this.buttonMsheExt = new System.Windows.Forms.Button();
       this.panel1.SuspendLayout();
-      this.panel2.SuspendLayout();
       this.panel3.SuspendLayout();
       this.panel4.SuspendLayout();
-      this.panel5.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
+      this.groupBox1.SuspendLayout();
+      this.groupBox2.SuspendLayout();
+      this.groupBox3.SuspendLayout();
+      this.groupBox4.SuspendLayout();
       this.SuspendLayout();
       // 
       // ButtonReadWells
@@ -101,7 +104,7 @@
       // textBoxWellsNumber
       // 
       this.textBoxWellsNumber.Enabled = false;
-      this.textBoxWellsNumber.Location = new System.Drawing.Point(153, 181);
+      this.textBoxWellsNumber.Location = new System.Drawing.Point(153, 170);
       this.textBoxWellsNumber.Name = "textBoxWellsNumber";
       this.textBoxWellsNumber.Size = new System.Drawing.Size(67, 20);
       this.textBoxWellsNumber.TabIndex = 1;
@@ -113,14 +116,14 @@
       // textBox4
       // 
       this.textBox4.Enabled = false;
-      this.textBox4.Location = new System.Drawing.Point(144, 185);
+      this.textBox4.Location = new System.Drawing.Point(152, 169);
       this.textBox4.Name = "textBox4";
       this.textBox4.Size = new System.Drawing.Size(67, 20);
       this.textBox4.TabIndex = 9;
       // 
       // MinNumber
       // 
-      this.MinNumber.Location = new System.Drawing.Point(127, 108);
+      this.MinNumber.Location = new System.Drawing.Point(130, 95);
       this.MinNumber.Name = "MinNumber";
       this.MinNumber.Size = new System.Drawing.Size(67, 20);
       this.MinNumber.TabIndex = 10;
@@ -129,7 +132,7 @@
       // 
       // dateTimePicker1
       // 
-      this.dateTimePicker1.Location = new System.Drawing.Point(65, 37);
+      this.dateTimePicker1.Location = new System.Drawing.Point(68, 24);
       this.dateTimePicker1.Name = "dateTimePicker1";
       this.dateTimePicker1.Size = new System.Drawing.Size(129, 20);
       this.dateTimePicker1.TabIndex = 12;
@@ -138,7 +141,7 @@
       // 
       // dateTimePicker2
       // 
-      this.dateTimePicker2.Location = new System.Drawing.Point(65, 63);
+      this.dateTimePicker2.Location = new System.Drawing.Point(68, 50);
       this.dateTimePicker2.Name = "dateTimePicker2";
       this.dateTimePicker2.Size = new System.Drawing.Size(129, 20);
       this.dateTimePicker2.TabIndex = 13;
@@ -147,7 +150,7 @@
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(6, 41);
+      this.label3.Location = new System.Drawing.Point(9, 28);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(53, 13);
       this.label3.TabIndex = 14;
@@ -156,7 +159,7 @@
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(6, 67);
+      this.label4.Location = new System.Drawing.Point(9, 54);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(50, 13);
       this.label4.TabIndex = 15;
@@ -165,20 +168,22 @@
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(62, 111);
+      this.label5.Location = new System.Drawing.Point(65, 98);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(62, 13);
       this.label5.TabIndex = 16;
       this.label5.Text = "No. of obs.:";
       // 
-      // button4
+      // buttonMSheObs
       // 
-      this.button4.Location = new System.Drawing.Point(16, 780);
-      this.button4.Name = "button4";
-      this.button4.Size = new System.Drawing.Size(203, 23);
-      this.button4.TabIndex = 18;
-      this.button4.Text = "Create detailed time seriesfiles";
-      this.button4.UseVisualStyleBackColor = true;
+      this.buttonMSheObs.Enabled = false;
+      this.buttonMSheObs.Location = new System.Drawing.Point(17, 77);
+      this.buttonMSheObs.Name = "buttonMSheObs";
+      this.buttonMSheObs.Size = new System.Drawing.Size(169, 23);
+      this.buttonMSheObs.TabIndex = 18;
+      this.buttonMSheObs.Text = "Time series file for MikeShe";
+      this.ToolTipMSHEbutton.SetToolTip(this.buttonMSheObs, "Text and .dfs0 files to create detailed time series output in MikeShe.");
+      this.buttonMSheObs.UseVisualStyleBackColor = true;
       // 
       // button5
       // 
@@ -191,7 +196,7 @@
       // 
       // propertyGrid1
       // 
-      this.propertyGrid1.Location = new System.Drawing.Point(16, 470);
+      this.propertyGrid1.Location = new System.Drawing.Point(16, 456);
       this.propertyGrid1.Name = "propertyGrid1";
       this.propertyGrid1.Size = new System.Drawing.Size(203, 241);
       this.propertyGrid1.TabIndex = 29;
@@ -199,7 +204,7 @@
       // listBoxIntakes
       // 
       this.listBoxIntakes.FormattingEnabled = true;
-      this.listBoxIntakes.Location = new System.Drawing.Point(16, 211);
+      this.listBoxIntakes.Location = new System.Drawing.Point(16, 197);
       this.listBoxIntakes.Name = "listBoxIntakes";
       this.listBoxIntakes.Size = new System.Drawing.Size(203, 251);
       this.listBoxIntakes.TabIndex = 30;
@@ -208,17 +213,17 @@
       // buttonLSFile
       // 
       this.buttonLSFile.Enabled = false;
-      this.buttonLSFile.Location = new System.Drawing.Point(16, 751);
+      this.buttonLSFile.Location = new System.Drawing.Point(17, 48);
       this.buttonLSFile.Name = "buttonLSFile";
-      this.buttonLSFile.Size = new System.Drawing.Size(203, 23);
+      this.buttonLSFile.Size = new System.Drawing.Size(169, 23);
       this.buttonLSFile.TabIndex = 31;
-      this.buttonLSFile.Text = "Create LayerStatistics file";
+      this.buttonLSFile.Text = "LayerStatistics input file";
       this.buttonLSFile.UseVisualStyleBackColor = true;
       // 
       // radioButtonMax
       // 
       this.radioButtonMax.AutoSize = true;
-      this.radioButtonMax.Location = new System.Drawing.Point(9, 94);
+      this.radioButtonMax.Location = new System.Drawing.Point(12, 81);
       this.radioButtonMax.Name = "radioButtonMax";
       this.radioButtonMax.Size = new System.Drawing.Size(45, 17);
       this.radioButtonMax.TabIndex = 32;
@@ -230,7 +235,7 @@
       // 
       this.radioButtonMin.AutoSize = true;
       this.radioButtonMin.Checked = true;
-      this.radioButtonMin.Location = new System.Drawing.Point(9, 117);
+      this.radioButtonMin.Location = new System.Drawing.Point(12, 104);
       this.radioButtonMin.Name = "radioButtonMin";
       this.radioButtonMin.Size = new System.Drawing.Size(42, 17);
       this.radioButtonMin.TabIndex = 33;
@@ -241,18 +246,18 @@
       // buttonNovanaShape
       // 
       this.buttonNovanaShape.Enabled = false;
-      this.buttonNovanaShape.Location = new System.Drawing.Point(16, 721);
+      this.buttonNovanaShape.Location = new System.Drawing.Point(17, 19);
       this.buttonNovanaShape.Name = "buttonNovanaShape";
-      this.buttonNovanaShape.Size = new System.Drawing.Size(203, 23);
+      this.buttonNovanaShape.Size = new System.Drawing.Size(169, 23);
       this.buttonNovanaShape.TabIndex = 34;
-      this.buttonNovanaShape.Text = "Create NOVANA shape file";
+      this.buttonNovanaShape.Text = "NOVANA shape file for ArcMap";
       this.buttonNovanaShape.UseVisualStyleBackColor = true;
       this.buttonNovanaShape.Click += new System.EventHandler(this.WriteNovanaShape);
       // 
       // listBoxAnlaeg
       // 
       this.listBoxAnlaeg.FormattingEnabled = true;
-      this.listBoxAnlaeg.Location = new System.Drawing.Point(14, 209);
+      this.listBoxAnlaeg.Location = new System.Drawing.Point(14, 197);
       this.listBoxAnlaeg.Name = "listBoxAnlaeg";
       this.listBoxAnlaeg.Size = new System.Drawing.Size(203, 251);
       this.listBoxAnlaeg.TabIndex = 35;
@@ -261,7 +266,7 @@
       // listBoxWells
       // 
       this.listBoxWells.FormattingEnabled = true;
-      this.listBoxWells.Location = new System.Drawing.Point(17, 208);
+      this.listBoxWells.Location = new System.Drawing.Point(17, 197);
       this.listBoxWells.Name = "listBoxWells";
       this.listBoxWells.Size = new System.Drawing.Size(203, 251);
       this.listBoxWells.TabIndex = 36;
@@ -318,53 +323,25 @@
       this.button2.UseVisualStyleBackColor = true;
       this.button2.Click += new System.EventHandler(this.button2_Click);
       // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(6, 13);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(170, 13);
-      this.label1.TabIndex = 42;
-      this.label1.Text = "Select on numbers of observations";
-      // 
       // panel1
       // 
       this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.panel1.Controls.Add(this.panel2);
+      this.panel1.Controls.Add(this.groupBox4);
+      this.panel1.Controls.Add(this.groupBox3);
       this.panel1.Controls.Add(this.label2);
       this.panel1.Controls.Add(this.listBoxIntakes);
       this.panel1.Controls.Add(this.label11);
       this.panel1.Controls.Add(this.propertyGrid1);
-      this.panel1.Controls.Add(this.buttonLSFile);
-      this.panel1.Controls.Add(this.button4);
-      this.panel1.Controls.Add(this.buttonNovanaShape);
       this.panel1.Controls.Add(this.textBox4);
       this.panel1.Location = new System.Drawing.Point(687, 21);
       this.panel1.Name = "panel1";
       this.panel1.Size = new System.Drawing.Size(236, 817);
       this.panel1.TabIndex = 43;
       // 
-      // panel2
-      // 
-      this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.panel2.Controls.Add(this.label1);
-      this.panel2.Controls.Add(this.dateTimePicker2);
-      this.panel2.Controls.Add(this.MinNumber);
-      this.panel2.Controls.Add(this.dateTimePicker1);
-      this.panel2.Controls.Add(this.label3);
-      this.panel2.Controls.Add(this.label4);
-      this.panel2.Controls.Add(this.radioButtonMin);
-      this.panel2.Controls.Add(this.label5);
-      this.panel2.Controls.Add(this.radioButtonMax);
-      this.panel2.Location = new System.Drawing.Point(16, 32);
-      this.panel2.Name = "panel2";
-      this.panel2.Size = new System.Drawing.Size(203, 142);
-      this.panel2.TabIndex = 44;
-      // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(13, 188);
+      this.label2.Location = new System.Drawing.Point(13, 174);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(38, 13);
       this.label2.TabIndex = 43;
@@ -390,7 +367,7 @@
       // 
       this.radioButton2.AutoSize = true;
       this.radioButton2.Enabled = false;
-      this.radioButton2.Location = new System.Drawing.Point(17, 150);
+      this.radioButton2.Location = new System.Drawing.Point(17, 136);
       this.radioButton2.Name = "radioButton2";
       this.radioButton2.Size = new System.Drawing.Size(204, 17);
       this.radioButton2.TabIndex = 47;
@@ -401,7 +378,7 @@
       // 
       this.radioButton1.AutoSize = true;
       this.radioButton1.Checked = true;
-      this.radioButton1.Location = new System.Drawing.Point(17, 127);
+      this.radioButton1.Location = new System.Drawing.Point(17, 113);
       this.radioButton1.Name = "radioButton1";
       this.radioButton1.Size = new System.Drawing.Size(91, 17);
       this.radioButton1.TabIndex = 46;
@@ -413,7 +390,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(14, 188);
+      this.label6.Location = new System.Drawing.Point(14, 177);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(38, 13);
       this.label6.TabIndex = 45;
@@ -421,7 +398,7 @@
       // 
       // propertyWells
       // 
-      this.propertyWells.Location = new System.Drawing.Point(17, 470);
+      this.propertyWells.Location = new System.Drawing.Point(17, 459);
       this.propertyWells.Name = "propertyWells";
       this.propertyWells.Size = new System.Drawing.Size(203, 241);
       this.propertyWells.TabIndex = 45;
@@ -429,10 +406,10 @@
       // panel4
       // 
       this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.panel4.Controls.Add(this.buttonNovanaExtract);
+      this.panel4.Controls.Add(this.groupBox2);
+      this.panel4.Controls.Add(this.groupBox1);
       this.panel4.Controls.Add(this.label14);
       this.panel4.Controls.Add(this.textBoxPlantCount);
-      this.panel4.Controls.Add(this.panel5);
       this.panel4.Controls.Add(this.propertyGridPlants);
       this.panel4.Controls.Add(this.label8);
       this.panel4.Controls.Add(this.listBoxAnlaeg);
@@ -441,21 +418,10 @@
       this.panel4.Size = new System.Drawing.Size(236, 817);
       this.panel4.TabIndex = 45;
       // 
-      // buttonNovanaExtract
-      // 
-      this.buttonNovanaExtract.Enabled = false;
-      this.buttonNovanaExtract.Location = new System.Drawing.Point(16, 722);
-      this.buttonNovanaExtract.Name = "buttonNovanaExtract";
-      this.buttonNovanaExtract.Size = new System.Drawing.Size(203, 23);
-      this.buttonNovanaExtract.TabIndex = 45;
-      this.buttonNovanaExtract.Text = "Create NOVANA shape file";
-      this.buttonNovanaExtract.UseVisualStyleBackColor = true;
-      this.buttonNovanaExtract.Click += new System.EventHandler(this.button3_Click);
-      // 
       // label14
       // 
       this.label14.AutoSize = true;
-      this.label14.Location = new System.Drawing.Point(11, 188);
+      this.label14.Location = new System.Drawing.Point(11, 176);
       this.label14.Name = "label14";
       this.label14.Size = new System.Drawing.Size(38, 13);
       this.label14.TabIndex = 47;
@@ -464,38 +430,14 @@
       // textBoxPlantCount
       // 
       this.textBoxPlantCount.Enabled = false;
-      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 181);
+      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 169);
       this.textBoxPlantCount.Name = "textBoxPlantCount";
       this.textBoxPlantCount.Size = new System.Drawing.Size(67, 20);
       this.textBoxPlantCount.TabIndex = 46;
       // 
-      // panel5
-      // 
-      this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.panel5.Controls.Add(this.label7);
-      this.panel5.Controls.Add(this.dateTimeEndExt);
-      this.panel5.Controls.Add(this.textBoxMeanYearlyExt);
-      this.panel5.Controls.Add(this.dateTimeStartExt);
-      this.panel5.Controls.Add(this.label10);
-      this.panel5.Controls.Add(this.label12);
-      this.panel5.Controls.Add(this.label13);
-      this.panel5.Location = new System.Drawing.Point(14, 32);
-      this.panel5.Name = "panel5";
-      this.panel5.Size = new System.Drawing.Size(203, 142);
-      this.panel5.TabIndex = 45;
-      // 
-      // label7
-      // 
-      this.label7.AutoSize = true;
-      this.label7.Location = new System.Drawing.Point(6, 13);
-      this.label7.Name = "label7";
-      this.label7.Size = new System.Drawing.Size(160, 13);
-      this.label7.TabIndex = 42;
-      this.label7.Text = "Select on mean yearly extraction";
-      // 
       // dateTimeEndExt
       // 
-      this.dateTimeEndExt.Location = new System.Drawing.Point(65, 63);
+      this.dateTimeEndExt.Location = new System.Drawing.Point(65, 49);
       this.dateTimeEndExt.Name = "dateTimeEndExt";
       this.dateTimeEndExt.Size = new System.Drawing.Size(129, 20);
       this.dateTimeEndExt.TabIndex = 13;
@@ -503,7 +445,7 @@
       // 
       // textBoxMeanYearlyExt
       // 
-      this.textBoxMeanYearlyExt.Location = new System.Drawing.Point(140, 100);
+      this.textBoxMeanYearlyExt.Location = new System.Drawing.Point(140, 86);
       this.textBoxMeanYearlyExt.Name = "textBoxMeanYearlyExt";
       this.textBoxMeanYearlyExt.Size = new System.Drawing.Size(54, 20);
       this.textBoxMeanYearlyExt.TabIndex = 14;
@@ -512,7 +454,7 @@
       // 
       // dateTimeStartExt
       // 
-      this.dateTimeStartExt.Location = new System.Drawing.Point(65, 37);
+      this.dateTimeStartExt.Location = new System.Drawing.Point(65, 23);
       this.dateTimeStartExt.Name = "dateTimeStartExt";
       this.dateTimeStartExt.Size = new System.Drawing.Size(129, 20);
       this.dateTimeStartExt.TabIndex = 12;
@@ -522,7 +464,7 @@
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(6, 41);
+      this.label10.Location = new System.Drawing.Point(6, 27);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(53, 13);
       this.label10.TabIndex = 14;
@@ -531,7 +473,7 @@
       // label12
       // 
       this.label12.AutoSize = true;
-      this.label12.Location = new System.Drawing.Point(6, 67);
+      this.label12.Location = new System.Drawing.Point(6, 53);
       this.label12.Name = "label12";
       this.label12.Size = new System.Drawing.Size(50, 13);
       this.label12.TabIndex = 15;
@@ -540,7 +482,7 @@
       // label13
       // 
       this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(6, 103);
+      this.label13.Location = new System.Drawing.Point(6, 89);
       this.label13.Name = "label13";
       this.label13.Size = new System.Drawing.Size(128, 13);
       this.label13.TabIndex = 16;
@@ -548,7 +490,7 @@
       // 
       // propertyGridPlants
       // 
-      this.propertyGridPlants.Location = new System.Drawing.Point(14, 470);
+      this.propertyGridPlants.Location = new System.Drawing.Point(14, 458);
       this.propertyGridPlants.Name = "propertyGridPlants";
       this.propertyGridPlants.Size = new System.Drawing.Size(203, 241);
       this.propertyGridPlants.TabIndex = 46;
@@ -556,6 +498,83 @@
       // observationWellBindingSource
       // 
       this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
+      // 
+      // buttonNovanaExtract
+      // 
+      this.buttonNovanaExtract.Enabled = false;
+      this.buttonNovanaExtract.Location = new System.Drawing.Point(16, 19);
+      this.buttonNovanaExtract.Name = "buttonNovanaExtract";
+      this.buttonNovanaExtract.Size = new System.Drawing.Size(169, 23);
+      this.buttonNovanaExtract.TabIndex = 45;
+      this.buttonNovanaExtract.Text = "NOVANA shape file for ArcMap";
+      this.buttonNovanaExtract.UseVisualStyleBackColor = true;
+      this.buttonNovanaExtract.Click += new System.EventHandler(this.button3_Click);
+      // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.buttonMsheExt);
+      this.groupBox1.Controls.Add(this.buttonNovanaExtract);
+      this.groupBox1.Location = new System.Drawing.Point(14, 705);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(203, 98);
+      this.groupBox1.TabIndex = 47;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Create files from extraction data";
+      // 
+      // groupBox2
+      // 
+      this.groupBox2.Controls.Add(this.textBoxMeanYearlyExt);
+      this.groupBox2.Controls.Add(this.dateTimeEndExt);
+      this.groupBox2.Controls.Add(this.label13);
+      this.groupBox2.Controls.Add(this.label12);
+      this.groupBox2.Controls.Add(this.dateTimeStartExt);
+      this.groupBox2.Controls.Add(this.label10);
+      this.groupBox2.Location = new System.Drawing.Point(14, 28);
+      this.groupBox2.Name = "groupBox2";
+      this.groupBox2.Size = new System.Drawing.Size(203, 135);
+      this.groupBox2.TabIndex = 48;
+      this.groupBox2.TabStop = false;
+      this.groupBox2.Text = "Select on mean yearly extraction";
+      // 
+      // groupBox3
+      // 
+      this.groupBox3.Controls.Add(this.MinNumber);
+      this.groupBox3.Controls.Add(this.dateTimePicker2);
+      this.groupBox3.Controls.Add(this.radioButtonMax);
+      this.groupBox3.Controls.Add(this.label5);
+      this.groupBox3.Controls.Add(this.dateTimePicker1);
+      this.groupBox3.Controls.Add(this.radioButtonMin);
+      this.groupBox3.Controls.Add(this.label3);
+      this.groupBox3.Controls.Add(this.label4);
+      this.groupBox3.Location = new System.Drawing.Point(16, 28);
+      this.groupBox3.Name = "groupBox3";
+      this.groupBox3.Size = new System.Drawing.Size(203, 135);
+      this.groupBox3.TabIndex = 48;
+      this.groupBox3.TabStop = false;
+      this.groupBox3.Text = "Select on numbers of observations";
+      // 
+      // groupBox4
+      // 
+      this.groupBox4.Controls.Add(this.buttonNovanaShape);
+      this.groupBox4.Controls.Add(this.buttonLSFile);
+      this.groupBox4.Controls.Add(this.buttonMSheObs);
+      this.groupBox4.Location = new System.Drawing.Point(16, 703);
+      this.groupBox4.Name = "groupBox4";
+      this.groupBox4.Size = new System.Drawing.Size(203, 107);
+      this.groupBox4.TabIndex = 49;
+      this.groupBox4.TabStop = false;
+      this.groupBox4.Text = "Create files from observation data";
+      // 
+      // buttonMsheExt
+      // 
+      this.buttonMsheExt.Enabled = false;
+      this.buttonMsheExt.Location = new System.Drawing.Point(16, 46);
+      this.buttonMsheExt.Name = "buttonMsheExt";
+      this.buttonMsheExt.Size = new System.Drawing.Size(169, 23);
+      this.buttonMsheExt.TabIndex = 46;
+      this.buttonMsheExt.Text = "Extraction files for MikeShe";
+      this.buttonMsheExt.UseVisualStyleBackColor = true;
+      this.buttonMsheExt.Click += new System.EventHandler(this.buttonMsheExt_Click);
       // 
       // HeadObservationsView
       // 
@@ -572,15 +591,17 @@
       this.Text = "Wells and observations";
       this.panel1.ResumeLayout(false);
       this.panel1.PerformLayout();
-      this.panel2.ResumeLayout(false);
-      this.panel2.PerformLayout();
       this.panel3.ResumeLayout(false);
       this.panel3.PerformLayout();
       this.panel4.ResumeLayout(false);
       this.panel4.PerformLayout();
-      this.panel5.ResumeLayout(false);
-      this.panel5.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
+      this.groupBox1.ResumeLayout(false);
+      this.groupBox2.ResumeLayout(false);
+      this.groupBox2.PerformLayout();
+      this.groupBox3.ResumeLayout(false);
+      this.groupBox3.PerformLayout();
+      this.groupBox4.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -597,7 +618,7 @@
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.Label label4;
     private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.Button button4;
+    private System.Windows.Forms.Button buttonMSheObs;
     private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     private System.Windows.Forms.Button button5;
     private System.Windows.Forms.SaveFileDialog saveFileDialog1;
@@ -616,16 +637,12 @@
     private System.Windows.Forms.Button buttonReadMshe;
     private System.Windows.Forms.Button button2;
     private System.Windows.Forms.ToolTip ToolTipMSHEbutton;
-    private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.Panel panel2;
     private System.Windows.Forms.Panel panel3;
     private System.Windows.Forms.PropertyGrid propertyWells;
     private System.Windows.Forms.Panel panel4;
     private System.Windows.Forms.PropertyGrid propertyGridPlants;
-    private System.Windows.Forms.Panel panel5;
-    private System.Windows.Forms.Label label7;
     private System.Windows.Forms.DateTimePicker dateTimeEndExt;
     private System.Windows.Forms.TextBox textBoxMeanYearlyExt;
     private System.Windows.Forms.DateTimePicker dateTimeStartExt;
@@ -635,9 +652,14 @@
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Label label14;
     private System.Windows.Forms.TextBox textBoxPlantCount;
-    private System.Windows.Forms.Button buttonNovanaExtract;
     private System.Windows.Forms.RadioButton radioButton2;
     private System.Windows.Forms.RadioButton radioButton1;
+    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.Button buttonNovanaExtract;
+    private System.Windows.Forms.GroupBox groupBox2;
+    private System.Windows.Forms.GroupBox groupBox3;
+    private System.Windows.Forms.GroupBox groupBox4;
+    private System.Windows.Forms.Button buttonMsheExt;
   }
 }
 

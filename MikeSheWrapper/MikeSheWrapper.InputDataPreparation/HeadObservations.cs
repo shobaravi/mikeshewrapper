@@ -210,12 +210,19 @@ namespace MikeSheWrapper.InputDataPreparation
         {
           //Add a new well if it was not found
           CurrentWell = new Well(DR[SRC.WellIDHeader].ToString());
-          CurrentIntake = CurrentWell.AddNewIntake(1);
         }
+
+        int intakeno = Convert.ToInt32(DR[SRC.IntakeNumber]);
+
+        CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == intakeno);
+        
+        if (CurrentIntake==null)
+          CurrentIntake = CurrentWell.AddNewIntake(intakeno);
+        
         CurrentWell.X = Convert.ToDouble(DR[SRC.XHeader]);
         CurrentWell.Y = Convert.ToDouble(DR[SRC.YHeader]);
-        CurrentWell.Intakes.First().ScreenBottom.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
-        CurrentWell.Intakes.First().ScreenTop.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
+        CurrentIntake.ScreenBottom.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
+        CurrentIntake.ScreenTop.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
         Wells.Add(CurrentWell.ID, CurrentWell);
       }
       return Wells;
@@ -327,6 +334,46 @@ namespace MikeSheWrapper.InputDataPreparation
         }
       }
     }
+
+    public static void WriteExtractionDFS0(string OutputPath, IEnumerable<Plant> Plants, DateTime Start, DateTime End)
+    {
+      //Create the TSObject
+      TSObject _tso = new TSObjectClass();
+      _tso.Connection.FilePath = Path.Combine(OutputPath, "Extraction.dfs0");
+      TSItem _item;
+
+      for (int i = 1; i <= End.Year-Start.Year+2; i++)
+      {
+        _tso.Time.AddTimeSteps(1);
+        _tso.Time.SetTimeForTimeStepNr(i, new DateTime(Start.Year + i - 1, 1, 1, 0, 0, 0));
+      }
+
+      foreach (Plant P in Plants)
+      {
+        _item = new TSItemClass();
+        _item.DataType = ItemDataType.Type_Float;
+        _item.ValueType = ItemValueType.Mean_Step_Accumulated;
+        _item.EumType = 171;
+        _item.EumUnit = 1;
+        _item.Name = P.IDNumber.ToString();
+        _tso.Add(_item);
+
+        for (int i = 1; i <= End.Year - Start.Year + 2; i++)
+        {
+         // _item.SetDataForTimeStepNr(i, P.Extractions.fin
+        }
+        
+
+        foreach (IIntake I in P.PumpingIntakes)
+        {
+
+
+        }
+
+      }
+      _tso.Connection.Save();
+    }
+
   
 
     /// <summary>

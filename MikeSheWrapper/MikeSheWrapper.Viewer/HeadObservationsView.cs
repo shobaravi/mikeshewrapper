@@ -23,6 +23,8 @@ namespace MikeSheWrapper.Viewer
     private List<Plant> Plants;
     private List<IIntake> Intakes;
     private JupiterTools.Reader JupiterReader;
+    private bool WellsFromShape = false;
+
 
     public HeadObservationsView()
     {
@@ -48,7 +50,15 @@ namespace MikeSheWrapper.Viewer
         {
           JupiterReader = new Reader(FileName);
 
-          Wells = JupiterReader.WellsForNovana(jd.ReadLithology, jd.ReadPejlinger, jd.ReadChemistry);
+          if (Wells == null)
+          {
+            Wells = JupiterReader.WellsForNovana(jd.ReadLithology, jd.ReadPejlinger, jd.ReadChemistry);
+          }
+          else
+          {
+            if (jd.ReadPejlinger)
+              JupiterReader.Waterlevels(Wells, false);
+          }
 
           if (jd.ReadExtration)
           {
@@ -58,6 +68,7 @@ namespace MikeSheWrapper.Viewer
           UpdateListsAndListboxes();
           buttonNovanaShape.Enabled = jd.ReadPejlinger;
           buttonLSFile.Enabled = jd.ReadPejlinger;
+          buttonMSheObs.Enabled = jd.ReadPejlinger;
         }
       }
     }
@@ -91,6 +102,7 @@ namespace MikeSheWrapper.Viewer
         radioButton2.Enabled = true;
         textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
         buttonNovanaExtract.Enabled = true;
+        buttonMsheExt.Enabled = true;
       }
     }
 
@@ -111,8 +123,11 @@ namespace MikeSheWrapper.Viewer
 
         PointShapeReader SR = new PointShapeReader(FileName);
 
+        DataTable FullDataSet = SR.Data.Read();
         //Launch a data selector
-        DataSelector DS = new DataSelector(SR.Data.Read());
+        DataSelector DS = new DataSelector(FullDataSet);
+
+        
 
         if (DS.ShowDialog() == DialogResult.OK)
         {
@@ -124,11 +139,27 @@ namespace MikeSheWrapper.Viewer
             using (FileStream fs = new FileStream(config, FileMode.Open))
             {
               ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
-              Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
+              if (CheckColumn(FullDataSet, ShpConfig.WellIDHeader, config))
+                if (CheckColumn(FullDataSet, ShpConfig.XHeader, config))
+                  if (CheckColumn(FullDataSet, ShpConfig.YHeader, config))
+                    if (CheckColumn(FullDataSet, ShpConfig.TOPHeader, config))
+                      if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
+                        Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
             }
           }
         }
+        SR.Dispose();
       }
+    }
+
+    private bool CheckColumn(DataTable DT, string ColumnName, string config)
+    {
+      if (!DT.Columns.Contains(ColumnName))
+      {
+        MessageBox.Show("The column: " + ColumnName + " is not found in the shape file. Check that the column names defined in: " + config + " corresponds to the shape file you are trying to load", "Error loading data from shape file");
+        return false;
+      }
+      return true;
     }
 
 
@@ -360,6 +391,15 @@ namespace MikeSheWrapper.Viewer
         }
         UpdateListsAndListboxes();
       }
+    }
+
+    private void buttonMsheExt_Click(object sender, EventArgs e)
+    {
+      if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+      {
+        HeadObservations.WriteExtractionDFS0(saveFileDialog1.FileName, listBoxAnlaeg.Items.Cast<Plant>(), dateTimeStartExt.Value, dateTimeEndExt.Value);
+      }
+
     }
   }
 }
