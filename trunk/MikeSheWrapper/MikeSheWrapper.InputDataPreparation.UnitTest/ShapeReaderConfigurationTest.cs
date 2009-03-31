@@ -20,18 +20,23 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
       SRC.XHeader = "XUTM";
       SRC.YHeader = "YUTM";
-      SRC.WellIDHeader = "NOVANAID";
+      SRC.WellIDHeader = "BOREHOLE";
+      SRC.IntakeNumber = "INTAKENO";
+      SRC.BOTTOMHeader = "INTAKMIDK";
       SRC.TOPHeader = "INTAKMIDK";
+      SRC.FraAArHeader = "FRAAAR";
+      SRC.TilAArHeader = "TILAAR";
+
 
       XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
-      using (FileStream fs = new FileStream(@"..\..\..\ThirdpartyBinaries\Config.xml", FileMode.Create ))
+      using (FileStream fs = new FileStream(@"..\..\..\ThirdpartyBinaries\ShapeReaderConfig.xml", FileMode.Create ))
       {
         x.Serialize(fs,SRC);
       }
 
       ShapeReaderConfiguration SRC2;
 
-      using (FileStream fs = new FileStream(@"..\..\..\ThirdpartyBinaries\Config.xml", FileMode.Open))
+      using (FileStream fs = new FileStream(@"..\..\..\ThirdpartyBinaries\ShapeReaderConfig.xml", FileMode.Open))
       {
         SRC2 = (ShapeReaderConfiguration)x.Deserialize(fs);
       }

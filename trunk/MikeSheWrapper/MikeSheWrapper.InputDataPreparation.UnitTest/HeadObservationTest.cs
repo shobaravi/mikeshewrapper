@@ -37,6 +37,19 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     }
 
     [Test]
+    public void ReadExtractionsAndWrite()
+    {
+      JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
+      Dictionary<string, IWell> Wells = R.WellsForNovana(false, false, false);
+      var Plants = R.Extraction(Wells).Where(var => var.Extractions.Count>0);
+
+
+
+      HeadObservations.WriteExtractionDFS0(@"..\..\..\TestData\", Plants , new DateTime(2000, 1, 1), new DateTime(2006, 1, 1));
+
+    }
+
+    [Test]
     public void SelectByMikeSheModelAreaTest()
     {
       List<MikeSheWell> Wells = new List<MikeSheWell>();

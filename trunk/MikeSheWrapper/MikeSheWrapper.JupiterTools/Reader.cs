@@ -117,7 +117,19 @@ namespace MikeSheWrapper.JupiterTools
           {
             CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == IntakeData.INTAKENO);
             if (CurrentIntake != null)
+            {
               CurrentPlant.PumpingIntakes.Add(CurrentIntake);
+
+              if (!IntakeData.IsSTARTDATENull())
+                CurrentIntake.PumpingStart = IntakeData.STARTDATE;
+              else
+                CurrentIntake.PumpingStart = DateTime.MinValue;
+
+              if (!IntakeData.IsENDDATENull())
+                CurrentIntake.PumpingStop = IntakeData.ENDDATE;
+              else
+                CurrentIntake.PumpingStop = DateTime.MaxValue;
+            }
           }
         }
 
@@ -140,7 +152,7 @@ namespace MikeSheWrapper.JupiterTools
         if (!IntExt.IsVOLUMENull())
         {
           if (IntExt.ENDDATE.Year != IntExt.STARTDATE.Year)
-            throw new Exception("Volume cover1 period longer than 1 year)");
+            throw new Exception("Volume cover period longer than 1 year)");
 
           TimeSeriesEntry E = P.Extractions.FirstOrDefault(var => var.Time.Year == IntExt.ENDDATE.Year);
           if (E == null)
@@ -149,7 +161,7 @@ namespace MikeSheWrapper.JupiterTools
             E.Value += IntExt.VOLUME;
         }
       }
-
+      
       return DPlants.Values;
     }
 
@@ -437,6 +449,9 @@ namespace MikeSheWrapper.JupiterTools
 
     public Dictionary<string, IWell> WellsForNovana(bool Lithology, bool WaterLevel, bool Chemistry)
     {
+      string[] ExtractionPurpose = new string[]{"C","G","V","VA","VD","VH","VI","VM","VP","VV"};
+      string[] ExtractionUse = new string[]{"C","G","V","VA","VD","VH","VI","VM","VP","VV"};
+
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
       JXL.ReadWells(false);
@@ -468,6 +483,11 @@ namespace MikeSheWrapper.JupiterTools
 
           CurrentWell.Description = Boring.LOCATION;
           CurrentWell.Terrain = Boring.ELEVATION;
+
+          CurrentWell.UsedForExtraction = ExtractionPurpose.Contains(Boring.PURPOSE.ToUpper());
+          if (ExtractionUse.Contains(Boring.USE.ToUpper()))
+            CurrentWell.UsedForExtraction = true;
+
 
           //Loop the lithology
           foreach (var Lith in Boring.GetLITHSAMPRows())
@@ -506,8 +526,7 @@ namespace MikeSheWrapper.JupiterTools
           {
               CurrentIntake.ScreenTop.Add(Screen.TOP);
               CurrentIntake.ScreenBottom.Add(Screen.BOTTOM);
-          }//Screen loop
-
+          }//Screen loop       
 
           //Read in the water levels
           foreach (var WatLev in Intake.GetWATLEVELRows())

@@ -135,7 +135,7 @@ namespace MikeSheWrapper.Viewer
           {
             XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
             string InstallationPath = Path.GetDirectoryName(this.GetType().Assembly.Location);
-            string config = Path.Combine(InstallationPath, "config.xml");
+            string config = Path.Combine(InstallationPath, "ShapeReaderConfig.xml");
             using (FileStream fs = new FileStream(config, FileMode.Open))
             {
               ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
