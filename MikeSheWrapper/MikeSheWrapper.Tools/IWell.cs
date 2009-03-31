@@ -11,6 +11,7 @@ namespace MikeSheWrapper.Tools
     string ToString();
     double X { get; set; }
     double Y { get; set; }
+    bool UsedForExtraction { get; set; }
     IEnumerable<IIntake> Intakes { get; }
     IIntake AddNewIntake(int IDNumber);
   }

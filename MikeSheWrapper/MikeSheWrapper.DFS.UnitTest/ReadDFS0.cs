@@ -16,7 +16,7 @@ namespace MikeSheWrapper.DFS.UnitTest
     public void ReadEUM()
     {
       TSObject tso = new TSObjectClass();
-      tso.Connection.FilePath = @"..\..\..\TestData\1.102_1.dfs0";
+      tso.Connection.FilePath = @"..\..\..\TestData\Pumping Well Timeseries File.dfs0";
       tso.Connection.Open();
 
       int eumItem = tso.Item(1).EumType;

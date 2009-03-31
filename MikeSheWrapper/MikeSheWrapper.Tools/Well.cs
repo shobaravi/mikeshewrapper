@@ -16,6 +16,9 @@ namespace MikeSheWrapper.Tools
     protected double _y;
     protected double _terrain;
 
+    public double Depth { get; set; }
+    public bool UsedForExtraction { get; set; }
+
     public IEnumerable<IIntake> Intakes
     {
       get

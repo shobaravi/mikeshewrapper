@@ -210,6 +210,7 @@ namespace MikeSheWrapper.InputDataPreparation
         {
           //Add a new well if it was not found
           CurrentWell = new Well(DR[SRC.WellIDHeader].ToString());
+          CurrentWell.UsedForExtraction = true;
         }
 
         int intakeno = Convert.ToInt32(DR[SRC.IntakeNumber]);
@@ -223,6 +224,8 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentWell.Y = Convert.ToDouble(DR[SRC.YHeader]);
         CurrentIntake.ScreenBottom.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
         CurrentIntake.ScreenTop.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
+        CurrentIntake.PumpingStart = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
+        CurrentIntake.PumpingStop = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 1, 1);
         Wells.Add(CurrentWell.ID, CurrentWell);
       }
       return Wells;
@@ -337,41 +340,96 @@ namespace MikeSheWrapper.InputDataPreparation
 
     public static void WriteExtractionDFS0(string OutputPath, IEnumerable<Plant> Plants, DateTime Start, DateTime End)
     {
+
+      //Create the text file to the well editor.
+      StreamWriter Sw = new StreamWriter(Path.Combine(OutputPath, "WellEditorImport.txt"), false, Encoding.Default);
+      StreamWriter Sw2 = new StreamWriter(Path.Combine(OutputPath, "WellsWithMissingInfo.txt"), false, Encoding.Default);
+
       //Create the TSObject
       TSObject _tso = new TSObjectClass();
-      _tso.Connection.FilePath = Path.Combine(OutputPath, "Extraction.dfs0");
+      string dfs0FileName =Path.Combine(OutputPath, "Extraction.dfs0");
+      _tso.Connection.FilePath = dfs0FileName;
       TSItem _item;
 
-      for (int i = 1; i <= End.Year-Start.Year+2; i++)
+      int NumberOfYears = End.Year - Start.Year + 1;
+      for (int i = 0; i < NumberOfYears; i++)
       {
         _tso.Time.AddTimeSteps(1);
-        _tso.Time.SetTimeForTimeStepNr(i, new DateTime(Start.Year + i - 1, 1, 1, 0, 0, 0));
+        _tso.Time.SetTimeForTimeStepNr(i+1, new DateTime(Start.Year + i, 1, 1, 0, 0, 0));
       }
 
+      int itemCount = 1;
+
+      double[] fractions = new double[NumberOfYears];
+
+      //loop the plants
       foreach (Plant P in Plants)
       {
-        _item = new TSItemClass();
-        _item.DataType = ItemDataType.Type_Float;
-        _item.ValueType = ItemValueType.Mean_Step_Accumulated;
-        _item.EumType = 171;
-        _item.EumUnit = 1;
-        _item.Name = P.IDNumber.ToString();
-        _tso.Add(_item);
 
-        for (int i = 1; i <= End.Year - Start.Year + 2; i++)
+        //Calculate the fractions based on how many intakes are active for a particular year.
+        for (int i = 0; i < NumberOfYears; i++)
         {
-         // _item.SetDataForTimeStepNr(i, P.Extractions.fin
+          fractions[i] = 1.0 / P.PumpingIntakes.Count(var => var.well.UsedForExtraction & var.PumpingStart.Year <= Start.Year+ i & var.PumpingStop.Year>= Start.Year+i); 
         }
-        
 
+        //Now loop the intakes
         foreach (IIntake I in P.PumpingIntakes)
         {
+          //Is it an extraction well?
+          if (I.well.UsedForExtraction)
+          {
+            //If there is no screen information we cannot use it. 
+            if (I.ScreenBottom.Count == 0 || I.ScreenTop.Count == 0)
+              Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
+            else
+            {
+              //Build novanaid
+              string NovanaID = P.IDNumber.ToString() + "_" + I.well.ID.Replace(" ", "") + "_" + I.IDNumber;
+              //Build and add new item
+              _item = new TSItemClass();
+              _item.DataType = ItemDataType.Type_Float;
+              _item.ValueType = ItemValueType.Mean_Step_Accumulated;
+              _item.EumType = 328;
+              _item.EumUnit = 3;
+              _item.Name = NovanaID;
+              _tso.Add(_item);
 
+              //Loop the years
+              for (int i = 0; i < NumberOfYears; i++)
+              {
+                //Extractions are not necessarily sorted and the time series may have missing data
+                int k = P.Extractions.FindIndex(var => var.Time.Year == Start.Year+i);
 
+                //If data and the intake is active
+                if (k >= 0 & I.PumpingStart.Year <= Start.Year + i & I.PumpingStop.Year >= Start.Year + i)
+                  _item.SetDataForTimeStepNr(i + 1, (float)(P.Extractions[k].Value*fractions[i]));
+                else 
+                  _item.SetDataForTimeStepNr(i + 1, 0F); //Prints 0 if no data available
+              }
+
+              //Now add line to text file.
+              StringBuilder Line = new StringBuilder();
+              Line.Append(NovanaID + "\t");
+              Line.Append(I.well.X + "\t");
+              Line.Append(I.well.Y + "\t");
+              Line.Append(I.well.Terrain + "\t");
+              Line.Append((I.ScreenBottom.Min()) + "\t");
+              Line.Append(P.IDNumber + "\t");
+              Line.Append(I.well.Terrain - I.ScreenTop.Min() + "\t");
+              Line.Append(I.well.Terrain - I.ScreenBottom.Max() + "\t");
+              Line.Append(1 + "\t");
+              Line.Append(dfs0FileName +"\t");
+              Line.Append(itemCount);
+              Sw.WriteLine(Line.ToString());
+
+              itemCount++;
+            }
+          }
         }
-
       }
       _tso.Connection.Save();
+      Sw.Dispose();
+      Sw2.Dispose();
     }
 
   
