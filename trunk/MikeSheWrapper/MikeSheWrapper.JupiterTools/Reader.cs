@@ -260,6 +260,9 @@ namespace MikeSheWrapper.JupiterTools
       CurrentRow.ABANDCAUSE = BoringsData.ABANDCAUSE;
       CurrentRow.DRILLDEPTH = BoringsData.DRILLDEPTH;
 
+
+      CurrentRow.CASIBOT = -999;
+
       //Assumes that the string no from the intake identifies the correct Casing
       foreach (var Casing in BoringsData.GetCASINGRows())
       {
@@ -272,9 +275,23 @@ namespace MikeSheWrapper.JupiterTools
       CurrentRow.USE = BoringsData.USE;
       if (CurrentIntake.ScreenTop.Count > 0)
         CurrentRow.INTAKETOP = CurrentIntake.ScreenTop.Min();
+      else
+        CurrentRow.INTAKETOP = -999;
       if (CurrentIntake.ScreenBottom.Count > 0)
         CurrentRow.INTAKEBOT = CurrentIntake.ScreenBottom.Max();
+      else
+        CurrentRow.INTAKEBOT = -999;
 
+      CurrentRow.INTAKTOPK = -999;
+      CurrentRow.INTAKBOTK = -999;
+
+      if (CurrentRow.JUPKOTE != -999)
+      {
+        if (CurrentRow.INTAKETOP != -999)
+          CurrentRow.INTAKTOPK = CurrentRow.JUPKOTE - CurrentRow.INTAKETOP;
+        if (CurrentRow.INTAKEBOT != -999)
+          CurrentRow.INTAKBOTK = CurrentRow.JUPKOTE - CurrentRow.INTAKBOTK;
+      }
       //Takes the minimum of all non-null dates
       IEnumerable<JupiterXL.SCREENRow> NonNullList = IntakeData.GetSCREENRows().Where(x => !x.IsSTARTDATENull());
       if (NonNullList.Count() > 0)
