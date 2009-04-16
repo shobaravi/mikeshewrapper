@@ -325,10 +325,19 @@ namespace MikeSheWrapper.JupiterTools
       if (JXL.ReducedRead)
         JXL.ReadWells(false);
 
+      List<JupiterXL.DRWPLANTRow> SubPlants = new List<JupiterXL.DRWPLANTRow>();
+
       //Loop the plants
       foreach (Plant P in Plants)
       {
         var anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
+
+        if (!anlaeg.IsSUPPLANTNull())
+          SubPlants.Add(anlaeg);
+
+        var SelectecExtrations = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate);
+        var FirstEntryWithValue = P.Extractions.Find(var => var.Value > 0);
+
         //Loop the wells
         foreach (IWell IW in P.PumpingWells)
         {
@@ -364,6 +373,7 @@ namespace MikeSheWrapper.JupiterTools
               CurrentRow.ATYP = anlaeg.PLANTTYPE;
               CurrentRow.ANR = anlaeg.SERIALNO;
               CurrentRow.UNR = anlaeg.SUBNO;
+              CurrentRow.ANTUNDERA = 0;
 
               if (anlaeg.IsXUTMNull())
                 CurrentRow.ANLUTMX = 0;
@@ -378,11 +388,20 @@ namespace MikeSheWrapper.JupiterTools
               CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
               CurrentRow.ACTIVE = anlaeg.ACTIVE;
 
+              if (!anlaeg.IsSUPPLANTNull())
+                CurrentRow.OVERANL = anlaeg.SUPPLANT;
+
               if (P.Extractions.Count > 0)
               {
-                CurrentRow.MEANINDV = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate).Average(var => var.Value);
-                CurrentRow.NYINDVAAR = P.Extractions.Find(var => var.Value > 0).Time.Year;
-                CurrentRow.NYIND = P.Extractions.Find(var => var.Value > 0).Value;
+                if (SelectecExtrations.Count() > 0)
+                {
+                  CurrentRow.MEANINDV = SelectecExtrations.Average(var => var.Value);
+                  if (FirstEntryWithValue != null)
+                  {
+                    CurrentRow.NYINDVAAR = FirstEntryWithValue.Time.Year;
+                    CurrentRow.NYIND = FirstEntryWithValue.Value;
+                  }
+                }
               }
               CurrentRow.ANTINT_A = P.PumpingIntakes.Count;
               CurrentRow.ANTBOR_A = P.PumpingWells.Count;
@@ -392,7 +411,7 @@ namespace MikeSheWrapper.JupiterTools
               var plantintake = anlaeg.GetDRWPLANTINTAKERows().FirstOrDefault(var => var.BOREHOLENO == Jw.ID & var.INTAKENO == I.IDNumber);
               NovanaTables.IntakeCommonRow TIC = CurrentIntake.Data as NovanaTables.IntakeCommonRow;
 
-              CurrentRow.FRAAAR = StartDate.Year;
+              CurrentRow.FRAAAR = int.MinValue;
               if (!plantintake.IsSTARTDATENull())
               {
                 CurrentRow.INTSTDATE = plantintake.STARTDATE;
@@ -404,7 +423,10 @@ namespace MikeSheWrapper.JupiterTools
               if (!TIC.IsINTSTDATE2Null())
                 CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, TIC.INTSTDATE2.Year);
 
-              CurrentRow.TILAAR = EndDate.Year;
+              if (CurrentRow.FRAAAR==int.MinValue)
+                CurrentRow.FRAAAR = -999;
+
+              CurrentRow.TILAAR = int.MaxValue;
               if (!plantintake.IsENDDATENull())
               {
                 CurrentRow.INTENDDATE = plantintake.ENDDATE;
@@ -415,13 +437,32 @@ namespace MikeSheWrapper.JupiterTools
               if (!TIC.IsINTENDATE2Null())
                 CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, TIC.INTENDATE2.Year);
 
+              if (CurrentRow.TILAAR == int.MaxValue)
+                CurrentRow.TILAAR = -999;
+
               DT1.Rows.Add(CurrentRow);
               _intakes.Add(CurrentIntake);
             }
           }
         }
       }
+
       DT2.Merge(DT1);
+
+      //Now loop the supplants
+      foreach (var P in SubPlants)
+      {
+        Plant SuperPlant = Plants.FirstOrDefault(var => var.IDNumber == P.SUPPLANT);
+        if (SuperPlant != null)
+        {
+          foreach (JupiterIntake J in SuperPlant.PumpingIntakes)
+          {
+           // J.Data["ANTUNDERA"] = (int)J.Data["ANTUNDERA"] + 1;
+          }
+        }
+      }
+
+
       return _intakes;
     }
 
