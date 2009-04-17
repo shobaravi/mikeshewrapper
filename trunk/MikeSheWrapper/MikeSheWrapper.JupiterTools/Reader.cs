@@ -91,6 +91,9 @@ namespace MikeSheWrapper.JupiterTools
       IIntake CurrentIntake=null;
       Plant CurrentPlant;
 
+      List<Plant> SubPlants = new List<Plant>();
+
+
       foreach (var Anlaeg in JXL.DRWPLANT)
       {
         CurrentPlant = new Plant(Anlaeg.PLANTID);
@@ -109,6 +112,9 @@ namespace MikeSheWrapper.JupiterTools
           CurrentPlant.PermitExpiryDate = Anlaeg.PERMITEXPIREDATE;
 
         CurrentPlant.Permit = Anlaeg.PERMITAMOUNT;
+
+        if (!Anlaeg.IsSUPPLANTNull())
+          SubPlants.Add(CurrentPlant);
 
         //Loop the intakes. Only add intakes from wells already in table
         foreach (var IntakeData in Anlaeg.GetDRWPLANTINTAKERows())
@@ -162,6 +168,14 @@ namespace MikeSheWrapper.JupiterTools
         }
       }
       
+      //Now attach the subplants
+      foreach (Plant P in SubPlants)
+      {
+        Plant Upper;
+        if(DPlants.TryGetValue(P.IDNumber, out Upper))
+          Upper.SubPlants.Add(P);
+      }
+
       return DPlants.Values;
     }
 
@@ -325,15 +339,12 @@ namespace MikeSheWrapper.JupiterTools
       if (JXL.ReducedRead)
         JXL.ReadWells(false);
 
-      List<JupiterXL.DRWPLANTRow> SubPlants = new List<JupiterXL.DRWPLANTRow>();
 
       //Loop the plants
       foreach (Plant P in Plants)
       {
         var anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
 
-        if (!anlaeg.IsSUPPLANTNull())
-          SubPlants.Add(anlaeg);
 
         var SelectecExtrations = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate);
         var FirstEntryWithValue = P.Extractions.Find(var => var.Value > 0);
@@ -373,7 +384,7 @@ namespace MikeSheWrapper.JupiterTools
               CurrentRow.ATYP = anlaeg.PLANTTYPE;
               CurrentRow.ANR = anlaeg.SERIALNO;
               CurrentRow.UNR = anlaeg.SUBNO;
-              CurrentRow.ANTUNDERA = 0;
+              CurrentRow.ANTUNDERA = P.SubPlants.Count;
 
               if (anlaeg.IsXUTMNull())
                 CurrentRow.ANLUTMX = 0;
@@ -448,20 +459,6 @@ namespace MikeSheWrapper.JupiterTools
       }
 
       DT2.Merge(DT1);
-
-      //Now loop the supplants
-      foreach (var P in SubPlants)
-      {
-        Plant SuperPlant = Plants.FirstOrDefault(var => var.IDNumber == P.SUPPLANT);
-        if (SuperPlant != null)
-        {
-          foreach (JupiterIntake J in SuperPlant.PumpingIntakes)
-          {
-           // J.Data["ANTUNDERA"] = (int)J.Data["ANTUNDERA"] + 1;
-          }
-        }
-      }
-
 
       return _intakes;
     }

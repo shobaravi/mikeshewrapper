@@ -47,6 +47,8 @@ namespace MikeSheWrapper.JupiterTools
       }
     }
 
+    public List<Plant> SubPlants { get; private set; }
+
     /// <summary>
     /// The name of the plant
     /// </summary>
@@ -84,6 +86,7 @@ namespace MikeSheWrapper.JupiterTools
       Extractions = new List<TimeSeriesEntry>();
       PumpingIntakes = new List<IIntake>();
       SurfaceWaterExtrations = new List<TimeSeriesEntry>();
+      SubPlants = new List<Plant>();
       this.IDNumber = IDNumber;
     }
 
