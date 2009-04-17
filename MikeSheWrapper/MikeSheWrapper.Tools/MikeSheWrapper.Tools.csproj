@@ -73,6 +73,7 @@
     <Compile Include="PointShapeReader.cs" />
     <Compile Include="DBF.cs" />
     <Compile Include="TimeSeriesEntry.cs" />
+    <Compile Include="Tuple.cs" />
     <Compile Include="Well.cs" />
   </ItemGroup>
   <ItemGroup>
