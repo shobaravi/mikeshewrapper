@@ -91,7 +91,7 @@ namespace MikeSheWrapper.JupiterTools
       IIntake CurrentIntake=null;
       Plant CurrentPlant;
 
-      List<Plant> SubPlants = new List<Plant>();
+      List<Tuple<int, Plant>> SubPlants = new List<Tuple<int, Plant>>();
 
 
       foreach (var Anlaeg in JXL.DRWPLANT)
@@ -114,7 +114,7 @@ namespace MikeSheWrapper.JupiterTools
         CurrentPlant.Permit = Anlaeg.PERMITAMOUNT;
 
         if (!Anlaeg.IsSUPPLANTNull())
-          SubPlants.Add(CurrentPlant);
+          SubPlants.Add(new Tuple<int, Plant>(Anlaeg.SUPPLANT, CurrentPlant));
 
         //Loop the intakes. Only add intakes from wells already in table
         foreach (var IntakeData in Anlaeg.GetDRWPLANTINTAKERows())
@@ -169,11 +169,11 @@ namespace MikeSheWrapper.JupiterTools
       }
       
       //Now attach the subplants
-      foreach (Plant P in SubPlants)
+      foreach (Tuple<int, Plant> KVP in SubPlants)
       {
         Plant Upper;
-        if(DPlants.TryGetValue(P.IDNumber, out Upper))
-          Upper.SubPlants.Add(P);
+        if(DPlants.TryGetValue(KVP.First, out Upper))
+          Upper.SubPlants.Add(KVP.Second);
       }
 
       return DPlants.Values;
@@ -276,6 +276,8 @@ namespace MikeSheWrapper.JupiterTools
 
 
       CurrentRow.CASIBOT = -999;
+      CurrentRow.JUPDTMK = -999;
+      CurrentRow.EC0 = 0;
 
       //Assumes that the string no from the intake identifies the correct Casing
       foreach (var Casing in BoringsData.GetCASINGRows())
@@ -304,7 +306,7 @@ namespace MikeSheWrapper.JupiterTools
         if (CurrentRow.INTAKETOP != -999)
           CurrentRow.INTAKTOPK = CurrentRow.JUPKOTE - CurrentRow.INTAKETOP;
         if (CurrentRow.INTAKEBOT != -999)
-          CurrentRow.INTAKBOTK = CurrentRow.JUPKOTE - CurrentRow.INTAKBOTK;
+          CurrentRow.INTAKBOTK = CurrentRow.JUPKOTE - CurrentRow.INTAKEBOT;
       }
       //Takes the minimum of all non-null dates
       IEnumerable<JupiterXL.SCREENRow> NonNullList = IntakeData.GetSCREENRows().Where(x => !x.IsSTARTDATENull());

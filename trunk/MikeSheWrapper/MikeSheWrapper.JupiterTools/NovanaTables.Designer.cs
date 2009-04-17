@@ -422,6 +422,10 @@ namespace MikeSheWrapper.JupiterTools {
             
             private global::System.Data.DataColumn columnMC_LAYKOM;
             
+            private global::System.Data.DataColumn columnEC0;
+            
+            private global::System.Data.DataColumn columnJUPDTMK;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public IntakeCommonDataTable() {
                 this.TableName = "IntakeCommon";
@@ -789,6 +793,20 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn EC0Column {
+                get {
+                    return this.columnEC0;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn JUPDTMKColumn {
+                get {
+                    return this.columnJUPDTMK;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -865,7 +883,9 @@ namespace MikeSheWrapper.JupiterTools {
                         int FRASORT, 
                         int BERELAG, 
                         int MC_LAYJUST, 
-                        string MC_LAYKOM) {
+                        string MC_LAYKOM, 
+                        int EC0, 
+                        double JUPDTMK) {
                 IntakeCommonRow rowIntakeCommonRow = ((IntakeCommonRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         NOVANAID,
@@ -915,7 +935,9 @@ namespace MikeSheWrapper.JupiterTools {
                         FRASORT,
                         BERELAG,
                         MC_LAYJUST,
-                        MC_LAYKOM};
+                        MC_LAYKOM,
+                        EC0,
+                        JUPDTMK};
                 rowIntakeCommonRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowIntakeCommonRow);
                 return rowIntakeCommonRow;
@@ -989,6 +1011,8 @@ namespace MikeSheWrapper.JupiterTools {
                 this.columnBERELAG = base.Columns["BERELAG"];
                 this.columnMC_LAYJUST = base.Columns["MC_LAYJUST"];
                 this.columnMC_LAYKOM = base.Columns["MC_LAYKOM"];
+                this.columnEC0 = base.Columns["EC0"];
+                this.columnJUPDTMK = base.Columns["JUPDTMK"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1089,6 +1113,10 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnMC_LAYJUST);
                 this.columnMC_LAYKOM = new global::System.Data.DataColumn("MC_LAYKOM", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMC_LAYKOM);
+                this.columnEC0 = new global::System.Data.DataColumn("EC0", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEC0);
+                this.columnJUPDTMK = new global::System.Data.DataColumn("JUPDTMK", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnJUPDTMK);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnNOVANAID}, true));
                 this.columnNOVANAID.AllowDBNull = false;
@@ -1270,7 +1298,7 @@ namespace MikeSheWrapper.JupiterTools {
             
             private global::System.Data.DataColumn columnOmrID;
             
-            private global::System.Data.DataColumn columnQC_TOPDK;
+            private global::System.Data.DataColumn columnQC_TOPK;
             
             private global::System.Data.DataColumn columnQC_BOTK;
             
@@ -1505,9 +1533,9 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn QC_TOPDKColumn {
+            public global::System.Data.DataColumn QC_TOPKColumn {
                 get {
-                    return this.columnQC_TOPDK;
+                    return this.columnQC_TOPK;
                 }
             }
             
@@ -1637,7 +1665,7 @@ namespace MikeSheWrapper.JupiterTools {
                         int FRAAAR, 
                         int TILAAR, 
                         string OmrID, 
-                        double QC_TOPDK, 
+                        double QC_TOPK, 
                         double QC_BOTK, 
                         string QC, 
                         string QC_KOMMENT, 
@@ -1676,7 +1704,7 @@ namespace MikeSheWrapper.JupiterTools {
                         FRAAAR,
                         TILAAR,
                         OmrID,
-                        QC_TOPDK,
+                        QC_TOPK,
                         QC_BOTK,
                         QC,
                         QC_KOMMENT,
@@ -1738,7 +1766,7 @@ namespace MikeSheWrapper.JupiterTools {
                 this.columnFRAAAR = base.Columns["FRAAAR"];
                 this.columnTILAAR = base.Columns["TILAAR"];
                 this.columnOmrID = base.Columns["OmrID"];
-                this.columnQC_TOPDK = base.Columns["QC_TOPDK"];
+                this.columnQC_TOPK = base.Columns["QC_TOPK"];
                 this.columnQC_BOTK = base.Columns["QC_BOTK"];
                 this.columnQC = base.Columns["QC"];
                 this.columnQC_KOMMENT = base.Columns["QC_KOMMENT"];
@@ -1805,8 +1833,8 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnTILAAR);
                 this.columnOmrID = new global::System.Data.DataColumn("OmrID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOmrID);
-                this.columnQC_TOPDK = new global::System.Data.DataColumn("QC_TOPDK", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnQC_TOPDK);
+                this.columnQC_TOPK = new global::System.Data.DataColumn("QC_TOPK", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQC_TOPK);
                 this.columnQC_BOTK = new global::System.Data.DataColumn("QC_BOTK", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQC_BOTK);
                 this.columnQC = new global::System.Data.DataColumn("QC", typeof(string), null, global::System.Data.MappingType.Element);
@@ -3248,6 +3276,36 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int EC0 {
+                get {
+                    try {
+                        return ((int)(this[this.tableIntakeCommon.EC0Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EC0\' in table \'IntakeCommon\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableIntakeCommon.EC0Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public double JUPDTMK {
+                get {
+                    try {
+                        return ((double)(this[this.tableIntakeCommon.JUPDTMKColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'JUPDTMK\' in table \'IntakeCommon\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableIntakeCommon.JUPDTMKColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsJUPFEEDBNull() {
                 return this.IsNull(this.tableIntakeCommon.JUPFEEDBColumn);
             }
@@ -3716,6 +3774,26 @@ namespace MikeSheWrapper.JupiterTools {
             public void SetMC_LAYKOMNull() {
                 this[this.tableIntakeCommon.MC_LAYKOMColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsEC0Null() {
+                return this.IsNull(this.tableIntakeCommon.EC0Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetEC0Null() {
+                this[this.tableIntakeCommon.EC0Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsJUPDTMKNull() {
+                return this.IsNull(this.tableIntakeCommon.JUPDTMKColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetJUPDTMKNull() {
+                this[this.tableIntakeCommon.JUPDTMKColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -4118,17 +4196,17 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public double QC_TOPDK {
+            public double QC_TOPK {
                 get {
                     try {
-                        return ((double)(this[this.tableIndvindinger.QC_TOPDKColumn]));
+                        return ((double)(this[this.tableIndvindinger.QC_TOPKColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'QC_TOPDK\' in table \'Indvindinger\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'QC_TOPK\' in table \'Indvindinger\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableIndvindinger.QC_TOPDKColumn] = value;
+                    this[this.tableIndvindinger.QC_TOPKColumn] = value;
                 }
             }
             
@@ -4533,13 +4611,13 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsQC_TOPDKNull() {
-                return this.IsNull(this.tableIndvindinger.QC_TOPDKColumn);
+            public bool IsQC_TOPKNull() {
+                return this.IsNull(this.tableIndvindinger.QC_TOPKColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetQC_TOPDKNull() {
-                this[this.tableIndvindinger.QC_TOPDKColumn] = global::System.Convert.DBNull;
+            public void SetQC_TOPKNull() {
+                this[this.tableIndvindinger.QC_TOPKColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
