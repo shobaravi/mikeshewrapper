@@ -41,7 +41,6 @@
       this.label5 = new System.Windows.Forms.Label();
       this.buttonMSheObs = new System.Windows.Forms.Button();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-      this.button5 = new System.Windows.Forms.Button();
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
       this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
       this.listBoxIntakes = new System.Windows.Forms.ListBox();
@@ -58,6 +57,8 @@
       this.button2 = new System.Windows.Forms.Button();
       this.ToolTipMSHEbutton = new System.Windows.Forms.ToolTip(this.components);
       this.panel1 = new System.Windows.Forms.Panel();
+      this.groupBox4 = new System.Windows.Forms.GroupBox();
+      this.groupBox3 = new System.Windows.Forms.GroupBox();
       this.label2 = new System.Windows.Forms.Label();
       this.panel3 = new System.Windows.Forms.Panel();
       this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -65,30 +66,28 @@
       this.label6 = new System.Windows.Forms.Label();
       this.propertyWells = new System.Windows.Forms.PropertyGrid();
       this.panel4 = new System.Windows.Forms.Panel();
-      this.label14 = new System.Windows.Forms.Label();
-      this.textBoxPlantCount = new System.Windows.Forms.TextBox();
-      this.dateTimeEndExt = new System.Windows.Forms.DateTimePicker();
+      this.groupBox2 = new System.Windows.Forms.GroupBox();
       this.textBoxMeanYearlyExt = new System.Windows.Forms.TextBox();
+      this.dateTimeEndExt = new System.Windows.Forms.DateTimePicker();
+      this.label13 = new System.Windows.Forms.Label();
+      this.label12 = new System.Windows.Forms.Label();
       this.dateTimeStartExt = new System.Windows.Forms.DateTimePicker();
       this.label10 = new System.Windows.Forms.Label();
-      this.label12 = new System.Windows.Forms.Label();
-      this.label13 = new System.Windows.Forms.Label();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.buttonMsheExt = new System.Windows.Forms.Button();
+      this.buttonNovanaExtract = new System.Windows.Forms.Button();
+      this.label14 = new System.Windows.Forms.Label();
+      this.textBoxPlantCount = new System.Windows.Forms.TextBox();
       this.propertyGridPlants = new System.Windows.Forms.PropertyGrid();
       this.observationWellBindingSource = new System.Windows.Forms.BindingSource(this.components);
-      this.buttonNovanaExtract = new System.Windows.Forms.Button();
-      this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.groupBox2 = new System.Windows.Forms.GroupBox();
-      this.groupBox3 = new System.Windows.Forms.GroupBox();
-      this.groupBox4 = new System.Windows.Forms.GroupBox();
-      this.buttonMsheExt = new System.Windows.Forms.Button();
       this.panel1.SuspendLayout();
+      this.groupBox4.SuspendLayout();
+      this.groupBox3.SuspendLayout();
       this.panel3.SuspendLayout();
       this.panel4.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
-      this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
-      this.groupBox3.SuspendLayout();
-      this.groupBox4.SuspendLayout();
+      this.groupBox1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
       // ButtonReadWells
@@ -123,9 +122,9 @@
       // 
       // MinNumber
       // 
-      this.MinNumber.Location = new System.Drawing.Point(130, 95);
+      this.MinNumber.Location = new System.Drawing.Point(136, 95);
       this.MinNumber.Name = "MinNumber";
-      this.MinNumber.Size = new System.Drawing.Size(67, 20);
+      this.MinNumber.Size = new System.Drawing.Size(61, 20);
       this.MinNumber.TabIndex = 10;
       this.MinNumber.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MinNumber_KeyUp);
       this.MinNumber.Validating += new System.ComponentModel.CancelEventHandler(this.MinNumber_Validating);
@@ -184,15 +183,6 @@
       this.buttonMSheObs.Text = "Time series file for MikeShe";
       this.ToolTipMSHEbutton.SetToolTip(this.buttonMSheObs, "Text and .dfs0 files to create detailed time series output in MikeShe.");
       this.buttonMSheObs.UseVisualStyleBackColor = true;
-      // 
-      // button5
-      // 
-      this.button5.Location = new System.Drawing.Point(17, 722);
-      this.button5.Name = "button5";
-      this.button5.Size = new System.Drawing.Size(203, 23);
-      this.button5.TabIndex = 28;
-      this.button5.Text = "Create shape file";
-      this.button5.UseVisualStyleBackColor = true;
       // 
       // propertyGrid1
       // 
@@ -338,6 +328,35 @@
       this.panel1.Size = new System.Drawing.Size(236, 817);
       this.panel1.TabIndex = 43;
       // 
+      // groupBox4
+      // 
+      this.groupBox4.Controls.Add(this.buttonNovanaShape);
+      this.groupBox4.Controls.Add(this.buttonLSFile);
+      this.groupBox4.Controls.Add(this.buttonMSheObs);
+      this.groupBox4.Location = new System.Drawing.Point(16, 703);
+      this.groupBox4.Name = "groupBox4";
+      this.groupBox4.Size = new System.Drawing.Size(203, 107);
+      this.groupBox4.TabIndex = 49;
+      this.groupBox4.TabStop = false;
+      this.groupBox4.Text = "Create files from observation data";
+      // 
+      // groupBox3
+      // 
+      this.groupBox3.Controls.Add(this.MinNumber);
+      this.groupBox3.Controls.Add(this.dateTimePicker2);
+      this.groupBox3.Controls.Add(this.radioButtonMax);
+      this.groupBox3.Controls.Add(this.label5);
+      this.groupBox3.Controls.Add(this.dateTimePicker1);
+      this.groupBox3.Controls.Add(this.radioButtonMin);
+      this.groupBox3.Controls.Add(this.label3);
+      this.groupBox3.Controls.Add(this.label4);
+      this.groupBox3.Location = new System.Drawing.Point(16, 28);
+      this.groupBox3.Name = "groupBox3";
+      this.groupBox3.Size = new System.Drawing.Size(203, 135);
+      this.groupBox3.TabIndex = 48;
+      this.groupBox3.TabStop = false;
+      this.groupBox3.Text = "Select on numbers of observations";
+      // 
       // label2
       // 
       this.label2.AutoSize = true;
@@ -357,7 +376,6 @@
       this.panel3.Controls.Add(this.label9);
       this.panel3.Controls.Add(this.listBoxWells);
       this.panel3.Controls.Add(this.textBoxWellsNumber);
-      this.panel3.Controls.Add(this.button5);
       this.panel3.Location = new System.Drawing.Point(430, 21);
       this.panel3.Name = "panel3";
       this.panel3.Size = new System.Drawing.Size(236, 817);
@@ -418,30 +436,20 @@
       this.panel4.Size = new System.Drawing.Size(236, 817);
       this.panel4.TabIndex = 45;
       // 
-      // label14
+      // groupBox2
       // 
-      this.label14.AutoSize = true;
-      this.label14.Location = new System.Drawing.Point(11, 176);
-      this.label14.Name = "label14";
-      this.label14.Size = new System.Drawing.Size(38, 13);
-      this.label14.TabIndex = 47;
-      this.label14.Text = "Count:";
-      // 
-      // textBoxPlantCount
-      // 
-      this.textBoxPlantCount.Enabled = false;
-      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 169);
-      this.textBoxPlantCount.Name = "textBoxPlantCount";
-      this.textBoxPlantCount.Size = new System.Drawing.Size(67, 20);
-      this.textBoxPlantCount.TabIndex = 46;
-      // 
-      // dateTimeEndExt
-      // 
-      this.dateTimeEndExt.Location = new System.Drawing.Point(65, 49);
-      this.dateTimeEndExt.Name = "dateTimeEndExt";
-      this.dateTimeEndExt.Size = new System.Drawing.Size(129, 20);
-      this.dateTimeEndExt.TabIndex = 13;
-      this.dateTimeEndExt.Validating += new System.ComponentModel.CancelEventHandler(this.textBox2_Validating);
+      this.groupBox2.Controls.Add(this.textBoxMeanYearlyExt);
+      this.groupBox2.Controls.Add(this.dateTimeEndExt);
+      this.groupBox2.Controls.Add(this.label13);
+      this.groupBox2.Controls.Add(this.label12);
+      this.groupBox2.Controls.Add(this.dateTimeStartExt);
+      this.groupBox2.Controls.Add(this.label10);
+      this.groupBox2.Location = new System.Drawing.Point(14, 28);
+      this.groupBox2.Name = "groupBox2";
+      this.groupBox2.Size = new System.Drawing.Size(203, 135);
+      this.groupBox2.TabIndex = 48;
+      this.groupBox2.TabStop = false;
+      this.groupBox2.Text = "Select on mean yearly extraction";
       // 
       // textBoxMeanYearlyExt
       // 
@@ -451,6 +459,32 @@
       this.textBoxMeanYearlyExt.TabIndex = 14;
       this.textBoxMeanYearlyExt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMeanYearlyExt_KeyUp);
       this.textBoxMeanYearlyExt.Validating += new System.ComponentModel.CancelEventHandler(this.textBox2_Validating);
+      // 
+      // dateTimeEndExt
+      // 
+      this.dateTimeEndExt.Location = new System.Drawing.Point(65, 49);
+      this.dateTimeEndExt.Name = "dateTimeEndExt";
+      this.dateTimeEndExt.Size = new System.Drawing.Size(129, 20);
+      this.dateTimeEndExt.TabIndex = 13;
+      this.dateTimeEndExt.Validating += new System.ComponentModel.CancelEventHandler(this.textBox2_Validating);
+      // 
+      // label13
+      // 
+      this.label13.AutoSize = true;
+      this.label13.Location = new System.Drawing.Point(6, 89);
+      this.label13.Name = "label13";
+      this.label13.Size = new System.Drawing.Size(128, 13);
+      this.label13.TabIndex = 16;
+      this.label13.Text = "Mean yearly extraction >=";
+      // 
+      // label12
+      // 
+      this.label12.AutoSize = true;
+      this.label12.Location = new System.Drawing.Point(6, 53);
+      this.label12.Name = "label12";
+      this.label12.Size = new System.Drawing.Size(50, 13);
+      this.label12.TabIndex = 15;
+      this.label12.Text = "End date";
       // 
       // dateTimeStartExt
       // 
@@ -470,34 +504,27 @@
       this.label10.TabIndex = 14;
       this.label10.Text = "Start date";
       // 
-      // label12
+      // groupBox1
       // 
-      this.label12.AutoSize = true;
-      this.label12.Location = new System.Drawing.Point(6, 53);
-      this.label12.Name = "label12";
-      this.label12.Size = new System.Drawing.Size(50, 13);
-      this.label12.TabIndex = 15;
-      this.label12.Text = "End date";
+      this.groupBox1.Controls.Add(this.buttonMsheExt);
+      this.groupBox1.Controls.Add(this.buttonNovanaExtract);
+      this.groupBox1.Location = new System.Drawing.Point(14, 705);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(203, 98);
+      this.groupBox1.TabIndex = 47;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Create files from extraction data";
       // 
-      // label13
+      // buttonMsheExt
       // 
-      this.label13.AutoSize = true;
-      this.label13.Location = new System.Drawing.Point(6, 89);
-      this.label13.Name = "label13";
-      this.label13.Size = new System.Drawing.Size(128, 13);
-      this.label13.TabIndex = 16;
-      this.label13.Text = "Mean yearly extraction >=";
-      // 
-      // propertyGridPlants
-      // 
-      this.propertyGridPlants.Location = new System.Drawing.Point(14, 458);
-      this.propertyGridPlants.Name = "propertyGridPlants";
-      this.propertyGridPlants.Size = new System.Drawing.Size(203, 241);
-      this.propertyGridPlants.TabIndex = 46;
-      // 
-      // observationWellBindingSource
-      // 
-      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
+      this.buttonMsheExt.Enabled = false;
+      this.buttonMsheExt.Location = new System.Drawing.Point(16, 46);
+      this.buttonMsheExt.Name = "buttonMsheExt";
+      this.buttonMsheExt.Size = new System.Drawing.Size(169, 23);
+      this.buttonMsheExt.TabIndex = 46;
+      this.buttonMsheExt.Text = "Extraction files for MikeShe";
+      this.buttonMsheExt.UseVisualStyleBackColor = true;
+      this.buttonMsheExt.Click += new System.EventHandler(this.buttonMsheExt_Click);
       // 
       // buttonNovanaExtract
       // 
@@ -510,71 +537,33 @@
       this.buttonNovanaExtract.UseVisualStyleBackColor = true;
       this.buttonNovanaExtract.Click += new System.EventHandler(this.button3_Click);
       // 
-      // groupBox1
+      // label14
       // 
-      this.groupBox1.Controls.Add(this.buttonMsheExt);
-      this.groupBox1.Controls.Add(this.buttonNovanaExtract);
-      this.groupBox1.Location = new System.Drawing.Point(14, 705);
-      this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(203, 98);
-      this.groupBox1.TabIndex = 47;
-      this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Create files from extraction data";
+      this.label14.AutoSize = true;
+      this.label14.Location = new System.Drawing.Point(11, 176);
+      this.label14.Name = "label14";
+      this.label14.Size = new System.Drawing.Size(38, 13);
+      this.label14.TabIndex = 47;
+      this.label14.Text = "Count:";
       // 
-      // groupBox2
+      // textBoxPlantCount
       // 
-      this.groupBox2.Controls.Add(this.textBoxMeanYearlyExt);
-      this.groupBox2.Controls.Add(this.dateTimeEndExt);
-      this.groupBox2.Controls.Add(this.label13);
-      this.groupBox2.Controls.Add(this.label12);
-      this.groupBox2.Controls.Add(this.dateTimeStartExt);
-      this.groupBox2.Controls.Add(this.label10);
-      this.groupBox2.Location = new System.Drawing.Point(14, 28);
-      this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(203, 135);
-      this.groupBox2.TabIndex = 48;
-      this.groupBox2.TabStop = false;
-      this.groupBox2.Text = "Select on mean yearly extraction";
+      this.textBoxPlantCount.Enabled = false;
+      this.textBoxPlantCount.Location = new System.Drawing.Point(150, 169);
+      this.textBoxPlantCount.Name = "textBoxPlantCount";
+      this.textBoxPlantCount.Size = new System.Drawing.Size(67, 20);
+      this.textBoxPlantCount.TabIndex = 46;
       // 
-      // groupBox3
+      // propertyGridPlants
       // 
-      this.groupBox3.Controls.Add(this.MinNumber);
-      this.groupBox3.Controls.Add(this.dateTimePicker2);
-      this.groupBox3.Controls.Add(this.radioButtonMax);
-      this.groupBox3.Controls.Add(this.label5);
-      this.groupBox3.Controls.Add(this.dateTimePicker1);
-      this.groupBox3.Controls.Add(this.radioButtonMin);
-      this.groupBox3.Controls.Add(this.label3);
-      this.groupBox3.Controls.Add(this.label4);
-      this.groupBox3.Location = new System.Drawing.Point(16, 28);
-      this.groupBox3.Name = "groupBox3";
-      this.groupBox3.Size = new System.Drawing.Size(203, 135);
-      this.groupBox3.TabIndex = 48;
-      this.groupBox3.TabStop = false;
-      this.groupBox3.Text = "Select on numbers of observations";
+      this.propertyGridPlants.Location = new System.Drawing.Point(14, 458);
+      this.propertyGridPlants.Name = "propertyGridPlants";
+      this.propertyGridPlants.Size = new System.Drawing.Size(203, 241);
+      this.propertyGridPlants.TabIndex = 46;
       // 
-      // groupBox4
+      // observationWellBindingSource
       // 
-      this.groupBox4.Controls.Add(this.buttonNovanaShape);
-      this.groupBox4.Controls.Add(this.buttonLSFile);
-      this.groupBox4.Controls.Add(this.buttonMSheObs);
-      this.groupBox4.Location = new System.Drawing.Point(16, 703);
-      this.groupBox4.Name = "groupBox4";
-      this.groupBox4.Size = new System.Drawing.Size(203, 107);
-      this.groupBox4.TabIndex = 49;
-      this.groupBox4.TabStop = false;
-      this.groupBox4.Text = "Create files from observation data";
-      // 
-      // buttonMsheExt
-      // 
-      this.buttonMsheExt.Enabled = false;
-      this.buttonMsheExt.Location = new System.Drawing.Point(16, 46);
-      this.buttonMsheExt.Name = "buttonMsheExt";
-      this.buttonMsheExt.Size = new System.Drawing.Size(169, 23);
-      this.buttonMsheExt.TabIndex = 46;
-      this.buttonMsheExt.Text = "Extraction files for MikeShe";
-      this.buttonMsheExt.UseVisualStyleBackColor = true;
-      this.buttonMsheExt.Click += new System.EventHandler(this.buttonMsheExt_Click);
+      this.observationWellBindingSource.DataSource = typeof(MikeSheWrapper.Tools.ObservationWell);
       // 
       // HeadObservationsView
       // 
@@ -591,17 +580,17 @@
       this.Text = "Wells and observations";
       this.panel1.ResumeLayout(false);
       this.panel1.PerformLayout();
+      this.groupBox4.ResumeLayout(false);
+      this.groupBox3.ResumeLayout(false);
+      this.groupBox3.PerformLayout();
       this.panel3.ResumeLayout(false);
       this.panel3.PerformLayout();
       this.panel4.ResumeLayout(false);
       this.panel4.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
-      this.groupBox1.ResumeLayout(false);
       this.groupBox2.ResumeLayout(false);
       this.groupBox2.PerformLayout();
-      this.groupBox3.ResumeLayout(false);
-      this.groupBox3.PerformLayout();
-      this.groupBox4.ResumeLayout(false);
+      this.groupBox1.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.observationWellBindingSource)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -620,7 +609,6 @@
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.Button buttonMSheObs;
     private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-    private System.Windows.Forms.Button button5;
     private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     private System.Windows.Forms.PropertyGrid propertyGrid1;
     private System.Windows.Forms.ListBox listBoxIntakes;
