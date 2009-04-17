@@ -127,8 +127,6 @@ namespace MikeSheWrapper.Viewer
         //Launch a data selector
         DataSelector DS = new DataSelector(FullDataSet);
 
-        
-
         if (DS.ShowDialog() == DialogResult.OK)
         {
           if (ShpConfig == null)
