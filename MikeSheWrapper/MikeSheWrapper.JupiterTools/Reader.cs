@@ -172,8 +172,16 @@ namespace MikeSheWrapper.JupiterTools
       foreach (Tuple<int, Plant> KVP in SubPlants)
       {
         Plant Upper;
-        if(DPlants.TryGetValue(KVP.First, out Upper))
+        if (DPlants.TryGetValue(KVP.First, out Upper))
+        {
           Upper.SubPlants.Add(KVP.Second);
+          foreach (IIntake I in KVP.Second.PumpingIntakes)
+          {
+            IIntake d = Upper.PumpingIntakes.FirstOrDefault(var => var.well.ID == I.well.ID);
+            if (d != null)
+              Upper.PumpingIntakes.Remove(d);
+          }
+        }
       }
 
       return DPlants.Values;
@@ -348,9 +356,6 @@ namespace MikeSheWrapper.JupiterTools
         var anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
 
 
-        var SelectecExtrations = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate);
-        var FirstEntryWithValue = P.Extractions.Find(var => var.Value > 0);
-
         //Loop the wells
         foreach (IWell IW in P.PumpingWells)
         {
@@ -364,7 +369,6 @@ namespace MikeSheWrapper.JupiterTools
             if (null!=P.PumpingIntakes.FirstOrDefault(var=> var.IDNumber.Equals(I.IDNumber) & var.well.ID.Equals(Jw.ID)))
             {
               var intakedata = wellData.GetINTAKERows().FirstOrDefault(var => var.INTAKENO == I.IDNumber);
-
               JupiterIntake CurrentIntake = I as JupiterIntake;
               CurrentIntake.Data = DT2.NewIntakeCommonRow();
               //Read generic data
@@ -377,48 +381,8 @@ namespace MikeSheWrapper.JupiterTools
 
               CurrentRow.NOVANAID = NovanaID;
               CurrentIntake.Data["NOVANAID"] = NovanaID;
-              CurrentRow.PLANTID = P.IDNumber;
-              CurrentRow.PLANTNAME = P.Name;
 
-              //Get additional data about the plant from the dataset
-              CurrentRow.NYKOMNR = anlaeg.MUNICIPALITYNO2007;
-              CurrentRow.KOMNR = anlaeg.MUNICIPALITYNO;
-              CurrentRow.ATYP = anlaeg.PLANTTYPE;
-              CurrentRow.ANR = anlaeg.SERIALNO;
-              CurrentRow.UNR = anlaeg.SUBNO;
-              CurrentRow.ANTUNDERA = P.SubPlants.Count;
-
-              if (anlaeg.IsXUTMNull())
-                CurrentRow.ANLUTMX = 0;
-              else
-                CurrentRow.ANLUTMX = anlaeg.XUTM;
-
-              if (anlaeg.IsYUTMNull())
-                CurrentRow.ANLUTMY = 0;
-              else
-                CurrentRow.ANLUTMY = anlaeg.YUTM;
-
-              CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
-              CurrentRow.ACTIVE = anlaeg.ACTIVE;
-
-              if (!anlaeg.IsSUPPLANTNull())
-                CurrentRow.OVERANL = anlaeg.SUPPLANT;
-
-              if (P.Extractions.Count > 0)
-              {
-                if (SelectecExtrations.Count() > 0)
-                {
-                  CurrentRow.MEANINDV = SelectecExtrations.Average(var => var.Value);
-                  if (FirstEntryWithValue != null)
-                  {
-                    CurrentRow.NYINDVAAR = FirstEntryWithValue.Time.Year;
-                    CurrentRow.NYIND = FirstEntryWithValue.Value;
-                  }
-                }
-              }
-              CurrentRow.ANTINT_A = P.PumpingIntakes.Count;
-              CurrentRow.ANTBOR_A = P.PumpingWells.Count;
-
+              FillPlantDataIntoDataRow(CurrentRow, anlaeg, P, StartDate, EndDate);
 
               //Aktiv periode
               var plantintake = anlaeg.GetDRWPLANTINTAKERows().FirstOrDefault(var => var.BOREHOLENO == Jw.ID & var.INTAKENO == I.IDNumber);
@@ -465,6 +429,54 @@ namespace MikeSheWrapper.JupiterTools
       return _intakes;
     }
 
+    public void FillPlantDataIntoDataRow(NovanaTables.IndvindingerRow CurrentRow, JupiterXL.DRWPLANTRow anlaeg, Plant P, DateTime StartDate, DateTime EndDate)
+    {
+      CurrentRow.PLANTID = anlaeg.PLANTID;
+      CurrentRow.PLANTNAME = anlaeg.PLANTNAME;
+
+      //Get additional data about the plant from the dataset
+      CurrentRow.NYKOMNR = anlaeg.MUNICIPALITYNO2007;
+      CurrentRow.KOMNR = anlaeg.MUNICIPALITYNO;
+      CurrentRow.ATYP = anlaeg.PLANTTYPE;
+      CurrentRow.ANR = anlaeg.SERIALNO;
+      CurrentRow.UNR = anlaeg.SUBNO;
+      CurrentRow.ANTUNDERA = P.SubPlants.Count;
+
+      if (anlaeg.IsXUTMNull())
+        CurrentRow.ANLUTMX = 0;
+      else
+        CurrentRow.ANLUTMX = anlaeg.XUTM;
+
+      if (anlaeg.IsYUTMNull())
+        CurrentRow.ANLUTMY = 0;
+      else
+        CurrentRow.ANLUTMY = anlaeg.YUTM;
+
+      CurrentRow.VIRKTYP = anlaeg.COMPANYTYPE;
+      CurrentRow.ACTIVE = anlaeg.ACTIVE;
+
+      if (!anlaeg.IsSUPPLANTNull())
+        CurrentRow.OVERANL = anlaeg.SUPPLANT;
+
+      var SelectecExtrations = P.Extractions.Where(var => var.Time >= StartDate && var.Time <= EndDate);
+      var ActualValue = SelectecExtrations.FirstOrDefault(var => var.Time.Year == EndDate.Year);
+
+      if (P.Extractions.Count > 0)
+      {
+        if (SelectecExtrations.Count() > 0)
+        {
+          CurrentRow.MEANINDV = SelectecExtrations.Average(var => var.Value);
+          if (ActualValue != null)
+            CurrentRow.AKTUELIND = ActualValue.Value;
+          else
+            CurrentRow.AKTUELIND = 0;
+        }
+      }
+      CurrentRow.ANTINT_A = P.PumpingIntakes.Count;
+      CurrentRow.ANTBOR_A = P.PumpingWells.Count;
+
+
+    }
 
     public void AddDataForNovanaPejl(IEnumerable<JupiterIntake> Intakes)
     {

@@ -238,9 +238,8 @@ namespace MikeSheWrapper.Viewer
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
         JupiterReader.AddDataForNovanaPejl(listBoxIntakes.Items.Cast<JupiterIntake>());
-        HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, listBoxIntakes.Items.Cast<JupiterIntake>(), dateTimePicker1.Value, dateTimePicker2.Value);
+        HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, listBoxIntakes.Items.Cast<JupiterIntake>());
       }
-
     }
 
 
@@ -330,8 +329,23 @@ namespace MikeSheWrapper.Viewer
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        IEnumerable<JupiterIntake> intakes = JupiterReader.AddDataForNovanaExtraction(listBoxAnlaeg.Items.Cast<Plant>(), dateTimeStartExt.Value, dateTimeEndExt.Value);
-        HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, intakes, dateTimePicker1.Value, dateTimePicker2.Value);
+        IEnumerable<Plant> plants =listBoxAnlaeg.Items.Cast<Plant>();
+        IEnumerable<JupiterIntake> intakes = JupiterReader.AddDataForNovanaExtraction(plants, dateTimeStartExt.Value, dateTimeEndExt.Value);
+        HeadObservations.WriteShapeFromDataRow(saveFileDialog1.FileName, intakes);
+
+        IEnumerable<Plant> PlantWithoutIntakes = plants.Where(var => var.PumpingIntakes.Count == 0);
+        if (PlantWithoutIntakes.Count()>0)
+          if (DialogResult.Yes == MessageBox.Show("The list contains plants with no intakes attached. Should these be written to a new shape-file?", "Plants without intakes!", MessageBoxButtons.YesNo))
+          {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+              NovanaTables.IndvindingerDataTable dt = new NovanaTables.IndvindingerDataTable();
+              foreach (Plant P in PlantWithoutIntakes)
+              {
+              }
+            }
+
+          }
       }
 
     }
