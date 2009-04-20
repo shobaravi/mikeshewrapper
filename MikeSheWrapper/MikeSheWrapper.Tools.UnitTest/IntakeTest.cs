@@ -53,6 +53,13 @@ namespace MikeSheWrapper.Tools.UnitTest
 
     }
 
+    [Test]
+    public void DateTimeTest()
+    {
+      DateTime min = new DateTime(1000, 1, 1);
+      DateTime max = new DateTime(9999, 1, 1);
+
+    }
 
 
     [Test]

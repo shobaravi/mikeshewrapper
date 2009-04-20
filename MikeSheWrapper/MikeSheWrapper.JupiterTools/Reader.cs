@@ -424,7 +424,7 @@ namespace MikeSheWrapper.JupiterTools
               var plantintake = anlaeg.GetDRWPLANTINTAKERows().FirstOrDefault(var => var.BOREHOLENO == Jw.ID & var.INTAKENO == I.IDNumber);
               NovanaTables.IntakeCommonRow TIC = CurrentIntake.Data as NovanaTables.IntakeCommonRow;
 
-              CurrentRow.FRAAAR = int.MinValue;
+              CurrentRow.FRAAAR = 1000;
               if (!plantintake.IsSTARTDATENull())
               {
                 CurrentRow.INTSTDATE = plantintake.STARTDATE;
@@ -439,7 +439,7 @@ namespace MikeSheWrapper.JupiterTools
               if (CurrentRow.FRAAAR==int.MinValue)
                 CurrentRow.FRAAAR = -999;
 
-              CurrentRow.TILAAR = int.MaxValue;
+              CurrentRow.TILAAR = 9999;
               if (!plantintake.IsENDDATENull())
               {
                 CurrentRow.INTENDDATE = plantintake.ENDDATE;
