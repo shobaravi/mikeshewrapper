@@ -1282,9 +1282,7 @@ namespace MikeSheWrapper.JupiterTools {
             
             private global::System.Data.DataColumn columnMEANINDV;
             
-            private global::System.Data.DataColumn columnNYINDVAAR;
-            
-            private global::System.Data.DataColumn columnNYIND;
+            private global::System.Data.DataColumn columnAKTUELIND;
             
             private global::System.Data.DataColumn columnANTINT_A;
             
@@ -1477,16 +1475,9 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn NYINDVAARColumn {
+            public global::System.Data.DataColumn AKTUELINDColumn {
                 get {
-                    return this.columnNYINDVAAR;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn NYINDColumn {
-                get {
-                    return this.columnNYIND;
+                    return this.columnAKTUELIND;
                 }
             }
             
@@ -1657,8 +1648,7 @@ namespace MikeSheWrapper.JupiterTools {
                         System.DateTime INTSTDATE, 
                         System.DateTime INTENDDATE, 
                         double MEANINDV, 
-                        int NYINDVAAR, 
-                        double NYIND, 
+                        double AKTUELIND, 
                         int ANTINT_A, 
                         int ANTBOR_A, 
                         int ANTAKTAAR, 
@@ -1696,8 +1686,7 @@ namespace MikeSheWrapper.JupiterTools {
                         INTSTDATE,
                         INTENDDATE,
                         MEANINDV,
-                        NYINDVAAR,
-                        NYIND,
+                        AKTUELIND,
                         ANTINT_A,
                         ANTBOR_A,
                         ANTAKTAAR,
@@ -1758,8 +1747,7 @@ namespace MikeSheWrapper.JupiterTools {
                 this.columnINTSTDATE = base.Columns["INTSTDATE"];
                 this.columnINTENDDATE = base.Columns["INTENDDATE"];
                 this.columnMEANINDV = base.Columns["MEANINDV"];
-                this.columnNYINDVAAR = base.Columns["NYINDVAAR"];
-                this.columnNYIND = base.Columns["NYIND"];
+                this.columnAKTUELIND = base.Columns["AKTUELIND"];
                 this.columnANTINT_A = base.Columns["ANTINT_A"];
                 this.columnANTBOR_A = base.Columns["ANTBOR_A"];
                 this.columnANTAKTAAR = base.Columns["ANTAKTAAR"];
@@ -1817,10 +1805,8 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnINTENDDATE);
                 this.columnMEANINDV = new global::System.Data.DataColumn("MEANINDV", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMEANINDV);
-                this.columnNYINDVAAR = new global::System.Data.DataColumn("NYINDVAAR", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNYINDVAAR);
-                this.columnNYIND = new global::System.Data.DataColumn("NYIND", typeof(double), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNYIND);
+                this.columnAKTUELIND = new global::System.Data.DataColumn("AKTUELIND", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAKTUELIND);
                 this.columnANTINT_A = new global::System.Data.DataColumn("ANTINT_A", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnANTINT_A);
                 this.columnANTBOR_A = new global::System.Data.DataColumn("ANTBOR_A", typeof(int), null, global::System.Data.MappingType.Element);
@@ -4076,32 +4062,17 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int NYINDVAAR {
+            public double AKTUELIND {
                 get {
                     try {
-                        return ((int)(this[this.tableIndvindinger.NYINDVAARColumn]));
+                        return ((double)(this[this.tableIndvindinger.AKTUELINDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NYINDVAAR\' in table \'Indvindinger\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'AKTUELIND\' in table \'Indvindinger\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableIndvindinger.NYINDVAARColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public double NYIND {
-                get {
-                    try {
-                        return ((double)(this[this.tableIndvindinger.NYINDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NYIND\' in table \'Indvindinger\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableIndvindinger.NYINDColumn] = value;
+                    this[this.tableIndvindinger.AKTUELINDColumn] = value;
                 }
             }
             
@@ -4531,23 +4502,13 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsNYINDVAARNull() {
-                return this.IsNull(this.tableIndvindinger.NYINDVAARColumn);
+            public bool IsAKTUELINDNull() {
+                return this.IsNull(this.tableIndvindinger.AKTUELINDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetNYINDVAARNull() {
-                this[this.tableIndvindinger.NYINDVAARColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsNYINDNull() {
-                return this.IsNull(this.tableIndvindinger.NYINDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetNYINDNull() {
-                this[this.tableIndvindinger.NYINDColumn] = global::System.Convert.DBNull;
+            public void SetAKTUELINDNull() {
+                this[this.tableIndvindinger.AKTUELINDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

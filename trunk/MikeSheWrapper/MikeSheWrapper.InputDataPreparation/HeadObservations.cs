@@ -461,7 +461,14 @@ namespace MikeSheWrapper.InputDataPreparation
       }
     }
 
-    public static void WriteShapeFromDataRow(string FileName, IEnumerable<JupiterIntake> Intakes, DateTime Start, DateTime End)
+    /// <summary>
+    /// Writes a point shape with entries for each intake in the list. Uses the dataRow as attributes.
+    /// </summary>
+    /// <param name="FileName"></param>
+    /// <param name="Intakes"></param>
+    /// <param name="Start"></param>
+    /// <param name="End"></param>
+    public static void WriteShapeFromDataRow(string FileName, IEnumerable<JupiterIntake> Intakes)
     {
       PointShapeWriter PSW = new PointShapeWriter(FileName);
         foreach (JupiterIntake JI in Intakes)
