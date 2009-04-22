@@ -429,7 +429,24 @@ namespace MikeSheWrapper.JupiterTools
       return _intakes;
     }
 
-    public void FillPlantDataIntoDataRow(NovanaTables.IndvindingerRow CurrentRow, JupiterXL.DRWPLANTRow anlaeg, Plant P, DateTime StartDate, DateTime EndDate)
+      public NovanaTables.IndvindingerDataTable FillPlantData(IEnumerable<Plant> plants, DateTime StartDate, DateTime EndDate)
+      {
+          NovanaTables.IndvindingerDataTable DT = new NovanaTables.IndvindingerDataTable();
+          NovanaTables.IndvindingerRow CurrentRow;
+          JupiterXL.DRWPLANTRow anlaeg;
+
+          foreach (Plant P in plants)
+          {
+              anlaeg = JXL.DRWPLANT.FindByPLANTID(P.IDNumber);
+              CurrentRow = DT.NewIndvindingerRow();
+              FillPlantDataIntoDataRow(CurrentRow, anlaeg, P, StartDate, EndDate);
+              CurrentRow.NOVANAID = P.IDNumber.ToString();
+              DT.AddIndvindingerRow(CurrentRow);
+          }
+              return DT;
+      }
+
+    private void FillPlantDataIntoDataRow(NovanaTables.IndvindingerRow CurrentRow, JupiterXL.DRWPLANTRow anlaeg, Plant P, DateTime StartDate, DateTime EndDate)
     {
       CurrentRow.PLANTID = anlaeg.PLANTID;
       CurrentRow.PLANTNAME = anlaeg.PLANTNAME;

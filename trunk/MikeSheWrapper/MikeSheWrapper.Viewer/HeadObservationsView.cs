@@ -113,41 +113,48 @@ namespace MikeSheWrapper.Viewer
     /// <param name="e"></param>
     private void button2_Click(object sender, EventArgs e)
     {
-      openFileDialog2.Filter = "Known file types (*.shp)|*.shp";
-      this.openFileDialog2.ShowReadOnly = true;
-      this.openFileDialog2.Title = "Select a shape file with data for wells or intakes";
+        openFileDialog2.Filter = "Known file types (*.shp)|*.shp";
+        this.openFileDialog2.ShowReadOnly = true;
+        this.openFileDialog2.Title = "Select a shape file with data for wells or intakes";
 
-      if (openFileDialog2.ShowDialog() == DialogResult.OK)
-      {
-        string FileName = openFileDialog2.FileName;
-
-        PointShapeReader SR = new PointShapeReader(FileName);
-
-        DataTable FullDataSet = SR.Data.Read();
-        //Launch a data selector
-        DataSelector DS = new DataSelector(FullDataSet);
-
-        if (DS.ShowDialog() == DialogResult.OK)
+        if (openFileDialog2.ShowDialog() == DialogResult.OK)
         {
-          if (ShpConfig == null)
-          {
-            XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
-            string InstallationPath = Path.GetDirectoryName(this.GetType().Assembly.Location);
-            string config = Path.Combine(InstallationPath, "ShapeReaderConfig.xml");
-            using (FileStream fs = new FileStream(config, FileMode.Open))
+            string FileName = openFileDialog2.FileName;
+
+            PointShapeReader SR = new PointShapeReader(FileName);
+
+            DataTable FullDataSet = SR.Data.Read();
+            //Launch a data selector
+            DataSelector DS = new DataSelector(FullDataSet);
+
+            if (DS.ShowDialog() == DialogResult.OK)
             {
-              ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
-              if (CheckColumn(FullDataSet, ShpConfig.WellIDHeader, config))
-                if (CheckColumn(FullDataSet, ShpConfig.XHeader, config))
-                  if (CheckColumn(FullDataSet, ShpConfig.YHeader, config))
-                    if (CheckColumn(FullDataSet, ShpConfig.TOPHeader, config))
-                      if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
-                        Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
+                if (ShpConfig == null)
+                {
+                    XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
+                    string InstallationPath = Path.GetDirectoryName(this.GetType().Assembly.Location);
+                    string config = Path.Combine(InstallationPath, "ShapeReaderConfig.xml");
+                    using (FileStream fs = new FileStream(config, FileMode.Open))
+                    {
+                        ShpConfig = (ShapeReaderConfiguration)x.Deserialize(fs);
+
+                        if (CheckColumn(FullDataSet, ShpConfig.WellIDHeader, config))
+                            if (CheckColumn(FullDataSet, ShpConfig.IntakeNumber, config))
+                                if (CheckColumn(FullDataSet, ShpConfig.XHeader, config))
+                                    if (CheckColumn(FullDataSet, ShpConfig.YHeader, config))
+                                        if (CheckColumn(FullDataSet, ShpConfig.TOPHeader, config))
+                                            if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
+                                                if (CheckColumn(FullDataSet, ShpConfig.FraAArHeader, config))
+                                                    if (CheckColumn(FullDataSet, ShpConfig.TilAArHeader, config))
+                                                    {
+                                                        Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
+                                                        UpdateListsAndListboxes();
+                                                    }
+                    }
+                }
             }
-          }
+            SR.Dispose();
         }
-        SR.Dispose();
-      }
     }
 
     private bool CheckColumn(DataTable DT, string ColumnName, string config)
@@ -339,10 +346,10 @@ namespace MikeSheWrapper.Viewer
           {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-              NovanaTables.IndvindingerDataTable dt = new NovanaTables.IndvindingerDataTable();
-              foreach (Plant P in PlantWithoutIntakes)
-              {
-              }
+                NovanaTables.IndvindingerDataTable dt = JupiterReader.FillPlantData(PlantWithoutIntakes, dateTimeStartExt.Value, dateTimeEndExt.Value);
+                PointShapeWriter PSW = new PointShapeWriter(saveFileDialog1.FileName);
+                PSW.WritePointShape(dt, dt.ANLUTMXColumn.ColumnName, dt.ANLUTMYColumn.ColumnName);
+                PSW.Dispose();
             }
 
           }
@@ -409,7 +416,7 @@ namespace MikeSheWrapper.Viewer
     {
       if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
       {
-        HeadObservations.WriteExtractionDFS0(saveFileDialog1.FileName, listBoxAnlaeg.Items.Cast<Plant>(), dateTimeStartExt.Value, dateTimeEndExt.Value);
+          HeadObservations.WriteExtractionDFS0(folderBrowserDialog1.SelectedPath, listBoxAnlaeg.Items.Cast<Plant>(), dateTimeStartExt.Value, dateTimeEndExt.Value);
       }
 
     }
