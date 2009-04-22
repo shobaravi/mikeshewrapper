@@ -127,3 +127,10 @@ namespace MikeSheWrapper.JupiterTools
 
 
 
+
+namespace MikeSheWrapper.JupiterTools.JupiterXLTableAdapters {
+    
+    
+    public partial class LITHSAMPTableAdapter {
+    }
+}
