@@ -211,6 +211,7 @@ namespace MikeSheWrapper.InputDataPreparation
           //Add a new well if it was not found
           CurrentWell = new Well(DR[SRC.WellIDHeader].ToString());
           CurrentWell.UsedForExtraction = true;
+          Wells.Add(CurrentWell.ID, CurrentWell);
         }
 
         int intakeno = Convert.ToInt32(DR[SRC.IntakeNumber]);
@@ -226,7 +227,6 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentIntake.ScreenTop.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
         CurrentIntake.PumpingStart = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
         CurrentIntake.PumpingStop = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 1, 1);
-        Wells.Add(CurrentWell.ID, CurrentWell);
       }
       return Wells;
     }
