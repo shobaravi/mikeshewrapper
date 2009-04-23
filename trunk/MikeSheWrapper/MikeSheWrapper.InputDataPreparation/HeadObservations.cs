@@ -363,7 +363,7 @@ namespace MikeSheWrapper.InputDataPreparation
       double[] fractions = new double[NumberOfYears];
 
       //loop the plants
-      foreach (Plant P in Plants)
+      foreach (Plant P in Plants.Where(var=>var.PumpingIntakes.Count>0))
       {
 
         //Calculate the fractions based on how many intakes are active for a particular year.
