@@ -84,11 +84,9 @@ namespace MikeSheWrapper.Viewer
         listBoxWells.Items.AddRange(Wells.Values.ToArray());
         textBoxWellsNumber.Text = listBoxWells.Items.Count.ToString();
 
-        if (Intakes == null)
-          Intakes = new List<IIntake>();
-
+        Intakes = new List<IIntake>();
         foreach (IWell W in Wells.Values)
-          Intakes.AddRange(W.Intakes);
+           Intakes.AddRange(W.Intakes);
 
         listBoxIntakes.Items.Clear();
         listBoxIntakes.Items.AddRange(Intakes.ToArray());
@@ -396,8 +394,6 @@ namespace MikeSheWrapper.Viewer
               foreach (IWell W in WellsOutSideModelDomain)
               {
                 Wells.Remove(W.ID);
-                foreach (IIntake I in W.Intakes)
-                  Intakes.Remove(I);
               }
             }
           }
