@@ -4,8 +4,8 @@
   <IntakeNumber>INTAKENO</IntakeNumber>
   <XHeader>XUTM</XHeader>
   <YHeader>YUTM</YHeader>
-  <TOPHeader>INTAKTOPK</TOPHeader>
-  <BOTTOMHeader>INTAKBOTK</BOTTOMHeader>
+  <TOPHeader>INTAKBOTK</TOPHeader>
+  <BOTTOMHeader>INTAKTOPK</BOTTOMHeader>
   <FraAArHeader>FRAAAR</FraAArHeader>
   <TilAArHeader>TILAAR</TilAArHeader>
 </ShapeReaderConfiguration>
