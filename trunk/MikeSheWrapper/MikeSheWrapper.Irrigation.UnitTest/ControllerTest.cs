@@ -36,6 +36,7 @@ namespace MikeSheWrapper.Irrigation.UnitTest
 
       x.Serialize(file, Cf);
       file.Dispose();
+      
     }
 
     [Test]
