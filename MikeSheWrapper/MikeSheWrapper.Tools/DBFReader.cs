@@ -109,7 +109,7 @@ namespace MikeSheWrapper.Tools
               dr[j] = ShapeLib.DBFReadLogicalAttribute(_dbfPointer, _recordPointer, E._index);
               break;
             case ShapeLib.DBFFieldType.FTString:
-              dr[j] = ShapeLib.DBFReadStringAttribute(_dbfPointer, _recordPointer, E._index);
+              dr[j] = ShapeLib.DBFReadStringAttribute(_dbfPointer, _recordPointer, E._index).TrimEnd();
               break;
             case ShapeLib.DBFFieldType.FTInvalid:
             default:
