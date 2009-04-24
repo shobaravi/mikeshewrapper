@@ -20,10 +20,10 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
       SRC.XHeader = "XUTM";
       SRC.YHeader = "YUTM";
-      SRC.WellIDHeader = "BOREHOLE";
+      SRC.WellIDHeader = "BOREHOLENO";
       SRC.IntakeNumber = "INTAKENO";
-      SRC.BOTTOMHeader = "INTAKMIDK";
-      SRC.TOPHeader = "INTAKMIDK";
+      SRC.BOTTOMHeader = "INTAKTOPK";
+      SRC.TOPHeader = "INTAKBOTK";
       SRC.FraAArHeader = "FRAAAR";
       SRC.TilAArHeader = "TILAAR";
 
