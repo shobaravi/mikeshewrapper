@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace MikeSheWrapper.Tools
     public PointShapeReader(string FileName)
     {
       _fileName = FileName;
+      if (!File.Exists(FileName))
+        throw new FileNotFoundException("Could not find the file: " + FileName);
       _data = new DBFReader(FileName);
 
       // Open shapefile
