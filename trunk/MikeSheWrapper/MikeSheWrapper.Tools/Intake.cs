@@ -9,7 +9,28 @@ namespace MikeSheWrapper.Tools
   {
     private List<double> _screenTop = new List<double>();
     private List<double> _screenBottom = new List<double>();
-    private List<ObservationEntry> _observations = new List<ObservationEntry>();
+    private List<double> _screenTopAsKote = new List<double>();
+
+      /// <summary>
+      /// Gets and sets the screen top in Kote. Careful this is completely independent of Screentop as depth
+      /// </summary>
+    public List<double> ScreenTopAsKote
+    {
+        get { return _screenTopAsKote; }
+        set { _screenTopAsKote = value; }
+    }
+    private List<double> _screenBottomAsKote = new List<double>();
+
+      /// <summary>
+    /// Gets and sets the screen Bottom in kote. Careful this is completely independent of Screenbottom as depth
+      /// </summary>
+    public List<double> ScreenBottomAsKote
+    {
+        get { return _screenBottomAsKote; }
+        set { _screenBottomAsKote = value; }
+    }
+
+      private List<ObservationEntry> _observations = new List<ObservationEntry>();
     public IWell well {get;protected set;}
     public int IDNumber {get; set;}
     public DateTime PumpingStart{get;set;}
