@@ -223,8 +223,8 @@ namespace MikeSheWrapper.InputDataPreparation
         
         CurrentWell.X = Convert.ToDouble(DR[SRC.XHeader]);
         CurrentWell.Y = Convert.ToDouble(DR[SRC.YHeader]);
-        CurrentIntake.ScreenBottom.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
-        CurrentIntake.ScreenTop.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
+        CurrentIntake.ScreenBottomAsKote.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
+        CurrentIntake.ScreenTopAsKote.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
         CurrentIntake.PumpingStart = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
         CurrentIntake.PumpingStop = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 1, 1);
       }
@@ -293,7 +293,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
 
     /// <summary>
-    /// Writes dfs0 files for the SelectedWells wells
+    /// Writes dfs0 files with head observations for the SelectedIntakes
     /// Only includes data within the period bounded by Start and End
     /// </summary>
     /// <param name="OutputPath"></param>
@@ -338,6 +338,14 @@ namespace MikeSheWrapper.InputDataPreparation
       }
     }
 
+      /// <summary>
+      /// Writes adfs0 with extraction data for each active intake in every plant. 
+      /// Also writes the textfile that can be imported by the well editor.
+      /// </summary>
+      /// <param name="OutputPath"></param>
+      /// <param name="Plants"></param>
+      /// <param name="Start"></param>
+      /// <param name="End"></param>
     public static void WriteExtractionDFS0(string OutputPath, IEnumerable<Plant> Plants, DateTime Start, DateTime End)
     {
 
@@ -351,11 +359,27 @@ namespace MikeSheWrapper.InputDataPreparation
       _tso.Connection.FilePath = dfs0FileName;
       TSItem _item;
 
+      TSObject _tsoStat = new TSObjectClass();
+      _tsoStat.Connection.FilePath = Path.Combine(OutputPath, "ExtractionStat.dfs0");
+      Dictionary<int, double> Sum = new Dictionary<int, double>();
+      int Pcount = 0;
+
+
+
       int NumberOfYears = End.Year - Start.Year + 1;
+        //Dummy year because of mean step accumulated
+
+        _tso.Time.AddTimeSteps(1);
+      _tso.Time.SetTimeForTimeStepNr(1, new DateTime(Start.Year, 1, 1, 0, 0, 0));
+
       for (int i = 0; i < NumberOfYears; i++)
       {
-        _tso.Time.AddTimeSteps(1);
-        _tso.Time.SetTimeForTimeStepNr(i+1, new DateTime(Start.Year + i, 1, 1, 0, 0, 0));
+          _tso.Time.AddTimeSteps(1);
+          _tso.Time.SetTimeForTimeStepNr(i + 2, new DateTime(Start.Year + i, 12, 31, 12, 0, 0));
+
+          _tsoStat.Time.AddTimeSteps(1);
+          _tsoStat.Time.SetTimeForTimeStepNr(i + 1, new DateTime(Start.Year + i, 12, 31, 12, 0, 0));
+          Sum.Add(i, 0);
       }
 
       int itemCount = 1;
@@ -365,6 +389,17 @@ namespace MikeSheWrapper.InputDataPreparation
       //loop the plants
       foreach (Plant P in Plants.Where(var=>var.PumpingIntakes.Count>0))
       {
+
+          //Create statistics
+          for (int i = 0; i < NumberOfYears; i++)
+          {
+              //Extractions are not necessarily sorted and the time series may have missing data
+              int k = P.Extractions.FindIndex(var => var.Time.Year == Start.Year + i);
+              if (k >= 0)
+                  Sum[i] += P.Extractions[k].Value;
+          }
+          Pcount++;
+
 
         //Calculate the fractions based on how many intakes are active for a particular year.
         for (int i = 0; i < NumberOfYears; i++)
@@ -400,11 +435,19 @@ namespace MikeSheWrapper.InputDataPreparation
                 //Extractions are not necessarily sorted and the time series may have missing data
                 int k = P.Extractions.FindIndex(var => var.Time.Year == Start.Year+i);
 
+                  //First year should be printed twice
+                if (i == 0)
+                {
+                    if (k >= 0 & I.PumpingStart.Year <= Start.Year + i & I.PumpingStop.Year >= Start.Year + i)
+                        _item.SetDataForTimeStepNr(1, (float)(P.Extractions[k].Value * fractions[i]));
+                    else
+                        _item.SetDataForTimeStepNr(1, 0F); //Prints 0 if no data available
+                }
                 //If data and the intake is active
                 if (k >= 0 & I.PumpingStart.Year <= Start.Year + i & I.PumpingStop.Year >= Start.Year + i)
-                  _item.SetDataForTimeStepNr(i + 1, (float)(P.Extractions[k].Value*fractions[i]));
+                  _item.SetDataForTimeStepNr(i + 2, (float)(P.Extractions[k].Value*fractions[i]));
                 else 
-                  _item.SetDataForTimeStepNr(i + 1, 0F); //Prints 0 if no data available
+                  _item.SetDataForTimeStepNr(i + 2, 0F); //Prints 0 if no data available
               }
 
               //Now add line to text file.
@@ -415,9 +458,17 @@ namespace MikeSheWrapper.InputDataPreparation
               Line.Append(I.well.Terrain + "\t");
               Line.Append((I.ScreenBottom.Min()) + "\t");
               Line.Append(P.IDNumber + "\t");
-              Line.Append(I.well.Terrain - I.ScreenTop.Min() + "\t");
-              Line.Append(I.well.Terrain - I.ScreenBottom.Max() + "\t");
-              Line.Append(1 + "\t");
+                //Use the screen position in kote if it has been set.
+                if (I.ScreenTopAsKote.Count>0)
+                    Line.Append(I.ScreenTopAsKote.Max() + "\t");
+                else
+                    Line.Append(I.well.Terrain - I.ScreenTop.Min() + "\t");
+                if (I.ScreenBottomAsKote.Count > 0)
+                    Line.Append(I.ScreenBottomAsKote.Min() + "\t");
+                else
+                  Line.Append(I.well.Terrain - I.ScreenBottom.Max() + "\t");
+    
+                Line.Append(1 + "\t");
               Line.Append(dfs0FileName +"\t");
               Line.Append(itemCount);
               Sw.WriteLine(Line.ToString());
@@ -427,6 +478,30 @@ namespace MikeSheWrapper.InputDataPreparation
           }
         }
       }
+
+      TSItem SumItem = new TSItemClass();
+      SumItem.DataType = ItemDataType.Type_Float;
+      SumItem.ValueType = ItemValueType.Mean_Step_Accumulated;
+      SumItem.EumType = 328;
+      SumItem.EumUnit = 3;
+      SumItem.Name = "Sum";
+      _tsoStat.Add(SumItem);
+
+      TSItem MeanItem = new TSItemClass();
+      MeanItem.DataType = ItemDataType.Type_Float;
+      MeanItem.ValueType = ItemValueType.Mean_Step_Accumulated;
+      MeanItem.EumType = 328;
+      MeanItem.EumUnit = 3;
+      MeanItem.Name = "Mean";
+      _tsoStat.Add(MeanItem);
+
+      for (int i = 0; i < NumberOfYears; i++)
+      {
+          SumItem.SetDataForTimeStepNr(i + 1, (float)Sum[i]);
+          MeanItem.SetDataForTimeStepNr(i + 1, (float)Sum[i]/Pcount);
+      }
+
+      _tsoStat.Connection.Save();
       _tso.Connection.Save();
       Sw.Dispose();
       Sw2.Dispose();
