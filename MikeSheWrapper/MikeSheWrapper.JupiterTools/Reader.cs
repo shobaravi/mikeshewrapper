@@ -206,7 +206,7 @@ namespace MikeSheWrapper.JupiterTools
       foreach (var Boring in JXL.BOREHOLE)
       {
         CurrentWell = new Well(Boring.BOREHOLENO);
-        Wells.Add(Boring.BOREHOLENO, CurrentWell);
+        Wells.Add(CurrentWell.ID, CurrentWell);
 
         if (!Boring.IsXUTMNull())
           CurrentWell.X = Boring.XUTM;
