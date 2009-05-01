@@ -34,6 +34,8 @@ namespace MikeSheWrapper.Viewer
         MessageBox.Show(EE.Message, "Invalid filter expression");
         return false;
       }
+      if (SelectedRows.Count() == 0)
+          return (DialogResult.OK== MessageBox.Show("Selection contains no elements.\nContinue?", "Selection correct?", MessageBoxButtons.OKCancel));
       return true;
     }
 
