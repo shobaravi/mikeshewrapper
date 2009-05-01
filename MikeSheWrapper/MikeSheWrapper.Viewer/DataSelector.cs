@@ -103,9 +103,10 @@ namespace MikeSheWrapper.Viewer
     {
       int k = richTextBoxSelectString.SelectionStart;
 
-      richTextBoxSelectString.Text = richTextBoxSelectString.Text.Insert(k, text);
+      richTextBoxSelectString.Text = richTextBoxSelectString.Text.Insert(k," "+ text+ " ");
 
-      richTextBoxSelectString.SelectionStart = k + text.Length;
+      richTextBoxSelectString.SelectionStart = k + text.Length+2;
+      richTextBoxSelectString.Focus();
 
     }
 
