@@ -95,8 +95,12 @@ namespace MikeSheWrapper.InputDataPreparation
       {
         foreach (Intake I in SelectedIntakes)
         {
-          double depth = (I.ScreenTop.Max() + I.ScreenBottom.Max()) / 2;
-          //          if (W.Dfs0Written)
+            double depth;
+            if (I.ScreenBottomAsKote.Count > 0)
+                depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
+            else
+                depth = (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
+            //          if (W.Dfs0Written)
           SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 ");
           //When is this necessary
           //        else  
@@ -223,6 +227,7 @@ namespace MikeSheWrapper.InputDataPreparation
         
         CurrentWell.X = Convert.ToDouble(DR[SRC.XHeader]);
         CurrentWell.Y = Convert.ToDouble(DR[SRC.YHeader]);
+          CurrentWell.Terrain = Convert.ToDouble(DR[SRC.TerrainHeader]);
         CurrentIntake.ScreenBottomAsKote.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
         CurrentIntake.ScreenTopAsKote.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
         CurrentIntake.PumpingStart = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
@@ -270,8 +275,13 @@ namespace MikeSheWrapper.InputDataPreparation
             SelectedObs.Sort();
 
             StringBuilder S = new StringBuilder();
-            double depth = (I.ScreenTop.Max() + I.ScreenBottom.Max()) / 2;
-            S.Append(I.ToString() + "\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t");
+            double depth;
+              if (I.ScreenBottomAsKote.Count>0)
+                  depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
+              else
+                  depth =  (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
+
+              S.Append(I.ToString() + "\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t");
 
             if (AllObs)
               foreach (ObservationEntry TSE in SelectedObs)
@@ -282,9 +292,12 @@ namespace MikeSheWrapper.InputDataPreparation
               }
             else
             {
-              S.Append(SelectedObs.Average(num => num.Value).ToString() + "\t");
-              S.Append(SelectedObs.Max(num => num.Time).ToShortDateString());
-              SW.WriteLine(S.ToString());
+                if (SelectedObs.Count > 0)
+                {
+                    S.Append(SelectedObs.Average(num => num.Value).ToString() + "\t");
+                    S.Append(SelectedObs.Max(num => num.Time).ToShortDateString());
+                    SW.WriteLine(S.ToString());
+                }
             }
           }
       }

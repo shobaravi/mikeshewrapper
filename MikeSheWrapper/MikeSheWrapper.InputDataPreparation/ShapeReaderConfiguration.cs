@@ -14,6 +14,7 @@ namespace MikeSheWrapper.InputDataPreparation
         public string YHeader { get; set; }
         public string TOPHeader { get; set; }
         public string BOTTOMHeader { get; set; }
+        public string TerrainHeader { get; set; }
         public string FraAArHeader { get; set; }
         public string TilAArHeader { get; set; }
     }
