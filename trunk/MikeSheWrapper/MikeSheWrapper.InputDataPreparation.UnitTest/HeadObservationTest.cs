@@ -21,7 +21,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     {
       JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
       Dictionary<string, IWell> Wells = R.Wells();
-      R.Waterlevels(Wells, false);
+      R.Waterlevels(Wells);
 
       List<IIntake> Intakes= new List<IIntake>();
 
