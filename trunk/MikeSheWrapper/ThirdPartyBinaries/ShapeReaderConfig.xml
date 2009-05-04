@@ -6,6 +6,7 @@
   <YHeader>YUTM</YHeader>
   <TOPHeader>INTAKTOPK</TOPHeader>
   <BOTTOMHeader>INTAKBOTK</BOTTOMHeader>
+  <TerrainHeader>JUPKOTE</TerrainHeader>
   <FraAArHeader>FRAAAR</FraAArHeader>
   <TilAArHeader>TILAAR</TilAArHeader>
 </ShapeReaderConfiguration>
