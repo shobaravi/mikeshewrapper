@@ -32,35 +32,23 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     /// <param name="DataBaseFile"></param>
     /// <param name="CreateWells"></param>
-    public void Waterlevels(Dictionary<string, IWell> Wells, bool LocateByNOVANAID)
+    public void Waterlevels(Dictionary<string, IWell> Wells)
     {
-      JXL.ReadWaterLevels();
+        JXL.ReadWaterLevels();
 
-      foreach (var WatLev in JXL.WATLEVEL)
-      {
-        IWell CurrentWell;
-        if (!LocateByNOVANAID)
+        foreach (var WatLev in JXL.WATLEVEL)
         {
-          //Find the well in the dictionary
-          if (!Wells.TryGetValue(WatLev.BOREHOLENO, out CurrentWell))
-          {
-            IIntake I = CurrentWell.Intakes.First(var => var.IDNumber == WatLev.INTAKENO);
-            if (I != null)
-              FillInWaterLevel(I, WatLev);
-          }
+            IWell CurrentWell;
+            //Find the well in the dictionary
+            if (Wells.TryGetValue(WatLev.BOREHOLENO, out CurrentWell))
+            {
+                IIntake I = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == WatLev.INTAKENO);
+                if (I != null)
+                    FillInWaterLevel(I, WatLev);
+            }
         }
-        else
-        {
-          string NOVANAID = WatLev.BOREHOLENO.Replace(" ","") + "_" + WatLev.INTAKENO;
-          if (!Wells.TryGetValue(NOVANAID, out CurrentWell))
-          {
-            IIntake I = CurrentWell.Intakes.First();
-            if (I != null)
-              FillInWaterLevel(I, WatLev);
-          }
-        }
-      }
     }
+    
 
     /// <summary>
     /// Put the observation in the well
