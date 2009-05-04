@@ -56,19 +56,23 @@ namespace MikeSheWrapper.Viewer
           }
           else
           {
-            if (jd.ReadPejlinger)
-              JupiterReader.Waterlevels(Wells, false);
+              if (jd.ReadPejlinger)
+              {
+                  JupiterReader.Waterlevels(Wells);
+                  buttonNovanaShape.Enabled = true;
+                  buttonLSFile.Enabled = true;
+                  buttonMSheObs.Enabled = true;
+              }
           }
 
           if (jd.ReadExtration)
           {
             Plants = JupiterReader.Extraction(Wells).ToList<Plant>();
+            buttonNovanaExtract.Enabled = true;
+            buttonMsheExt.Enabled = true;
           }
 
           UpdateListsAndListboxes();
-          buttonNovanaShape.Enabled = jd.ReadPejlinger;
-          buttonLSFile.Enabled = jd.ReadPejlinger;
-          buttonMSheObs.Enabled = jd.ReadPejlinger;
         }
       }
     }
@@ -99,8 +103,6 @@ namespace MikeSheWrapper.Viewer
         listBoxAnlaeg.Items.AddRange(Plants.ToArray());
         radioButton2.Enabled = true;
         textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
-        buttonNovanaExtract.Enabled = true;
-        buttonMsheExt.Enabled = true;
       }
     }
 
@@ -193,21 +195,7 @@ namespace MikeSheWrapper.Viewer
       textBox4.Text = listBoxIntakes.Items.Count.ToString();
     }
 
-    /// <summary>
-    /// Write the dfs0s
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void button4_Click(object sender, EventArgs e)
-    {
-      if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-      {
-        IEnumerable<IIntake> SelectedWells = listBoxIntakes.Items.Cast<IIntake>();
-        HeadObservations.WriteToDfs0(folderBrowserDialog1.SelectedPath, SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
-        HeadObservations.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"), SelectedWells);
-        HeadObservations.WriteToDatFile(Path.Combine(folderBrowserDialog1.SelectedPath, "Timeseries.dat"), SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
-      }
-    }
+ 
 
     /// <summary>
     /// Write to shape
@@ -228,16 +216,7 @@ namespace MikeSheWrapper.Viewer
     }
 
 
-    private void buttonLSFile_Click(object sender, EventArgs e)
-    {
-      if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-      {
-        bool WriteAll = (DialogResult.Yes == MessageBox.Show("Press \"Yes\" if you want to write all values for individual time series.\nPress \"No\" if you want to write the average value of the time series.", "Average or all?", MessageBoxButtons.YesNo));
-        HeadObservations.WriteToLSInput(saveFileDialog1.FileName, listBoxIntakes.Items.Cast<IIntake>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
-      }
-    }
-
-
+  
     private void WriteNovanaShape(object sender, EventArgs e)
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -414,6 +393,28 @@ namespace MikeSheWrapper.Viewer
       {
           HeadObservations.WriteExtractionDFS0(folderBrowserDialog1.SelectedPath, listBoxAnlaeg.Items.Cast<Plant>(), dateTimeStartExt.Value, dateTimeEndExt.Value);
       }
+
+    }
+
+    private void buttonLSFile_Click_1(object sender, EventArgs e)
+    {
+        if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+        {
+            bool WriteAll = (DialogResult.Yes == MessageBox.Show("Press \"Yes\" if you want to write all values for individual time series.\nPress \"No\" if you want to write the average value of the time series.", "Average or all?", MessageBoxButtons.YesNo));
+            HeadObservations.WriteToLSInput(saveFileDialog1.FileName, listBoxIntakes.Items.Cast<IIntake>(), dateTimePicker1.Value, dateTimePicker2.Value, WriteAll);
+        }
+
+    }
+
+    private void buttonMSheObs_Click(object sender, EventArgs e)
+    {
+        if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+        {
+            IEnumerable<IIntake> SelectedWells = listBoxIntakes.Items.Cast<IIntake>();
+            HeadObservations.WriteToDfs0(folderBrowserDialog1.SelectedPath, SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
+            HeadObservations.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"), SelectedWells);
+            HeadObservations.WriteToDatFile(Path.Combine(folderBrowserDialog1.SelectedPath, "Timeseries.dat"), SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
+        }
 
     }
   }
