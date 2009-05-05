@@ -113,8 +113,16 @@ namespace MikeSheWrapper.DFS
           firstItem = false;
           int axistype = DFSWrapper.dfsGetItemAxisType(IP);
 
+          if (axistype == 3)
+          {
+            IntPtr coords = new IntPtr();
+            DFSWrapper.dfsGetItemAxisNeqD1(IP, ref unit, ref eum_unit, ref data_type, ref coords);
+
+            DFSWrapper.dfsGetItemRefCoords(coords, ref x, ref y, ref z);
+          }
+
           //DFS2 from MikeShe
-          if (axistype == 5)
+          else if (axistype == 5)
           {
             DFSWrapper.dfsGetItemAxisEqD2(IP, ref item_type, ref eum_unit, ref _numberOfColumns, ref _numberOfRows, ref x, ref y, ref dx, ref dy);
             _xOrigin = x;
@@ -173,6 +181,8 @@ namespace MikeSheWrapper.DFS
         {
           if (unit == 1400)
             TimeSteps[i] = _firstTimeStep.AddSeconds(ReadItemTimeStep(i, 1));
+          else if (unit == 1402)
+            TimeSteps[i] = _firstTimeStep.AddHours(ReadItemTimeStep(i, 1));
         }
         else
           TimeSteps[i] = TimeSteps[i - 1].Add(_timeStep);
