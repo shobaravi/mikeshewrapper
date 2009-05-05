@@ -16,6 +16,14 @@ namespace MikeSheWrapper.Viewer
       InitializeComponent();
     }
 
+    public bool ReadWells
+    {
+      set
+      {
+        checkBoxWell.Checked = value;
+      }
+    }
+
    
     public bool ReadPejlinger
     {

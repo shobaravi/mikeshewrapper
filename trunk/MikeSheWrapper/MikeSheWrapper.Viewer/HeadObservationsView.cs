@@ -45,6 +45,9 @@ namespace MikeSheWrapper.Viewer
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
         JupiterFilter jd = new JupiterFilter();
+
+        jd.ReadWells = (Wells == null);
+
         string FileName = openFileDialog2.FileName;
         if (DialogResult.OK == jd.ShowDialog())
         {

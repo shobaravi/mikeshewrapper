@@ -427,7 +427,7 @@ namespace MikeSheWrapper.InputDataPreparation
           if (I.well.UsedForExtraction)
           {
             //If there is no screen information we cannot use it. 
-            if (I.ScreenBottom.Count == 0 || I.ScreenTop.Count == 0)
+            if (I.ScreenBottom.Count == 0 & I.ScreenBottomAsKote.Count == 0 || I.ScreenTop.Count == 0 & I.ScreenTopAsKote.Count ==0)
               Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
             else
             {
@@ -469,7 +469,7 @@ namespace MikeSheWrapper.InputDataPreparation
               Line.Append(I.well.X + "\t");
               Line.Append(I.well.Y + "\t");
               Line.Append(I.well.Terrain + "\t");
-              Line.Append((I.ScreenBottom.Min()) + "\t");
+              Line.Append("0\t");
               Line.Append(P.IDNumber + "\t");
                 //Use the screen position in kote if it has been set.
                 if (I.ScreenTopAsKote.Count>0)
