@@ -62,9 +62,6 @@ namespace MikeSheWrapper.Viewer
               if (jd.ReadPejlinger)
               {
                   JupiterReader.Waterlevels(Wells);
-                  buttonNovanaShape.Enabled = true;
-                  buttonLSFile.Enabled = true;
-                  buttonMSheObs.Enabled = true;
               }
           }
 
@@ -73,6 +70,12 @@ namespace MikeSheWrapper.Viewer
             Plants = JupiterReader.Extraction(Wells).ToList<Plant>();
             buttonNovanaExtract.Enabled = true;
             buttonMsheExt.Enabled = true;
+          }
+          if (jd.ReadPejlinger)
+          {
+              buttonNovanaShape.Enabled = true;
+              buttonLSFile.Enabled = true;
+              buttonMSheObs.Enabled = true;
           }
 
           UpdateListsAndListboxes();
