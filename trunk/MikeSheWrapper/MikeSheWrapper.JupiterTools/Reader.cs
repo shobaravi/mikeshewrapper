@@ -60,6 +60,9 @@ namespace MikeSheWrapper.JupiterTools
       if (!WatLev.IsTIMEOFMEASNull())
         if (!WatLev.IsWATLEVMSLNull())
           CurrentIntake.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, WatLev.WATLEVMSL));
+        else if (!WatLev.IsWATLEVGRSUNull())
+            CurrentIntake.Observations.Add(new ObservationEntry(WatLev.TIMEOFMEAS, CurrentIntake.well.Terrain - WatLev.WATLEVGRSU));
+
     }
 
 
@@ -528,13 +531,15 @@ namespace MikeSheWrapper.JupiterTools
 
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
-      JXL.ReadWells(false);
+      if (WaterLevel)
+          JXL.ReadWaterLevels();
+
       if (Lithology)
         JXL.ReadInLithology();
-      if (WaterLevel)
-        JXL.ReadWaterLevels();
       if (Chemistry)
         JXL.ReadInChemistrySamples();
+
+        JXL.ReadWells(false);
 
       JupiterWell CurrentWell;
       IIntake CurrentIntake;
