@@ -417,10 +417,24 @@ namespace MikeSheWrapper.Viewer
         if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
         {
             IEnumerable<IIntake> SelectedWells = listBoxIntakes.Items.Cast<IIntake>();
-            HeadObservations.WriteToDfs0(folderBrowserDialog1.SelectedPath, SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
-            HeadObservations.WriteToMikeSheModel(Path.Combine(folderBrowserDialog1.SelectedPath, "DetailedTimeSeriesImport.txt"), SelectedWells);
+          
+            int TotalDfs0 = SelectedWells.Count();
+            progressBar1.Maximum = TotalDfs0;
+            progressBar1.Value = 0;
+            progressBar1.Visible = true;
+            labelProgBar.Visible = true;
+            this.Refresh();
+          foreach (IIntake I in SelectedWells)
+            {
+              progressBar1.Value++;
+              HeadObservations.WriteToDfs0(folderBrowserDialog1.SelectedPath, I, dateTimePicker1.Value, dateTimePicker2.Value);
+            }
+
+          HeadObservations.WriteToMikeSheModel(folderBrowserDialog1.SelectedPath, SelectedWells);
             HeadObservations.WriteToDatFile(Path.Combine(folderBrowserDialog1.SelectedPath, "Timeseries.dat"), SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
         }
+        progressBar1.Visible = false;
+        labelProgBar.Visible = false;
 
     }
   }
