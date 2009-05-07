@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,18 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
       JXL.ReadWells(false, false);
       Assert.IsFalse(JXL.BOREHOLE.First().IsUSENull());
     }
+
+    [Test]
+    public void MemoryTest()
+    {
+      JupiterXL JXL = new JupiterXL(@"..\..\..\mcribe.mdb");
+      JXL.ReadWells(true, false);
+
+      int k= JXL.BOREHOLE.Count;
+      JXL = null; 
+      
+      
+    }
+
   }
 }
