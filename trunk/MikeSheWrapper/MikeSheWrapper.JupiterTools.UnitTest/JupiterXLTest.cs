@@ -14,11 +14,11 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     public void DobbletFillTest()
     {
       JupiterXL JXL = new JupiterXL(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
-      JXL.ReadWells(true);
+      JXL.ReadWells(true, false);
 
       Assert.IsTrue(JXL.BOREHOLE.First().IsUSENull());
 
-      JXL.ReadWells(false);
+      JXL.ReadWells(false, false);
       Assert.IsFalse(JXL.BOREHOLE.First().IsUSENull());
     }
   }
