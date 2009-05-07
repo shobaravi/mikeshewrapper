@@ -188,7 +188,7 @@ namespace MikeSheWrapper.JupiterTools
     {
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
-      JXL.ReadWells(true);
+      JXL.ReadWells(true, false);
 
       Well CurrentWell;
       IIntake CurrentIntake;
@@ -249,7 +249,7 @@ namespace MikeSheWrapper.JupiterTools
 
       //Make sure all the necessary data have been read.
       if (JXL.ReducedRead)
-        JXL.ReadWells(false);
+        JXL.ReadWells(false, false);
       if (JXL.LITHSAMP.Count == 0)
         JXL.ReadInLithology();
 
@@ -338,7 +338,7 @@ namespace MikeSheWrapper.JupiterTools
 
       //Make sure all the necessary data have been read.
       if (JXL.ReducedRead)
-        JXL.ReadWells(false);
+        JXL.ReadWells(false, false);
 
 
       //Loop the plants
@@ -539,7 +539,7 @@ namespace MikeSheWrapper.JupiterTools
       if (Chemistry)
         JXL.ReadInChemistrySamples();
 
-        JXL.ReadWells(false);
+        JXL.ReadWells(false, WaterLevel);
 
       JupiterWell CurrentWell;
       IIntake CurrentIntake;

@@ -41,7 +41,7 @@ namespace MikeSheWrapper.JupiterTools
     /// If Reduced is true only a reduced dataset is read
     /// </summary>
     /// <param name="DataBaseFileName"></param>
-    public void ReadWells(bool Reduced)
+    public void ReadWells(bool Reduced, bool OnlyWithObservations)
     {
       ReducedRead = Reduced;
 
@@ -51,7 +51,12 @@ namespace MikeSheWrapper.JupiterTools
       if (Reduced)
         BTA.FillReduced(BOREHOLE);
       else
-        BTA.Fill(BOREHOLE);
+      {
+        if (OnlyWithObservations)
+          BTA.FillByWithObs(BOREHOLE);
+        else
+          BTA.Fill(BOREHOLE);
+      }
 
       //Read in Intakes through table adapter
       INTAKETableAdapter ITA = new INTAKETableAdapter();
@@ -129,6 +134,9 @@ namespace MikeSheWrapper.JupiterTools
 
 
 namespace MikeSheWrapper.JupiterTools.JupiterXLTableAdapters {
+  partial class BOREHOLETableAdapter
+  {
+    }
     
     
     public partial class LITHSAMPTableAdapter {
