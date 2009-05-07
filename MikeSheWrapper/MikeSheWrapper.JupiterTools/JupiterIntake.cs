@@ -11,6 +11,7 @@ namespace MikeSheWrapper.JupiterTools
   public class JupiterIntake:Intake,IEquatable<JupiterIntake>, IEqualityComparer<JupiterIntake>
   {
     public DataRow Data { get; set; }
+    public string RefPoint { get; set; }
 
     internal JupiterIntake(IWell Well, int IDNumber)
     {
