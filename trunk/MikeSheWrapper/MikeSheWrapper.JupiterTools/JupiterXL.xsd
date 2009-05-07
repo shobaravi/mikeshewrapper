@@ -9249,7 +9249,7 @@ FROM         SCREEN</CommandText>
               <DbSource ConnectionRef="herningConnectionString (Settings)" DbObjectName="WATLEVEL" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNovana" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByNovana" GeneratorSourceName="FillByNovana" GetMethodModifier="Public" GetMethodName="GetDataByNovana" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByNovana" UserSourceName="FillByNovana">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT     BOREHOLENO, WATLEVELNO, INTAKENO, TIMEOFMEAS, WATERLEVEL, WATLEVGRSU, WATLEVMSL, WATLEVMP
+                    <CommandText>SELECT     BOREHOLENO, WATLEVELNO, INTAKENO, TIMEOFMEAS, WATERLEVEL, WATLEVGRSU, WATLEVMSL, WATLEVMP, REFPOINT
 FROM         WATLEVEL</CommandText>
                     <Parameters />
                   </DbCommand>

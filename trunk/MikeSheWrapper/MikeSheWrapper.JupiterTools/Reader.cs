@@ -47,6 +47,7 @@ namespace MikeSheWrapper.JupiterTools
                     FillInWaterLevel(I, WatLev);
             }
         }
+        JXL.WATLEVEL.Clear();
     }
     
 
@@ -507,9 +508,8 @@ namespace MikeSheWrapper.JupiterTools
         CurrentRow.ANTPEJ = CurrentIntake.Observations.Count;
         if (CurrentRow.ANTPEJ > 0)
         {
-          //Fra WatLevel          
-          CurrentRow.REFPOINT = JXL.WATLEVEL.FindByBOREHOLENOWATLEVELNO(CurrentIntake.well.ID, 1).REFPOINT;
 
+          CurrentRow.REFPOINT = CurrentIntake.RefPoint;
           CurrentRow.MINDATO = CurrentIntake.Observations.Min(x => x.Time);
           CurrentRow.MAXDATO = CurrentIntake.Observations.Max(x => x.Time);
           CurrentRow.AKTAAR = CurrentRow.MAXDATO.Year - CurrentRow.MINDATO.Year + 1;
@@ -610,13 +610,14 @@ namespace MikeSheWrapper.JupiterTools
           //Read in the water levels
           foreach (var WatLev in Intake.GetWATLEVELRows())
           {
+            ((JupiterIntake)CurrentIntake).RefPoint = WatLev.REFPOINT;
             FillInWaterLevel(CurrentIntake, WatLev);
           }         
 
         }//Intake loop
 
       }//Bore loop
-
+      JXL.WATLEVEL.Clear();
       return Wells;
     }
 
