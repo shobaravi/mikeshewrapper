@@ -26,8 +26,8 @@ namespace MikeSheWrapper.JupiterTools.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=D:\\Udvikling\\MikeSheWrapper\\MikeSheW" +
-            "rapper\\ThirdPartyBinaries\\PcJupiterXLEmptyTables.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Kode\\MikeSheWrapper\\ThirdPartyBin" +
+            "aries\\PcJupiterXLEmptyTables.mdb")]
         public string herningConnectionString {
             get {
                 return ((string)(this["herningConnectionString"]));

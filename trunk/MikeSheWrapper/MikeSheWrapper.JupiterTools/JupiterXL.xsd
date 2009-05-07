@@ -1569,6 +1569,14 @@
               <Mapping SourceColumn="UPDATEUSER" DataSetColumn="UPDATEUSER" />
             </Mappings>
             <Sources>
+              <DbSource ConnectionRef="herningConnectionString (Settings)" DbObjectName="BOREHOLE" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByWithObs" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByWithObs" GeneratorSourceName="FillByWithObs" GetMethodModifier="Public" GetMethodName="GetDataByWithObs" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByWithObs" UserSourceName="FillByWithObs">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT  BOREHOLENO, PURPOSE, USE, STATUS, DRILLDEPTH, ELEVATION, CTRPELEVA, VERTICAREF, CTRPDESCR, CTRPPRECIS,  CTRPHEIGHT, ELEVAMETHO, ELEVAQUALI, ELEVASOURC, LOCATION, COMMENTS, VARIOUS, XUTM, YUTM, UTMZONE, DATUM, MAPSHEET, MAPDISTX, MAPDISTY, SYS34X, SYS34Y, SYS34ZONE, LATITUDE, LONGITUDE, LOCATMETHO, LOCATQUALI, LOCATSOURC, BORHPOSTC, BORHTOWNNO, COUNTYNO, MUNICIPAL, HOUSEOWNAS, LANDREGNO, DRILLER, DRILLLOGNO, DRILLBORNO, REPORTEDBY, CONSULTANT, CONSULOGNO, CONSUBORNO, DRILLEDFOR, DRFORADRES, DRFORPOSTC, DRILSTDATE, DRILENDATE, ABANDONDAT, PREVBORHNO, NUMSUPLBOR, SAMRECEDAT, SAMDESCDAT, NUMOFSAMPL, NUMSAMSTO, LITHOLNOTE, TOGEUSDATE, BORHTOWNNO2007, LOCQUALI, LOOPAREANO, LOOPSTATION, LOOPTYPE, USECHANGEDATE, ENVCEN, ABANDCAUSE, ABANDCONTR, STARTDAYUNKNOWN, STARTMNTHUNKNWN, WWBOREHOLENO, XUTM32EUREF89, YUTM32EUREF89, ZDVR90, INSTALLATION, WORKINGCONDITIONS, APPROACH, ACCESSREMARK, LOCATEPERSONEMAIL, PRESERVATIONZONE, PROTECTIONZONE, REGION, USECHANGECAUSE  FROM  BOREHOLE, (select BOREHOLENO as B from WATLEVEL GROUP BY BOREHOLENO) as CountTable where BOREHOLE.BOREHOLENO = CountTable.B</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
               <DbSource ConnectionRef="herningConnectionString (Settings)" DbObjectName="BOREHOLE" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillReduced" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataReduced" GeneratorSourceName="FillReduced" GetMethodModifier="Public" GetMethodName="GetDataReduced" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataReduced" UserSourceName="FillReduced">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
