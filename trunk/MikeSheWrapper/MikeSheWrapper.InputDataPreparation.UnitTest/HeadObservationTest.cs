@@ -31,7 +31,8 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
       Assert.AreEqual(747, Intakes.Count);
 
-      HeadObservations.WriteToDfs0(@"..\..\..\TestData\TidsSerier", Intakes, new DateTime(2003, 1, 1), new DateTime(2009, 1, 1));
+      foreach(IIntake I in Intakes)
+      HeadObservations.WriteToDfs0(@"..\..\..\TestData\TidsSerier", I, new DateTime(2003, 1, 1), new DateTime(2009, 1, 1));
 
 
     }

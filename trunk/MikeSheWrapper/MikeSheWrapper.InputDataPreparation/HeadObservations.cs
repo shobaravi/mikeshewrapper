@@ -89,24 +89,35 @@ namespace MikeSheWrapper.InputDataPreparation
     /// Depth is calculated as the midpoint of the lowest screen
     /// </summary>
     /// <param name="TxtFileName"></param>
-    public static void WriteToMikeSheModel(string TxtFileName, IEnumerable<IIntake> SelectedIntakes)
+    public static void WriteToMikeSheModel(string OutputPath, IEnumerable<IIntake> SelectedIntakes)
     {
-      using (StreamWriter SW = new StreamWriter(TxtFileName, false, Encoding.Default))
+
+      StreamWriter Sw2 = new StreamWriter(Path.Combine(OutputPath, "WellsWithMissingInfo.txt"), false, Encoding.Default);
+
+      using (StreamWriter SW = new StreamWriter(Path.Combine(OutputPath,"DetailedTimeSeriesImport.txt"), false, Encoding.Default))
       {
         foreach (Intake I in SelectedIntakes)
         {
+          //If there is no screen information we cannot use it. 
+          if (I.ScreenBottom.Count == 0 & I.ScreenBottomAsKote.Count == 0 || I.ScreenTop.Count == 0 & I.ScreenTopAsKote.Count == 0)
+            Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
+          else
+          {
+
             double depth;
             if (I.ScreenBottomAsKote.Count > 0)
-                depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
+              depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
             else
-                depth = (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
+              depth = (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
             //          if (W.Dfs0Written)
-          SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 ");
-          //When is this necessary
-          //        else  
-          //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 ");
+            //When is this necessary
+            //        else  
+            //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+          }
         }
       }
+      Sw2.Dispose();
     }
 
   
@@ -310,44 +321,41 @@ namespace MikeSheWrapper.InputDataPreparation
     /// Only includes data within the period bounded by Start and End
     /// </summary>
     /// <param name="OutputPath"></param>
-    public static void WriteToDfs0(string OutputPath, IEnumerable<IIntake> SelectedIntakes, DateTime Start, DateTime End)
+    public static void WriteToDfs0(string OutputPath, IIntake Intake, DateTime Start, DateTime End)
     {
-      foreach (Intake I in SelectedIntakes)
+      //Create the TSObject
+      TSObject _tso = new TSObjectClass();
+      TSItem _item = new TSItemClass();
+      _item.DataType = ItemDataType.Type_Float;
+      _item.ValueType = ItemValueType.Instantaneous;
+      _item.EumType = 171;
+      _item.EumUnit = 1;
+      _item.Name = "Head";
+      _tso.Add(_item);
+
+      DateTime _previousTimeStep = DateTime.MinValue;
+
+      //Select the observations
+      List<ObservationEntry> SelectedObs = Intake.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
+
+      SelectedObs.Sort();
+
+      for (int i = 0; i < SelectedObs.Count; i++)
       {
-        //Create the TSObject
-        TSObject _tso = new TSObjectClass();
-        TSItem _item = new TSItemClass();
-        _item.DataType = ItemDataType.Type_Float;
-        _item.ValueType = ItemValueType.Instantaneous;
-        _item.EumType = 171;
-        _item.EumUnit = 1;
-        _item.Name = "Head";
-        _tso.Add(_item);
-
-        DateTime _previousTimeStep = DateTime.MinValue;
-
-        //Select the observations
-        List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
-
-        SelectedObs.Sort();
-
-        for (int i = 0; i < SelectedObs.Count; i++)
+        //Only add the first measurement of the day
+        if (SelectedObs[i].Time != _previousTimeStep)
         {
-          //Only add the first measurement of the day
-          if (SelectedObs[i].Time != _previousTimeStep)
-          {
-            _tso.Time.AddTimeSteps(1);
-            _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
-            _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
-          }
+          _tso.Time.AddTimeSteps(1);
+          _tso.Time.SetTimeForTimeStepNr(i + 1, SelectedObs[i].Time);
+          _item.SetDataForTimeStepNr(i + 1, (float)SelectedObs[i].Value);
         }
+      }
 
-        //Now write the DFS0.
-        if (_tso.Time.NrTimeSteps != 0)
-        {
-          _tso.Connection.FilePath = Path.Combine(OutputPath, I.ToString() + ".dfs0");
-          _tso.Connection.Save();
-        }
+      //Now write the DFS0.
+      if (_tso.Time.NrTimeSteps != 0)
+      {
+        _tso.Connection.FilePath = Path.Combine(OutputPath, Intake.ToString() + ".dfs0");
+        _tso.Connection.Save();
       }
     }
 
