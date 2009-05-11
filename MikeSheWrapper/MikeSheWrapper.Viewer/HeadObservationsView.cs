@@ -106,6 +106,7 @@ namespace MikeSheWrapper.Viewer
 
       if (Plants != null)
       {
+        listBoxAnlaeg.Items.Clear();
         listBoxAnlaeg.Items.AddRange(Plants.ToArray());
         radioButton2.Enabled = true;
         textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
