@@ -70,7 +70,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       Dictionary<string, IWell> Wells =R.Wells();
 
-      var Anlaeg = R.Extraction(Wells);
+      var Anlaeg = R.Extraction(Wells,true);
 
       Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
 
@@ -86,7 +86,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
       
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       Reader R = new Reader(@"..\..\..\mcribe.mdb");
-      var Anlaeg = R.Extraction(Wells);
+      var Anlaeg = R.Extraction(Wells, true);
 
 
     }
