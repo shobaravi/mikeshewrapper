@@ -184,6 +184,7 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentWell.X = dt.X;
         CurrentWell.Y = dt.Y;
         CurrentWell.Z = dt.Z;
+        CurrentWell.UsedForExtraction = false;
 
         //Read in observations if they are included
         if (dt.InclObserved == 1)
