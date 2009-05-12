@@ -243,7 +243,7 @@ namespace MikeSheWrapper.JupiterTools
 
       CurrentWell = (JupiterWell)CurrentIntake.well;
 
-      CurrentRow.NOVANAID = CurrentWell.ID.Replace(" ", "") + "_" + CurrentIntake.ToString();
+      CurrentRow.NOVANAID = CurrentWell.ID.Replace(" ", "") + "_" + CurrentIntake.IDNumber;
 
       CurrentRow.XUTM = CurrentWell.X;
       CurrentRow.YUTM = CurrentWell.Y;
