@@ -67,7 +67,7 @@ namespace MikeSheWrapper.Viewer
 
           if (jd.ReadExtration)
           {
-            Plants = JupiterReader.Extraction(Wells).ToList<Plant>();
+            Plants = JupiterReader.Extraction(Wells, jd.ReadWells).ToList<Plant>();
             buttonNovanaExtract.Enabled = true;
             buttonMsheExt.Enabled = true;
           }
