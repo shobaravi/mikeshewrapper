@@ -18,6 +18,10 @@ namespace MikeSheWrapper.Viewer
 
     public bool ReadWells
     {
+      get
+      {
+        return checkBoxWell.Checked;
+      }
       set
       {
         checkBoxWell.Checked = value;
