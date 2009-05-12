@@ -42,7 +42,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     {
       JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
       Dictionary<string, IWell> Wells = R.WellsForNovana(false, false, false);
-      var Plants = R.Extraction(Wells).Where(var => var.Extractions.Count>0);
+      var Plants = R.Extraction(Wells, true).Where(var => var.Extractions.Count>0);
 
 
 
