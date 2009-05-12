@@ -62,9 +62,9 @@
       this.checkBoxLitologi.AutoSize = true;
       this.checkBoxLitologi.Location = new System.Drawing.Point(12, 107);
       this.checkBoxLitologi.Name = "checkBoxLitologi";
-      this.checkBoxLitologi.Size = new System.Drawing.Size(65, 17);
+      this.checkBoxLitologi.Size = new System.Drawing.Size(68, 17);
       this.checkBoxLitologi.TabIndex = 2;
-      this.checkBoxLitologi.Text = "Lithologi";
+      this.checkBoxLitologi.Text = "Lithology";
       this.checkBoxLitologi.UseVisualStyleBackColor = true;
       // 
       // checkBoxKemi
