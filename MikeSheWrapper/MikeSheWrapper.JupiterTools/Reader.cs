@@ -68,11 +68,13 @@ namespace MikeSheWrapper.JupiterTools
 
 
     /// <summary>
-    /// Read Extractions
+    /// Read Extractions.
+    /// The boolean set dates indicates whether the dates read from the DRWPLANTINTAKE table should be used as Pumpingstart
+    /// and pumpingstop.
     /// </summary>
     /// <param name="Plants"></param>
     /// <param name="Wells"></param>
-    public IEnumerable<Plant> Extraction(Dictionary<string, IWell> Wells)
+    public IEnumerable<Plant> Extraction(Dictionary<string, IWell> Wells, bool SetDates)
     {
       List<Plant> Plants = new List<Plant>();
       Dictionary<int, Plant> DPlants = new Dictionary<int, Plant>();
@@ -118,15 +120,18 @@ namespace MikeSheWrapper.JupiterTools
             {
               CurrentPlant.PumpingIntakes.Add(CurrentIntake);
 
-              if (!IntakeData.IsSTARTDATENull())
-                CurrentIntake.PumpingStart = IntakeData.STARTDATE;
-              else
-                CurrentIntake.PumpingStart = DateTime.MinValue;
+              if (SetDates)
+              {
+                if (!IntakeData.IsSTARTDATENull())
+                  CurrentIntake.PumpingStart = IntakeData.STARTDATE;
+                else
+                  CurrentIntake.PumpingStart = DateTime.MinValue;
 
-              if (!IntakeData.IsENDDATENull())
-                CurrentIntake.PumpingStop = IntakeData.ENDDATE;
-              else
-                CurrentIntake.PumpingStop = DateTime.MaxValue;
+                if (!IntakeData.IsENDDATENull())
+                  CurrentIntake.PumpingStop = IntakeData.ENDDATE;
+                else
+                  CurrentIntake.PumpingStop = DateTime.MaxValue;
+              }
             }
           }
         }
