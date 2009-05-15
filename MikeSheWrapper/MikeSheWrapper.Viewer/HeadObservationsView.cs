@@ -151,8 +151,8 @@ namespace MikeSheWrapper.Viewer
                                     if (CheckColumn(FullDataSet, ShpConfig.YHeader, config))
                                         if (CheckColumn(FullDataSet, ShpConfig.TOPHeader, config))
                                             if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
-                                                if (CheckColumn(FullDataSet, ShpConfig.FraAArHeader, config))
-                                                    if (CheckColumn(FullDataSet, ShpConfig.TilAArHeader, config))
+                                               // if (CheckColumn(FullDataSet, ShpConfig.FraAArHeader, config))
+                                                 //   if (CheckColumn(FullDataSet, ShpConfig.TilAArHeader, config))
                                                     {
                                                         Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
                                                         UpdateListsAndListboxes();
