@@ -216,6 +216,10 @@ namespace MikeSheWrapper.InputDataPreparation
     /// <param name="SRC"></param>
     public static Dictionary<string, IWell> FillInFromNovanaShape(DataRow[] DS, ShapeReaderConfiguration SRC)
     {
+      bool ReadPumpActivity = false;
+      if (DS.First().Table.Columns.Contains(SRC.FraAArHeader) & DS.First().Table.Columns.Contains(SRC.TilAArHeader))
+        ReadPumpActivity = true;
+
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       IWell CurrentWell;
       IIntake CurrentIntake;
@@ -242,8 +246,11 @@ namespace MikeSheWrapper.InputDataPreparation
           CurrentWell.Terrain = Convert.ToDouble(DR[SRC.TerrainHeader]);
         CurrentIntake.ScreenBottomAsKote.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
         CurrentIntake.ScreenTopAsKote.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
-        CurrentIntake.PumpingStart = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
-        CurrentIntake.PumpingStop = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 1, 1);
+        if (ReadPumpActivity)
+        {
+          CurrentIntake.PumpingStart = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
+          CurrentIntake.PumpingStop = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 1, 1);
+        }
       }
       return Wells;
     }
