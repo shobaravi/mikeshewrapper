@@ -26,7 +26,7 @@ namespace GeologyChecker
       Model m = new Model(args[0]);
 
       JupiterXL JXL = new JupiterXL(args[1]);
-      JXL.ReadWells(true);
+      JXL.ReadWells(true, false);
       JXL.ReadInLithology();
 
       foreach (var geo in JXL.LITHSAMP)
