@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Xml.Serialization;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,6 +69,44 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
 
       M.Dispose();
+    }
+
+    [Test]
+    public void ReadInFromShapeTest()
+    {
+      PointShapeReader PSr = new PointShapeReader(@"..\..\..\TestData\AlbertslundExtraction.shp");
+      DataTable DTWells = PSr.Data.Read();
+
+      PSr.Dispose();
+
+      PSr = new PointShapeReader(@"..\..\..\TestData\AlbertslundObservation.shp");
+      DataTable DTWellsObs = PSr.Data.Read();
+
+      PSr.Dispose();
+
+
+      ShapeReaderConfiguration SRC2;
+      XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
+      using (FileStream fs = new FileStream(@"..\..\..\ThirdpartyBinaries\ShapeReaderConfig.xml", FileMode.Open))
+      {
+        SRC2 = (ShapeReaderConfiguration)x.Deserialize(fs);
+      }
+
+
+
+      Dictionary<string, IWell> Wells1 = HeadObservations.FillInFromNovanaShape(DTWells.Select(""), SRC2);
+      Assert.AreEqual(242, Wells1.Count());
+
+      Dictionary<string, IWell> Wells3 = HeadObservations.FillInFromNovanaShape(DTWellsObs.Select(""), SRC2);
+      Assert.AreEqual(308, Wells3.Count());
+
+      SRC2.FraAArHeader="DUMMY";
+
+      Dictionary<string, IWell> Wells2 = HeadObservations.FillInFromNovanaShape(DTWells.Select(""), SRC2);
+
+
+
+
     }
 
 
