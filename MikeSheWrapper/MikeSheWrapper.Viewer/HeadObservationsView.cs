@@ -431,7 +431,7 @@ namespace MikeSheWrapper.Viewer
               HeadObservations.WriteToDfs0(folderBrowserDialog1.SelectedPath, I, dateTimePicker1.Value, dateTimePicker2.Value);
             }
 
-          HeadObservations.WriteToMikeSheModel(folderBrowserDialog1.SelectedPath, SelectedWells);
+          HeadObservations.WriteToMikeSheModel(folderBrowserDialog1.SelectedPath, SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
             HeadObservations.WriteToDatFile(Path.Combine(folderBrowserDialog1.SelectedPath, "Timeseries.dat"), SelectedWells, dateTimePicker1.Value, dateTimePicker2.Value);
         }
         progressBar1.Visible = false;
