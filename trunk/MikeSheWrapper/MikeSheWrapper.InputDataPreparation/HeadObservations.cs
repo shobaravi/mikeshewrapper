@@ -89,7 +89,7 @@ namespace MikeSheWrapper.InputDataPreparation
     /// Depth is calculated as the midpoint of the lowest screen
     /// </summary>
     /// <param name="TxtFileName"></param>
-    public static void WriteToMikeSheModel(string OutputPath, IEnumerable<IIntake> SelectedIntakes)
+    public static void WriteToMikeSheModel(string OutputPath, IEnumerable<IIntake> SelectedIntakes, DateTime Start, DateTime End)
     {
 
       StreamWriter Sw2 = new StreamWriter(Path.Combine(OutputPath, "WellsWithMissingInfo.txt"), false, Encoding.Default);
@@ -103,14 +103,14 @@ namespace MikeSheWrapper.InputDataPreparation
             Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
           else
           {
-
+            int NoOfObs = I.Observations.Count(TSE => InBetween(TSE, Start, End));
             double depth;
             if (I.ScreenBottomAsKote.Count > 0)
               depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
             else
               depth = (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
             //          if (W.Dfs0Written)
-            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 ");
+            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 \t" + NoOfObs);
             //When is this necessary
             //        else  
             //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
