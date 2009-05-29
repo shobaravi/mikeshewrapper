@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.JupiterTools
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.JupiterTools.UnitTest", "MikeSheWrapper.JupiterTools.UnitTest\MikeSheWrapper.JupiterTools.UnitTest.csproj", "{FF9BE059-FF99-45DD-B0C8-152732E56DEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeSheWrapper.Mike11", "MikeSheWrapper.Mike11\MikeSheWrapper.Mike11.csproj", "{90CA12BA-EDDE-45DF-84D4-CFBE67C695CF}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -123,6 +125,10 @@ Global
 		{FF9BE059-FF99-45DD-B0C8-152732E56DEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF9BE059-FF99-45DD-B0C8-152732E56DEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF9BE059-FF99-45DD-B0C8-152732E56DEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CA12BA-EDDE-45DF-84D4-CFBE67C695CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CA12BA-EDDE-45DF-84D4-CFBE67C695CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CA12BA-EDDE-45DF-84D4-CFBE67C695CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CA12BA-EDDE-45DF-84D4-CFBE67C695CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
