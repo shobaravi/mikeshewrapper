@@ -24,8 +24,7 @@ namespace MikeSheWrapper.Viewer
 
     private void button2_Click(object sender, EventArgs e)
     {
-      this.graphView1.chart1.Invalidate();
-      this.graphView1.chart1.DataBind();
+      this.graphView1.Refresh();
     }
   }
 }
