@@ -72,6 +72,10 @@
       <Project>{1040884D-8EAF-4412-A236-4414BC488474}</Project>
       <Name>MikeSheWrapper.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.JupiterTools\MikeSheWrapper.JupiterTools.csproj">
+      <Project>{517D7D0D-85FB-4423-B5C9-B94FAF253112}</Project>
+      <Name>MikeSheWrapper.JupiterTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MikeSheWrapper.LayerStatistics\MikeSheWrapper.LayerStatistics.csproj">
       <Project>{8604F11A-0647-4F89-97F5-304E28567369}</Project>
       <Name>MikeSheWrapper.LayerStatistics</Name>
