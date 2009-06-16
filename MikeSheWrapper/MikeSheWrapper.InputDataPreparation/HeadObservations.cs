@@ -433,12 +433,13 @@ namespace MikeSheWrapper.InputDataPreparation
         //Calculate the fractions based on how many intakes are active for a particular year.
         for (int i = 0; i < NumberOfYears; i++)
         {
-          fractions[i] = 1.0 / P.PumpingIntakes.Count(var => var.well.UsedForExtraction & var.PumpingStart.Year <= Start.Year+ i & var.PumpingStop.Year>= Start.Year+i); 
+          fractions[i] = 1.0 / P.PumpingIntakes.Count(var => var.Intake.well.UsedForExtraction & var.Start.Year <= Start.Year+ i & var.End.Year>= Start.Year+i); 
         }
 
         //Now loop the intakes
-        foreach (IIntake I in P.PumpingIntakes)
+        foreach (PumpingIntake PI in P.PumpingIntakes)
         {
+          IIntake I = PI.Intake;
           //Is it an extraction well?
           if (I.well.UsedForExtraction)
           {

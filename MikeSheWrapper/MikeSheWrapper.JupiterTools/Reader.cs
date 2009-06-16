@@ -118,19 +118,20 @@ namespace MikeSheWrapper.JupiterTools
             CurrentIntake = CurrentWell.Intakes.FirstOrDefault(var => var.IDNumber == IntakeData.INTAKENO);
             if (CurrentIntake != null)
             {
-              CurrentPlant.PumpingIntakes.Add(CurrentIntake);
+              PumpingIntake CurrentPumpingIntake = new PumpingIntake(CurrentIntake);
+              CurrentPlant.PumpingIntakes.Add(CurrentPumpingIntake);
 
               if (SetDates)
               {
                 if (!IntakeData.IsSTARTDATENull())
-                  CurrentIntake.PumpingStart = IntakeData.STARTDATE;
+                  CurrentPumpingIntake.Start = IntakeData.STARTDATE;
                 else
-                  CurrentIntake.PumpingStart = DateTime.MinValue;
+                  CurrentPumpingIntake.Start = DateTime.MinValue;
 
                 if (!IntakeData.IsENDDATENull())
-                  CurrentIntake.PumpingStop = IntakeData.ENDDATE;
+                  CurrentPumpingIntake.End = IntakeData.ENDDATE;
                 else
-                  CurrentIntake.PumpingStop = DateTime.MaxValue;
+                  CurrentPumpingIntake.End = DateTime.MaxValue;
               }
             }
           }
@@ -172,9 +173,10 @@ namespace MikeSheWrapper.JupiterTools
         if (DPlants.TryGetValue(KVP.First, out Upper))
         {
           Upper.SubPlants.Add(KVP.Second);
-          foreach (IIntake I in KVP.Second.PumpingIntakes)
+          foreach (PumpingIntake PI in KVP.Second.PumpingIntakes)
           {
-            IIntake d = Upper.PumpingIntakes.FirstOrDefault(var => var.well.ID == I.well.ID);
+            PumpingIntake d = Upper.PumpingIntakes.FirstOrDefault(var => var.Intake.well.ID == PI.Intake.well.ID);
+            //Remove pumping intakes from upper plant if they are attached to lower plants.
             if (d != null)
               Upper.PumpingIntakes.Remove(d);
           }
@@ -363,7 +365,7 @@ namespace MikeSheWrapper.JupiterTools
           foreach (IIntake I in Jw.Intakes)
           {
             //If the plant does not use all intakes in a well we should not print it
-            if (null!=P.PumpingIntakes.FirstOrDefault(var=> var.IDNumber.Equals(I.IDNumber) & var.well.ID.Equals(Jw.ID)))
+            if (null!=P.PumpingIntakes.FirstOrDefault(var=> var.Intake.IDNumber.Equals(I.IDNumber) & var.Intake.well.ID.Equals(Jw.ID)))
             {
               var intakedata = wellData.GetINTAKERows().FirstOrDefault(var => var.INTAKENO == I.IDNumber);
               JupiterIntake CurrentIntake = I as JupiterIntake;
