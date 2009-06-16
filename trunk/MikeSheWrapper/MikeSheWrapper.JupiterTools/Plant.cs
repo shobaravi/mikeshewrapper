@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,16 +34,21 @@ namespace MikeSheWrapper.JupiterTools
     /// <summary>
     /// The intakes associated to this plant
     /// </summary>
-    public List<IIntake> PumpingIntakes { get; private set; }
+    public BindingList<PumpingIntake> PumpingIntakes { get; private set; }
+    private bool PumpingIntakesChanged = true;
+    private List<IWell> wells;
 
     public List<IWell> PumpingWells
     {
       get
       {
-        List<IWell> wells = new List<IWell>();
-        foreach (IIntake I in PumpingIntakes)
-          if (!wells.Contains(I.well))
-            wells.Add(I.well);
+        if (PumpingIntakesChanged)
+        {
+          wells = new List<IWell>();
+          foreach (PumpingIntake PI in PumpingIntakes)
+            if (!wells.Contains(PI.Intake.well))
+              wells.Add(PI.Intake.well);
+        }
         return wells;
       }
     }
@@ -84,10 +90,18 @@ namespace MikeSheWrapper.JupiterTools
     public Plant(int IDNumber)
     {
       Extractions = new List<TimeSeriesEntry>();
-      PumpingIntakes = new List<IIntake>();
+      PumpingIntakes = new BindingList<PumpingIntake>();
+
+      PumpingIntakes.ListChanged += new ListChangedEventHandler(PumpingIntakes_ListChanged);
+      
       SurfaceWaterExtrations = new List<TimeSeriesEntry>();
       SubPlants = new List<Plant>();
       this.IDNumber = IDNumber;
+    }
+
+    void PumpingIntakes_ListChanged(object sender, ListChangedEventArgs e)
+    {
+      PumpingIntakesChanged = true;
     }
 
 
