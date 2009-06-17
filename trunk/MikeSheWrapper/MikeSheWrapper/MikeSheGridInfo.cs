@@ -168,6 +168,7 @@ namespace MikeSheWrapper
     /// <summary>
     /// Returns the layer number. Lower layer is 0. 
     /// If -1 is returned Z is above the surface and if -2 is returned Z is below the bottom.
+    /// Z is in meters above mean sea level
     /// </summary>
     /// <param name="Column"></param>
     /// <param name="Row"></param>
@@ -188,7 +189,20 @@ namespace MikeSheWrapper
       }
     }
 
-        /// <summary>
+    /// <summary>
+    /// Returns the layer number. Lower layer is 0. 
+    /// If Depth is negative -1 is returned and if -2 is returned depth is below the bottom.
+    /// </summary>
+    /// <param name="Column"></param>
+    /// <param name="Row"></param>
+    /// <param name="Depth"></param>
+    /// <returns></returns>
+    public int GetLayerFromDepth(int Column, int Row, double Depth)
+    {
+      return GetLayer(Column, Row, _surfaceTopography.Data[Row, Column] - Depth);
+    }
+
+    /// <summary>
     /// Returns the X-coordinate of the left cell-boundary
     /// </summary>
     /// <param name="Column"></param>
