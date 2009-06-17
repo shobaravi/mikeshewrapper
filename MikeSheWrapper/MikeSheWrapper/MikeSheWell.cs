@@ -12,7 +12,6 @@ namespace MikeSheWrapper
     public int Row { get; set; }
 
     public int Layer { get; set; }
-    public double Z { get; set; }
 
     public MikeSheWell(string ID)
       : base(ID)
