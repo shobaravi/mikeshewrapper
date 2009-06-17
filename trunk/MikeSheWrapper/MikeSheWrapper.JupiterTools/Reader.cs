@@ -74,7 +74,7 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     /// <param name="Plants"></param>
     /// <param name="Wells"></param>
-    public IEnumerable<Plant> Extraction(Dictionary<string, IWell> Wells, bool SetDates)
+    public Dictionary<int, Plant> ReadPlants(Dictionary<string, IWell> Wells, bool SetDates)
     {
       List<Plant> Plants = new List<Plant>();
       Dictionary<int, Plant> DPlants = new Dictionary<int, Plant>();
@@ -82,7 +82,7 @@ namespace MikeSheWrapper.JupiterTools
       JXL.ReadExtractions();
 
       IWell CurrentWell;
-      IIntake CurrentIntake=null;
+      IIntake CurrentIntake = null;
       Plant CurrentPlant;
 
       List<Tuple<int, Plant>> SubPlants = new List<Tuple<int, Plant>>();
@@ -136,34 +136,6 @@ namespace MikeSheWrapper.JupiterTools
             }
           }
         }
-
-        //Loop the extractions
-        foreach (var Ext in Anlaeg.GetWRRCATCHMENTRows())
-        {
-          if (!Ext.IsAMOUNTNull())
-            CurrentPlant.Extractions.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.AMOUNT));
-          if (!Ext.IsSURFACEWATERVOLUMENull())
-            CurrentPlant.SurfaceWaterExtrations.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.SURFACEWATERVOLUME));
-        }
-      }
-
-      //In ribe amt extractions are in another table
-
-      foreach (var IntExt in JXL.INTAKECATCHMENT)
-      {
-        Plant P = DPlants[IntExt.DRWPLANTINTAKERow.PLANTID];
-
-        if (!IntExt.IsVOLUMENull())
-        {
-          if (IntExt.ENDDATE.Year != IntExt.STARTDATE.Year)
-            throw new Exception("Volume cover period longer than 1 year)");
-
-          TimeSeriesEntry E = P.Extractions.FirstOrDefault(var => var.Time.Year == IntExt.ENDDATE.Year);
-          if (E == null)
-            P.Extractions.Add(new TimeSeriesEntry(IntExt.ENDDATE, IntExt.VOLUME));
-          else
-            E.Value += IntExt.VOLUME;
-        }
       }
       
       //Now attach the subplants
@@ -183,7 +155,48 @@ namespace MikeSheWrapper.JupiterTools
         }
       }
 
-      return DPlants.Values;
+      return DPlants;
+    }
+
+
+    public void FillInExtraction(Dictionary<int, Plant> Plants)
+    {
+      Plant CurrentPlant;
+      //Loop the extractions
+      foreach (var Ext in JXL.WRRCATCHMENT)
+      {
+        if (Plants.TryGetValue(Ext.PLANTID, out CurrentPlant))
+        {
+          if (!Ext.IsAMOUNTNull())
+            CurrentPlant.Extractions.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.AMOUNT));
+          if (!Ext.IsSURFACEWATERVOLUMENull())
+            CurrentPlant.SurfaceWaterExtrations.Add(new TimeSeriesEntry(Ext.STARTDATE, Ext.SURFACEWATERVOLUME));
+        }
+      }
+
+
+      //In ribe amt extractions are in another table
+
+      foreach (var IntExt in JXL.INTAKECATCHMENT)
+      {
+        if (Plants.TryGetValue(IntExt.DRWPLANTINTAKERow.PLANTID, out CurrentPlant))
+        {
+          //It would be possible to store this on the intake instead of the plant.
+          //We are throwing away information!
+
+          if (!IntExt.IsVOLUMENull())
+          {
+            if (IntExt.ENDDATE.Year != IntExt.STARTDATE.Year)
+              throw new Exception("Volume cover period longer than 1 year)");
+
+            TimeSeriesEntry E = CurrentPlant.Extractions.FirstOrDefault(var => var.Time.Year == IntExt.ENDDATE.Year);
+            if (E == null)
+              CurrentPlant.Extractions.Add(new TimeSeriesEntry(IntExt.ENDDATE, IntExt.VOLUME));
+            else
+              E.Value += IntExt.VOLUME;
+          }
+        }
+      }
     }
 
 
@@ -284,7 +297,6 @@ namespace MikeSheWrapper.JupiterTools
 
       CurrentRow.CASIBOT = -999;
       CurrentRow.JUPDTMK = -999;
-      CurrentRow.EC0 = 0;
 
       //Assumes that the string no from the intake identifies the correct Casing
       foreach (var Casing in BoringsData.GetCASINGRows())
@@ -326,6 +338,19 @@ namespace MikeSheWrapper.JupiterTools
         CurrentRow.INTENDATE2 = NonNullList.Max(x => x.ENDDATE);
 
       CurrentRow.RESROCK = IntakeData.RESERVOIRROCK;
+
+      //Loop the lithology
+      foreach (var Lith in BoringsData.GetLITHSAMPRows())
+      {
+        Lithology L = new Lithology();
+        L.Bottom = Lith.BOTTOM;
+        L.Top = Lith.TOP;
+        L.RockSymbol = Lith.ROCKSYMBOL;
+        L.RockType = Lith.ROCKTYPE;
+        L.TotalDescription = Lith.TOTALDESCR;
+        CurrentWell.LithSamples.Add(L);
+      }
+
 
       if (CurrentWell.LithSamples.Count != 0)
       {

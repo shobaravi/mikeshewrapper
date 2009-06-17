@@ -19,6 +19,12 @@ namespace MikeSheWrapper.JupiterTools
 
     public DateTime End { get; set; }
 
+    /// <summary>
+    /// Timeseries with extraction rates. 
+    /// </summary>
+    public List<TimeSeriesEntry> Extractions { get; set; }
+
+
     public PumpingIntake(IIntake intake)
     {
       Intake = intake;

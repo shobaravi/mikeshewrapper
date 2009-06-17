@@ -11,7 +11,7 @@ namespace MikeSheWrapper.JupiterTools
   /// <summary>
   /// A class representing a water production plant. Holds the historical pumping time series and the associated wells
   /// </summary>
-  public class Plant
+  public class Plant:IComparable<Plant>
   {
 
     #region Properties
@@ -109,5 +109,19 @@ namespace MikeSheWrapper.JupiterTools
     {
       return Name;
     }
+
+    #region IComparable<Plant> Members
+
+    /// <summary>
+    /// Compares the name
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public int CompareTo(Plant other)
+    {
+      return Name.CompareTo(other.Name);
+    }
+
+    #endregion
   }
 }

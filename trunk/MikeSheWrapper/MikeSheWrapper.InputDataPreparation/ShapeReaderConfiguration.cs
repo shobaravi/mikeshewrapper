@@ -8,6 +8,7 @@ namespace MikeSheWrapper.InputDataPreparation
     [Serializable]
     public class ShapeReaderConfiguration
     {
+      public string PlantIDHeader { get; set; }
         public string WellIDHeader { get; set; }
         public string IntakeNumber { get; set; }
         public string XHeader { get; set; }
