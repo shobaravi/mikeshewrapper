@@ -70,12 +70,13 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     {
       Dictionary<string, IWell> Wells =R.Wells();
 
-      var Anlaeg = R.Extraction(Wells,true);
+      var Anlaeg = R.ReadPlants(Wells,true);
+      R.FillInExtraction(Anlaeg);
 
-      Assert.AreEqual(4, Anlaeg.Count(x => x.PumpingIntakes.Count == 0));
+      Assert.AreEqual(4, Anlaeg.Values.Count(x => x.PumpingIntakes.Count == 0));
 
       
-      R.AddDataForNovanaExtraction(Anlaeg,DateTime.MinValue, DateTime.MaxValue);
+      R.AddDataForNovanaExtraction(Anlaeg.Values,DateTime.MinValue, DateTime.MaxValue);
 
     }
 
@@ -86,7 +87,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
       
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       Reader R = new Reader(@"..\..\..\mcribe.mdb");
-      var Anlaeg = R.Extraction(Wells, true);
+      var Anlaeg = R.ReadPlants(Wells, true);
 
 
     }

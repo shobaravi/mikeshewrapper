@@ -21,6 +21,7 @@ namespace MikeSheWrapper.Viewer
     private ShapeReaderConfiguration ShpConfig = null;
     private Dictionary<string, IWell> Wells;
     private List<Plant> Plants;
+    Dictionary<int, Plant> DPlants;
     private List<IIntake> Intakes;
     private JupiterTools.Reader JupiterReader;
     private bool WellsFromShape = false;
@@ -67,7 +68,12 @@ namespace MikeSheWrapper.Viewer
 
           if (jd.ReadExtration)
           {
-            Plants = JupiterReader.Extraction(Wells, jd.ReadWells).ToList<Plant>();
+            if (DPlants == null)
+              DPlants = JupiterReader.ReadPlants(Wells, jd.ReadWells);
+  
+            JupiterReader.FillInExtraction(DPlants);
+            Plants = DPlants.Values.ToList<Plant>();
+            Plants.Sort();
             buttonNovanaExtract.Enabled = true;
             buttonMsheExt.Enabled = true;
           }

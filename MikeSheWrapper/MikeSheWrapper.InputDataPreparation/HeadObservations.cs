@@ -183,7 +183,7 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentWell = new MikeSheWell(dt.Name);
         CurrentWell.X = dt.X;
         CurrentWell.Y = dt.Y;
-        CurrentWell.Z = dt.Z;
+        CurrentWell.Depth = dt.Z;
         CurrentWell.UsedForExtraction = false;
 
         //Read in observations if they are included
@@ -283,9 +283,9 @@ namespace MikeSheWrapper.InputDataPreparation
       using (StreamWriter SW = new StreamWriter(FileName, false, Encoding.Default))
       {
         if (AllObs)
-          SW.WriteLine("NOVANAID\tXUTM\tYUTM\tMIDTK_FNL\tPEJL\tDATO\tBERELAG");
+          SW.WriteLine("NOVANAID\tXUTM\tYUTM\tDEPTH\tPEJL\tDATO\tBERELAG");
         else
-          SW.WriteLine("NOVANAID\tXUTM\tYUTM\tMIDTK_FNL\tMEANPEJ\tMAXDATO\tBERELAG");
+          SW.WriteLine("NOVANAID\tXUTM\tYUTM\tDEPTH\tMEANPEJ\tMAXDATO\tBERELAG");
 
           foreach (Intake I in SelectedIntakes)
           {
