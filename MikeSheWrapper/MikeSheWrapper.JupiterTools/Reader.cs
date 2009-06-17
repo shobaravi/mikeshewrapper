@@ -161,6 +161,9 @@ namespace MikeSheWrapper.JupiterTools
 
     public void FillInExtraction(Dictionary<int, Plant> Plants)
     {
+
+      JXL.ReadExtractions();
+
       Plant CurrentPlant;
       //Loop the extractions
       foreach (var Ext in JXL.WRRCATCHMENT)
