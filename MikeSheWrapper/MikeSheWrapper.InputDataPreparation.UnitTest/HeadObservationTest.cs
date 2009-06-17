@@ -93,15 +93,18 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
 
 
 
-      Dictionary<string, IWell> Wells1 = HeadObservations.FillInFromNovanaShape(DTWells.Select(""), SRC2);
+      Dictionary<string, IWell> Wells1 = new Dictionary<string, IWell>();
+        HeadObservations.FillInFromNovanaShape(DTWells.Select(""), SRC2, Wells1);
       Assert.AreEqual(242, Wells1.Count());
 
-      Dictionary<string, IWell> Wells3 = HeadObservations.FillInFromNovanaShape(DTWellsObs.Select(""), SRC2);
+      Dictionary<string, IWell> Wells3 = new Dictionary<string, IWell>();
+        HeadObservations.FillInFromNovanaShape(DTWellsObs.Select(""), SRC2, Wells3);
       Assert.AreEqual(308, Wells3.Count());
 
       SRC2.FraAArHeader="DUMMY";
 
-      Dictionary<string, IWell> Wells2 = HeadObservations.FillInFromNovanaShape(DTWells.Select(""), SRC2);
+      Dictionary<string, IWell> Wells2 = new Dictionary<string, IWell>();
+        HeadObservations.FillInFromNovanaShape(DTWells.Select(""), SRC2, Wells2);
 
 
 
