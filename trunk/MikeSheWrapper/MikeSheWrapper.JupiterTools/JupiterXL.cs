@@ -8,6 +8,7 @@ namespace MikeSheWrapper.JupiterTools
   {
 
     public bool ReducedRead { get; private set; }
+    private bool ExtractionTablesRead = false;
 
     private string ConnectionString;
 
@@ -111,21 +112,25 @@ namespace MikeSheWrapper.JupiterTools
     /// <param name="DataBaseFileName"></param>
     public void ReadExtractions()
     {
-      DRWPLANTTableAdapter DTA = new DRWPLANTTableAdapter();
-      DTA.Connection.ConnectionString = ConnectionString;
-      DTA.Fill(DRWPLANT);
+      if (!ExtractionTablesRead)
+      {
+        DRWPLANTTableAdapter DTA = new DRWPLANTTableAdapter();
+        DTA.Connection.ConnectionString = ConnectionString;
+        DTA.Fill(DRWPLANT);
 
-      DRWPLANTINTAKETableAdapter DTIA = new DRWPLANTINTAKETableAdapter();
-      DTIA.Connection.ConnectionString = ConnectionString;
-      DTIA.Fill(DRWPLANTINTAKE);
+        DRWPLANTINTAKETableAdapter DTIA = new DRWPLANTINTAKETableAdapter();
+        DTIA.Connection.ConnectionString = ConnectionString;
+        DTIA.Fill(DRWPLANTINTAKE);
 
-      WRRCATCHMENTTableAdapter WTA = new WRRCATCHMENTTableAdapter();
-      WTA.Connection.ConnectionString = ConnectionString;
-      WTA.Fill(WRRCATCHMENT);
+        WRRCATCHMENTTableAdapter WTA = new WRRCATCHMENTTableAdapter();
+        WTA.Connection.ConnectionString = ConnectionString;
+        WTA.Fill(WRRCATCHMENT);
 
-      INTAKECATCHMENTTableAdapter ITA = new INTAKECATCHMENTTableAdapter();
-      ITA.Connection.ConnectionString = ConnectionString;
-      ITA.Fill(INTAKECATCHMENT);
+        INTAKECATCHMENTTableAdapter ITA = new INTAKECATCHMENTTableAdapter();
+        ITA.Connection.ConnectionString = ConnectionString;
+        ITA.Fill(INTAKECATCHMENT);
+        ExtractionTablesRead = true;
+      }
     }
   }
 }

@@ -107,7 +107,10 @@ namespace MikeSheWrapper.JupiterTools
 
     public override string ToString()
     {
-      return Name;
+      if (Name != null)
+        return Name;
+      else
+        return IDNumber.ToString();
     }
 
     #region IComparable<Plant> Members
