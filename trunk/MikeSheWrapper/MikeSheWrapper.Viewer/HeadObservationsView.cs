@@ -20,7 +20,6 @@ namespace MikeSheWrapper.Viewer
   {
     private ShapeReaderConfiguration ShpConfig = null;
     private Dictionary<string, IWell> Wells;
-    private List<Plant> Plants;
     Dictionary<int, Plant> DPlants;
     private List<IIntake> Intakes;
     private JupiterTools.Reader JupiterReader;
@@ -72,8 +71,6 @@ namespace MikeSheWrapper.Viewer
               DPlants = JupiterReader.ReadPlants(Wells, jd.ReadWells);
   
             JupiterReader.FillInExtraction(DPlants);
-            Plants = DPlants.Values.ToList<Plant>();
-            Plants.Sort();
             buttonNovanaExtract.Enabled = true;
             buttonMsheExt.Enabled = true;
           }
@@ -97,7 +94,7 @@ namespace MikeSheWrapper.Viewer
       if (Wells != null)
       {
         listBoxWells.Items.Clear();
-        listBoxWells.Items.AddRange(Wells.Values.ToArray());
+        listBoxWells.Items.AddRange(Wells.Values.OrderBy(var => var.ID).ToArray());
         textBoxWellsNumber.Text = listBoxWells.Items.Count.ToString();
 
         Intakes = new List<IIntake>();
@@ -105,15 +102,15 @@ namespace MikeSheWrapper.Viewer
            Intakes.AddRange(W.Intakes);
 
         listBoxIntakes.Items.Clear();
-        listBoxIntakes.Items.AddRange(Intakes.ToArray());
+        listBoxIntakes.Items.AddRange(Intakes.OrderBy(var=>var.ToString()).ToArray());
         textBox4.Text = listBoxIntakes.Items.Count.ToString();
 
       }
 
-      if (Plants != null)
+      if (DPlants != null)
       {
         listBoxAnlaeg.Items.Clear();
-        listBoxAnlaeg.Items.AddRange(Plants.ToArray());
+        listBoxAnlaeg.Items.AddRange(DPlants.Values.OrderBy(var => var.ToString()).ToArray());
         radioButton2.Enabled = true;
         textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
       }
@@ -156,13 +153,20 @@ namespace MikeSheWrapper.Viewer
                                 if (CheckColumn(FullDataSet, ShpConfig.XHeader, config))
                                     if (CheckColumn(FullDataSet, ShpConfig.YHeader, config))
                                         if (CheckColumn(FullDataSet, ShpConfig.TOPHeader, config))
-                                            if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
-                                               // if (CheckColumn(FullDataSet, ShpConfig.FraAArHeader, config))
-                                                 //   if (CheckColumn(FullDataSet, ShpConfig.TilAArHeader, config))
-                                                    {
-                                                        Wells = HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig);
-                                                        UpdateListsAndListboxes();
-                                                    }
+                                          if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
+                                          // if (CheckColumn(FullDataSet, ShpConfig.FraAArHeader, config))
+                                          //   if (CheckColumn(FullDataSet, ShpConfig.TilAArHeader, config))
+                                          {
+                                            Wells = new Dictionary<string, IWell>();
+                                            if (CheckColumn(FullDataSet, ShpConfig.PlantIDHeader, config))
+                                            {
+                                              DPlants = new Dictionary<int, Plant>();
+                                              HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig, Wells, DPlants);
+                                            }
+                                            else
+                                              HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig, Wells);
+                                            UpdateListsAndListboxes();
+                                          }
                     }
                 }
             }
@@ -201,9 +205,9 @@ namespace MikeSheWrapper.Viewer
       {
         listBoxIntakes.Items.Clear();
         if (radioButtonMin.Checked)
-          listBoxIntakes.Items.AddRange(Intakes.Where(w => HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+          listBoxIntakes.Items.AddRange(Intakes.Where(w => HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).OrderBy(var => var.ToString()).ToArray());
         else
-          listBoxIntakes.Items.AddRange(Intakes.Where(w => !HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).ToArray());
+          listBoxIntakes.Items.AddRange(Intakes.Where(w => !HeadObservations.NosInBetween(w, dateTimePicker1.Value, dateTimePicker2.Value, Min)).OrderBy(var => var.ToString()).ToArray());
       }
       textBox4.Text = listBoxIntakes.Items.Count.ToString();
     }
@@ -258,11 +262,11 @@ namespace MikeSheWrapper.Viewer
       if (radioButton2.Checked)
       {
         if (listBoxAnlaeg.SelectedItem!=null)
-          listBoxWells.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.ToArray());
+          listBoxWells.Items.AddRange(((Plant)listBoxAnlaeg.SelectedItem).PumpingWells.OrderBy(var => var.ID).ToArray());
       }
       else
       {
-        listBoxWells.Items.AddRange(Wells.Values.ToArray());
+        listBoxWells.Items.AddRange(Wells.Values.OrderBy(var=>var.ID).ToArray());
       }
 
       textBoxWellsNumber.Text = listBoxWells.Items.Count.ToString();
@@ -277,24 +281,26 @@ namespace MikeSheWrapper.Viewer
         textBoxMeanYearlyExt.Text = "0";
       }
 
-      if (Plants != null)
+      if (DPlants != null)
       {
         listBoxAnlaeg.Items.Clear();
 
         if (MinVal == 0)
-          listBoxAnlaeg.Items.AddRange(Plants.ToArray());
+          listBoxAnlaeg.Items.AddRange(DPlants.Values.OrderBy(var => var.Name).ToArray());
         else
         {
-          foreach (Plant P in Plants)
+          List<Plant> Slist = new List<Plant>();
+          foreach (Plant P in DPlants.Values)
           {
             if (P.Extractions.Count > 0)
             {
               var ReducedList = P.Extractions.Where(var2 => HeadObservations.InBetween(var2, dateTimeStartExt.Value, dateTimeEndExt.Value));
               if (ReducedList.Count() > 0)
                 if (ReducedList.Average(var => var.Value) >= MinVal)
-                  listBoxAnlaeg.Items.Add(P);
+                  Slist.Add(P);
             }
           }
+          listBoxAnlaeg.Items.AddRange(Slist.OrderBy(var => var.ToString()).ToArray());          
         }
         textBoxPlantCount.Text = listBoxAnlaeg.Items.Count.ToString();
       }
