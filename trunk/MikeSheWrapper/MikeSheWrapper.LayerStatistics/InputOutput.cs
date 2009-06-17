@@ -79,7 +79,7 @@ namespace MikeSheWrapper.LayerStatistics
                 //Use the Z-coordinate
                 else
                 {
-                  OW.Z = double.Parse(s[3]);
+                  OW.Depth = double.Parse(s[3]);
                   OW.Layer = -3;
                 }
               }
@@ -105,8 +105,8 @@ namespace MikeSheWrapper.LayerStatistics
       StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt");
       StreamWriter swell = new StreamWriter(_baseOutPutFileName + "_wells.txt");
 
-      sw.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
-      swell.WriteLine("OBS_ID\tX\tY\tZ\tLAYER\tME\tME^2");
+      sw.WriteLine("OBS_ID\tX\tY\tDepth\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
+      swell.WriteLine("OBS_ID\tX\tY\tDepth\tLAYER\tME\tME^2");
 
       foreach (MikeSheWell OW in Wells)
       {
@@ -117,7 +117,7 @@ namespace MikeSheWrapper.LayerStatistics
           ObsString.Append(OW.ID + "\t");
           ObsString.Append(OW.X + "\t");
           ObsString.Append(OW.Y + "\t");
-          ObsString.Append(OW.Z + "\t");
+          ObsString.Append(OW.Depth + "\t");
 
           ObsString.Append((_numberOfLayers - OW.Layer) + "\t");
           ObsString.Append(TSE.Value + "\t");
@@ -138,7 +138,7 @@ namespace MikeSheWrapper.LayerStatistics
         WellString.Append(OW.ID + "\t");
         WellString.Append(OW.X + "\t");
         WellString.Append(OW.Y + "\t");
-        WellString.Append(OW.Z + "\t");
+        WellString.Append(OW.Depth + "\t");
         WellString.Append((_numberOfLayers - OW.Layer) + "\t");
         WellString.Append(OW.Intakes.First().Observations.Average(num => num.ME).ToString() + "\t");
         WellString.Append(OW.Intakes.First().Observations.Average(num => num.RMSE).ToString() + "\t");

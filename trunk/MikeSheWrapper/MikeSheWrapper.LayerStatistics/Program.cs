@@ -7,9 +7,12 @@ using System.Windows.Forms;
 using System.Data;
 using System.IO;
 
+using MathNet.Numerics.LinearAlgebra;
+
 using MikeSheWrapper;
 using MikeSheWrapper.Tools;
 using MikeSheWrapper.InputDataPreparation;
+
 
 namespace MikeSheWrapper.LayerStatistics
 {
@@ -84,11 +87,12 @@ namespace MikeSheWrapper.LayerStatistics
         {
           if (W.Layer == -3)
           {
-            W.Layer = _grid.GetLayer(W.Column, W.Row, W.Z);
+
+            W.Layer = _grid.GetLayerFromDepth(W.Column, W.Row, W.Depth );
           }
           else
           {
-            W.Z = _grid.LowerLevelOfComputationalLayers.Data[W.Row, W.Column, W.Layer] + 0.5 * _grid.ThicknessOfComputationalLayers.Data[W.Row, W.Column, W.Layer];
+            W.Depth =_grid.SurfaceTopography.Data[W.Row,W.Column]- (_grid.LowerLevelOfComputationalLayers.Data[W.Row, W.Column, W.Layer] + 0.5 * _grid.ThicknessOfComputationalLayers.Data[W.Row, W.Column, W.Layer]);
           }
 
           //Henter de simulerede værdier
