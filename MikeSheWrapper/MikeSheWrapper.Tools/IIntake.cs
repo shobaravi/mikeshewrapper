@@ -15,7 +15,7 @@ namespace MikeSheWrapper.Tools
     List<double> ScreenBottom { get; set; }
     List<double> ScreenTop { get; set; }
     List<double> ScreenBottomAsKote { get; set; }
-    List<double> ScreenTopAsKote { get; set; }
+    List<double> ScreenTopAsKote { get; }
     string ToString();
     IWell well { get; }
     DateTime PumpingStart{get;set;}

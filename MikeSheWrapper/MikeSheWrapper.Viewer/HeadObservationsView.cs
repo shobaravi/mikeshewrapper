@@ -68,7 +68,7 @@ namespace MikeSheWrapper.Viewer
           if (jd.ReadExtration)
           {
             if (DPlants == null)
-              DPlants = JupiterReader.ReadPlants(Wells, jd.ReadWells);
+              DPlants = JupiterReader.ReadPlants(Wells);
   
             JupiterReader.FillInExtraction(DPlants);
             buttonNovanaExtract.Enabled = true;
@@ -154,11 +154,9 @@ namespace MikeSheWrapper.Viewer
                                     if (CheckColumn(FullDataSet, ShpConfig.YHeader, config))
                                         if (CheckColumn(FullDataSet, ShpConfig.TOPHeader, config))
                                           if (CheckColumn(FullDataSet, ShpConfig.BOTTOMHeader, config))
-                                          // if (CheckColumn(FullDataSet, ShpConfig.FraAArHeader, config))
-                                          //   if (CheckColumn(FullDataSet, ShpConfig.TilAArHeader, config))
                                           {
                                             Wells = new Dictionary<string, IWell>();
-                                            if (CheckColumn(FullDataSet, ShpConfig.PlantIDHeader, config))
+                                            if (FullDataSet.Columns.Contains(ShpConfig.PlantIDHeader))
                                             {
                                               DPlants = new Dictionary<int, Plant>();
                                               HeadObservations.FillInFromNovanaShape(DS.SelectedRows, ShpConfig, Wells, DPlants);

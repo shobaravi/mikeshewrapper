@@ -416,6 +416,8 @@ namespace MikeSheWrapper.JupiterTools {
             
             private global::System.Data.DataColumn columnMC_LAYKOM;
             
+            private global::System.Data.DataColumn columnComment;
+            
             private global::System.Data.DataColumn columnJUPDTMK;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -764,6 +766,13 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn CommentColumn {
+                get {
+                    return this.columnComment;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn JUPDTMKColumn {
                 get {
                     return this.columnJUPDTMK;
@@ -845,6 +854,7 @@ namespace MikeSheWrapper.JupiterTools {
                         int BERELAG, 
                         int MC_LAYJUST, 
                         string MC_LAYKOM, 
+                        string Comment, 
                         double JUPDTMK) {
                 IntakeCommonRow rowIntakeCommonRow = ((IntakeCommonRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
@@ -893,6 +903,7 @@ namespace MikeSheWrapper.JupiterTools {
                         BERELAG,
                         MC_LAYJUST,
                         MC_LAYKOM,
+                        Comment,
                         JUPDTMK};
                 rowIntakeCommonRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowIntakeCommonRow);
@@ -964,6 +975,7 @@ namespace MikeSheWrapper.JupiterTools {
                 this.columnBERELAG = base.Columns["BERELAG"];
                 this.columnMC_LAYJUST = base.Columns["MC_LAYJUST"];
                 this.columnMC_LAYKOM = base.Columns["MC_LAYKOM"];
+                this.columnComment = base.Columns["Comment"];
                 this.columnJUPDTMK = base.Columns["JUPDTMK"];
             }
             
@@ -1059,6 +1071,8 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnMC_LAYJUST);
                 this.columnMC_LAYKOM = new global::System.Data.DataColumn("MC_LAYKOM", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMC_LAYKOM);
+                this.columnComment = new global::System.Data.DataColumn("Comment", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnComment);
                 this.columnJUPDTMK = new global::System.Data.DataColumn("JUPDTMK", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnJUPDTMK);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -1245,8 +1259,6 @@ namespace MikeSheWrapper.JupiterTools {
             private global::System.Data.DataColumn columnQC_BOTK;
             
             private global::System.Data.DataColumn columnQC;
-            
-            private global::System.Data.DataColumn columnKOMMENT;
             
             private global::System.Data.DataColumn columnOK3_LAYER;
             
@@ -1489,13 +1501,6 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public global::System.Data.DataColumn KOMMENTColumn {
-                get {
-                    return this.columnKOMMENT;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public global::System.Data.DataColumn OK3_LAYERColumn {
                 get {
                     return this.columnOK3_LAYER;
@@ -1602,7 +1607,6 @@ namespace MikeSheWrapper.JupiterTools {
                         double QC_TOPK, 
                         double QC_BOTK, 
                         string QC, 
-                        string KOMMENT, 
                         int OK3_LAYER, 
                         double INDV_INT, 
                         double INDVINT_RE, 
@@ -1640,7 +1644,6 @@ namespace MikeSheWrapper.JupiterTools {
                         QC_TOPK,
                         QC_BOTK,
                         QC,
-                        KOMMENT,
                         OK3_LAYER,
                         INDV_INT,
                         INDVINT_RE,
@@ -1701,7 +1704,6 @@ namespace MikeSheWrapper.JupiterTools {
                 this.columnQC_TOPK = base.Columns["QC_TOPK"];
                 this.columnQC_BOTK = base.Columns["QC_BOTK"];
                 this.columnQC = base.Columns["QC"];
-                this.columnKOMMENT = base.Columns["KOMMENT"];
                 this.columnOK3_LAYER = base.Columns["OK3_LAYER"];
                 this.columnINDV_INT = base.Columns["INDV_INT"];
                 this.columnINDVINT_RE = base.Columns["INDVINT_RE"];
@@ -1769,8 +1771,6 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnQC_BOTK);
                 this.columnQC = new global::System.Data.DataColumn("QC", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQC);
-                this.columnKOMMENT = new global::System.Data.DataColumn("KOMMENT", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnKOMMENT);
                 this.columnOK3_LAYER = new global::System.Data.DataColumn("OK3_LAYER", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOK3_LAYER);
                 this.columnINDV_INT = new global::System.Data.DataColumn("INDV_INT", typeof(double), null, global::System.Data.MappingType.Element);
@@ -3161,6 +3161,21 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Comment {
+                get {
+                    if (this.IsCommentNull()) {
+                        return string.Empty;
+                    }
+                    else {
+                        return ((string)(this[this.tableIntakeCommon.CommentColumn]));
+                    }
+                }
+                set {
+                    this[this.tableIntakeCommon.CommentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public double JUPDTMK {
                 get {
                     try {
@@ -3616,6 +3631,16 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsCommentNull() {
+                return this.IsNull(this.tableIntakeCommon.CommentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetCommentNull() {
+                this[this.tableIntakeCommon.CommentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsJUPDTMKNull() {
                 return this.IsNull(this.tableIntakeCommon.JUPDTMKColumn);
             }
@@ -4056,21 +4081,6 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string KOMMENT {
-                get {
-                    try {
-                        return ((string)(this[this.tableIndvindinger.KOMMENTColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'KOMMENT\' in table \'Indvindinger\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableIndvindinger.KOMMENTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int OK3_LAYER {
                 get {
                     try {
@@ -4443,16 +4453,6 @@ namespace MikeSheWrapper.JupiterTools {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetQCNull() {
                 this[this.tableIndvindinger.QCColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsKOMMENTNull() {
-                return this.IsNull(this.tableIndvindinger.KOMMENTColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetKOMMENTNull() {
-                this[this.tableIndvindinger.KOMMENTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

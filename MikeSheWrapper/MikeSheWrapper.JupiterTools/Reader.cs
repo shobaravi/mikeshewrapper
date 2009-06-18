@@ -74,7 +74,7 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     /// <param name="Plants"></param>
     /// <param name="Wells"></param>
-    public Dictionary<int, Plant> ReadPlants(Dictionary<string, IWell> Wells, bool SetDates)
+    public Dictionary<int, Plant> ReadPlants(Dictionary<string, IWell> Wells)
     {
       List<Plant> Plants = new List<Plant>();
       Dictionary<int, Plant> DPlants = new Dictionary<int, Plant>();
@@ -121,23 +121,21 @@ namespace MikeSheWrapper.JupiterTools
               PumpingIntake CurrentPumpingIntake = new PumpingIntake(CurrentIntake);
               CurrentPlant.PumpingIntakes.Add(CurrentPumpingIntake);
 
-              if (SetDates)
-              {
-                if (!IntakeData.IsSTARTDATENull())
-                  CurrentPumpingIntake.Start = IntakeData.STARTDATE;
-                else
-                  CurrentPumpingIntake.Start = DateTime.MinValue;
+              if (!IntakeData.IsSTARTDATENull())
+                CurrentPumpingIntake.Start = IntakeData.STARTDATE;
+              else
+                CurrentPumpingIntake.Start = DateTime.MinValue;
 
-                if (!IntakeData.IsENDDATENull())
-                  CurrentPumpingIntake.End = IntakeData.ENDDATE;
-                else
-                  CurrentPumpingIntake.End = DateTime.MaxValue;
-              }
+              if (!IntakeData.IsENDDATENull())
+                CurrentPumpingIntake.End = IntakeData.ENDDATE;
+              else
+                CurrentPumpingIntake.End = DateTime.MaxValue;
             }
           }
         }
       }
-      
+
+
       //Now attach the subplants
       foreach (Tuple<int, Plant> KVP in SubPlants)
       {
@@ -359,9 +357,13 @@ namespace MikeSheWrapper.JupiterTools
       {
         CurrentWell.LithSamples.Sort();
         CurrentRow.BOTROCK = CurrentWell.LithSamples[CurrentWell.LithSamples.Count - 1].RockSymbol;
+
+       
+
       }
       else
         CurrentRow.BOTROCK = "-999";
+
     }
 
     public IEnumerable<JupiterIntake> AddDataForNovanaExtraction(IEnumerable<Plant> Plants, DateTime StartDate, DateTime EndDate)
@@ -416,45 +418,66 @@ namespace MikeSheWrapper.JupiterTools
               NovanaTables.IntakeCommonRow TIC = CurrentIntake.Data as NovanaTables.IntakeCommonRow;
 
               CurrentRow.FRAAAR = 1000;
+              int nextyear;
               if (!plantintake.IsSTARTDATENull())
               {
                 CurrentRow.INTSTDATE = plantintake.STARTDATE;
-                CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, plantintake.STARTDATE.Year);
+                CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, GetFraAar(plantintake.STARTDATE));
               }
               if (!wellData.IsDRILENDATENull())
-                CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, wellData.DRILENDATE.Year);
+                CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, GetFraAar(wellData.DRILENDATE));
 
               if (!TIC.IsINTSTDATE2Null())
-                CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, TIC.INTSTDATE2.Year);
-
-              if (CurrentRow.FRAAAR==int.MinValue)
-                CurrentRow.FRAAAR = -999;
+                CurrentRow.FRAAAR = Math.Max(CurrentRow.FRAAAR, GetFraAar(TIC.INTSTDATE2));
 
               CurrentRow.TILAAR = 9999;
               if (!plantintake.IsENDDATENull())
               {
                 CurrentRow.INTENDDATE = plantintake.ENDDATE;
-                CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, plantintake.ENDDATE.Year);
+                CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, GetTilAar(plantintake.ENDDATE));
               }
               if (!wellData.IsABANDONDATNull())
-                CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, wellData.ABANDONDAT.Year);
+                CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, GetTilAar(wellData.ABANDONDAT));
               if (!TIC.IsINTENDATE2Null())
-                CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, TIC.INTENDATE2.Year);
+                CurrentRow.TILAAR = Math.Min(CurrentRow.TILAAR, GetTilAar(TIC.INTENDATE2));
 
-              if (CurrentRow.TILAAR == int.MaxValue)
-                CurrentRow.TILAAR = -999;
-
-              DT1.Rows.Add(CurrentRow);
-              _intakes.Add(CurrentIntake);
+              //Do not include the intake if it is not active within the given period.
+              if (CurrentRow.FRAAAR > EndDate.Year || CurrentRow.TILAAR < StartDate.Year)
+                DT2.Rows.Remove(CurrentIntake.Data);
+              else
+              {
+                DT1.Rows.Add(CurrentRow);
+                _intakes.Add(CurrentIntake);
+              }
             }
           }
         }
       }
 
+
+      //Add a blank string to ensure length of column
+      DT2.Rows[0]["Comment"] = "                                                   ";
       DT2.Merge(DT1);
 
       return _intakes;
     }
+
+    private int GetFraAar(DateTime Date)
+    {
+      if (Date.DayOfYear > 182)
+        return Date.Year + 1;
+      else
+        return Date.Year;
+    }
+
+    private int GetTilAar(DateTime Date)
+    {
+      if (Date.DayOfYear < 182)
+        return Date.Year - 1;
+      else
+        return Date.Year;
+    }
+
 
       public NovanaTables.IndvindingerDataTable FillPlantData(IEnumerable<Plant> plants, DateTime StartDate, DateTime EndDate)
       {
@@ -555,6 +578,9 @@ namespace MikeSheWrapper.JupiterTools
           CurrentRow.MEANPEJ = CurrentIntake.Observations.Average(num => num.Value);
         }
       }
+      //Add a blank string to ensure length of column
+      DT2.Rows[0]["Comment"] = "                                                   ";
+
       DT2.Merge(DT1);
     }
 
