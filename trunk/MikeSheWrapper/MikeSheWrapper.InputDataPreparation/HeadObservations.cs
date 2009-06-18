@@ -270,8 +270,8 @@ namespace MikeSheWrapper.InputDataPreparation
           CurrentPlant.PumpingIntakes.Add(CurrentPumpingIntake);
           if (ReadPumpActivity)
           {
-            CurrentPumpingIntake.Start = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 6, 30);
-            CurrentPumpingIntake.End = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 6, 30);
+            CurrentPumpingIntake.Start = new DateTime(Convert.ToInt32(DR[SRC.FraAArHeader]), 1, 1);
+            CurrentPumpingIntake.End = new DateTime(Convert.ToInt32(DR[SRC.TilAArHeader]), 12, 31);
           }
         }
         CurrentWell.X = Convert.ToDouble(DR[SRC.XHeader]);
@@ -425,9 +425,9 @@ namespace MikeSheWrapper.InputDataPreparation
       
 
       int NumberOfYears = End.Year - Start.Year + 1;
-        //Dummy year because of mean step accumulated
 
-        _tso.Time.AddTimeSteps(1);
+        //Dummy year because of mean step accumulated
+      _tso.Time.AddTimeSteps(1);
       _tso.Time.SetTimeForTimeStepNr(1, new DateTime(Start.Year, 1, 1, 0, 0, 0));
 
       for (int i = 0; i < NumberOfYears; i++)
@@ -449,7 +449,7 @@ namespace MikeSheWrapper.InputDataPreparation
       //loop the plants
       foreach (Plant P in Plants)
       {
-        //Create statistics on surface water
+        //Create statistics on surface water for all plants
         for (int i = 0; i < NumberOfYears; i++)
         {
           int k = P.SurfaceWaterExtrations.FindIndex(var => var.Time.Year == Start.Year + i);
@@ -457,7 +457,7 @@ namespace MikeSheWrapper.InputDataPreparation
             SumSurfaceWater[i] += P.SurfaceWaterExtrations[k].Value;
         }
 
-
+        //Create statistics for plants without intakes
         if (P.PumpingIntakes.Count == 0)
         {
           //Create statistics on water not assigned
@@ -470,7 +470,6 @@ namespace MikeSheWrapper.InputDataPreparation
         }
         else
         {
-
           //Create statistics
           for (int i = 0; i < NumberOfYears; i++)
           {

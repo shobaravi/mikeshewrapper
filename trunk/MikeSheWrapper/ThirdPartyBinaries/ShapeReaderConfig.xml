@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <ShapeReaderConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PlantIDHeader>PLANTID</PlantIDHeader>
   <WellIDHeader>BOREHOLENO</WellIDHeader>
   <IntakeNumber>INTAKENO</IntakeNumber>
   <XHeader>XUTM</XHeader>
