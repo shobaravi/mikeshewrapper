@@ -104,9 +104,8 @@ namespace MikeSheWrapper.InputDataPreparation
           else
           {
             int NoOfObs = I.Observations.Count(TSE => InBetween(TSE, Start, End));
-            double depth = (I.Screens.Min(var=>var.DepthToTop) + I.Screens.Max(var=>var.DepthToBottom)) / 2;
             //          if (W.Dfs0Written)
-            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 \t" + NoOfObs);
+            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + PointInScreen(I) + "\t1\t" + I.ToString() + "\t1 \t" + NoOfObs);
             //When is this necessary
             //        else  
             //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
@@ -294,6 +293,25 @@ namespace MikeSheWrapper.InputDataPreparation
 
 #endregion
 
+
+    /// <summary>
+    /// Returns a point in the screen in meters below surface. To be used for detailed time series output and layerstatistics.
+    /// </summary>
+    /// <param name="Intake"></param>
+    /// <returns></returns>
+    private static double PointInScreen(IIntake Intake)
+    {
+      double top = Intake.Screens.Min(var => var.DepthToTop);
+      double bottom = Intake.Screens.Max(var => var.DepthToBottom);
+
+      if (top == -999)
+        return bottom -1;
+      else if (bottom == -999)
+        return top +1;
+      else
+       return (top + bottom)/2;
+    }
+
     /// <summary>
     /// Write a text-file that can be used by LayerStatistics.
     /// </summary>
@@ -311,16 +329,15 @@ namespace MikeSheWrapper.InputDataPreparation
         else
           SW.WriteLine("NOVANAID\tXUTM\tYUTM\tDEPTH\tMEANPEJ\tMAXDATO\tBERELAG");
 
-          foreach (Intake I in SelectedIntakes)
+          foreach (Intake I in SelectedIntakes.Where(var=>var.Screens.Count>0))
           {
             List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
 
             SelectedObs.Sort();
 
             StringBuilder S = new StringBuilder();
-            double depth = (I.Screens.Min(var => var.DepthToTop) + I.Screens.Max(var => var.DepthToBottom)) / 2;
-
-              S.Append(I.ToString() + "\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t");
+     
+              S.Append(I.ToString() + "\t" + I.well.X + "\t" + I.well.Y + "\t" + PointInScreen(I) + "\t");
 
             if (AllObs)
               foreach (ObservationEntry TSE in SelectedObs)
