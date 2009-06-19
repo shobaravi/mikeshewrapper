@@ -12,29 +12,17 @@ namespace MikeSheWrapper.Tools
     private List<double> _screenTopAsKote = new List<double>();
     private List<double> _screenBottomAsKote = new List<double>();
     private List<ObservationEntry> _observations = new List<ObservationEntry>();
+    private List<Screen> _screens = new List<Screen>();
 
     public IWell well { get; protected set; }
     public int IDNumber { get; set; }
-    public DateTime PumpingStart { get; set; }
-    public DateTime PumpingStop { get; set; }
 
-      /// <summary>
-      /// Gets and sets the screen top in Kote. Careful this is completely independent of Screentop as depth
-      /// </summary>
-    public List<double> ScreenTopAsKote
+
+    public List<Screen> Screens
     {
-        get { return _screenTopAsKote; }
-       // set { _screenTopAsKote = value; }
+      get { return _screens; }
     }
 
-      /// <summary>
-    /// Gets and sets the screen Bottom in kote. Careful this is completely independent of Screenbottom as depth
-      /// </summary>
-    public List<double> ScreenBottomAsKote
-    {
-        get { return _screenBottomAsKote; }
-        set { _screenBottomAsKote = value; }
-    }
 
 
     protected Intake()
@@ -114,23 +102,6 @@ namespace MikeSheWrapper.Tools
       get { return _observations; }
     }
 
-    /// <summary>
-    /// Gets and sets the depth to the screen top.
-    /// </summary>
-    public List<double> ScreenTop
-    {
-      get { return _screenTop; }
-      set { _screenTop = value; }
-    }
-
-    /// <summary>
-    /// Gets and sets the depth to the bottom of the screen
-    /// </summary>
-    public List<double> ScreenBottom
-    {
-      get { return _screenBottom; }
-      set { _screenBottom = value; }
-    }
 
     public override string ToString()
     {

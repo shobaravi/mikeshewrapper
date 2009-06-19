@@ -99,16 +99,12 @@ namespace MikeSheWrapper.InputDataPreparation
         foreach (Intake I in SelectedIntakes)
         {
           //If there is no screen information we cannot use it. 
-          if (I.ScreenBottom.Count == 0 & I.ScreenBottomAsKote.Count == 0 || I.ScreenTop.Count == 0 & I.ScreenTopAsKote.Count == 0)
+          if (I.Screens.Count == 0)
             Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
           else
           {
             int NoOfObs = I.Observations.Count(TSE => InBetween(TSE, Start, End));
-            double depth;
-            if (I.ScreenBottomAsKote.Count > 0)
-              depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
-            else
-              depth = (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
+            double depth = (I.Screens.Min(var=>var.DepthToTop) + I.Screens.Max(var=>var.DepthToBottom)) / 2;
             //          if (W.Dfs0Written)
             SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t1\t" + I.ToString() + "\t1 \t" + NoOfObs);
             //When is this necessary
@@ -277,8 +273,9 @@ namespace MikeSheWrapper.InputDataPreparation
         CurrentWell.X = Convert.ToDouble(DR[SRC.XHeader]);
         CurrentWell.Y = Convert.ToDouble(DR[SRC.YHeader]);
         CurrentWell.Terrain = Convert.ToDouble(DR[SRC.TerrainHeader]);
-        CurrentIntake.ScreenBottomAsKote.Add(Convert.ToDouble(DR[SRC.BOTTOMHeader]));
-        CurrentIntake.ScreenTopAsKote.Add(Convert.ToDouble(DR[SRC.TOPHeader]));
+        Screen CurrentScreen = new Screen(CurrentIntake);
+        CurrentScreen.BottomAsKote = Convert.ToDouble(DR[SRC.BOTTOMHeader]);
+        CurrentScreen.TopAsKote = Convert.ToDouble(DR[SRC.TOPHeader]);
       }
     }
 
@@ -321,11 +318,7 @@ namespace MikeSheWrapper.InputDataPreparation
             SelectedObs.Sort();
 
             StringBuilder S = new StringBuilder();
-            double depth;
-              if (I.ScreenBottomAsKote.Count>0)
-                  depth = I.well.Terrain - (I.ScreenTopAsKote.Max() + I.ScreenBottomAsKote.Min()) / 2;
-              else
-                  depth =  (I.ScreenTop.Min() + I.ScreenBottom.Max()) / 2;
+            double depth = (I.Screens.Min(var => var.DepthToTop) + I.Screens.Max(var => var.DepthToBottom)) / 2;
 
               S.Append(I.ToString() + "\t" + I.well.X + "\t" + I.well.Y + "\t" + depth + "\t");
 
@@ -495,7 +488,7 @@ namespace MikeSheWrapper.InputDataPreparation
             if (I.well.UsedForExtraction)
             {
               //If there is no screen information we cannot use it. 
-              if (I.ScreenBottom.Count == 0 & I.ScreenBottomAsKote.Count == 0 || I.ScreenTop.Count == 0 & I.ScreenTopAsKote.Count == 0)
+              if (I.Screens.Count==0)
                 Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
               else
               {
@@ -539,16 +532,8 @@ namespace MikeSheWrapper.InputDataPreparation
                 Line.Append(I.well.Terrain + "\t");
                 Line.Append("0\t");
                 Line.Append(P.IDNumber + "\t");
-                //Use the screen position in kote if it has been set.
-                if (I.ScreenTopAsKote.Count > 0)
-                  Line.Append(I.ScreenTopAsKote.Max() + "\t");
-                else
-                  Line.Append(I.well.Terrain - I.ScreenTop.Min() + "\t");
-                if (I.ScreenBottomAsKote.Count > 0)
-                  Line.Append(I.ScreenBottomAsKote.Min() + "\t");
-                else
-                  Line.Append(I.well.Terrain - I.ScreenBottom.Max() + "\t");
-
+                Line.Append(I.Screens.Max(var=>var.TopAsKote ) + "\t");
+                Line.Append(I.Screens.Min(var => var.BottomAsKote) + "\t");
                 Line.Append(1 + "\t");
                 Line.Append(dfs0FileName + "\t");
                 Line.Append(itemCount);
@@ -685,10 +670,11 @@ namespace MikeSheWrapper.InputDataPreparation
           PR.YUTM = I.well.Y;
           PR.JUPKOTE = I.well.Terrain;
 
-          if (I.ScreenTop.Count > 0)
-            PR.INTAKETOP = I.ScreenTop.Max();
-          if (I.ScreenBottom.Count > 0)
-            PR.INTAKEBOT = I.ScreenBottom.Max();
+          if (I.Screens.Count > 0)
+          {
+            PR.INTAKETOP = I.Screens.Min(var => var.DepthToTop);
+            PR.INTAKEBOT = I.Screens.Max(var => var.DepthToBottom);
+          }
 
           PR.NUMBEROFOB = SelectedObs.Count;
           if (SelectedObs.Count > 0)

@@ -12,13 +12,12 @@ namespace MikeSheWrapper.Tools
     List<ObservationEntry> Observations { get; }
     double? RMS { get; }
     double? RMST { get; }
-    List<double> ScreenBottom { get; set; }
-    List<double> ScreenTop { get; set; }
-    List<double> ScreenBottomAsKote { get; set; }
-    List<double> ScreenTopAsKote { get; }
+    List<Screen> Screens { get; }
+    //List<double> ScreenBottom { get; set; }
+    //List<double> ScreenTop { get; set; }
+    //List<double> ScreenBottomAsKote { get; set; }
+    //List<double> ScreenTopAsKote { get; }
     string ToString();
     IWell well { get; }
-    DateTime PumpingStart{get;set;}
-    DateTime PumpingStop { get; set;}
   }
 }
