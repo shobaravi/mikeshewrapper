@@ -239,12 +239,12 @@ namespace MikeSheWrapper.JupiterTools
 
 
           //Loop the screens. One intake can in special cases have multiple screens
-          foreach (var Screen in IntakeData.GetSCREENRows())
+          foreach (var ScreenData in IntakeData.GetSCREENRows())
           {
-            if (!Screen.IsTOPNull())
-              CurrentIntake.ScreenTop.Add(Screen.TOP);
-            if (!Screen.IsBOTTOMNull())
-              CurrentIntake.ScreenBottom.Add(Screen.BOTTOM);
+              Screen CurrentScreen = new Screen(CurrentIntake);
+              CurrentScreen.DepthToTop = ScreenData.TOP;
+              CurrentScreen.DepthToBottom = ScreenData.BOTTOM;
+              CurrentScreen.Number = ScreenData.SCREENNO;
           }//Screen loop
         }//Intake loop
       }//Bore loop
@@ -309,14 +309,16 @@ namespace MikeSheWrapper.JupiterTools
 
       CurrentRow.PURPOSE = BoringsData.PURPOSE;
       CurrentRow.USE = BoringsData.USE;
-      if (CurrentIntake.ScreenTop.Count > 0)
-        CurrentRow.INTAKETOP = CurrentIntake.ScreenTop.Min();
+      if (CurrentIntake.Screens.Count != 0)
+      {
+        CurrentRow.INTAKETOP = CurrentIntake.Screens.Min(var => var.DepthToTop);
+        CurrentRow.INTAKEBOT = CurrentIntake.Screens.Max(var => var.DepthToBottom);
+      }
       else
+      {
         CurrentRow.INTAKETOP = -999;
-      if (CurrentIntake.ScreenBottom.Count > 0)
-        CurrentRow.INTAKEBOT = CurrentIntake.ScreenBottom.Max();
-      else
         CurrentRow.INTAKEBOT = -999;
+      }
 
       CurrentRow.INTAKTOPK = -999;
       CurrentRow.INTAKBOTK = -999;
@@ -358,7 +360,10 @@ namespace MikeSheWrapper.JupiterTools
         CurrentWell.LithSamples.Sort();
         CurrentRow.BOTROCK = CurrentWell.LithSamples[CurrentWell.LithSamples.Count - 1].RockSymbol;
 
-       
+        double screentop = CurrentIntake.Screens.Min(var=> var.DepthToTop );
+        double screenbottom = CurrentIntake.Screens.Max(var => var.DepthToBottom);
+
+        var sampleswithinFilter = CurrentWell.LithSamples.Where(var => var.Top < screenbottom & var.Bottom > screentop); 
 
       }
       else
@@ -662,10 +667,12 @@ namespace MikeSheWrapper.JupiterTools
           CurrentIntake = CurrentWell.AddNewIntake(Intake.INTAKENO);
 
           //Loop the screens. One intake can in special cases have multiple screens
-          foreach (var Screen in Intake.GetSCREENRows())
+          foreach (var ScreenData in Intake.GetSCREENRows())
           {
-              CurrentIntake.ScreenTop.Add(Screen.TOP);
-              CurrentIntake.ScreenBottom.Add(Screen.BOTTOM);
+            Screen CurrentScreen = new Screen(CurrentIntake);
+            CurrentScreen.DepthToTop = ScreenData.TOP;
+            CurrentScreen.DepthToBottom = ScreenData.BOTTOM;
+            CurrentScreen.Number = ScreenData.SCREENNO;
           }//Screen loop       
 
           //Read in the water levels
