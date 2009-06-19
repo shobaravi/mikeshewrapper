@@ -354,17 +354,55 @@ namespace MikeSheWrapper.JupiterTools
         CurrentWell.LithSamples.Add(L);
       }
 
+      CurrentRow.RESROCK = "-999";
+      CurrentRow.SUMSAND = -999;
 
       if (CurrentWell.LithSamples.Count != 0)
       {
         CurrentWell.LithSamples.Sort();
         CurrentRow.BOTROCK = CurrentWell.LithSamples[CurrentWell.LithSamples.Count - 1].RockSymbol;
 
-        double screentop = CurrentIntake.Screens.Min(var=> var.DepthToTop );
-        double screenbottom = CurrentIntake.Screens.Max(var => var.DepthToBottom);
+        if (CurrentIntake.Screens.Count != 0)
+        {
+          //Now build information about reservoir rock in front of screen
+          double screentop = CurrentIntake.Screens.Min(var => var.DepthToTop);
+          double screenbottom = CurrentIntake.Screens.Max(var => var.DepthToBottom);
 
-        var sampleswithinFilter = CurrentWell.LithSamples.Where(var => var.Top < screenbottom & var.Bottom > screentop); 
+          //Do not use dummy values
+          if (screentop != -999 & screenbottom != -999)
+          {
+            double length = (screenbottom - screentop) / 100;
+            //Get the samples that are within the filter
+            var sampleswithinFilter = CurrentWell.LithSamples.Where(var => var.Top < screenbottom & var.Bottom > screentop);
+            Dictionary<string, double> percentages = new Dictionary<string, double>();
 
+            //Now calculate the percentages
+            foreach (Lithology L in sampleswithinFilter)
+            {
+              double percent = (Math.Min(screenbottom, L.Bottom) - Math.Max(screentop, L.Top)) / length;
+              if (percentages.ContainsKey(L.RockSymbol))
+                percentages[L.RockSymbol] += percent;
+              else
+                percentages.Add(L.RockSymbol, percent);
+            }
+
+            double sumsand = 0;
+            string[] magasiner = new string[] { "s", "k", "g" };
+            //Build the resrock string
+            StringBuilder resrock = new StringBuilder();
+            foreach (KeyValuePair<string, double> KVP in percentages)
+            {
+              resrock.Append(KVP.Key + ": " + KVP.Value.ToString("###") + "% ");
+              if (magasiner.Contains(KVP.Key.ToLower()))
+                sumsand += KVP.Value;
+              if (KVP.Key.Length >= 2 && magasiner.Contains(KVP.Key.Substring(1, 1).ToLower()))
+                sumsand += KVP.Value;
+            }
+            CurrentRow.RESROCK = resrock.ToString();
+            CurrentRow.SUMSAND = sumsand;
+          }
+
+        }
       }
       else
         CurrentRow.BOTROCK = "-999";
