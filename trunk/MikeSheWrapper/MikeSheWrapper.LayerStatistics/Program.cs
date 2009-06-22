@@ -42,21 +42,47 @@ namespace MikeSheWrapper.LayerStatistics
           ObsFileName = args[1];
         }
         //Input is an .xml-file
-        else
+        else if (args.Length == 1)
         {
           Configuration cf = Configuration.ConfigurationFactory(args[0]);
-          
+
           _grid = new MikeSheGridInfo(cf.PreProcessedDFS3, cf.PreProcessedDFS2);
 
-          if (cf.HeadItemText!=null)
+          if (cf.HeadItemText != null)
             _res = new Results(cf.ResultFile, _grid, cf.HeadItemText);
           else
             _res = new Results(cf.ResultFile, _grid);
 
-          if (_res.Heads==null)
+          if (_res.Heads == null)
             throw new Exception("Heads could not be found. Check that item: \"" + _res.HeadElevationString + "\" exists in + " + cf.ResultFile);
 
           ObsFileName = cf.ObservationFile;
+        }
+        else
+        {
+          OpenFileDialog Ofd = new OpenFileDialog();
+
+          Ofd.Filter = "Known file types (*.she)|*.she";
+          Ofd.ShowReadOnly = true;
+          Ofd.Title = "Select a MikeShe setup file";
+          
+
+          if (DialogResult.OK == Ofd.ShowDialog())
+          {
+            Model MS = new Model(Ofd.FileName);
+            _grid = MS.GridInfo;
+            _res = MS.Results;
+            Ofd.Filter = "Known file types (*.txt)|*.txt";
+            Ofd.ShowReadOnly = true;
+            Ofd.Title = "Select a LayerStatistics setup file";
+
+            if (DialogResult.OK == Ofd.ShowDialog())
+              ObsFileName = Ofd.FileName;
+            else
+              return;
+          }
+          else
+            return;
         }
 
         InputOutput IO = new InputOutput(_grid.NumberOfLayers);
