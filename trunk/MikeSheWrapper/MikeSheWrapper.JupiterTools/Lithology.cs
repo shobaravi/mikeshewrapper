@@ -30,7 +30,7 @@ namespace MikeSheWrapper.JupiterTools
 
     public int CompareTo(Lithology other)
     {
-      return Bottom.CompareTo(other.Bottom);
+      return Top.CompareTo(other.Top);
     }
 
     #endregion
