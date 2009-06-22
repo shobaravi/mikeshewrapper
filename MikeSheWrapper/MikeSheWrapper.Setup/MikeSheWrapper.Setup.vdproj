@@ -382,12 +382,6 @@
         "Entry"
         {
         "MsmKey" = "8:_636AE31F810B670B0E16B963AEC5F4B7"
-        "OwnerKey" = "8:_C84257CAB2A6CC47B45514ADE0D69142"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_636AE31F810B670B0E16B963AEC5F4B7"
         "OwnerKey" = "8:_F8CD512494D2739EFBA207F011252CAC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -825,6 +819,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_E9F95CB3B4E925E0A5CCDAAFB9AA0048"
+        "OwnerKey" = "8:_3CC73F32F12B42D8A70EE5276E8850C7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EBE32CA93B827F59E7C95EB4EAEAC9BC"
         "OwnerKey" = "8:_90F151ABD9FAEB43A8AF8D2028B49007"
         "MsmSig" = "8:_UNDEFINED"
@@ -886,6 +886,12 @@
         "Entry"
         {
         "MsmKey" = "8:_ED0C9F93E0254291A409A93007F62EB9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F73596F2FAC34410B6FA4A94F5DA0196"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1037,6 +1043,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_3CC73F32F12B42D8A70EE5276E8850C7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E9F95CB3B4E925E0A5CCDAAFB9AA0048"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1927,6 +1939,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E9F95CB3B4E925E0A5CCDAAFB9AA0048"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Windows.Forms.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E9F95CB3B4E925E0A5CCDAAFB9AA0048"
+                    {
+                    "Name" = "8:System.Windows.Forms.DataVisualization.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Windows.Forms.DataVisualization.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_531C7865CF994E08B3C920800EFD4731"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EBE32CA93B827F59E7C95EB4EAEAC9BC"
             {
             "AssemblyRegister" = "3:1"
@@ -1975,6 +2018,26 @@
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_531C7865CF994E08B3C920800EFD4731"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F73596F2FAC34410B6FA4A94F5DA0196"
+            {
+            "SourcePath" = "8:..\\Documentation\\Layerstatistics.pdf"
+            "TargetName" = "8:Layerstatistics.pdf"
+            "Tag" = "8:"
+            "Folder" = "8:_B8B5FAFEB09E4442A5E672EB242AE9D4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2304,7 +2367,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MikeSheWrapper"
         "ProductCode" = "8:{6EE77606-A337-4034-AE3A-5D8EA02E43A9}"
-        "PackageCode" = "8:{670ED3A0-4DD1-4A47-9F5E-E0A208B7BFC2}"
+        "PackageCode" = "8:{08AF265B-EE26-4E21-A24C-F0876A4C2991}"
         "UpgradeCode" = "8:{4682F50C-5573-4587-88C8-1FBDE785B94C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
