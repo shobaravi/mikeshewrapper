@@ -343,15 +343,19 @@ namespace MikeSheWrapper.JupiterTools
       CurrentRow.RESROCK = IntakeData.RESERVOIRROCK;
 
       //Loop the lithology
-      foreach (var Lith in BoringsData.GetLITHSAMPRows())
+      //This loop is entered foreach intake thus only read lithology once.
+      if (CurrentWell.LithSamples.Count == 0)
       {
-        Lithology L = new Lithology();
-        L.Bottom = Lith.BOTTOM;
-        L.Top = Lith.TOP;
-        L.RockSymbol = Lith.ROCKSYMBOL;
-        L.RockType = Lith.ROCKTYPE;
-        L.TotalDescription = Lith.TOTALDESCR;
-        CurrentWell.LithSamples.Add(L);
+        foreach (var Lith in BoringsData.GetLITHSAMPRows())
+        {
+          Lithology L = new Lithology();
+          L.Bottom = Lith.BOTTOM;
+          L.Top = Lith.TOP;
+          L.RockSymbol = Lith.ROCKSYMBOL;
+          L.RockType = Lith.ROCKTYPE;
+          L.TotalDescription = Lith.TOTALDESCR;
+          CurrentWell.LithSamples.Add(L);
+        }
       }
 
       CurrentRow.RESROCK = "-999";
