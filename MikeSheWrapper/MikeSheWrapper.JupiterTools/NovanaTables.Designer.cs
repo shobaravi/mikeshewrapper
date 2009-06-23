@@ -1603,7 +1603,7 @@ namespace MikeSheWrapper.JupiterTools {
                         int ANTAKTAAR, 
                         int FRAAAR, 
                         int TILAAR, 
-                        string OmrID, 
+                        int OmrID, 
                         double QC_TOPK, 
                         double QC_BOTK, 
                         string QC, 
@@ -1763,7 +1763,7 @@ namespace MikeSheWrapper.JupiterTools {
                 base.Columns.Add(this.columnFRAAAR);
                 this.columnTILAAR = new global::System.Data.DataColumn("TILAAR", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTILAAR);
-                this.columnOmrID = new global::System.Data.DataColumn("OmrID", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnOmrID = new global::System.Data.DataColumn("OmrID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOmrID);
                 this.columnQC_TOPK = new global::System.Data.DataColumn("QC_TOPK", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQC_TOPK);
@@ -4021,10 +4021,10 @@ namespace MikeSheWrapper.JupiterTools {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string OmrID {
+            public int OmrID {
                 get {
                     try {
-                        return ((string)(this[this.tableIndvindinger.OmrIDColumn]));
+                        return ((int)(this[this.tableIndvindinger.OmrIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'OmrID\' in table \'Indvindinger\' is DBNull.", e);

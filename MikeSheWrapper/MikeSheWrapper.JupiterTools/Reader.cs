@@ -507,6 +507,7 @@ namespace MikeSheWrapper.JupiterTools
 
       //Add a blank string to ensure length of column
       DT2.Rows[0]["Comment"] = "                                                   ";
+      DT2.Rows[0]["OK_KOMMENT"] = "                                                   ";
       DT2.Merge(DT1);
 
       return _intakes;
@@ -630,6 +631,7 @@ namespace MikeSheWrapper.JupiterTools
       }
       //Add a blank string to ensure length of column
       DT2.Rows[0]["Comment"] = "                                                   ";
+      DT2.Rows[0]["OK_KOMMENT"] = "                                                   ";
 
       DT2.Merge(DT1);
     }
