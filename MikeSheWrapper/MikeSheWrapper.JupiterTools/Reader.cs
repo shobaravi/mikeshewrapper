@@ -297,7 +297,6 @@ namespace MikeSheWrapper.JupiterTools
 
 
       CurrentRow.CASIBOT = -999;
-      CurrentRow.JUPDTMK = -999;
 
       //Assumes that the string no from the intake identifies the correct Casing
       foreach (var Casing in BoringsData.GetCASINGRows())
@@ -460,6 +459,7 @@ namespace MikeSheWrapper.JupiterTools
 
               CurrentRow.NOVANAID = NovanaID;
               CurrentIntake.Data["NOVANAID"] = NovanaID;
+              CurrentRow.JUPDTMK = -999;
 
               FillPlantDataIntoDataRow(CurrentRow, anlaeg, P, StartDate, EndDate);
 
