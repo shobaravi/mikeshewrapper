@@ -102,10 +102,13 @@ namespace MikeSheWrapper.Tools
       get { return _observations; }
     }
 
-
+    /// <summary>
+    /// Returns the well ID without spaces and the intake nummer added to the end with an underscore
+    /// </summary>
+    /// <returns></returns>
     public override string ToString()
     {
-      return well.ID + "_" +IDNumber;
+      return well.ID.Replace(" ","") + "_" +IDNumber;
     }
 
     #region IComparable<Intake> Members
