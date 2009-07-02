@@ -9,6 +9,7 @@ namespace MikeSheWrapper.Tools
     int IDNumber { get; set; }
     double? MAE { get; }
     double? ME { get; }
+    int? Layer { get; set;}
     List<ObservationEntry> Observations { get; }
     double? RMS { get; }
     double? RMST { get; }

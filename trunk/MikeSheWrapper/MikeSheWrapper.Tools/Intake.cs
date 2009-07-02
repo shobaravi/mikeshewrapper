@@ -16,6 +16,7 @@ namespace MikeSheWrapper.Tools
 
     public IWell well { get; protected set; }
     public int IDNumber { get; set; }
+    public int? Layer { get; set; }
 
 
     public List<Screen> Screens
