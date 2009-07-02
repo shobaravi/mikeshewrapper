@@ -225,8 +225,13 @@ namespace MikeSheWrapper.InputDataPreparation
     {
       bool ReadPumpActivity = false;
       bool ReadPlants = false;
+      bool ReadLayer = false;
       if (DS.First().Table.Columns.Contains(SRC.FraAArHeader) & DS.First().Table.Columns.Contains(SRC.TilAArHeader))
         ReadPumpActivity = true;
+
+      if (DS.First().Table.Columns.Contains(SRC.LayerHeader))
+        ReadLayer = true;
+
 
       if (Plants != null)
         if (DS.First().Table.Columns.Contains(SRC.PlantIDHeader))
@@ -251,6 +256,10 @@ namespace MikeSheWrapper.InputDataPreparation
         
         if (CurrentIntake==null)
           CurrentIntake = CurrentWell.AddNewIntake(intakeno);
+
+        if (ReadLayer)
+          if (!Convert.IsDBNull(DR[SRC.LayerHeader]))
+            CurrentIntake.Layer = Convert.ToInt32(DR[SRC.LayerHeader]);
 
         if (ReadPlants)
         {
@@ -338,12 +347,14 @@ namespace MikeSheWrapper.InputDataPreparation
             StringBuilder S = new StringBuilder();
      
               S.Append(I.ToString() + "\t" + I.well.X + "\t" + I.well.Y + "\t" + PointInScreen(I) + "\t");
-
+            
             if (AllObs)
               foreach (ObservationEntry TSE in SelectedObs)
               {
                 StringBuilder ObsString = new StringBuilder(S.ToString());
                 ObsString.Append(TSE.Value + "\t" + TSE.Time.ToShortDateString());
+                if (I.Layer != null)
+                  ObsString.Append("\t" + I.Layer.ToString());
                 SW.WriteLine(ObsString.ToString());
               }
             else
@@ -352,6 +363,8 @@ namespace MikeSheWrapper.InputDataPreparation
                 {
                     S.Append(SelectedObs.Average(num => num.Value).ToString() + "\t");
                     S.Append(SelectedObs.Max(num => num.Time).ToShortDateString());
+                    if (I.Layer != null)
+                      S.Append("\t" +I.Layer.ToString());
                     SW.WriteLine(S.ToString());
                 }
             }
