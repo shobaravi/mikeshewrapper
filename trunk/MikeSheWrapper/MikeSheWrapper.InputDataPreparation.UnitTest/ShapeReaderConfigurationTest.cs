@@ -28,6 +28,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
       SRC.TerrainHeader = "JUPKOTE";
       SRC.FraAArHeader = "FRAAAR";
       SRC.TilAArHeader = "TILAAR";
+      SRC.LayerHeader = "Layer";
 
 
       XmlSerializer x = new XmlSerializer(typeof(ShapeReaderConfiguration));
