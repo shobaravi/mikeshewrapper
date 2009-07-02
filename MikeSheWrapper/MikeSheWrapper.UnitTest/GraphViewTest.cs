@@ -15,6 +15,7 @@ namespace MikeSheWrapper.UnitTest
   public class GraphViewTest
   {
 
+    [Ignore]
     [Test]
     public void ViewTest()
     {
