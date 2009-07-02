@@ -639,8 +639,10 @@ namespace MikeSheWrapper.JupiterTools
 
     public Dictionary<string, IWell> WellsForNovana(bool Lithology, bool WaterLevel, bool Chemistry)
     {
-      string[] ExtractionPurpose = new string[]{"C","G","V","VA","VD","VH","VI","VM","VP","VV"};
-      string[] ExtractionUse = new string[]{"C","G","V","VA","VD","VH","VI","VM","VP","VV"};
+      string[] NotExtractionPurpose = new string[] { "A", "G", "I", "J", "L", "R", "U", "M", "P"};
+
+      string[] ExtractionUse = new string[]{"C","V","VA","VD","VH","VI","VM","VP","VV"};
+      string[] NotExtractionUse = new string[] { "A", "G", "I", "J", "L", "R", "U", "M", "P"};
 
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
@@ -676,10 +678,16 @@ namespace MikeSheWrapper.JupiterTools
           CurrentWell.Description = Boring.LOCATION;
           CurrentWell.Terrain = Boring.ELEVATION;
 
-          CurrentWell.UsedForExtraction = ExtractionPurpose.Contains(Boring.PURPOSE.ToUpper());
-          if (ExtractionUse.Contains(Boring.USE.ToUpper()))
-            CurrentWell.UsedForExtraction = true;
 
+          CurrentWell.UsedForExtraction = true;
+
+        //Hvis USE er noget andet end indvinding
+          if (NotExtractionUse.Contains(Boring.USE.ToUpper()))
+            CurrentWell.UsedForExtraction = false;
+
+        //Hvis den er oprettet med et andet formål og USE ikke er sat til indvinding er det ikke en indvindingsboring
+          if (NotExtractionPurpose.Contains(Boring.PURPOSE.ToUpper()) & !ExtractionUse.Contains(Boring.USE.ToUpper()))
+            CurrentWell.UsedForExtraction = false;
 
           //Loop the lithology
           foreach (var Lith in Boring.GetLITHSAMPRows())
