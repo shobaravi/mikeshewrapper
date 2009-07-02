@@ -10,4 +10,5 @@
   <TerrainHeader>JUPKOTE</TerrainHeader>
   <FraAArHeader>FRAAAR</FraAArHeader>
   <TilAArHeader>TILAAR</TilAArHeader>
+  <LayerHeader>Layer</LayerHeader>
 </ShapeReaderConfiguration>
