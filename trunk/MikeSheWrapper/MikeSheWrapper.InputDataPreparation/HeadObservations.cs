@@ -96,7 +96,7 @@ namespace MikeSheWrapper.InputDataPreparation
 
       using (StreamWriter SW = new StreamWriter(Path.Combine(OutputPath,"DetailedTimeSeriesImport.txt"), false, Encoding.Default))
       {
-        foreach (Intake I in SelectedIntakes)
+        foreach (IIntake I in SelectedIntakes)
         {
           //If there is no screen information we cannot use it. 
           if (I.Screens.Count == 0)
@@ -329,7 +329,7 @@ namespace MikeSheWrapper.InputDataPreparation
         else
           SW.WriteLine("NOVANAID\tXUTM\tYUTM\tDEPTH\tMEANPEJ\tMAXDATO\tBERELAG");
 
-          foreach (Intake I in SelectedIntakes.Where(var=>var.Screens.Count>0))
+          foreach (IIntake I in SelectedIntakes.Where(var=>var.Screens.Count>0))
           {
             List<ObservationEntry> SelectedObs = I.Observations.Where(TSE => InBetween(TSE, Start, End)).ToList<ObservationEntry>();
 
