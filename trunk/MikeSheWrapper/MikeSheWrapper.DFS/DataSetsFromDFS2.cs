@@ -14,9 +14,6 @@ namespace MikeSheWrapper.DFS
   {
     private DFS2 _dataFile;
     private int _itemNumber;
-    private static object _lock = new object();
-
-    private Dictionary<int, Matrix> _bufferedData = new Dictionary<int, Matrix>(); 
 
     public DataSetsFromDFS2(DFS2 dfsFile, int ItemNumber)
     {
@@ -43,12 +40,7 @@ namespace MikeSheWrapper.DFS
 
     public Matrix TimeData(int TimeStep)
     {
-      lock (_lock)
-      {
-        if (!_bufferedData.ContainsKey(TimeStep))
-          _bufferedData.Add(TimeStep, _dataFile.GetData(TimeStep, _itemNumber));
-      }
-      return _bufferedData[TimeStep];
+      return _dataFile.GetData(TimeStep, _itemNumber);
     }
 
     public Matrix TimeData(DateTime TimeStep)

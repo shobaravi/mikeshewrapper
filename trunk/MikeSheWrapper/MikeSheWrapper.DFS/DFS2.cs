@@ -9,11 +9,15 @@ using DHI.Generic.MikeZero.DFS;
 namespace MikeSheWrapper.DFS
 {
   /// <summary>
-  /// Provides read and write access to a .dfs2-file
+  /// Provides read and write access to a .dfs2-file.
+  /// Buffers all data being read. 
   /// </summary>
   public class DFS2 : DFS2DBase
   {
+    //DataBuffer. First on Item, then on timeStep. 
+    private Dictionary<int, Dictionary<int, Matrix>> _bufferData = new Dictionary<int, Dictionary<int, Matrix>>();
 
+        
     public DFS2(string DFSFileName)
       : base(DFSFileName)
     {
@@ -50,15 +54,26 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public Matrix GetData(int TimeStep, int Item)
     {
-      ReadItemTimeStep(TimeStep, Item);
-      Matrix _data = new Matrix(_numberOfRows, _numberOfColumns);
-      int m = 0;
-      for (int i = 0; i < _numberOfRows; i++)
-        for (int j = 0; j < _numberOfColumns; j++)
-        {
-          _data[i, j] = dfsdata[m];
-          m++;
-        }
+      Matrix _data;
+      Dictionary<int, Matrix> _timeValues;
+     
+      if (!_bufferData.TryGetValue(Item, out _timeValues))
+      {
+        _timeValues = new Dictionary<int, Matrix>();
+        _bufferData.Add(Item, _timeValues);
+      }
+      if (!_timeValues.TryGetValue(TimeStep, out _data))
+      {
+        ReadItemTimeStep(TimeStep, Item);
+        _data = new Matrix(_numberOfRows, _numberOfColumns);
+        int m = 0;
+        for (int i = 0; i < _numberOfRows; i++)
+          for (int j = 0; j < _numberOfColumns; j++)
+          {
+            _data[i, j] = dfsdata[m];
+            m++;
+          }
+      }
       return _data;
     }
 
