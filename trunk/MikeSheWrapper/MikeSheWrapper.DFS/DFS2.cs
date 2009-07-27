@@ -73,6 +73,7 @@ namespace MikeSheWrapper.DFS
             _data[i, j] = dfsdata[m];
             m++;
           }
+        _timeValues.Add(TimeStep, _data);
       }
       return _data;
     }
