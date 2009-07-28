@@ -8,6 +8,10 @@ namespace MikeSheWrapper.DFS
   public abstract class DFS2DBase:DFSBase 
   {
 
+    /// <summary>
+    /// Small abstract class adding 2d information to a dfs-file. Used as base for dfs2 and dfs3
+    /// </summary>
+    /// <param name="DFSFileName"></param>
     public DFS2DBase(string DFSFileName)
       : base(DFSFileName)
     {
@@ -83,8 +87,7 @@ namespace MikeSheWrapper.DFS
 
     /// <summary>
     /// Gets the Y-coordinate of the grid the center of the lower left
-    /// Only valid for DFS2 and DFS3
-    /// Remember that MikeShe does not use the center
+    /// Remember that MikeShe does not use the center but the outer boundary
     /// </summary>
     public double YOrigin
     {
@@ -95,7 +98,7 @@ namespace MikeSheWrapper.DFS
     }
 
     /// <summary>
-    /// Gets the grid size. Only valid for dfs2 and dfs3.
+    /// Gets the grid size.
     /// </summary>
     public double GridSize 
     {

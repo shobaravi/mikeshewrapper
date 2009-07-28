@@ -9,14 +9,17 @@ using DHI.Generic.MikeZero.DFS;
 namespace MikeSheWrapper.DFS
 {
 
-
-  public abstract class DFSBase 
+  /// <summary>
+  /// Abstract class that handles all direct access to .dfs-files. Uses static methods from DFSWrapper in 
+  /// DHI.Generic.MikeZero.DFS.dll as well as direct calls into the ufs.dll
+  /// </summary>
+  public abstract class DFSBase
   {
-
-    const string UFSDll = "ufs.dll";  // Name of debug dll
+    #region Calls directly into ufs.dll because the wrapped call does not work on vista due to something with strings.
+    const string UFSDll = "ufs.dll";  // Name of dll. Should be in path
 
     /// <summary>
-    /// Call directly into ufs.dll because the wrapped call does not work on vista due to something with string.
+    /// Call directly into ufs.dll because the wrapped call does not work on vista due to something with strings.
     /// </summary>
     /// <param name="ItemPointer"></param>
     /// <param name="ItemType"></param>
@@ -39,11 +42,19 @@ namespace MikeSheWrapper.DFS
     [DllImport(UFSDll, CharSet = CharSet.None, CallingConvention = CallingConvention.StdCall)]
     private extern static int dfsGetGeoInfoUTMProj(IntPtr HeaderPointer, ref IntPtr Projection, ref double longitude, ref double Latitude, ref double Orientation);
 
+    #endregion
 
     private int _currentTimeStep = -1;
     private int _currentItem = -1;
+    private IntPtr _fileWriter = IntPtr.Zero;
+    private IntPtr _headerWriter = IntPtr.Zero;
+    private bool _initializedForWriting = false;
+    private string _filename;
+    private DateTime _firstTimeStep;
+    private TimeSpan _timeStep = TimeSpan.Zero;
 
     protected float[] dfsdata; //Buffer used to fill data into
+
     protected int _numberOfLayers =1;
     protected int _numberOfColumns =1;
     protected int _numberOfRows = 1;
@@ -52,23 +63,13 @@ namespace MikeSheWrapper.DFS
     protected double _yOrigin;
     protected double _gridSize;
 
-    private DateTime _firstTimeStep;
-    private TimeSpan _timeStep = TimeSpan.Zero;
-    public DateTime[] TimeSteps {get; private set;}
 
-    private IntPtr _fileWriter = IntPtr.Zero;
-    private IntPtr _headerWriter = IntPtr.Zero;
-    private bool _initializedForWriting = false;
-    
-    private string _filename;
-
-
+    #region Constructors
     public DFSBase(string DFSFileName)
     {
       _filename = DFSFileName;
 
       DFSWrapper.dfsFileRead(DFSFileName, ref _headerWriter, ref _fileWriter);
-
 
       int nitems = DFSWrapper.dfsGetNoOfItems(_headerWriter);
       IntPtr[] IPointers = new IntPtr[nitems];
@@ -189,7 +190,11 @@ namespace MikeSheWrapper.DFS
       }
     }
 
-   /// <summary>
+    #endregion
+
+#region Dispose methods
+
+    /// <summary>
    /// Override of the Dispose method in DFSFileInfo which probably does not account for finalization
    /// </summary>
    public void Dispose() 
@@ -216,31 +221,11 @@ namespace MikeSheWrapper.DFS
      Dispose(false);
    }
 
-    /// <summary>
-    /// Opens the file for writing. The file is now open twice!
-    /// </summary>
-   private void InitializeForWriting()
-   {
-     Dispose(false);
-     int ok = DFSWrapper.dfsFileEdit(_filename, ref _headerWriter, ref _fileWriter);
-     if (ok != 0)
-       throw new Exception("Error in initializing file : " + _filename + " for writing");
-     _initializedForWriting = true;
-   }
+#endregion
+
+   #region Read methods
 
    /// <summary>
-   /// Writes timestep and starttime
-   /// Because it is called twice
-   /// </summary>
-   private void WriteTime()
-   {
-     if (!_initializedForWriting)
-       InitializeForWriting();
-     int ok = DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToString("yyyy-MM-dd"), _firstTimeStep.ToString("hh:mm:ss"), 1400, 0, _timeStep.TotalSeconds, 0);
-   }
- 
-
-    /// <summary>
     /// Returns the zero-based index of the TimeStep closest to the TimeStamp. If the timestamp falls exactly between two timestep the smallest is returned.
     /// If the TimeStamp is before the first timestep 0 is returned.
     /// If the TimeStamp is after the last timestep the index of the last timestep is returned
@@ -297,7 +282,6 @@ namespace MikeSheWrapper.DFS
         if (ok != 0)
           throw new Exception("Could not find TimeStep number: " + TimeStep +" and Item number: " + Item);
 
-
         //Reads the data
         ok = DFSWrapper.dfsReadItemTimeStep(_headerWriter, _fileWriter, ref time, dfsdata);
         if (ok != 0)
@@ -305,6 +289,10 @@ namespace MikeSheWrapper.DFS
       }
       return time;
     }
+
+   #endregion
+
+    #region Write methods
 
     /// <summary>
     /// Writes data for the TimeStep and Item
@@ -329,7 +317,38 @@ namespace MikeSheWrapper.DFS
         throw new Exception("Error writing timestep number: " + _currentTimeStep);
     }
 
+    /// <summary>
+    /// Opens the file for writing. The file is now open twice!
+    /// </summary>
+    private void InitializeForWriting()
+    {
+      Dispose(false);
+      int ok = DFSWrapper.dfsFileEdit(_filename, ref _headerWriter, ref _fileWriter);
+      if (ok != 0)
+        throw new Exception("Error in initializing file : " + _filename + " for writing");
+      _initializedForWriting = true;
+    }
+
+    /// <summary>
+    /// Writes timestep and starttime
+    /// Because it is called twice
+    /// </summary>
+    private void WriteTime()
+    {
+      if (!_initializedForWriting)
+        InitializeForWriting();
+      int ok = DFSWrapper.dfsSetEqCalendarAxis(_headerWriter, _firstTimeStep.ToString("yyyy-MM-dd"), _firstTimeStep.ToString("hh:mm:ss"), 1400, 0, _timeStep.TotalSeconds, 0);
+    }
+
+    #endregion
+
+
     #region Properties
+
+    /// <summary>
+    /// Gets an array with the timesteps.
+    /// </summary>
+    public DateTime[] TimeSteps { get; private set; }
 
     /// <summary>
     /// Gets and sets the date and time of the first time step.
