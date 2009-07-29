@@ -25,6 +25,14 @@ namespace MikeSheWrapper.DFS.UnitTest
     }
 
     [Test]
+    public void DFS0Test()
+    {
+      DFS0 _dfs0 = new DFS0(@"..\..\..\TestData\novomr4_indv_dfs0_ud1.dfs0");
+      Assert.AreEqual(33316.7, _dfs0.GetData(0, 1), 1e-1);
+      _dfs0.Dispose();
+    }
+
+    [Test]
     public void ReadItems()
     {
       DFS0 _data = new DFS0(@"..\..\..\\TestData\Detailed timeseries output.dfs0");

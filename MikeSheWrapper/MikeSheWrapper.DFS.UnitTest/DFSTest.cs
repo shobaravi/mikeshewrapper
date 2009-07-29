@@ -27,6 +27,29 @@ namespace MikeSheWrapper.DFS.UnitTest
 
     }
 
+
+    [Test]
+    public void OpenTwiceTest()
+    {
+      DFS2 dfs = new DFS2(@"..\..\..\TestData\Layer Statistics\Novomr1_inv_PreProcessed.DFS2");
+      
+      List<DFS2> _files = new List<DFS2>();
+      for (int i=0;i<100;i++)
+      {
+        _files.Add(new DFS2(@"..\..\..\TestData\Layer Statistics\Novomr1_inv_PreProcessed.DFS2"));
+        Matrix M = _files[i].GetData(0,1);
+      }
+
+      int k = 0;
+      DFS2.MaxEntriesInBuffer = 5;
+
+      for (int i = 1; i < dfs.ItemNames.Count(); i++)
+      {
+        Matrix M = dfs.GetData(0, i);
+      }
+
+    }
+
     [TearDown]
     public void Destruct()
     {
@@ -35,13 +58,7 @@ namespace MikeSheWrapper.DFS.UnitTest
     }
 
 
-    [Test]
-    public void DFS0Test()
-    {
-      DFS0 _dfs0 = new DFS0(@"..\..\..\TestData\novomr4_indv_dfs0_ud1.dfs0");
-      Assert.AreEqual(33316.7, _dfs0.GetData(0, 1), 1e-1);
-      _dfs0.Dispose();
-    }
+   
 
     [Test]
     public void StaticTest()
