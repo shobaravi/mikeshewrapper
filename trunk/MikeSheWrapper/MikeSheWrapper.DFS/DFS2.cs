@@ -10,18 +10,29 @@ namespace MikeSheWrapper.DFS
 {
   /// <summary>
   /// Provides read and write access to a .dfs2-file.
-  /// Buffers all data being read. 
+  /// Buffers the 25 latest accessed Matrices. This number can be regulated.
+  /// Different instances of the same file will not give different entries in the static buffer.
+  /// Matrices stored on Absolute Filename, Item and TimeStep. Writing will also alter the buffer.
+  /// Not threadsafe.
   /// </summary>
   public class DFS2 : DFS2DBase
   {
-    //DataBuffer. First on Item, then on timeStep. 
-    private Dictionary<int, Dictionary<int, Matrix>> _bufferData = new Dictionary<int, Dictionary<int, Matrix>>();
+    //Static list holding all Matrices read from dfs2-files
+    private static Dictionary<string, Dictionary<int, Dictionary<int, CacheEntry>>> SuperCache = new Dictionary<string, Dictionary<int, Dictionary<int, CacheEntry>>>();
+    private static LinkedList<CacheEntry> AccessList = new LinkedList<CacheEntry>();
+    public static int MaxEntriesInBuffer = 25;
 
-        
+    //DataBuffer. First on Item, then on timeStep. 
+    private Dictionary<int, Dictionary<int, CacheEntry>> _bufferData;
+            
     public DFS2(string DFSFileName)
       : base(DFSFileName)
     {
-      
+      if (!SuperCache.TryGetValue(AbsoluteFileName, out _bufferData))
+      {
+        _bufferData = new Dictionary<int, Dictionary<int, CacheEntry>>();
+        SuperCache.Add(AbsoluteFileName, _bufferData);
+      }
     }
 
     /// <summary>
@@ -41,6 +52,41 @@ namespace MikeSheWrapper.DFS
           m++;
         }
       WriteItemTimeStep(TimeStep, Item, fdata);
+
+      //Now add the new data to the buffer.
+      Dictionary<int, CacheEntry> _timeValues;
+      CacheEntry cen;
+      if (!_bufferData.TryGetValue(Item, out _timeValues))
+      {
+        _timeValues = new Dictionary<int, CacheEntry>();
+        _bufferData.Add(Item, _timeValues);
+      }
+      if (_timeValues.ContainsKey(TimeStep))
+      {
+        cen = _timeValues[TimeStep];
+        cen.Data = Data;
+        AccessList.Remove(cen);
+      }
+      else
+      {
+        cen = new CacheEntry(AbsoluteFileName, Item, TimeStep, Data);
+        _timeValues.Add(TimeStep, cen);
+        CheckBuffer();
+      }
+      AccessList.AddLast(cen);
+    }
+
+    /// <summary>
+    /// Removes the oldest Matrix from the dictionary if the Accesslist contains more than MaxNumberOfEntries
+    /// </summary>
+    private void CheckBuffer()
+    {
+      if (AccessList.Count > MaxEntriesInBuffer)
+      {
+        CacheEntry ToRemove = AccessList.First.Value;
+        SuperCache[ToRemove.FileName][ToRemove.Item].Remove(ToRemove.TimeStep);
+        AccessList.RemoveFirst();
+      }
     }
 
     /// <summary>
@@ -54,18 +100,19 @@ namespace MikeSheWrapper.DFS
     /// <returns></returns>
     public Matrix GetData(int TimeStep, int Item)
     {
-      Matrix _data;
-      Dictionary<int, Matrix> _timeValues;
+      CacheEntry cen;
+
+      Dictionary<int, CacheEntry> _timeValues;
      
       if (!_bufferData.TryGetValue(Item, out _timeValues))
       {
-        _timeValues = new Dictionary<int, Matrix>();
+        _timeValues = new Dictionary<int, CacheEntry>();
         _bufferData.Add(Item, _timeValues);
       }
-      if (!_timeValues.TryGetValue(TimeStep, out _data))
+      if (!_timeValues.TryGetValue(TimeStep, out cen))
       {
         ReadItemTimeStep(TimeStep, Item);
-        _data = new Matrix(_numberOfRows, _numberOfColumns);
+        Matrix _data = new Matrix(_numberOfRows, _numberOfColumns);
         int m = 0;
         for (int i = 0; i < _numberOfRows; i++)
           for (int j = 0; j < _numberOfColumns; j++)
@@ -73,14 +120,20 @@ namespace MikeSheWrapper.DFS
             _data[i, j] = dfsdata[m];
             m++;
           }
-        _timeValues.Add(TimeStep, _data);
+        cen = new CacheEntry(AbsoluteFileName, Item, TimeStep, _data);
+        _timeValues.Add(TimeStep, cen);
+        CheckBuffer();
       }
-      return _data;
+      else
+        AccessList.Remove(cen);
+      AccessList.AddLast(cen);
+      return cen.Data;
     }
 
     /// <summary>
     /// Gets the data at coordinate set.
     /// Can be faster to use because it does not fill data into the matrix.
+    /// This method does not use the databuffer.
     /// </summary>
     /// <param name="UTMX"></param>
     /// <param name="UTMY"></param>
@@ -92,10 +145,6 @@ namespace MikeSheWrapper.DFS
       ReadItemTimeStep(TimeStep, Item);
       return dfsdata[GetRowIndex(UTMY) * _numberOfColumns + GetColumnIndex(UTMX)];
     }
-
-    
-
   }
-
 }
 

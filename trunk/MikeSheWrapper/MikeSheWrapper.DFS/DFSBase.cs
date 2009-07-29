@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,8 @@ namespace MikeSheWrapper.DFS
     private DateTime _firstTimeStep;
     private TimeSpan _timeStep = TimeSpan.Zero;
 
+    protected string AbsoluteFileName;
+
     protected float[] dfsdata; //Buffer used to fill data into
 
     protected int _numberOfLayers =1;
@@ -68,6 +71,7 @@ namespace MikeSheWrapper.DFS
     public DFSBase(string DFSFileName)
     {
       _filename = DFSFileName;
+      AbsoluteFileName = Path.GetFullPath(DFSFileName);
 
       DFSWrapper.dfsFileRead(DFSFileName, ref _headerWriter, ref _fileWriter);
 
@@ -318,7 +322,7 @@ namespace MikeSheWrapper.DFS
     }
 
     /// <summary>
-    /// Opens the file for writing. The file is now open twice!
+    /// Opens the file for writing. First closes the file since it has already been opened for reading
     /// </summary>
     private void InitializeForWriting()
     {
