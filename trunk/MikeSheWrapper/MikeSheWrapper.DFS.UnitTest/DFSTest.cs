@@ -112,6 +112,9 @@ namespace MikeSheWrapper.DFS.UnitTest
     {
       Matrix3d M = _dfs.GetData(0, 1);
       Assert.AreEqual(6.733541, M[151, 86, 17], 1e-5);
+      Assert.AreEqual(13.94974, _dfs.GetData(1, 1)[150, 86, 17], 1e-5);
+      Assert.AreEqual(13.7237, _dfs.GetData(0, 1)[150, 86, 17], 1e-5);
+
     }
   }
 }
