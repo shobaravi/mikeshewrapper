@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BEA921D5-6F06-4351-8445-958D7281BDF2}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -62,12 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DFSTest.cs" />
-    <Compile Include="MatrixTest.cs" />
+    <Compile Include="DFS3Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadDFS0.cs" />
+    <Compile Include="DFS0Test.cs" />
     <Compile Include="Res11Test.cs" />
-    <Compile Include="WriterTest.cs" />
+    <Compile Include="DFS2Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikeSheWrapper.DFS\MikeSheWrapper.DFS.csproj">

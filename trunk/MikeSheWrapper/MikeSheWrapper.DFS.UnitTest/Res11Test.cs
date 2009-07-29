@@ -14,6 +14,7 @@ namespace MikeSheWrapper.DFS.UnitTest
   public class Res11Test
   {
 
+    [Ignore]
     [Test]
     public void ReadTest()
     {

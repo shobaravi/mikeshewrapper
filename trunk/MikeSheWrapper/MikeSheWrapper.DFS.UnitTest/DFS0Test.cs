@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace MikeSheWrapper.DFS.UnitTest
 {
   [TestFixture]
-  public class ReadDFS0
+  public class DFS0Test
   {
     [Test]
     public void ReadEUM()
@@ -25,7 +25,7 @@ namespace MikeSheWrapper.DFS.UnitTest
     }
 
     [Test]
-    public void DFS0Test()
+    public void ReadDataTest()
     {
       DFS0 _dfs0 = new DFS0(@"..\..\..\TestData\novomr4_indv_dfs0_ud1.dfs0");
       Assert.AreEqual(33316.7, _dfs0.GetData(0, 1), 1e-1);
