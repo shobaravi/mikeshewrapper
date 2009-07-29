@@ -22,11 +22,16 @@ namespace MikeSheWrapper.DFS.UnitTest
       DFS2 outdata = new DFS2(@"..\..\..\TestData\simpelmatrixKopi.dfs2");
 
       Matrix M = outdata.GetData(0, 1);
+      Matrix M2;
 
       M[2, 2] = 2000;
 
-      for (int i=0;i<10;i++)
-        outdata.SetData(i+8, 2, M);
+      for (int i = 0; i < 10; i++)
+      {
+        outdata.SetData(i + 8, 2, M);
+        M2 = outdata.GetData(i + 8, 2);
+        Assert.IsTrue(M.Equals(M2));
+      }
 
       DateTime d = new DateTime(1950, 1, 1);
 
