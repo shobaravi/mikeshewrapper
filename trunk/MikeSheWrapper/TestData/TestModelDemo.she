@@ -1,4 +1,4 @@
-// Created     : 2009-01-30 11:28:5
+// Created     : 2009-03-11 16:22:30
 // DLL id      : C:\Programmer\Fælles filer\DHI\MIKEZero\pfs2004.dll
 // PFS version : Nov 27 2007 20:39:43
 
@@ -3997,7 +3997,7 @@
       Touched = 0
       IsDataUsedInSetup = 0
       PP = 1
-      WM = 1
+      WM = 0
       WQ = 0
    EndSect  // ExecuteEngineFlagsPfs
 

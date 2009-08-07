@@ -1,4 +1,4 @@
-// Created     : 2009-01-30 10:49:8
+// Created     : 2009-07-29 13:57:2
 // DLL id      : C:\Programmer\Fælles filer\DHI\MIKEZero\pfs2004.dll
 // PFS version : Nov 27 2007 20:39:43
 
@@ -143,7 +143,7 @@
          MaxAllowedSZTimeStep = 1
          IncrementRate = 0.05
          MaxPrecDepthPerTimeStep = 10
-         MaxInfiltDepthPerTimeStep  = 10
+         MaxInfiltDepthPerTimeStep = 10
          PrecThresholdRate = 0.1
       EndSect  // CompControlParaTimeStep
 
@@ -234,11 +234,11 @@
          DensityWater = 1000
          DensityAir = 1.777
          ViscosityWater = 0.001
-         ViscosityAir = 1.983e-005
-         CompressibilityWater = 1e-008
-         CompressibilityAir = 1.777e-005
+         ViscosityAir = 2e-005
+         CompressibilityWater = 0
+         CompressibilityAir = 1.8e-005
          StdAtmPressure = 1010
-         GravityAcceleration = 9.81
+         GravityAcceleration = 9.810000000000001
          TypeAmbientWaterHeadInput = 34078720
       EndSect  // AirFlowSimulationParametersMod
 
@@ -421,7 +421,7 @@
       [DFS_2D_DATA_FILE]
          Touched = 1
          IsDataUsedInSetup = 1
-         FILE_NAME = |.\Model Domain and Grid.dfs2|
+         FILE_NAME = |Model Domain and Grid.dfs2|
          ITEM_COUNT = 1
          ITEM_NUMBERS = 1
       EndSect  // DFS_2D_DATA_FILE
@@ -1353,11 +1353,11 @@
          DistributionType = 1
          Type = 2
          ShapeAxisUnit = 1000
-         NO_AREAS = 1
+         NO_AREAS = 4
          [DFS_2D_DATA_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = |.\Irrigation command areas.dfs2|
+            FILE_NAME = |Irrigation command areas.dfs2|
             ITEM_COUNT = 1
             ITEM_NUMBERS = 1
          EndSect  // DFS_2D_DATA_FILE
@@ -1365,96 +1365,101 @@
          [SHAPE_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = |.\commandareas.shp|
+            FILE_NAME = |commandareas.shp|
             ITEM_COUNT = 1
-            ITEM_NUMBERS = 'ID'
+            ITEM_NUMBERS = 'XUTM'
          EndSect  // SHAPE_FILE
 
          [CommandArea]
-            Touched = 1
-            IsDataUsedInSetup = 1
-            AreaName = '1'
-            AreaCodeID = '1'
-            AreaCode = 1
-            [INDIRECT_APPLICATION_AREA]
-               Touched = 1
-               IsDataUsedInSetup = 0
-               Type = 0
-               FixedValue = 0
-               InterpMethod = 2
-               SearchRadius = 1000
-               ShowGridData = 1
-               ShowShapeData = 1
-               ShapeAxisUnit = 1000
-               ShapeItemUnit = 99013
-               [DFS_2D_DATA_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-                  ITEM_COUNT = 1
-                  ITEM_NUMBERS = 1
-               EndSect  // DFS_2D_DATA_FILE
-
-               [SHAPE_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-                  ITEM_COUNT = 1
-                  ITEM_NUMBERS = ''
-               EndSect  // SHAPE_FILE
-
-               [XYZ_FILE]
-                  Touched = 1
-                  IsDataUsedInSetup = 0
-                  FILE_NAME = ||
-               EndSect  // XYZ_FILE
-
-            EndSect  // INDIRECT_APPLICATION_AREA
-
+            AreaName = '140'
+            AreaCodeID = '140'
+            AreaCode = 140
             [Sources]
-               Touched = 1
-               IsDataUsedInSetup = 1
-               MzSEPfsListItemCount = 1
                NumberOfSources = 1
                [Source1]
-                  Touched = 1
-                  IsDataUsedInSetup = 1
                   SourceTypeCode = 2
                   WaterApplication = 1
                   DirectApplication = 1
-                  RiverNameRS = ''
-                  UpstreamChainageRS = 0
-                  DownstreamChainageRS = 0
-                  CapacityRS = 0
-                  UseThresholdDischargeRateRS = 1
-                  ThresholdDischargeRateStopRS = 0
-                  ThresholdDischargeRateRestartRS = 0
-                  UseThresholdStageRS = 0
-                  ThresholdStageStopRS = 0
-                  ThresholdStageRestartRS = 0
-                  WellXposSIWS = 313
-                  WellYposSIWS = 156
+                  WellXposSIWS = 140
+                  WellYposSIWS = 370
                   ScreenTopDepthSIWS = 5
-                  CapacitySIWS = 0
-                  ThresholdDepthSIWS = 8
-                  ScreenBottomDepthSIWS = 8
-                  ScreenTopDepthSWS = 0
-                  ThresholdDepthSWS = 0
-                  CapacitySWS = 0
-                  ScreenBottomDepthSWS = 0
-                  CapacityES = 0
-                  RS_6 = 0
-                  RS_7 = 0
+                  CapacitySIWS = 100
+                  ThresholdDepthSIWS = 2
+                  ScreenBottomDepthSIWS = 2
                   IrrigationLicenseIncluded = 0
                   TYPE = 2
-                  [TIME_SERIES_FILE]
-                     Touched = 1
-                     IsDataUsedInSetup = 1
-                     FILE_NAME = ||
-                     ITEM_COUNT = 1
-                     ITEM_NUMBERS = 1
-                  EndSect  // TIME_SERIES_FILE
+               EndSect  // Source1
 
+            EndSect  // Sources
+
+         EndSect  // CommandArea
+
+         [CommandArea]
+            AreaName = '313'
+            AreaCodeID = '313'
+            AreaCode = 313
+            [Sources]
+               NumberOfSources = 1
+               [Source1]
+                  SourceTypeCode = 2
+                  WaterApplication = 1
+                  DirectApplication = 1
+                  WellXposSIWS = 313
+                  WellYposSIWS = 156
+                  ScreenTopDepthSIWS = 6
+                  CapacitySIWS = 100
+                  ThresholdDepthSIWS = 1
+                  ScreenBottomDepthSIWS = 1
+                  IrrigationLicenseIncluded = 0
+                  TYPE = 2
+               EndSect  // Source1
+
+            EndSect  // Sources
+
+         EndSect  // CommandArea
+
+         [CommandArea]
+            AreaName = '400'
+            AreaCodeID = '400'
+            AreaCode = 400
+            [Sources]
+               NumberOfSources = 1
+               [Source1]
+                  SourceTypeCode = 2
+                  WaterApplication = 1
+                  DirectApplication = 1
+                  WellXposSIWS = 400
+                  WellYposSIWS = 400
+                  ScreenTopDepthSIWS = 7
+                  CapacitySIWS = 100
+                  ThresholdDepthSIWS = 3
+                  ScreenBottomDepthSIWS = 3
+                  IrrigationLicenseIncluded = 0
+                  TYPE = 2
+               EndSect  // Source1
+
+            EndSect  // Sources
+
+         EndSect  // CommandArea
+
+         [CommandArea]
+            AreaName = '96'
+            AreaCodeID = '96'
+            AreaCode = 96
+            [Sources]
+               NumberOfSources = 1
+               [Source1]
+                  SourceTypeCode = 2
+                  WaterApplication = 1
+                  DirectApplication = 1
+                  WellXposSIWS = 96
+                  WellYposSIWS = 140
+                  ScreenTopDepthSIWS = 8
+                  CapacitySIWS = 100
+                  ThresholdDepthSIWS = 5
+                  ScreenBottomDepthSIWS = 5
+                  IrrigationLicenseIncluded = 0
+                  TYPE = 2
                EndSect  // Source1
 
             EndSect  // Sources
@@ -1474,7 +1479,7 @@
          [DFS_2D_DATA_FILE]
             Touched = 1
             IsDataUsedInSetup = 1
-            FILE_NAME = |.\Irrigation demand.dfs2|
+            FILE_NAME = |Irrigation demand.dfs2|
             ITEM_COUNT = 1
             ITEM_NUMBERS = 1
          EndSect  // DFS_2D_DATA_FILE
@@ -1609,7 +1614,7 @@
    [River]
       Touched = 1
       IsDataUsedInSetup = 1
-      Filename = |.\Mike11\Untitled1.sim11|
+      Filename = |Mike11\Untitled1.sim11|
       FilenameWQ = ||
       Bathymetry = 0
       FloodCodes = 0
@@ -3344,8 +3349,8 @@
                   Touched = 1
                   IsDataUsedInSetup = 1
                   Name = 'fixed head'
-                  X = 17.9372197309417
-                  Y = 493.2735426008969
+                  X = 17.93722
+                  Y = 493.273529
                   BoundaryType = 1
                   FixedValue = 0
                   Type = 0
@@ -3371,8 +3376,8 @@
                   Touched = 1
                   IsDataUsedInSetup = 1
                   Name = 'no boundary'
-                  X = 6.726457399103139
-                  Y = 4.484304932735426
+                  X = 6.726458
+                  Y = 4.484305
                   BoundaryType = 0
                   FixedValue = 0
                   Type = 0
@@ -3833,14 +3838,14 @@
             Name = 'Well1'
             HydrComp = 101
             Group = 1
-            X = 98.93048128342247
-            Y = 339.572192513369
+            X = 98.930481
+            Y = 339.572205
             Z = 5
             InclObserved = 1
             [TIME_SERIES_FILE]
                Touched = 1
                IsDataUsedInSetup = 1
-               FILE_NAME = |.\Detailed timeseries output.dfs0|
+               FILE_NAME = |Detailed timeseries output.dfs0|
                ITEM_COUNT = 1
                ITEM_NUMBERS = 2
             EndSect  // TIME_SERIES_FILE
@@ -3853,14 +3858,14 @@
             Name = 'Well2'
             HydrComp = 101
             Group = 1
-            X = 302.1390374331551
-            Y = 136.3636363636364
+            X = 302.139038
+            Y = 136.363632
             Z = 5
             InclObserved = 1
             [TIME_SERIES_FILE]
                Touched = 1
                IsDataUsedInSetup = 1
-               FILE_NAME = |.\Detailed timeseries output.dfs0|
+               FILE_NAME = |Detailed timeseries output.dfs0|
                ITEM_COUNT = 1
                ITEM_NUMBERS = 1
             EndSect  // TIME_SERIES_FILE
