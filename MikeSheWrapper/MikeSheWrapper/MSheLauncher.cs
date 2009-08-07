@@ -21,12 +21,10 @@ namespace MikeSheWrapper
 
       Process Runner = new Process();
 
-      //Getting the path from the registry. This will be changed in 2009.
       string path;
-      DHIRegistry key = new DHIRegistry(DHIProductAreas.MIKE_ZERO, false);
+      DHIRegistry key = new DHIRegistry(DHIProductAreas.COMMON_COMPONNETS, false);
       key.GetHomeDirectory(out path);
-      path = Path.Combine(path, "bin");
-
+      
       if (UseMZLauncher)
       {
         Runner.StartInfo.FileName = Path.Combine(path,"Mzlaunch.exe");
