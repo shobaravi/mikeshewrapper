@@ -23,8 +23,6 @@ namespace MikeSheWrapper.Viewer
     Dictionary<int, Plant> DPlants;
     private List<IIntake> Intakes;
     private JupiterTools.Reader JupiterReader;
-    private bool WellsFromShape = false;
-
 
     public HeadObservationsView()
     {
