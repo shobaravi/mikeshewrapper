@@ -1,12 +1,12 @@
-// Created     : 2009-03-11 16:22:30
-// DLL id      : C:\Programmer\Fælles filer\DHI\MIKEZero\pfs2004.dll
-// PFS version : Nov 27 2007 20:39:43
+// Created     : 2009-08-7 14:27:16
+// DLL id      : C:\Programmer\DHI\2009\bin\pfs2004.dll
+// PFS version : Mar 15 2009 20:08:49
 
 [MIKESHE_FLOWMODEL]
    [FlowModelDocVersion]
       Touched = 0
       IsDataUsedInSetup = 1
-      Version = 11
+      Version = 12
    EndSect  // FlowModelDocVersion
 
    [ViewSettings]
@@ -68,6 +68,7 @@
          WM = 1
          River = 1
          WQ = 0
+         ADPTRadio = 0
          UZ_ModelType = 2
          SZ_ModelType = 0
          OL_ModelType = 0
@@ -380,6 +381,47 @@
 
    EndSect  // ModelCompWQ
 
+   [ModelCompPT]
+      Touched = 0
+      IsDataUsedInSetup = 0
+      InitDensityRadio = 1
+      ParticleMass = 100
+      InitLocationRadio = 0
+      DistanceFracFromBottom = 0.5
+      AvoidInitParticlesInFixedCells = 0
+      AvoidInitParticlesAboveWaterTable = 1
+      RegistrationZoneRadio = 0
+      AutomaticWellRegistration = 1
+      [SimTitlePT]
+         Touched = 0
+         IsDataUsedInSetup = 0
+         Title = ''
+         Description = ''
+      EndSect  // SimTitlePT
+
+      [SimulationPeriodPT]
+         Touched = 0
+         IsDataUsedInSetup = 0
+         SimStart = 2000, 1, 1, 0, 0
+         SimEnd = 2000, 2, 1, 0, 0
+         RecyclingType = 0
+         CycleRestartDate = 2000, 1, 1, 0, 0
+         CycleEndDate = 2000, 2, 1, 0, 0
+         FlowFieldSolutionDate = 2000, 2, 1, 0, 0
+      EndSect  // SimulationPeriodPT
+
+      [PTControl]
+         Touched = 0
+         IsDataUsedInSetup = 0
+         ApplyVerticalCorrection = 1
+         IgnoreVerticalCourant = 0
+         MaxSimTimeStepSZ = 1000000000
+         MaxAdvectiveCourantSZ = 0.8
+         MaxDispersiveCourantSZ = 0.5
+      EndSect  // PTControl
+
+   EndSect  // ModelCompPT
+
    [Species]
       Touched = 0
       IsDataUsedInSetup = 0
@@ -415,8 +457,8 @@
       sizeShp = 1000
       x0Shp = 0
       y0Shp = 0
-      UTMzoneShp = 0
-      orientShp = 0
+      MapProjShp = 'NON-UTM'
+      rotationShp = 0
       ShapeAxisUnit = 1000
       [DFS_2D_DATA_FILE]
          Touched = 1
@@ -3250,6 +3292,76 @@
             [Initial_Immobile_Concentration]
             EndSect  // Initial_Immobile_Concentration
 
+            [Initial_NumberOfParticles]
+               Touched = 0
+               IsDataUsedInSetup = 0
+               Type = 0
+               FixedValue = 0
+               InterpMethod = 2
+               SearchRadius = 1000
+               ShowGridData = 1
+               ShowShapeData = 1
+               ShapeAxisUnit = 1000
+               ShapeItemUnit = 99013
+               [DFS_2D_DATA_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = 1
+               EndSect  // DFS_2D_DATA_FILE
+
+               [SHAPE_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = ''
+               EndSect  // SHAPE_FILE
+
+               [XYZ_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+               EndSect  // XYZ_FILE
+
+            EndSect  // Initial_NumberOfParticles
+
+            [PTRegistrationCodes]
+               Touched = 0
+               IsDataUsedInSetup = 0
+               Type = 0
+               FixedValue = 0
+               InterpMethod = 2
+               SearchRadius = 1000
+               ShowGridData = 1
+               ShowShapeData = 1
+               ShapeAxisUnit = 1000
+               ShapeItemUnit = 99013
+               [DFS_2D_DATA_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = 1
+               EndSect  // DFS_2D_DATA_FILE
+
+               [SHAPE_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = ''
+               EndSect  // SHAPE_FILE
+
+               [XYZ_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+               EndSect  // XYZ_FILE
+
+            EndSect  // PTRegistrationCodes
+
          EndSect  // Layer_1
 
       EndSect  // CompLayersSZ
@@ -3496,9 +3608,86 @@
             [Initial_Immobile_Concentration]
             EndSect  // Initial_Immobile_Concentration
 
+            [Initial_NumberOfParticles]
+               Touched = 0
+               IsDataUsedInSetup = 0
+               Type = 0
+               FixedValue = 0
+               InterpMethod = 2
+               SearchRadius = 1000
+               ShowGridData = 1
+               ShowShapeData = 1
+               ShapeAxisUnit = 1000
+               ShapeItemUnit = 99013
+               [DFS_2D_DATA_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = 1
+               EndSect  // DFS_2D_DATA_FILE
+
+               [SHAPE_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = ''
+               EndSect  // SHAPE_FILE
+
+               [XYZ_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+               EndSect  // XYZ_FILE
+
+            EndSect  // Initial_NumberOfParticles
+
+            [PTRegistrationCodes]
+               Touched = 0
+               IsDataUsedInSetup = 0
+               Type = 0
+               FixedValue = 0
+               InterpMethod = 2
+               SearchRadius = 1000
+               ShowGridData = 1
+               ShowShapeData = 1
+               ShapeAxisUnit = 1000
+               ShapeItemUnit = 99013
+               [DFS_2D_DATA_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = 1
+               EndSect  // DFS_2D_DATA_FILE
+
+               [SHAPE_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = ''
+               EndSect  // SHAPE_FILE
+
+               [XYZ_FILE]
+                  Touched = 1
+                  IsDataUsedInSetup = 0
+                  FILE_NAME = ||
+               EndSect  // XYZ_FILE
+
+            EndSect  // PTRegistrationCodes
+
          EndSect  // Layer_1
 
       EndSect  // CompLayersGeoSZ
+
+      [PTRegistrationLenses]
+         Touched = 0
+         IsDataUsedInSetup = 0
+         MzSEPfsListItemCount = 0
+         NumberOfLenses = 0
+      EndSect  // PTRegistrationLenses
 
       [Drainage]
          DrainageOption = 1
@@ -3822,6 +4011,9 @@
       WQ_SaturatedZoneFrequency = 24
       WQ_TimeSeriesFrequency = 24
       WQ_SummaryFrequency = 24
+      PTLocationFile = 1
+      PTHistoryShapeFile = 0
+      MinPTLocationFrequency = 24
       [DetailedTimeseriesOutput]
          Touched = 1
          IsDataUsedInSetup = 1
@@ -3987,10 +4179,18 @@
    EndSect  // OutputModflow
 
    [ExtraParams]
-      Touched = 0
+      Touched = 1
       IsDataUsedInSetup = 1
-      MzSEPfsListItemCount = 0
-      NoOfParams = 0
+      MzSEPfsListItemCount = 1
+      NoOfParams = 1
+      [ExtraParam_1]
+         Touched = 1
+         IsDataUsedInSetup = 1
+         Name = 'make omi file'
+         Type = 2
+         Value = 1
+      EndSect  // ExtraParam_1
+
    EndSect  // ExtraParams
 
    [ExecuteEngineFlagsPfs]
@@ -4020,13 +4220,6 @@
          IsDataUsedInSetup = 1
       EndSect  // ResultM11DetailedTS
 
-      [RunStatistics]
-         Touched = 0
-         IsDataUsedInSetup = 1
-         HtmlFilename = ||
-         ShapeFilename = ||
-      EndSect  // RunStatistics
-
       [GeoScene3D]
          Touched = 0
          IsDataUsedInSetup = 1
@@ -4039,6 +4232,32 @@
       EndSect  // GeoScene3D
 
    EndSect  // Result
+
+   [Results_Post_Processing]
+      Touched = 0
+      IsDataUsedInSetup = 1
+      [RunStatistics]
+         Touched = 0
+         IsDataUsedInSetup = 1
+         HtmlFilename = ||
+         ShapeFilename = ||
+      EndSect  // RunStatistics
+
+      [PT_Reg_Extraction]
+         Touched = 0
+         IsDataUsedInSetup = 0
+         MzSEPfsListItemCount = 0
+         NumberOfExtractions = 0
+      EndSect  // PT_Reg_Extraction
+
+      [PT_Pathline_Extraction]
+         Touched = 0
+         IsDataUsedInSetup = 0
+         MzSEPfsListItemCount = 0
+         NumberOfExtractions = 0
+      EndSect  // PT_Pathline_Extraction
+
+   EndSect  // Results_Post_Processing
 
    [Overview]
       Touched = 0
