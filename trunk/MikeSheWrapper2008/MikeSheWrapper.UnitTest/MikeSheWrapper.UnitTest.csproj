@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1CD57355-8AF9-449A-82E0-741326C1B481}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MikeSheWrapper.UnitTest</RootNamespace>
+    <AssemblyName>MikeSheWrapper.UnitTest</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Iridium, Version=2008.8.16.470, Culture=neutral, PublicKeyToken=c061a3ec32cc0c6f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyBinaries\MathNet.Iridium.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdPartyBinaries\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSelectorTest.cs" />
+    <Compile Include="GraphViewTest.cs" />
+    <Compile Include="GridInfoTest.cs" />
+    <Compile Include="LayerStatisticsTest.cs" />
+    <Compile Include="MsheLauncherTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MikeSheWrapper.DFS\MikeSheWrapper.DFS.csproj">
+      <Project>{BE1E49B9-9B44-4480-8B16-81D66E367670}</Project>
+      <Name>MikeSheWrapper.DFS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Interfaces\MikeSheWrapper.Interfaces.csproj">
+      <Project>{1040884D-8EAF-4412-A236-4414BC488474}</Project>
+      <Name>MikeSheWrapper.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.JupiterTools\MikeSheWrapper.JupiterTools.csproj">
+      <Project>{517D7D0D-85FB-4423-B5C9-B94FAF253112}</Project>
+      <Name>MikeSheWrapper.JupiterTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.LayerStatistics\MikeSheWrapper.LayerStatistics.csproj">
+      <Project>{8604F11A-0647-4F89-97F5-304E28567369}</Project>
+      <Name>MikeSheWrapper.LayerStatistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Tools\MikeSheWrapper.Tools.csproj">
+      <Project>{5F79ED2D-A923-469B-82EF-7071C8E813E9}</Project>
+      <Name>MikeSheWrapper.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper.Viewer\MikeSheWrapper.Viewer.csproj">
+      <Project>{C83B70C2-F74F-497D-8933-6E1549DA2853}</Project>
+      <Name>MikeSheWrapper.Viewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikeSheWrapper\MikeSheWrapper.csproj">
+      <Project>{B9915DE9-2BFA-4810-8866-CC6FAECB106A}</Project>
+      <Name>MikeSheWrapper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

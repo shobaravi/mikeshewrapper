@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DeleteWellsAfterRun>false</DeleteWellsAfterRun>
+  <SheFile>C:\Kode\MikeSheWrapper\TestData\TestModel.she</SheFile>
+  <WellShapeFile>C:\Kode\MikeSheWrapper\TestData\commandareas.shp</WellShapeFile>
+  <XHeader>XUTM</XHeader>
+  <YHeader>YUTM</YHeader>
+  <TopHeader>TOP</TopHeader>
+  <BottomHeader>BOTTOM</BottomHeader>
+  <MaxRateHeader>XUTM</MaxRateHeader>
+  <MaxDepthHeader>BOTTOM</MaxDepthHeader>
+  <IdHeader>XUTM</IdHeader>
+</Configuration>

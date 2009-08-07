@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="OutputTables" targetNamespace="http://tempuri.org/NovanaTables.xsd" xmlns:mstns="http://tempuri.org/NovanaTables.xsd" xmlns="http://tempuri.org/NovanaTables.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="OutputTables" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="OutputTables" msprop:Generator_DataSetName="OutputTables" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PejlingerOutput" msprop:Generator_UserTableName="PejlingerOutput" msprop:Generator_RowDeletedName="PejlingerOutputRowDeleted" msprop:Generator_RowChangedName="PejlingerOutputRowChanged" msprop:Generator_RowClassName="PejlingerOutputRow" msprop:Generator_RowChangingName="PejlingerOutputRowChanging" msprop:Generator_RowEvArgName="PejlingerOutputRowChangeEvent" msprop:Generator_RowEvHandlerName="PejlingerOutputRowChangeEventHandler" msprop:Generator_TableClassName="PejlingerOutputDataTable" msprop:Generator_TableVarName="tablePejlingerOutput" msprop:Generator_RowDeletingName="PejlingerOutputRowDeleting" msprop:Generator_TablePropName="PejlingerOutput">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NOVANAID" msprop:Generator_UserColumnName="NOVANAID" msprop:Generator_ColumnPropNameInRow="NOVANAID" msprop:Generator_ColumnVarNameInTable="columnNOVANAID" msprop:Generator_ColumnPropNameInTable="NOVANAIDColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="XUTM" msprop:Generator_UserColumnName="XUTM" msprop:Generator_ColumnPropNameInRow="XUTM" msprop:Generator_ColumnVarNameInTable="columnXUTM" msprop:Generator_ColumnPropNameInTable="XUTMColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="YUTM" msprop:Generator_UserColumnName="YUTM" msprop:Generator_ColumnPropNameInRow="YUTM" msprop:Generator_ColumnVarNameInTable="columnYUTM" msprop:Generator_ColumnPropNameInTable="YUTMColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="JUPKOTE" msprop:Generator_UserColumnName="JUPKOTE" msprop:Generator_ColumnPropNameInRow="JUPKOTE" msprop:Generator_ColumnVarNameInTable="columnJUPKOTE" msprop:Generator_ColumnPropNameInTable="JUPKOTEColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="LOCATION" msprop:Generator_UserColumnName="LOCATION" msprop:Generator_ColumnPropNameInRow="LOCATION" msprop:Generator_ColumnVarNameInTable="columnLOCATION" msprop:Generator_ColumnPropNameInTable="LOCATIONColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="NUMBEROFOB" msprop:Generator_UserColumnName="NUMBEROFOB" msprop:Generator_ColumnPropNameInRow="NUMBEROFOB" msprop:Generator_ColumnVarNameInTable="columnNUMBEROFOB" msprop:Generator_ColumnPropNameInTable="NUMBEROFOBColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="INTAKETOP" msprop:Generator_UserColumnName="INTAKETOP" msprop:Generator_ColumnPropNameInRow="INTAKETOP" msprop:Generator_ColumnVarNameInTable="columnINTAKETOP" msprop:Generator_ColumnPropNameInTable="INTAKETOPColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="INTAKEBOT" msprop:Generator_UserColumnName="INTAKEBOT" msprop:Generator_ColumnPropNameInRow="INTAKEBOT" msprop:Generator_ColumnVarNameInTable="columnINTAKEBOT" msprop:Generator_ColumnPropNameInTable="INTAKEBOTColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="STARTDATO" msprop:Generator_UserColumnName="STARTDATO" msprop:Generator_ColumnPropNameInRow="STARTDATO" msprop:Generator_ColumnVarNameInTable="columnSTARTDATO" msprop:Generator_ColumnPropNameInTable="STARTDATOColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ENDDATO" msprop:Generator_UserColumnName="ENDDATO" msprop:Generator_ColumnPropNameInRow="ENDDATO" msprop:Generator_ColumnVarNameInTable="columnENDDATO" msprop:Generator_ColumnPropNameInTable="ENDDATOColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="MEANOBS" msprop:Generator_UserColumnName="MEANOBS" msprop:Generator_ColumnPropNameInRow="MEANOBS" msprop:Generator_ColumnVarNameInTable="columnMEANOBS" msprop:Generator_ColumnPropNameInTable="MEANOBSColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="MINOBS" msprop:Generator_UserColumnName="MINOBS" msprop:Generator_ColumnPropNameInRow="MINOBS" msprop:Generator_ColumnVarNameInTable="columnMINOBS" msprop:Generator_ColumnPropNameInTable="MINOBSColumn" type="xs:double" minOccurs="0" />
+              <xs:element name="MAXOBS" msprop:Generator_UserColumnName="MAXOBS" msprop:Generator_ColumnPropNameInRow="MAXOBS" msprop:Generator_ColumnVarNameInTable="columnMAXOBS" msprop:Generator_ColumnPropNameInTable="MAXOBSColumn" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

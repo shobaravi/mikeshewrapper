@@ -1,0 +1,117 @@
+// Created     : 2009-01-30 11:4:7
+// DLL id      : C:\Programmer\Fælles filer\DHI\MIKEZero\pfs2004.dll
+// PFS version : Nov 27 2007 20:39:43
+
+[MAP]
+   [GEOMETRY]
+      x0 = 0
+      y0 = 0
+      x1 = 250
+      y1 = 250
+      OverlayFilename = ||
+   EndSect  // GEOMETRY
+
+EndSect  // MAP
+
+[SOIL]
+   [DEFAULT_DATA]
+      SoilTextOn = 1
+      MapTextOn = 1
+   EndSect  // DEFAULT_DATA
+
+EndSect  // SOIL
+
+[WEL_CFG]
+   [WELLDATA]
+      Touched = 0
+      NoWells = 2
+      IncludeFractureWell = 0
+      [WELLNO_1]
+         ID = 'New well'
+         XCOR = 19
+         YCOR = 19
+         LEVEL = 0
+         WELLDEPTH1 = 0
+         WELL_FIELD_ID = 0
+         [FILTERDATA]
+            Touched = 0
+            NoFilters = 1
+            [FILTERITEM_1]
+               Top = 5
+               Bottom = 0
+               AbstrUsed = 1
+               AbstrRedFactor = 1
+               Radius = 0.25
+               Storage = 0
+               [TIME_SERIES_FILE]
+                  Touched = 1
+                  FILE_NAME = |.\Pumping Well Timeseries File.dfs0|
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = 1
+               EndSect  // TIME_SERIES_FILE
+
+            EndSect  // FILTERITEM_1
+
+         EndSect  // FILTERDATA
+
+         [LITOGRAFIDATA]
+            Touched = 0
+            NoLitografiLayers = 0
+         EndSect  // LITOGRAFIDATA
+
+      EndSect  // WELLNO_1
+
+      [WELLNO_2]
+         ID = 'New well'
+         XCOR = 11
+         YCOR = 11
+         LEVEL = 0
+         WELLDEPTH1 = 0
+         WELL_FIELD_ID = 0
+         [FILTERDATA]
+            Touched = 0
+            NoFilters = 1
+            [FILTERITEM_1]
+               Top = 5
+               Bottom = 0
+               AbstrUsed = 1
+               AbstrRedFactor = 1
+               Radius = 0.25
+               Storage = 0
+               [TIME_SERIES_FILE]
+                  Touched = 0
+                  FILE_NAME = |.\Pumping Well Timeseries File.dfs0|
+                  ITEM_COUNT = 1
+                  ITEM_NUMBERS = 1
+               EndSect  // TIME_SERIES_FILE
+
+            EndSect  // FILTERITEM_1
+
+         EndSect  // FILTERDATA
+
+         [LITOGRAFIDATA]
+            Touched = 0
+            NoLitografiLayers = 0
+         EndSect  // LITOGRAFIDATA
+
+      EndSect  // WELLNO_2
+
+   EndSect  // WELLDATA
+
+   [WELLFIELD]
+      Touched = 0
+      NoWellFields = 0
+   EndSect  // WELLFIELD
+
+   [Foreground]
+      Touched = 0
+      NumberOfLayers = 0
+   EndSect  // Foreground
+
+   [Background]
+      Touched = 0
+      NumberOfLayers = 0
+   EndSect  // Background
+
+EndSect  // WEL_CFG
+
