@@ -1,0 +1,8 @@
+  Warning No 144: Steady State Initial conditions calculation: Water level at BRANCH4, 0.000 meter exceeded max depth criteria.
+                : Calculated water level (8.313 meter) adjusted  to level allowed according to max. depth criteria (4.000 meter).
+  Warning No 42: The lateral outflow in BRANCH4 : 0.000 meter
+                 was greater than  the amount of water available.
+                 The lateral outflow has been modified to avoid the local water
+                 level falling below the bed level. This modification has
+                 occured 1 time. First time at time step 1.
+  Warning No 53: The total corrected volume is 114.817 m^3.
