@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<ShapeReaderConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <WellIDHeader>NOVANAID</WellIDHeader>
-  <XHeader>XUTM</XHeader>
-  <YHeader>YUTM</YHeader>
-  <TOPHeader>INTAKMIDK</TOPHeader>
-</ShapeReaderConfiguration>
