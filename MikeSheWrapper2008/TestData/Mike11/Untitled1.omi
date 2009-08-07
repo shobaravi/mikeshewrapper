@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<LinkableComponent Type="DHI.OpenMI.Mike11.Mike11LinkableComponent" Assembly="DHI.OpenMI.Mike11, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c513450b5d0bf0bf" xmlns="http://www.openmi.org/LinkableComponent.xsd">
-<Arguments>
-<Argument Key="SimFile" ReadOnly="true" Value="F:\Jacob\GEUS.MikeShe\TestData\Mike11\Untitled1.sim11" />
-</Arguments>
-</LinkableComponent>
