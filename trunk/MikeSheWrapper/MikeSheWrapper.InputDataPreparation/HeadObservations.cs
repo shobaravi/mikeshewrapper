@@ -153,10 +153,14 @@ namespace MikeSheWrapper.InputDataPreparation
       foreach(Intake I in Well.Intakes)
         foreach (ObservationEntry TSE in I.Observations)
         {
-          Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[Well.Layer];
-          TSE.SimulatedValueCell = M[Well.Row, Well.Column];
-          //Interpolates in the matrix
-          TSE.SimulatedValue = GridInfo.Interpolate(Well.X, Well.Y, Well.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
+          if (Well.Layer >= 0)
+          {
+            Matrix M = MSheResults.PhreaticHead.TimeData(TSE.Time)[Well.Layer];
+
+            TSE.SimulatedValueCell = M[Well.Row, Well.Column];
+            //Interpolates in the matrix
+            TSE.SimulatedValue = GridInfo.Interpolate(Well.X, Well.Y, Well.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
+          }
         }
     }
 
