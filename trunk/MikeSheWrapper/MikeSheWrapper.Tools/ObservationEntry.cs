@@ -36,30 +36,39 @@ namespace MikeSheWrapper.Tools
     /// <summary>
     /// Am additional simulated value for this entry. Not used in the statistics calculation. Due to LayerStatistics
     /// </summary>
-    public double SimulatedValueCell {get;set;}
+    public double? SimulatedValueCell {get;set;}
     
     /// <summary>
     /// Gets and sets the simulated value. This value is used for the statistics calculation
     /// </summary>
-    public double SimulatedValue {get;set;}
+    public double? SimulatedValue {get;set;}
 
     /// <summary>
     /// Gets the mean error. Value - simulated value
     /// </summary>
-    public double ME
+    public double? ME
     {
       get
       {
-        return Value - SimulatedValue;
+        if (SimulatedValue.HasValue)
+          return Value - SimulatedValue;
+        else
+          return null;
       }
     }
 
     /// <summary>
     /// Gets the root mean square error. ME^2
     /// </summary>
-    public double RMSE
+    public double? RMSE
     {
-      get { return Math.Pow(ME, 2.0);  }
+      get 
+      {
+        if (ME.HasValue)
+          return  Math.Pow(ME.Value, 2.0);
+        else
+          return null;
+      }
     }
 
     #region IComparable<TimeSeriesEntry> Members
