@@ -161,6 +161,10 @@ namespace MikeSheWrapper.InputDataPreparation
             //Interpolates in the matrix
             TSE.SimulatedValue = GridInfo.Interpolate(Well.X, Well.Y, Well.Layer, M, out TSE.DryCells, out TSE.BoundaryCells);
           }
+          else
+          {
+            TSE.Comment = "Depth is above the surface or below bottom of the model domain";
+          }
         }
     }
 
