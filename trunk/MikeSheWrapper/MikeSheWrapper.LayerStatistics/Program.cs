@@ -128,12 +128,12 @@ namespace MikeSheWrapper.LayerStatistics
           //Samler resultaterne for hver lag
           foreach (ObservationEntry TSE in W.Intakes.First().Observations)
           {
-            if (!TSE.SimulatedValueCell.HasValue | TSE.SimulatedValueCell == _res.DeleteValue)
+            if (TSE.SimulatedValueCell == _res.DeleteValue)
             {
-              if(W.Layer>=0)
                 ObsTotal[W.Layer]++;
+                TSE.Comment = "Cell is dry";
             }
-            else
+            else if(TSE.SimulatedValueCell.HasValue)
             {
               ME[W.Layer] += TSE.ME.Value;
               RMSE[W.Layer] += TSE.RMSE.Value;
