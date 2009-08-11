@@ -119,7 +119,10 @@ namespace MikeSheWrapper.LayerStatistics
           ObsString.Append(OW.Y + "\t");
           ObsString.Append(OW.Depth + "\t");
 
-          ObsString.Append((_numberOfLayers - OW.Layer) + "\t");
+          if (OW.Layer>=0)
+            ObsString.Append((_numberOfLayers - OW.Layer) + "\t");
+          else
+            ObsString.Append((OW.Layer) + "\t");
           ObsString.Append(TSE.Value + "\t");
           ObsString.Append(TSE.Time.ToShortDateString() + "\t");
           ObsString.Append(TSE.SimulatedValue + "\t");
@@ -130,8 +133,7 @@ namespace MikeSheWrapper.LayerStatistics
           ObsString.Append(TSE.BoundaryCells + "\t");
           ObsString.Append(OW.Column + "\t");
           ObsString.Append(OW.Row + "\t");
-          if (!TSE.SimulatedValueCell.HasValue)
-            ObsString.Append("Depth is above the surface or below bottom of the model domain");
+          ObsString.Append(TSE.Comment);
           sw.WriteLine(ObsString.ToString());
         }
 
@@ -141,7 +143,10 @@ namespace MikeSheWrapper.LayerStatistics
         WellString.Append(OW.X + "\t");
         WellString.Append(OW.Y + "\t");
         WellString.Append(OW.Depth + "\t");
-        WellString.Append((_numberOfLayers - OW.Layer) + "\t");
+        if (OW.Layer >= 0)
+          WellString.Append((_numberOfLayers - OW.Layer) + "\t");
+        else
+          WellString.Append((OW.Layer) + "\t");
         WellString.Append(OW.Intakes.First().Observations.Average(num => num.ME).ToString() + "\t");
         WellString.Append(OW.Intakes.First().Observations.Average(num => num.RMSE).ToString() + "\t");
         swell.WriteLine(WellString.ToString());
