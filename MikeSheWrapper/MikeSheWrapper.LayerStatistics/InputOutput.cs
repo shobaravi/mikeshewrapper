@@ -105,7 +105,7 @@ namespace MikeSheWrapper.LayerStatistics
       StreamWriter sw = new StreamWriter(_baseOutPutFileName + "_observations.txt");
       StreamWriter swell = new StreamWriter(_baseOutPutFileName + "_wells.txt");
 
-      sw.WriteLine("OBS_ID\tX\tY\tDepth\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW");
+      sw.WriteLine("OBS_ID\tX\tY\tDepth\tLAYER\tOBS_VALUE\tDATO\tSIM_VALUE_INTP\tSIM_VALUE_CELL\tME\tME^2\t#DRY_CELLS\t#BOUNDARY_CELLS\tCOLUMN\tROW\tCOMMENT");
       swell.WriteLine("OBS_ID\tX\tY\tDepth\tLAYER\tME\tME^2");
 
       foreach (MikeSheWell OW in Wells)
@@ -130,6 +130,8 @@ namespace MikeSheWrapper.LayerStatistics
           ObsString.Append(TSE.BoundaryCells + "\t");
           ObsString.Append(OW.Column + "\t");
           ObsString.Append(OW.Row + "\t");
+          if (!TSE.SimulatedValueCell.HasValue)
+            ObsString.Append("Depth is above the surface or below bottom of the model domain");
           sw.WriteLine(ObsString.ToString());
         }
 

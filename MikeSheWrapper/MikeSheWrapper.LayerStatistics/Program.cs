@@ -122,19 +122,21 @@ namespace MikeSheWrapper.LayerStatistics
           }
 
           //Henter de simulerede værdier
+          
           HeadObservations.GetSimulatedValuesFromGridOutput(_res, _grid, W);
 
           //Samler resultaterne for hver lag
           foreach (ObservationEntry TSE in W.Intakes.First().Observations)
           {
-            if (TSE.SimulatedValueCell == _res.DeleteValue)
+            if (!TSE.SimulatedValueCell.HasValue | TSE.SimulatedValueCell == _res.DeleteValue)
             {
-              ObsTotal[W.Layer - 1]++;
+              if(W.Layer>=0)
+                ObsTotal[W.Layer]++;
             }
             else
             {
-              ME[W.Layer] += TSE.ME;
-              RMSE[W.Layer] += TSE.RMSE;
+              ME[W.Layer] += TSE.ME.Value;
+              RMSE[W.Layer] += TSE.RMSE.Value;
               ObsUsed[W.Layer]++;
               ObsTotal[W.Layer]++;
             }
