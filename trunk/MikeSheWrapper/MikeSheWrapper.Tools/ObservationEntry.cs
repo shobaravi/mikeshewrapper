@@ -22,6 +22,10 @@ namespace MikeSheWrapper.Tools
     {
     }
 
+    /// <summary>
+    /// Gets and sets a Comment string
+    /// </summary>
+    public string Comment { get; set; }
 
     /// <summary>
     /// The number of boundary cells close to the simulated value. Due to LayerStatistics
