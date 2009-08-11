@@ -52,8 +52,8 @@ namespace MikeSheWrapper.Tools
       {
         if (_observations.Count == 0)
           return null;
-
-        return Math.Pow(_observations.Average(new Func<ObservationEntry, double>(num => num.RMSE)), 0.5);
+        
+        return Math.Pow(_observations.Where(var=>var.RMSE.HasValue).Average(num => num.RMSE.Value), 0.5);
       }
     }
 
@@ -63,7 +63,7 @@ namespace MikeSheWrapper.Tools
       {
         if (_observations.Count == 0)
           return null;
-        return _observations.Average(new Func<ObservationEntry, double>(num => num.ME));
+        return _observations.Where(var=>var.ME.HasValue).Average(num => num.ME);
       }
     }
 
@@ -73,7 +73,7 @@ namespace MikeSheWrapper.Tools
       {
         if (_observations.Count == 0)
           return null;
-        return _observations.Average(new Func<ObservationEntry, double>(num => Math.Abs(num.ME)));
+        return _observations.Where(var=>var.ME.HasValue).Average(num => Math.Abs(num.ME.Value));
       }
     }
 
@@ -84,10 +84,10 @@ namespace MikeSheWrapper.Tools
       {
         if (_observations.Count == 0)
           return null;
-        double simmean = _observations.Average(new Func<ObservationEntry, double>(num => num.SimulatedValue));
+        double simmean = _observations.Where(var => var.SimulatedValue.HasValue).Average(num => num.SimulatedValue.Value );
         double obsmean = _observations.Average(new Func<ObservationEntry, double>(num => num.Value));
 
-        double val = _observations.Sum(new Func<ObservationEntry, double>(num => Math.Pow(num.Value - obsmean - (num.SimulatedValue - simmean), 2)));
+        double val = _observations.Where(var=>var.SimulatedValue.HasValue).Sum((num => Math.Pow(num.Value - obsmean - (num.SimulatedValue.Value - simmean), 2)));
         return Math.Pow(val / _observations.Count, 0.5);
       }
     }
