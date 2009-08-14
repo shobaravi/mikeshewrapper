@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSelectorTest.cs" />
+    <Compile Include="FileNamesTest.cs" />
     <Compile Include="GridInfoTest.cs" />
     <Compile Include="LayerStatisticsTest.cs" />
     <Compile Include="MsheLauncherTest.cs" />
