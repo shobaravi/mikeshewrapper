@@ -69,7 +69,7 @@ namespace MikeSheWrapper
     {
       get
       {
-        return "";
+        return _input.MIKESHE_FLOWMODEL.SaturatedZone.Well.Filename; 
         //TODO reference to .shefile
 //        return new PFSClass(this._fileNameWithPath).GetTarget("MIKESHE_FLOWMODEL", 1).GetSection("SaturatedZone", 1).GetSection("Well", 1).GetKeyword("Filename", 1).GetParameter(1).Value.ToString(); 
       }
