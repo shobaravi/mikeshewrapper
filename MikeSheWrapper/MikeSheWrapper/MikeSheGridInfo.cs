@@ -317,7 +317,10 @@ namespace MikeSheWrapper
           distance += d4;
           InterpolatedValue += d4 * P4;
         }
-        InterpolatedValue = InterpolatedValue / distance;
+        if (distance != 0)
+          InterpolatedValue = InterpolatedValue / distance;
+        else
+          return _deleteValue;
       }
       else
       {
