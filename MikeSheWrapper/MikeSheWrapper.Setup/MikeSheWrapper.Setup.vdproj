@@ -1371,11 +1371,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.JupiterTools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_294DC93A37749C1935925E09D0981C80"
-                    {
-                    "Name" = "8:MikeSheWrapper.JupiterTools.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.JupiterTools.dll"
             "TargetName" = "8:"
@@ -1502,11 +1497,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5F962CCAD533502DE4DA7BC45B661EAA"
-                    {
-                    "Name" = "8:MikeSheWrapper.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.dll"
             "TargetName" = "8:"
@@ -1564,11 +1554,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.JupiterTools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6BE1D8B396C347E970680B172653EA56"
-                    {
-                    "Name" = "8:MikeSheWrapper.JupiterTools.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.JupiterTools.dll"
             "TargetName" = "8:"
@@ -1657,11 +1642,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7F9A8E935C9D7E25C959C95D6DBDD783"
-                    {
-                    "Name" = "8:MikeSheWrapper.Tools.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.Tools.dll"
             "TargetName" = "8:"
@@ -1688,11 +1668,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.DFS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_863178792B49D21A0AD23FE1295C731A"
-                    {
-                    "Name" = "8:MikeSheWrapper.DFS.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.DFS.dll"
             "TargetName" = "8:"
@@ -1719,11 +1694,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.InputFiles, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9838169861DFAD8007963D0466132103"
-                    {
-                    "Name" = "8:MikeSheWrapper.InputFiles.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.InputFiles.dll"
             "TargetName" = "8:"
@@ -1750,11 +1720,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_99B8EB53DB2B8432A52A4AE072FB462B"
-                    {
-                    "Name" = "8:MikeSheWrapper.Interfaces.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.Interfaces.dll"
             "TargetName" = "8:"
@@ -1801,11 +1766,6 @@
             "AssemblyAsmDisplayName" = "8:MathNet.Iridium, Version=2008.8.16.470, Culture=neutral, PublicKeyToken=c061a3ec32cc0c6f, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_AF113D52DA8745771FCCD0FBA1E2DFE8"
-                    {
-                    "Name" = "8:MathNet.Iridium.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MathNet.Iridium.dll"
             "TargetName" = "8:"
@@ -1832,11 +1792,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.InputFiles, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B09820E6C063D13E6751BEE46255252E"
-                    {
-                    "Name" = "8:MikeSheWrapper.InputFiles.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.InputFiles.dll"
             "TargetName" = "8:"
@@ -1965,11 +1920,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.InputDataPreparation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_EC36DC3E8E8E273FACE67B559996811B"
-                    {
-                    "Name" = "8:MikeSheWrapper.InputDataPreparation.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.InputDataPreparation.dll"
             "TargetName" = "8:"
@@ -1996,11 +1946,6 @@
             "AssemblyAsmDisplayName" = "8:MikeSheWrapper.DFS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_ECF3A3A44953C5C6ADCFA1551CD190F9"
-                    {
-                    "Name" = "8:MikeSheWrapper.DFS.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MikeSheWrapper.DFS.dll"
             "TargetName" = "8:"
@@ -2303,14 +2248,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MikeSheWrapper"
-        "ProductCode" = "8:{D657AF8C-4CF4-4E76-93A2-50ED8CDA516F}"
-        "PackageCode" = "8:{A6EEB1EB-9665-4B84-B183-CD7402C3884A}"
+        "ProductCode" = "8:{260ABDF8-4709-4703-B3F7-AE7DA871B3A9}"
+        "PackageCode" = "8:{AA2318D6-5031-4DF1-B25F-C5B447FB9856}"
         "UpgradeCode" = "8:{4682F50C-5573-4587-88C8-1FBDE785B94C}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:0.6.2009"
+        "ProductVersion" = "8:0.7.2009"
         "Manufacturer" = "8:JacobGudbjerg"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
