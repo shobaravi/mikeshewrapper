@@ -396,7 +396,7 @@ namespace MikeSheWrapper.InputDataPreparation
       _item.ValueType = ItemValueType.Instantaneous;
       _item.EumType = 171;
       _item.EumUnit = 1;
-      _item.Name = "Head";
+      _item.Name = Intake.ToString();
       _tso.Add(_item);
 
       DateTime _previousTimeStep = DateTime.MinValue;
