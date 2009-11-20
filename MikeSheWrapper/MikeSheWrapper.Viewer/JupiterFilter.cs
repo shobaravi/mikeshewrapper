@@ -16,6 +16,15 @@ namespace MikeSheWrapper.Viewer
       InitializeComponent();
     }
 
+    public bool OnlyRo
+    {
+        get
+        {
+            return checkBox1Ro.Checked;
+        }
+    }
+
+
     public bool ReadWells
     {
       get
@@ -71,6 +80,11 @@ namespace MikeSheWrapper.Viewer
     {
       this.Close();
       this.DialogResult = DialogResult.Cancel;
+    }
+
+    private void checkBoxPejlinger_CheckedChanged(object sender, EventArgs e)
+    {
+        checkBox1Ro.Enabled = checkBoxPejlinger.Checked;
     }
   }
 }

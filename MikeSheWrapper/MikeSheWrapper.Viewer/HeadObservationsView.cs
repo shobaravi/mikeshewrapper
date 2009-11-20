@@ -40,6 +40,8 @@ namespace MikeSheWrapper.Viewer
       this.openFileDialog2.ShowReadOnly = true;
       this.openFileDialog2.Title = "Select an Access file with data in JupiterXL format";
 
+      
+
       if (openFileDialog2.ShowDialog() == DialogResult.OK)
       {
         JupiterFilter jd = new JupiterFilter();
@@ -53,13 +55,13 @@ namespace MikeSheWrapper.Viewer
 
           if (Wells == null)
           {
-            Wells = JupiterReader.WellsForNovana(jd.ReadLithology, jd.ReadPejlinger, jd.ReadChemistry);
+            Wells = JupiterReader.WellsForNovana(jd.ReadLithology, jd.ReadPejlinger, jd.ReadChemistry, jd.OnlyRo);
           }
           else
           {
               if (jd.ReadPejlinger)
               {
-                  JupiterReader.Waterlevels(Wells);
+                  JupiterReader.Waterlevels(Wells, jd.OnlyRo);
               }
           }
 
