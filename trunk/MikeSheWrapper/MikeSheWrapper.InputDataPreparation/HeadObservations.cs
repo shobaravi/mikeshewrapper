@@ -446,6 +446,10 @@ namespace MikeSheWrapper.InputDataPreparation
       _tso.Connection.FilePath = dfs0FileName;
       TSItem _item;
 
+                  int eumtype = 330;
+          int eumunit = 3;
+
+
       TSObject _tsoStat = new TSObjectClass();
       _tsoStat.Connection.FilePath = Path.Combine(OutputPath, "ExtractionStat.dfs0");
       Dictionary<int, double> Sum = new Dictionary<int, double>();
@@ -518,6 +522,7 @@ namespace MikeSheWrapper.InputDataPreparation
             fractions[i] = 1.0 / P.PumpingIntakes.Count(var => var.Intake.well.UsedForExtraction & var.Start.Year <= Start.Year + i & var.End.Year >= Start.Year + i);
           }
 
+
           //Now loop the intakes
           foreach (PumpingIntake PI in P.PumpingIntakes)
           {
@@ -536,8 +541,8 @@ namespace MikeSheWrapper.InputDataPreparation
                 _item = new TSItemClass();
                 _item.DataType = ItemDataType.Type_Float;
                 _item.ValueType = ItemValueType.Mean_Step_Accumulated;
-                _item.EumType = 328;
-                _item.EumUnit = 3;
+                _item.EumType = eumtype;
+                _item.EumUnit = eumunit;
                 _item.Name = NovanaID;
                 _tso.Add(_item);
 
@@ -587,32 +592,32 @@ namespace MikeSheWrapper.InputDataPreparation
       TSItem SumItem = new TSItemClass();
       SumItem.DataType = ItemDataType.Type_Float;
       SumItem.ValueType = ItemValueType.Mean_Step_Accumulated;
-      SumItem.EumType = 328;
-      SumItem.EumUnit = 3;
+      SumItem.EumType = eumtype ;
+      SumItem.EumUnit = eumunit ;
       SumItem.Name = "Sum";
       _tsoStat.Add(SumItem);
 
       TSItem MeanItem = new TSItemClass();
       MeanItem.DataType = ItemDataType.Type_Float;
       MeanItem.ValueType = ItemValueType.Mean_Step_Accumulated;
-      MeanItem.EumType = 328;
-      MeanItem.EumUnit = 3;
+      MeanItem.EumType = eumtype ;
+      MeanItem.EumUnit = eumunit;
       MeanItem.Name = "Mean";
       _tsoStat.Add(MeanItem);
 
       TSItem SumNotUsedItem = new TSItemClass();
       SumNotUsedItem.DataType = ItemDataType.Type_Float;
       SumNotUsedItem.ValueType = ItemValueType.Mean_Step_Accumulated;
-      SumNotUsedItem.EumType = 328;
-      SumNotUsedItem.EumUnit = 3;
+      SumNotUsedItem.EumType = eumtype;
+      SumNotUsedItem.EumUnit = eumunit;
       SumNotUsedItem.Name = "SumNotUsed";
       _tsoStat.Add(SumNotUsedItem);
 
       TSItem SumSurfaceWaterItem = new TSItemClass();
       SumSurfaceWaterItem.DataType = ItemDataType.Type_Float;
       SumSurfaceWaterItem.ValueType = ItemValueType.Mean_Step_Accumulated;
-      SumSurfaceWaterItem.EumType = 328;
-      SumSurfaceWaterItem.EumUnit = 3;
+      SumSurfaceWaterItem.EumType = eumtype;
+      SumSurfaceWaterItem.EumUnit = eumunit;
       SumSurfaceWaterItem.Name = "SumSurfaceWater";
       _tsoStat.Add(SumSurfaceWaterItem);
 
