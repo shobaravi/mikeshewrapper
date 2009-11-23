@@ -12,6 +12,8 @@ using MikeSheWrapper.Tools;
 using MikeSheWrapper.JupiterTools;
 using MikeSheWrapper.InputDataPreparation;
 
+using DHI.TimeSeries;
+
 
 namespace MikeSheWrapper.InputDataPreparation.UnitTest
 {
@@ -19,12 +21,34 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
   public class HeadObservationTest
   {
 
+      [Test]
+      public void GetEUM()
+      {
+          TSObject tso = new TSObject();
+          tso.Connection.FilePath = @"..\..\..\TestData\Units.dfs0";
+          tso.Connection.Open();
+
+          //head elevation
+          Assert.AreEqual(171, tso.Item(1).EumType);
+          Assert.AreEqual(1, tso.Item(1).EumUnit);
+
+          //Pumping rate
+          Assert.AreEqual(330,tso.Item(2).EumType);
+          Assert.AreEqual(3,tso.Item(2).EumUnit);
+
+          //Flow
+          Assert.AreEqual(2, tso.Item(3).EumType);
+          Assert.AreEqual(1, tso.Item(3).EumUnit);
+
+
+      }
+
     [Test]
     public void ReadAllAndWriteDFS0()
     {
       JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
       Dictionary<string, IWell> Wells = R.Wells();
-      R.Waterlevels(Wells);
+      R.Waterlevels(Wells, false);
 
       List<IIntake> Intakes= new List<IIntake>();
 
@@ -44,7 +68,7 @@ namespace MikeSheWrapper.InputDataPreparation.UnitTest
     public void ReadExtractionsAndWrite()
     {
       JupiterTools.Reader R = new Reader(@"..\..\..\TestData\AlbertslundPcJupiter.mdb");
-      Dictionary<string, IWell> Wells = R.WellsForNovana(false, false, false);
+      Dictionary<string, IWell> Wells = R.WellsForNovana(false, false, false, false);
       var Plants = R.ReadPlants(Wells);
       R.FillInExtraction(Plants);
 
