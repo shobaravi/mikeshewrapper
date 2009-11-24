@@ -24,11 +24,11 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       Cf.XHeader = "XUTM";
       Cf.YHeader = "YUTM";
       Cf.IdHeader = "XUTM";
-      Cf.SheFile = @"C:\Kode\MikeSheWrapper\TestData\TestModel.she";
+      Cf.SheFile = Path.GetFullPath(@"..\..\..\TestData\TestModel.she");
       Cf.MaxDepthHeader = "BOTTOM";
       Cf.MaxRateHeader = "XUTM";
 
-      Cf.WellShapeFile = @"C:\Kode\MikeSheWrapper\TestData\commandareas.shp";
+      Cf.WellShapeFile = Path.GetFullPath(@"..\..\..\TestData\commandareas.shp");
       Cf.DeleteWellsAfterRun = false;
 
       XmlSerializer x = new XmlSerializer(Cf.GetType());
@@ -45,8 +45,9 @@ namespace MikeSheWrapper.Irrigation.UnitTest
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
 
       string xmlFileName = @"..\..\..\TestData\IrrigationConfiguration.xml";
-
-      Configuration Cf = (Configuration)x.Deserialize(new System.IO.FileStream(xmlFileName, System.IO.FileMode.Open));
+      Configuration Cf;
+        using (FileStream fs =new System.IO.FileStream(xmlFileName, System.IO.FileMode.Open))
+          Cf = (Configuration)x.Deserialize(fs);
      
       Controller C = new Controller(Cf);
 
@@ -59,8 +60,8 @@ namespace MikeSheWrapper.Irrigation.UnitTest
     {
       Program.Main(new string[]{@"..\..\..\TestData\IrrigationConfiguration.xml"});
 
-      Program.Main(new string[] {@"C:\Kode\MikeSheWrapper\TestData\TestModel.she", @"..\..\..\TestData\IrrigationConfiguration.xml" });
-      Program.Main(new string[] {@"..\..\..\TestData\IrrigationConfiguration.xml", @"C:\Kode\MikeSheWrapper\TestData\TestModel.she" });
+      Program.Main(new string[] { Path.GetFullPath(@"..\..\..\TestData\TestModel.she"), @"..\..\..\TestData\IrrigationConfiguration.xml" });
+      Program.Main(new string[] { @"..\..\..\TestData\IrrigationConfiguration.xml", Path.GetFullPath(@"..\..\..\TestData\TestModel.she") });
     }
     
   }
