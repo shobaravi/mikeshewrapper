@@ -11,12 +11,12 @@ namespace MikeSheWrapper.Irrigation
   public class Program
   {
     /// <summary>
-		/// The main entry point for the application.
-		/// </summary>
+    /// The main entry point for the application.
+    /// </summary>
     [STAThread]
     public static void Main(string[] args)
     {
-      
+
       XmlSerializer x = new XmlSerializer(typeof(Configuration));
 
       Configuration Cf;
@@ -34,17 +34,16 @@ namespace MikeSheWrapper.Irrigation
           xmlfile = args[1];
           shefile = args[0];
         }
-        Cf = (Configuration)x.Deserialize(new FileStream(xmlfile, System.IO.FileMode.Open));
+
+        using (FileStream fs = new FileStream(xmlfile, System.IO.FileMode.Open))
+          Cf = (Configuration)x.Deserialize(fs);
+
         Cf.SheFile = shefile;
       }
       else
         Cf = (Configuration)x.Deserialize(new FileStream(args[0], System.IO.FileMode.Open));
-        
-           
-      
-      Controller C = new Controller(Cf);
 
-      
+      Controller C = new Controller(Cf);
       C.Run();
 
 
