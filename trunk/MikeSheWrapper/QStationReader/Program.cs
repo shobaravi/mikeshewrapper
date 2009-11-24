@@ -14,13 +14,28 @@ namespace QStationReader
 {
     class Program
     {
+      [STAThread]
         static void Main(string[] args)
         {
             string TextFileName="";
             string dfs0FileName="";
             if (args.Length == 0)
             {
+              OpenFileDialog OFD = new OpenFileDialog();
+              OFD.Title = "Select a text file with discharge data";
+              if (DialogResult.OK == OFD.ShowDialog())
+                TextFileName = OFD.FileName;
+              else
+                return;
 
+              SaveFileDialog SFD = new SaveFileDialog();
+              SFD.Title = "Select a .dfs0 file or give a new name";
+              SFD.Filter = "Known file types (*.dfs0)|*.dfs0";
+              SFD.OverwritePrompt = false;
+              if (DialogResult.OK == SFD.ShowDialog())
+                dfs0FileName = SFD.FileName;
+              else 
+                return;
             }
             else
             {
