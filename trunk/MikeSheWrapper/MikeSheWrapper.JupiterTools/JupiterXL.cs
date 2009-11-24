@@ -97,11 +97,14 @@ namespace MikeSheWrapper.JupiterTools
     /// Only necessary fields are read.
     /// </summary>
     /// <param name="DataBaseFileName"></param>
-    public void ReadWaterLevels()
+    public void ReadWaterLevels( bool OnlyRo)
     {
       WATLEVELTableAdapter WTA = new WATLEVELTableAdapter();
       WTA.Connection.ConnectionString = ConnectionString;
-      WTA.FillByNovana(WATLEVEL);
+      if (OnlyRo)
+          WTA.FillByNovanaOnlyRo(WATLEVEL);
+      else
+          WTA.FillByNovana(WATLEVEL);
       
     }
 
