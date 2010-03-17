@@ -71,12 +71,14 @@ namespace MikeSheWrapper.Viewer
               DPlants = JupiterReader.ReadPlants(Wells);
   
             JupiterReader.FillInExtraction(DPlants);
-            buttonNovanaExtract.Enabled = true;
+            if (jd.ReadWells)
+              buttonNovanaExtract.Enabled = true;
             buttonMsheExt.Enabled = true;
           }
           if (jd.ReadPejlinger)
           {
-              buttonNovanaShape.Enabled = true;
+            if (jd.ReadWells)
+                buttonNovanaShape.Enabled = true;
               buttonLSFile.Enabled = true;
               buttonMSheObs.Enabled = true;
           }
