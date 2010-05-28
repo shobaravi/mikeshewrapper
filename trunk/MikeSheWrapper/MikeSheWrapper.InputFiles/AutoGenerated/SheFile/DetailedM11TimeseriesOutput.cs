@@ -23,7 +23,7 @@ namespace MikeSheWrapper.InputFiles
         switch (sub.Name)
         {
           default:
-            if (sub.Name.Substring(0,6).Equals("Item_1"))
+            if (sub.Name.Substring(0,5).Equals("Item_"))
             {
               _item_1s.Add(new Item_12(sub));
               break;
