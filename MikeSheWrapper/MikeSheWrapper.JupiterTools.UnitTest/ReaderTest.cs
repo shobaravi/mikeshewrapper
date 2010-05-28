@@ -96,7 +96,7 @@ namespace MikeSheWrapper.JupiterTools.UnitTest
     public void WellsForNovanaTest()
     {
 
-      Dictionary<string, IWell> Wells = R.WellsForNovana(true, true, true);
+      Dictionary<string, IWell> Wells = R.WellsForNovana(true, true, true, false);
       List<JupiterIntake> Intakes = new List<JupiterIntake>();
 
       foreach (IWell w in Wells.Values)
