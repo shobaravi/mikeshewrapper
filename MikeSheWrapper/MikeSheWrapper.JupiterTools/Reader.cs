@@ -32,9 +32,9 @@ namespace MikeSheWrapper.JupiterTools
     /// </summary>
     /// <param name="DataBaseFile"></param>
     /// <param name="CreateWells"></param>
-    public void Waterlevels(Dictionary<string, IWell> Wells)
+    public void Waterlevels(Dictionary<string, IWell> Wells, bool OnlyRo)
     {
-        JXL.ReadWaterLevels();
+        JXL.ReadWaterLevels(OnlyRo);
 
         foreach (var WatLev in JXL.WATLEVEL)
         {
@@ -637,7 +637,7 @@ namespace MikeSheWrapper.JupiterTools
     }
 
 
-    public Dictionary<string, IWell> WellsForNovana(bool Lithology, bool WaterLevel, bool Chemistry)
+    public Dictionary<string, IWell> WellsForNovana(bool Lithology, bool WaterLevel, bool Chemistry, bool OnlyRo)
     {
       string[] NotExtractionPurpose = new string[] { "A", "G", "I", "J", "L", "R", "U", "M", "P"};
 
@@ -647,7 +647,7 @@ namespace MikeSheWrapper.JupiterTools
       Dictionary<string, IWell> Wells = new Dictionary<string, IWell>();
       //Construct the data set
       if (WaterLevel)
-          JXL.ReadWaterLevels();
+          JXL.ReadWaterLevels(OnlyRo);
 
       if (Lithology)
         JXL.ReadInLithology();
