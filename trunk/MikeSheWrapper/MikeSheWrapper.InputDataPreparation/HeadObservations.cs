@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.Threading;
-
 using MathNet.Numerics.LinearAlgebra;
 
 using MikeSheWrapper.Tools;
@@ -19,50 +17,21 @@ using DHI.Generic.MikeZero.DFS;
 
 namespace MikeSheWrapper.InputDataPreparation
 {
+  /// <summary>
+  /// A class with static methods to read in well-information from various sources and print out various input files.
+  /// </summary>
   public class HeadObservations
-  {
-    
-    //Object used for thread safety. What happens if two instances are running in the same process?
-    private static object _lock = new object();
-
+  {   
     /// <summary>
     /// Function that returns true if a time series entry is between the two dates
     /// </summary>
     public static Func<TimeSeriesEntry, DateTime, DateTime, bool> InBetween = (TSE, Start, End) => TSE.Time >= Start & TSE.Time < End;
-
 
     /// <summary>
     /// Function that returns true if an Intake has more than Count observations in the period between Start and End
     /// </summary>
     public static Func<IIntake, DateTime, DateTime, int, bool> NosInBetween = (OW, Start, End, Count) => Count <= OW.Observations.Distinct().Count(num => InBetween(num, Start, End));
 
-
-    public HeadObservations()
-    { }
-
-
-    /// <summary>
-    /// Obsolete!
-    /// </summary>
-    /// <param name="FileName"></param>
-    public HeadObservations(string FileName)
-    {
-      switch (Path.GetExtension(FileName))
-      {
-        case ".she":
-          ReadInDetailedTimeSeries(new Model(FileName));
-          break;
-        case ".mdb":
-//          ReadWellsFromJupiter(FileName);
-          break;
-        case ".shp":
-          ReadFromShape(FileName,"");
-          break;
-        default:
-          break;
-      }
-    }
- 
     /// <summary>
     /// Select the wells that are inside the model area. Does not look at the 
     /// z - coordinate
@@ -84,36 +53,6 @@ namespace MikeSheWrapper.InputDataPreparation
       }
     }
 
-    /// <summary>
-    /// Writes a textfile that can be used for importing detailed timeseries output
-    /// Depth is calculated as the midpoint of the lowest screen
-    /// </summary>
-    /// <param name="TxtFileName"></param>
-    public static void WriteToMikeSheModel(string OutputPath, IEnumerable<IIntake> SelectedIntakes, DateTime Start, DateTime End)
-    {
-
-      StreamWriter Sw2 = new StreamWriter(Path.Combine(OutputPath, "WellsWithMissingInfo.txt"), false, Encoding.Default);
-
-      using (StreamWriter SW = new StreamWriter(Path.Combine(OutputPath,"DetailedTimeSeriesImport.txt"), false, Encoding.Default))
-      {
-        foreach (IIntake I in SelectedIntakes)
-        {
-          //If there is no screen information we cannot use it. 
-          if (I.Screens.Count == 0)
-            Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
-          else
-          {
-            int NoOfObs = I.Observations.Count(TSE => InBetween(TSE, Start, End));
-            //          if (W.Dfs0Written)
-            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + PointInScreen(I) + "\t1\t" + I.ToString() + "\t1 \t" + NoOfObs);
-            //When is this necessary
-            //        else  
-            //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
-          }
-        }
-      }
-      Sw2.Dispose();
-    }
 
   
     /// <summary>
@@ -295,22 +234,10 @@ namespace MikeSheWrapper.InputDataPreparation
       }
     }
 
-    /// <summary>
-    /// Reads in observations from a shape file
-    /// </summary>
-    /// <param name="ShapeFileName"></param>
-    public void ReadFromShape(string ShapeFileName, string SelectString)
-    {
-      PointShapeReader SR = new PointShapeReader(ShapeFileName);
-
-      DataTable DT = SR.Data.Read();
-
-     // FillInFromNovanaShape(DT.Select(SelectString));
-    }
 
 #endregion
 
-
+    #region Private methods
     /// <summary>
     /// Returns a point in the screen in meters below surface. To be used for detailed time series output and layerstatistics.
     /// </summary>
@@ -328,6 +255,42 @@ namespace MikeSheWrapper.InputDataPreparation
       else
        return (top + bottom)/2;
     }
+
+    #endregion
+
+
+    #region Output methods
+    /// <summary>
+    /// Writes a textfile that can be used for importing detailed timeseries output
+    /// Depth is calculated as the midpoint of the lowest screen
+    /// </summary>
+    /// <param name="TxtFileName"></param>
+    public static void WriteToMikeSheModel(string OutputPath, IEnumerable<IIntake> SelectedIntakes, DateTime Start, DateTime End)
+    {
+
+      StreamWriter Sw2 = new StreamWriter(Path.Combine(OutputPath, "WellsWithMissingInfo.txt"), false, Encoding.Default);
+
+      using (StreamWriter SW = new StreamWriter(Path.Combine(OutputPath, "DetailedTimeSeriesImport.txt"), false, Encoding.Default))
+      {
+        foreach (IIntake I in SelectedIntakes)
+        {
+          //If there is no screen information we cannot use it. 
+          if (I.Screens.Count == 0)
+            Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
+          else
+          {
+            int NoOfObs = I.Observations.Count(TSE => InBetween(TSE, Start, End));
+            //          if (W.Dfs0Written)
+            SW.WriteLine(I.ToString() + "\t101\t1\t" + I.well.X + "\t" + I.well.Y + "\t" + PointInScreen(I) + "\t1\t" + I.ToString() + "\t1 \t" + NoOfObs);
+            //When is this necessary
+            //        else  
+            //        SW.WriteLine(W.ID + "\t101\t1\t" + W.X + "\t" + W.Y + "\t" + W.Depth + "\t0\t \t ");
+          }
+        }
+      }
+      Sw2.Dispose();
+    }
+
 
     /// <summary>
     /// Write a text-file that can be used by LayerStatistics.
@@ -426,7 +389,7 @@ namespace MikeSheWrapper.InputDataPreparation
     }
 
       /// <summary>
-      /// Writes adfs0 with extraction data for each active intake in every plant. 
+      /// Writes a dfs0 with extraction data for each active intake in every plant. 
       /// Also writes the textfile that can be imported by the well editor.
       /// </summary>
       /// <param name="OutputPath"></param>
@@ -442,12 +405,12 @@ namespace MikeSheWrapper.InputDataPreparation
 
       //Create the TSObject
       TSObject _tso = new TSObjectClass();
-      string dfs0FileName =Path.Combine(OutputPath, "Extraction.dfs0");
+      string dfs0FileName = Path.Combine(OutputPath, "Extraction.dfs0");
       _tso.Connection.FilePath = dfs0FileName;
       TSItem _item;
 
-                  int eumtype = 330;
-          int eumunit = 3;
+      int eumtype = 330;
+      int eumunit = 3;
 
 
       TSObject _tsoStat = new TSObjectClass();
@@ -457,29 +420,37 @@ namespace MikeSheWrapper.InputDataPreparation
       Dictionary<int, double> SumNotUsed = new Dictionary<int, double>();
 
       int Pcount = 0;
-      
 
       int NumberOfYears = End.Year - Start.Year + 1;
 
-        //Dummy year because of mean step accumulated
+      //Dummy year because of mean step accumulated
       _tso.Time.AddTimeSteps(1);
       _tso.Time.SetTimeForTimeStepNr(1, new DateTime(Start.Year, 1, 1, 0, 0, 0));
 
       for (int i = 0; i < NumberOfYears; i++)
       {
-          _tso.Time.AddTimeSteps(1);
-          _tso.Time.SetTimeForTimeStepNr(i + 2, new DateTime(Start.Year + i, 12, 31, 12, 0, 0));
+        _tso.Time.AddTimeSteps(1);
+        _tso.Time.SetTimeForTimeStepNr(i + 2, new DateTime(Start.Year + i, 12, 31, 12, 0, 0));
 
-          _tsoStat.Time.AddTimeSteps(1);
-          _tsoStat.Time.SetTimeForTimeStepNr(i + 1, new DateTime(Start.Year + i, 12, 31, 12, 0, 0));
-          Sum.Add(i, 0);
-          SumSurfaceWater.Add(i, 0);
-          SumNotUsed.Add(i, 0);
+        _tsoStat.Time.AddTimeSteps(1);
+        _tsoStat.Time.SetTimeForTimeStepNr(i + 1, new DateTime(Start.Year + i, 12, 31, 12, 0, 0));
+        Sum.Add(i, 0);
+        SumSurfaceWater.Add(i, 0);
+        SumNotUsed.Add(i, 0);
       }
 
       int itemCount = 1;
 
       double[] fractions = new double[NumberOfYears];
+
+      var pp = Plants.Where(var => var.PumpingIntakes.Count == 0);
+
+      using (StreamWriter temp = new StreamWriter( Path.Combine(OutputPath, "debug_org.txt")))
+      {
+        foreach (var v in pp)
+          temp.WriteLine(v.Name + "     ext" + v.Extractions.Sum(var => var.Value));
+      
+
 
       //loop the plants
       foreach (Plant P in Plants)
@@ -488,9 +459,11 @@ namespace MikeSheWrapper.InputDataPreparation
         for (int i = 0; i < NumberOfYears; i++)
         {
           int k = P.SurfaceWaterExtrations.FindIndex(var => var.Time.Year == Start.Year + i);
-          if (k > 0)
+          if (k >= 0)
             SumSurfaceWater[i] += P.SurfaceWaterExtrations[k].Value;
         }
+
+  
 
         //Create statistics for plants without intakes
         if (P.PumpingIntakes.Count == 0)
@@ -499,8 +472,11 @@ namespace MikeSheWrapper.InputDataPreparation
           for (int i = 0; i < NumberOfYears; i++)
           {
             int k = P.Extractions.FindIndex(var => var.Time.Year == Start.Year + i);
-            if (k > 0)
+            if (k >= 0)
+            {
               SumNotUsed[i] += P.Extractions[k].Value;
+              temp.WriteLine(P.Name + P.Extractions[k].Value);
+            }
           }
         }
         else
@@ -531,7 +507,7 @@ namespace MikeSheWrapper.InputDataPreparation
             if (I.well.UsedForExtraction)
             {
               //If there is no screen information we cannot use it. 
-              if (I.Screens.Count==0)
+              if (I.Screens.Count == 0)
                 Sw2.WriteLine("Well: " + I.well.ID + "\tIntake: " + I.IDNumber + "\tError: Missing info about screen depth");
               else
               {
@@ -575,7 +551,7 @@ namespace MikeSheWrapper.InputDataPreparation
                 Line.Append(I.well.Terrain + "\t");
                 Line.Append("0\t");
                 Line.Append(P.IDNumber + "\t");
-                Line.Append(I.Screens.Max(var=>var.TopAsKote ) + "\t");
+                Line.Append(I.Screens.Max(var => var.TopAsKote) + "\t");
                 Line.Append(I.Screens.Min(var => var.BottomAsKote) + "\t");
                 Line.Append(1 + "\t");
                 Line.Append(dfs0FileName + "\t");
@@ -588,19 +564,19 @@ namespace MikeSheWrapper.InputDataPreparation
           }
         }
       }
-
+      }
       TSItem SumItem = new TSItemClass();
       SumItem.DataType = ItemDataType.Type_Float;
       SumItem.ValueType = ItemValueType.Mean_Step_Accumulated;
-      SumItem.EumType = eumtype ;
-      SumItem.EumUnit = eumunit ;
+      SumItem.EumType = eumtype;
+      SumItem.EumUnit = eumunit;
       SumItem.Name = "Sum";
       _tsoStat.Add(SumItem);
 
       TSItem MeanItem = new TSItemClass();
       MeanItem.DataType = ItemDataType.Type_Float;
       MeanItem.ValueType = ItemValueType.Mean_Step_Accumulated;
-      MeanItem.EumType = eumtype ;
+      MeanItem.EumType = eumtype;
       MeanItem.EumUnit = eumunit;
       MeanItem.Name = "Mean";
       _tsoStat.Add(MeanItem);
@@ -623,10 +599,10 @@ namespace MikeSheWrapper.InputDataPreparation
 
       for (int i = 0; i < NumberOfYears; i++)
       {
-          SumItem.SetDataForTimeStepNr(i + 1, (float)Sum[i]);
-          MeanItem.SetDataForTimeStepNr(i + 1, (float)Sum[i]/Pcount);
-          SumNotUsedItem.SetDataForTimeStepNr(i + 1, (float)SumNotUsed[i]);
-          SumSurfaceWaterItem.SetDataForTimeStepNr(i + 1, (float)SumSurfaceWater[i]);
+        SumItem.SetDataForTimeStepNr(i + 1, (float)Sum[i]);
+        MeanItem.SetDataForTimeStepNr(i + 1, (float)Sum[i] / Pcount);
+        SumNotUsedItem.SetDataForTimeStepNr(i + 1, (float)SumNotUsed[i]);
+        SumSurfaceWaterItem.SetDataForTimeStepNr(i + 1, (float)SumSurfaceWater[i]);
       }
 
       _tsoStat.Connection.Save();
@@ -735,5 +711,6 @@ namespace MikeSheWrapper.InputDataPreparation
       PSW.Data.WriteDate(PDT);
       PSW.Dispose();
     }
+    #endregion
   }
 }
